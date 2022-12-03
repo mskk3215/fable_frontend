@@ -1,60 +1,80 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Registration() {
+  const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
-  const handleSubmit = (e) => {
+  const registrationsIndex =
+    "http://localhost:3001/api/v1/registrations/signup";
+
+  // useEffect(() => {
+  //   axios
+  //     .get(registrationsIndex)
+  //     .then((res) => {
+  //       console.log(res.data);
+  //     })
+  //     .catch((error) => console.log(error));
+  // }, []);
+
+  const handleSubmit = (event) => {
     axios
       .post(
-        "http://localhost:3001/signup",
+        registrationsIndex,
         {
-          user: {
-            email: email,
-            password: password,
-            password_confirmation: passwordConfirmation,
-          },
+          nickname: nickname,
+          email: email,
+          password: password,
+          password_confirmation: passwordConfirmation,
         },
         //cookieを含める
         { withCredentials: true }
       )
-      .then((res) => {
-        console.log("registration res", res);
+      .then((response) => {
+        console.log("registration res", response);
       })
       .catch((error) => {
         console.log("registration error", error);
       });
-
-    e.preventDefault();
+    event.preventDefault();
   };
 
   return (
     <>
       <p>新規登録</p>
-      <form>
+
+      <form onSubmit={handleSubmit}>
+        <input
+          type="nickname"
+          name="nickname"
+          placeholder="名前"
+          value={nickname}
+          onChange={(event) => setNickname(event.target.value)}
+        />
         <input
           type="email"
           name="email"
           placeholder="メールアドレス"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(event) => setEmail(event.target.value)}
         />
         <input
           type="password"
           name="password"
           placeholder="パスワード"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(event) => setPassword(event.target.value)}
         />
         <input
           type="password"
           name="password_confirmation"
           placeholder="確認用パスワード"
           value={passwordConfirmation}
-          onChange={(e) => setPasswordConfirmation(e.target.value)}
+          onChange={(event) => setPasswordConfirmation(event.target.value)}
         />
+
         <button type="submit">登録</button>
       </form>
     </>
