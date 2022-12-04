@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 export default function Registration() {
   const [nickname, setNickname] = useState("");
@@ -7,17 +7,7 @@ export default function Registration() {
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
-  const registrationsIndex =
-    "http://localhost:3001/api/v1/registrations/signup";
-
-  // useEffect(() => {
-  //   axios
-  //     .get(registrationsIndex)
-  //     .then((res) => {
-  //       console.log(res.data);
-  //     })
-  //     .catch((error) => console.log(error));
-  // }, []);
+  const registrationsIndex = "http://localhost:3001/api/v1/registrations";
 
   const handleSubmit = (event) => {
     axios
