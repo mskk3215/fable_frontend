@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { registrationUrl } from "../../urls";
 
 export default function Registration() {
   const [nickname, setNickname] = useState("");
@@ -7,12 +8,10 @@ export default function Registration() {
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
-  const registrationsIndex = "http://localhost:3001/api/v1/registrations";
-
   const handleSubmit = (event) => {
     axios
       .post(
-        registrationsIndex,
+        registrationUrl,
         {
           nickname: nickname,
           email: email,
