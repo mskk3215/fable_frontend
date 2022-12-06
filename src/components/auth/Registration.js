@@ -1,18 +1,17 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { registrationUrl } from "../../urls";
 
-export default function Registration() {
+export default function Registration(props) {
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
-  const registrationsIndex = "http://localhost:3001/api/v1/registrations";
-
   const handleSubmit = (event) => {
     axios
       .post(
-        registrationsIndex,
+        registrationUrl,
         {
           nickname: nickname,
           email: email,
@@ -23,7 +22,9 @@ export default function Registration() {
         { withCredentials: true }
       )
       .then((response) => {
-        console.log("registration res", response);
+        if (response.data.status === "created") {
+          props.handleSuccessfulAuthentication(response.data);
+        }
       })
       .catch((error) => {
         console.log("registration error", error);
