@@ -11,14 +11,11 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          {/* <Route path="/" element={<Home />} /> */}
+          <Route path="/" element={<Home loggedInStatus={loggedInStatus} />} />
           <Route
-            path={"/"}
-            render={(props) => (
-              <Home {...props} loggedInStatus={loggedInStatus} />
-            )}
+            path="/dashboard"
+            element={<Dashboard loggedInStatus={loggedInStatus} />}
           />
-          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </BrowserRouter>
     </>
