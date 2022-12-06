@@ -5,13 +5,22 @@ import Home from "./components/Home";
 
 function App() {
   const [loggedInStatus, setLoggedInStatus] = useState("未ログイン");
-  // const [user, setUser] = useState("");
+  const [user, setUser] = useState({});
+  const handleLogin = (data) => {
+    setLoggedInStatus("ログインnow");
+    setUser(data.user);
+  };
 
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home loggedInStatus={loggedInStatus} />} />
+          <Route
+            path="/"
+            element={
+              <Home handleLogin={handleLogin} loggedInStatus={loggedInStatus} />
+            }
+          />
           <Route
             path="/dashboard"
             element={<Dashboard loggedInStatus={loggedInStatus} />}
