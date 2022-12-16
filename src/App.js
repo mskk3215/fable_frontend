@@ -38,6 +38,11 @@ function App() {
       });
   };
 
+  const handleLogout = () => {
+    setLoggedInStatus("未ログイン");
+    setUser({});
+  };
+
   return (
     <>
       <BrowserRouter>
@@ -45,7 +50,11 @@ function App() {
           <Route
             path="/"
             element={
-              <Home handleLogin={handleLogin} loggedInStatus={loggedInStatus} />
+              <Home
+                handleLogin={handleLogin}
+                handleLogout={handleLogout}
+                loggedInStatus={loggedInStatus}
+              />
             }
           />
           <Route
