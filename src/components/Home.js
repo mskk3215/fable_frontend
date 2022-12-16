@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Login from "./auth/Login";
 import Registration from "./auth/Registration";
 
 export default function Home(props) {
@@ -8,6 +9,7 @@ export default function Home(props) {
     props.handleLogin(data);
     navigate("/dashboard");
   };
+
   return (
     <>
       <h1>Home</h1>
@@ -15,6 +17,7 @@ export default function Home(props) {
       <Registration
         handleSuccessfulAuthentication={handleSuccessfulAuthentication}
       />
+      <Login handleSuccessfulAuthentication={handleSuccessfulAuthentication} />
     </>
   );
 }
