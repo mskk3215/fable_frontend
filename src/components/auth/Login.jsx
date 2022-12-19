@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { loginUrl } from "../../urls";
 
 export default function Login(props) {
@@ -7,6 +8,7 @@ export default function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
   const handleSubmit = (event) => {
     axios
       .post(
@@ -23,6 +25,7 @@ export default function Login(props) {
         console.log("login condition", response);
         if (response.data.logged_in) {
           props.handleSuccessfulAuthentication(response.data);
+          navigate("/");
         }
       })
       .catch((error) => {
