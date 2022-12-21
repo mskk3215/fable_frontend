@@ -1,10 +1,14 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { UserContext } from "../../../providers/UserProvider";
 
 export const Header = () => {
+  const { loggedInStatus } = useContext(UserContext);
+
   return (
     <SHeader>
-      {loggedInStatus === "ログインnow" ? (
+      {loggedInStatus === "未ログイン" ? (
         <>
           <SLink to="/registration">新規登録</SLink>
           <SLink to="/login">ログイン</SLink>

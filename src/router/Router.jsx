@@ -1,13 +1,16 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "../components/auth/Login";
 import Registration from "../components/auth/Registration";
-import Home from "../components/Home";
+import Top from "../components/pages/Top";
+import { DefaultLayout } from "../components/templates/DefaultLayout";
+import { HeaderOnly } from "../components/templates/HeaderOnly";
+import { UserContext } from "../providers/UserProvider";
 import { logged_inUrl } from "../urls/index";
 
 export const Router = () => {
-  const [loggedInStatus, setLoggedInStatus] = useState("未ログイン");
+  const { loggedInStatus, setLoggedInStatus } = useContext(UserContext);
   const [user, setUser] = useState("");
 
   const handleLogin = (data) => {
@@ -55,28 +58,39 @@ export const Router = () => {
           <Route
             path="/"
             element={
-              <Home
-                handleLogin={handleLogin}
-                handleLogout={handleLogout}
-                user={user}
-                loggedInStatus={loggedInStatus}
-              />
+              <DefaultLayout>
+                <Top
+                  // handleLogin={handleLogin}
+                  handleLogout={handleLogout}
+                  user={user}
+                  loggedInStatus={loggedInStatus}
+                />
+              </DefaultLayout>
             }
           />
+
           <Route
             path="registration"
             element={
-              <Registration
-                handleSuccessfulAuthentication={handleSuccessfulAuthentication}
-              />
+              <HeaderOnly>
+                <Registration
+                  handleSuccessfulAuthentication={
+                    handleSuccessfulAuthentication
+                  }
+                />
+              </HeaderOnly>
             }
           />
           <Route
             path="login"
             element={
-              <Login
-                handleSuccessfulAuthentication={handleSuccessfulAuthentication}
-              />
+              <HeaderOnly>
+                <Login
+                  handleSuccessfulAuthentication={
+                    handleSuccessfulAuthentication
+                  }
+                />
+              </HeaderOnly>
             }
           />
         </Routes>
