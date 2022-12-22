@@ -1,23 +1,21 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "../components/auth/Login";
 import Registration from "../components/auth/Registration";
-import Home from "../components/Home";
+import Top from "../components/pages/Top";
+import { DefaultLayout } from "../components/templates/DefaultLayout";
+import { HeaderOnly } from "../components/templates/HeaderOnly";
+import { UserContext } from "../providers/UserProvider";
 import { logged_inUrl } from "../urls/index";
 
 export const Router = () => {
-  const [loggedInStatus, setLoggedInStatus] = useState("未ログイン");
-  const [user, setUser] = useState("");
+  const { setUser, loggedInStatus, setLoggedInStatus } =
+    useContext(UserContext);
 
   const handleLogin = (data) => {
-    setLoggedInStatus("ログインnow");
+    setLoggedInStatus(true);
     setUser(data.user.nickname);
-  };
-
-  const handleLogout = () => {
-    setLoggedInStatus("未ログイン");
-    setUser("");
   };
 
   useEffect(() => {
@@ -28,14 +26,11 @@ export const Router = () => {
     axios
       .get(logged_inUrl, { withCredentials: true })
       .then((response) => {
-        if (response.data.logged_in && loggedInStatus === "未ログイン") {
-          setLoggedInStatus("ログインnow");
+        if (response.data.logged_in && loggedInStatus === false) {
+          setLoggedInStatus(true);
           setUser(response.data.user.nickname);
-        } else if (
-          !response.data.logged_in &&
-          loggedInStatus === "ログインnow"
-        ) {
-          setLoggedInStatus("未ログイン");
+        } else if (!response.data.logged_in && loggedInStatus === true) {
+          setLoggedInStatus(false);
           setUser("");
         }
       })
@@ -55,30 +50,38 @@ export const Router = () => {
           <Route
             path="/"
             element={
-              <Home
-                handleLogin={handleLogin}
-                handleLogout={handleLogout}
-                user={user}
-                loggedInStatus={loggedInStatus}
-              />
+              <DefaultLayout>
+                <Top />
+              </DefaultLayout>
             }
           />
+
           <Route
             path="registration"
             element={
-              <Registration
-                handleSuccessfulAuthentication={handleSuccessfulAuthentication}
-              />
+              <HeaderOnly>
+                <Registration
+                  handleSuccessfulAuthentication={
+                    handleSuccessfulAuthentication
+                  }
+                />
+              </HeaderOnly>
             }
           />
           <Route
             path="login"
             element={
-              <Login
-                handleSuccessfulAuthentication={handleSuccessfulAuthentication}
-              />
+              <HeaderOnly>
+                <Login
+                  handleSuccessfulAuthentication={
+                    handleSuccessfulAuthentication
+                  }
+                />
+              </HeaderOnly>
             }
           />
+          <Route path="post" element={<HeaderOnly></HeaderOnly>} />
+          <Route path="camera" element={<HeaderOnly></HeaderOnly>} />
         </Routes>
       </BrowserRouter>
     </>

@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { registrationUrl } from "../../urls";
 
 export default function Registration(props) {
@@ -8,6 +9,7 @@ export default function Registration(props) {
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
+  const navigate = useNavigate();
   const handleSubmit = (event) => {
     axios
       .post(
@@ -24,6 +26,7 @@ export default function Registration(props) {
       .then((response) => {
         if (response.data.status === "created") {
           props.handleSuccessfulAuthentication(response.data);
+          navigate("/");
         }
       })
       .catch((error) => {
