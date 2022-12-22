@@ -61,7 +61,7 @@ export default function Login(props) {
           onChange={(event) => setPassword(event.target.value)}
         />
 
-        <button type="submit">登録</button>
+        <button type="submit">ログイン</button>
       </form>
     </>
   );

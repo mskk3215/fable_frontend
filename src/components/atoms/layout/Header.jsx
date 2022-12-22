@@ -1,20 +1,45 @@
+import axios from "axios";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { UserContext } from "../../../providers/UserProvider";
+import { logoutUrl } from "../../../urls";
 
-export const Header = () => {
-  const { loggedInStatus } = useContext(UserContext);
+export const Header = (props) => {
+  const { setUser, loggedInStatus, setLoggedInStatus } =
+    useContext(UserContext);
+
+  const handleLogout = () => {
+    setLoggedInStatus(false);
+    setUser("");
+  };
+
+  const handleLogoutClick = () => {
+    axios
+      .delete(logoutUrl, { withCredentials: true })
+      .then((response) => {
+        handleLogout();
+      })
+      .catch((error) => {
+        console.log("ログアウトエラー", error);
+      });
+  };
 
   return (
     <SHeader>
-      {loggedInStatus === "未ログイン" ? (
+      {!loggedInStatus ? (
         <>
           <SLink to="/registration">新規登録</SLink>
           <SLink to="/login">ログイン</SLink>
         </>
       ) : (
-        <SLink to="/logout">ログアウト</SLink>
+        <>
+          <SLink to="/" onClick={handleLogoutClick}>
+            ログアウト
+          </SLink>
+          <SLink to="/camera">カメラ</SLink>
+          <SLink to="/post">投稿する</SLink>
+        </>
       )}
     </SHeader>
   );

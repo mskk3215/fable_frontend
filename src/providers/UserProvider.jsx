@@ -4,12 +4,14 @@ export const UserContext = createContext({});
 
 export const UserProvider = (props) => {
   const { children } = props;
-  // const [userInfo, setUserInfo] = useState(null);
 
-  const [loggedInStatus, setLoggedInStatus] = useState("未ログイン");
+  const [loggedInStatus, setLoggedInStatus] = useState(false);
+  const [user, setUser] = useState("");
 
   return (
-    <UserContext.Provider value={{ loggedInStatus, setLoggedInStatus }}>
+    <UserContext.Provider
+      value={{ user, setUser, loggedInStatus, setLoggedInStatus }}
+    >
       {children}
     </UserContext.Provider>
   );
