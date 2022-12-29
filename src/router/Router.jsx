@@ -3,6 +3,7 @@ import React, { useContext, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "../components/auth/Login";
 import Registration from "../components/auth/Registration";
+import Post from "../components/pages/Post";
 import Top from "../components/pages/Top";
 import { DefaultLayout } from "../components/templates/DefaultLayout";
 import { HeaderOnly } from "../components/templates/HeaderOnly";
@@ -82,6 +83,14 @@ export const Router = () => {
           />
           <Route path="post" element={<HeaderOnly></HeaderOnly>} />
           <Route path="camera" element={<HeaderOnly></HeaderOnly>} />
+          <Route
+            path="*"
+            element={
+              <HeaderOnly>
+                <Page404 />
+              </HeaderOnly>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </>
