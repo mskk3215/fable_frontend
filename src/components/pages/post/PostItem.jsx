@@ -1,5 +1,4 @@
-import { Card, CardActionArea, CardMedia, IconButton } from "@material-ui/core";
-import { HighlightOff } from "@material-ui/icons";
+import { Card, CardMedia } from "@mui/material";
 import { deletePosts } from "../../../urls";
 
 export const PostItem = ({ post, handleGetPosts }) => {
@@ -15,17 +14,6 @@ export const PostItem = ({ post, handleGetPosts }) => {
         {post.image?.url ? (
           <CardMedia component="img" src={post.image.url} alt="post img" />
         ) : null}
-        <CardActionArea>
-          <div>
-            <IconButton
-              onClick={() => {
-                handleDeletePost(post.id);
-              }}
-            >
-              <HighlightOff />
-            </IconButton>
-          </div>
-        </CardActionArea>
       </Card>
     </>
   );

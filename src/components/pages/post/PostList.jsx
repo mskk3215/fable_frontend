@@ -1,28 +1,16 @@
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import { useEffect } from "react";
 import { useState } from "react";
 import { getPosts } from "../../../urls";
-import { PostForm } from "./PostForm";
+import PostForm from "./PostForm";
 import { PostItem } from "./PostItem";
 
 export default function PostList() {
-  // const [postFileData, setPostFileData] = useState("");
-  // const changeUploadFile = async (e) => {
-  //   const { name, files } = e.target;
-  //   setPostFileData({
-  //     ...postFileData,
-  //     [name]: files[0],
-  //   });
-  //   e.target.value = "";
-  // };
-
-  // const formData = new FormData();
-  // formData.append("image", postFileData.image ? postFileData.image : "");
-
   const [posts, setPosts] = useState([]);
+
   const handleGetPosts = async () => {
     const { data } = await getPosts();
-    setPosts(data.posts);
+    setPosts(data);
   };
 
   useEffect(() => {
