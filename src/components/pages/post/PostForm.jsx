@@ -1,25 +1,19 @@
 import { Cancel } from "@mui/icons-material";
-import { Box, Button, IconButton, Input } from "@mui/material";
+import { Box, Button, IconButton } from "@mui/material";
 import React, { useCallback, useState } from "react";
 import { createPosts } from "../../../urls";
 
 export default function PostForm({ handleGetPosts }) {
-  const [image, setImage] = useState("");
-  const [preview, setPreview] = useState("");
+  const [images, setImages] = useState([]);
+  const inputId = Math.random().toString(32).substring(2);
 
-  const uploadImage = useCallback((e) => {
-    const file = e.target.files[0];
-    setImage(file);
-  }, []);
-
-  const previewImage = useCallback((e) => {
-    const file = e.target.files[0];
-    setPreview(window.URL.createObjectURL(file));
-  }, []);
+  const uploadImage = (e) => {
+    setImages([...images, e.target.files]);
+  };
 
   const createFormData = () => {
     const formData = new FormData();
-    formData.append("post[image]", image ? image : "");
+    formData.append("post[image]", images ? images : "");
     return formData;
   };
 
@@ -27,30 +21,35 @@ export default function PostForm({ handleGetPosts }) {
     e.preventDefault();
     const data = createFormData();
 
-    await createPosts(data).then(() => {
-      setPreview("");
-      setImage("undefined");
-      handleGetPosts();
-    });
+    // await createPosts(data).then(() => {
+    //   setImages("undefined");
+    //   handleGetPosts();
+    // });
+  };
+
+  const handleOnRemoveImage = (index) => {
+    const newImages = [...images];
+    newImages.splice(index, 1);
+    setImages(newImages);
   };
 
   return (
     <>
       <form noValidate onSubmit={handleCreatePost}>
         <div>
-          <label htmlFor="icon-button-file">
-            <Input
-              accept="image/*"
-              id="icon-button-file"
-              type="file"
-              style={{ display: "none" }}
-              onChange={(e) => {
-                uploadImage(e);
-                previewImage(e);
-              }}
-            />
-            <IconButton color="success" variant=" outlined" component="span">
+          <label htmlFor={inputId}>
+            <IconButton color="success" variant="outlined" component="span">
               アップロード
+              <input
+                accept="image/*"
+                id={inputId}
+                multiple
+                type="file"
+                style={{ display: "none" }}
+                onChange={(e) => {
+                  uploadImage(e);
+                }}
+              />
             </IconButton>
           </label>
         </div>
@@ -60,21 +59,30 @@ export default function PostForm({ handleGetPosts }) {
           </Button>
         </div>
       </form>
-      {preview ? (
-        <Box
-          sx={{
-            width: 200,
-            height: 200,
-            borderRadius: 1,
-            borderColor: "grey.400",
-          }}
-        >
-          <img src={preview} alt="preview img" />
-          <IconButton color="inherit" onClick={() => setPreview("")}>
-            <Cancel />
-          </IconButton>
-        </Box>
-      ) : null}
+
+      {/* preview */}
+      {images.map((image, i) => (
+        <div key={i} style={{ position: "relative", width: "40%" }}>
+          <Box
+            sx={{
+              width: 200,
+              height: 200,
+              borderRadius: 1,
+              borderColor: "grey.400",
+            }}
+          >
+            <IconButton
+              color="inherit"
+              aria-label="delete image"
+              style={{ position: "absolute", top: 10, left: 10, color: "#aaa" }}
+              onClick={() => handleOnRemoveImage(i)}
+            >
+              <Cancel />
+            </IconButton>
+            <img src={image} alt="preview img" />
+          </Box>
+        </div>
+      ))}
     </>
   );
 }
