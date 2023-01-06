@@ -8,7 +8,7 @@ export default function PostForm({ handleGetPosts }) {
   const inputId = Math.random().toString(32).substring(2);
 
   const uploadImage = (e) => {
-    setImages([...images, e.target.files]);
+    setImages([...images, ...e.target.files]);
   };
 
   const createFormData = () => {
@@ -74,12 +74,21 @@ export default function PostForm({ handleGetPosts }) {
             <IconButton
               color="inherit"
               aria-label="delete image"
-              style={{ position: "absolute", top: 10, left: 10, color: "#aaa" }}
+              style={{
+                position: "absolute",
+                top: 10,
+                left: 10,
+                color: "#353535",
+              }}
               onClick={() => handleOnRemoveImage(i)}
             >
               <Cancel />
             </IconButton>
-            <img src={image} alt="preview img" />
+            <img
+              src={URL.createObjectURL(image)}
+              alt="preview img"
+              style={{ width: "100%" }}
+            />
           </Box>
         </div>
       ))}
