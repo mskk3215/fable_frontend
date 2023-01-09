@@ -11,9 +11,9 @@ export const PostItem = ({ post, handleGetPosts }) => {
   return (
     <>
       <Card>
-        {post.image?.url ? (
-          <CardMedia component="img" src={post.image.url} alt="post img" />
-        ) : null}
+        {post.image.map((image) => {
+          return <CardMedia component="img" src={image.url} alt="post img" />;
+        })}
       </Card>
     </>
   );
