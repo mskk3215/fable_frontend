@@ -12,6 +12,7 @@ export const logged_inUrl = `${DEFAULT_API_LOCALHOST}/logged_in`;
 //post
 export const postClient = axios.create({
   baseURL: DEFAULT_API_LOCALHOST,
+  withCredentials: true,
   headers: {
     "Content-type": "multipart/form-data",
   },
