@@ -5,6 +5,7 @@ import Login from "../components/auth/Login";
 import Registration from "../components/auth/Registration";
 import PostList from "../components/pages/post/PostList";
 import Top from "../components/pages/Top";
+import Page404 from "../components/pages/Page404";
 import { DefaultLayout } from "../components/templates/DefaultLayout";
 import { HeaderOnly } from "../components/templates/HeaderOnly";
 import { UserContext } from "../providers/UserProvider";
@@ -90,6 +91,14 @@ export const Router = () => {
             }
           />
           <Route path="camera" element={<HeaderOnly></HeaderOnly>} />
+          <Route
+            path="*"
+            element={
+              <HeaderOnly>
+                <Page404 />
+              </HeaderOnly>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </>
