@@ -1,7 +1,7 @@
 import { Cancel } from "@mui/icons-material";
 import { Box, Button, IconButton } from "@mui/material";
 import React, { useState } from "react";
-import { createPosts } from "../../../urls";
+import { createPosts } from "../../urls";
 
 export default function PostForm({ handleGetPosts }) {
   const [images, setImages] = useState([]);

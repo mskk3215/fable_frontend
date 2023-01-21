@@ -1,5 +1,5 @@
 import { Card, CardMedia } from "@mui/material";
-import { deletePosts } from "../../../urls";
+import { deletePosts } from "../../urls";
 
 export const PostItem = ({ post, handleGetPosts }) => {
   const handleDeletePost = async (id) => {

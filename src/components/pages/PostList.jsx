@@ -1,9 +1,9 @@
 import { Grid } from "@mui/material";
 import { useEffect } from "react";
 import { useState } from "react";
-import { getPosts } from "../../../urls";
-import PostForm from "./PostForm";
-import { PostItem } from "./PostItem";
+import { getPosts } from "../../urls";
+import PostForm from "../organisms/PostForm";
+import { PostItem } from "../molcules/PostItem";
 
 export default function PostList() {
   const [posts, setPosts] = useState([]);
