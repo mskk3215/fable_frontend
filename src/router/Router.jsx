@@ -11,6 +11,7 @@ import { HeaderOnly } from "../components/templates/HeaderOnly";
 import { UserContext } from "../providers/UserProvider";
 import { logged_inUrl } from "../urls/index";
 import UploadView from "../components/pages/UploadView";
+import PostEdit from "../components/pages/PostEdit";
 
 export const Router = () => {
   const { setUser, loggedInStatus, setLoggedInStatus } =
@@ -96,6 +97,14 @@ export const Router = () => {
             element={
               <HeaderOnly>
                 <PostList />
+              </HeaderOnly>
+            }
+          />
+          <Route
+            path="postedit"
+            element={
+              <HeaderOnly>
+                <PostEdit />
               </HeaderOnly>
             }
           />

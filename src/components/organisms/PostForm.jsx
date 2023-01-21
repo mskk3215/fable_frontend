@@ -1,6 +1,7 @@
 import { Cancel } from "@mui/icons-material";
 import { Box, Button, IconButton } from "@mui/material";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { createPosts } from "../../urls";
 
 export default function PostForm({ handleGetPosts }) {
@@ -8,6 +9,7 @@ export default function PostForm({ handleGetPosts }) {
   const [isSending, setIsSending] = useState(false);
   const inputId = Math.random().toString(32).substring(2);
 
+  const navigate = useNavigate();
   const uploadImage = (e) => {
     setImages([...images, ...e.target.files]);
     setIsSending(true);
@@ -20,6 +22,8 @@ export default function PostForm({ handleGetPosts }) {
     images.map((image) => {
       data.append("post[image][]", image);
     });
+
+    navigate("/postedit");
 
     await createPosts(data).then(() => {
       setImages([]);
