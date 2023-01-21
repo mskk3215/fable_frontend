@@ -38,7 +38,7 @@ export const Header = (props) => {
             ログアウト
           </SLink>
           <SLink to="/camera">カメラ</SLink>
-          <SLink to="/postlist">投稿する</SLink>
+          <SLink to="/uploadview">投稿する</SLink>
         </>
       )}
     </SHeader>

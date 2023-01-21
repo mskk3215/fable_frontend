@@ -10,6 +10,7 @@ import { DefaultLayout } from "../components/templates/DefaultLayout";
 import { HeaderOnly } from "../components/templates/HeaderOnly";
 import { UserContext } from "../providers/UserProvider";
 import { logged_inUrl } from "../urls/index";
+import UploadView from "../components/pages/UploadView";
 
 export const Router = () => {
   const { setUser, loggedInStatus, setLoggedInStatus } =
@@ -79,6 +80,14 @@ export const Router = () => {
                     handleSuccessfulAuthentication
                   }
                 />
+              </HeaderOnly>
+            }
+          />
+          <Route
+            path="uploadview"
+            element={
+              <HeaderOnly>
+                <UploadView />
               </HeaderOnly>
             }
           />
