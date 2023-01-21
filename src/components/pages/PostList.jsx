@@ -2,8 +2,8 @@ import { Grid } from "@mui/material";
 import { useEffect } from "react";
 import { useState } from "react";
 import { getPosts } from "../../urls";
-import PostForm from "../organisms/PostForm";
 import { PostItem } from "../molcules/PostItem";
+import { Link } from "react-router-dom";
 
 export default function PostList() {
   const [posts, setPosts] = useState([]);
@@ -19,8 +19,8 @@ export default function PostList() {
 
   return (
     <>
+      <Link to="/postedit">編集</Link>
       <Grid container direction="row" justifyContent={"center"}>
-        <PostForm handleGetPosts={handleGetPosts} />
         {posts?.map((post) => {
           return (
             <PostItem
