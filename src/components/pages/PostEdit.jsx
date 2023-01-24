@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { getPosts } from "../../urls";
 import { PostItem } from "../molcules/PostItem";
+import { EditForm } from "../organisms/EditForm";
 
 export default function PostEdit() {
   const [posts, setPosts] = useState([]);
@@ -19,15 +20,22 @@ export default function PostEdit() {
   return (
     <>
       <Grid container direction="row" justifyContent={"center"}>
-        {posts?.map((post) => {
-          return (
-            <PostItem
-              key={post.id}
-              post={post}
-              handleGetPosts={handleGetPosts}
-            />
-          );
-        })}
+        <Grid item xs={10}>
+          <Grid container justifyContent={"left"}>
+            {posts?.map((post) => {
+              return (
+                <PostItem
+                  key={post.id}
+                  post={post}
+                  handleGetPosts={handleGetPosts}
+                />
+              );
+            })}
+          </Grid>
+        </Grid>
+        <Grid item xs={2}>
+          <EditForm />
+        </Grid>
       </Grid>
     </>
   );
