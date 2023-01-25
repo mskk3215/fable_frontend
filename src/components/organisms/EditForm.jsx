@@ -7,6 +7,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
 
 export const EditForm = () => {
   const insectNameOptions = [
@@ -22,6 +23,10 @@ export const EditForm = () => {
     { label: "昭和記念公園", id: 2 },
   ];
 
+  const [insectName, setInsectName] = useState("");
+  const [sexValue, setSexValue] = useState("");
+  const [parkName, setParkName] = useState("");
+
   return (
     <>
       <Box sx={{ width: "100%", maxWidth: 500, bgcolor: "background.paper" }}>
@@ -32,6 +37,10 @@ export const EditForm = () => {
           <Grid container alignItems="center" spacing={1}>
             <Grid item xs={8}>
               <Autocomplete
+                value={insectName}
+                onChange={(e, newInsectName) => {
+                  setInsectName(newInsectName);
+                }}
                 id="demo"
                 options={insectNameOptions}
                 sx={{ width: 200 }}
@@ -42,6 +51,10 @@ export const EditForm = () => {
             </Grid>
             <Grid item xs={4}>
               <Autocomplete
+                value={sexValue}
+                onChange={(e, newSexValue) => {
+                  setSexValue(newSexValue);
+                }}
                 id="demo"
                 options={sexOptions}
                 sx={{ width: 100 }}
@@ -59,6 +72,10 @@ export const EditForm = () => {
           </Typography>
           <Grid item xs={8}>
             <Autocomplete
+              value={parkName}
+              onChange={(e, newParkName) => {
+                setParkName(newParkName);
+              }}
               id="demo"
               options={parkOptions}
               sx={{ width: 200 }}
