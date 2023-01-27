@@ -1,5 +1,6 @@
 import { Card, CardMedia, Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import styled from "styled-components";
 import { deletePosts } from "../../urls";
 
 export const PostItem = ({ post, handleGetPosts }) => {
@@ -9,11 +10,15 @@ export const PostItem = ({ post, handleGetPosts }) => {
     });
   };
 
+  const CustomBox = styled(Box)({
+    "&:hover": { opacity: 0.7 },
+  });
+
   return (
     <>
       <Card>
         {post.image?.url ? (
-          <Box sx={{ position: "relative" }}>
+          <CustomBox sx={{ position: "relative" }}>
             <CardMedia component="img" src={post.image.url} alt="post img" />
             <Box
               sx={{
@@ -28,7 +33,7 @@ export const PostItem = ({ post, handleGetPosts }) => {
               <Typography variant="body2">昆虫名</Typography>
               <Typography variant="body2">公園名</Typography>
             </Box>
-          </Box>
+          </CustomBox>
         ) : null}
       </Card>
     </>
