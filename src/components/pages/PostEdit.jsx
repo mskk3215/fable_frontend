@@ -17,6 +17,9 @@ export default function PostEdit() {
     handleGetPosts();
   }, []);
 
+  const [selectedIds, setSelectedIds] = useState([]);
+  console.log(selectedIds);
+
   return (
     <>
       <Grid container direction="row" justifyContent={"center"}>
@@ -28,6 +31,13 @@ export default function PostEdit() {
                   key={post.id}
                   post={post}
                   handleGetPosts={handleGetPosts}
+                  handleSelect={() => {
+                    setSelectedIds((ids) => [...ids, post.id]);
+                  }}
+                  handleRemove={() => {
+                    setSelectedIds((ids) => ids.filter((id) => id !== post.id));
+                  }}
+                  checked={selectedIds.includes(post.id)}
                 />
               );
             })}
