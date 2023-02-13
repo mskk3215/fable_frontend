@@ -44,7 +44,7 @@ export default function PostEdit() {
           </Grid>
         </Grid>
         <Grid item xs={2}>
-          <EditForm />
+          <EditForm selectedIds={selectedIds} />
         </Grid>
       </Grid>
     </>
