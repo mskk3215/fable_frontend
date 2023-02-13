@@ -33,9 +33,8 @@ export const EditForm = (props) => {
     e.preventDefault();
 
     const data = new FormData();
-    data.append("post[insect_id]", insectId);
-    // data.append("post[sex]", sexId);
-    data.append("post[park_id]", parkId);
+    data.append("image[insect_id]", insectId);
+    data.append("image[park_id]", parkId);
 
     alert("更新しました");
 

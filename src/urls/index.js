@@ -19,13 +19,16 @@ export const postClient = axios.create({
 });
 
 export const getPosts = () => {
-  return postClient.get("/posts");
+  return postClient.get("/images");
 };
 export const createPosts = (data) => {
-  return postClient.post("/posts", data);
+  return postClient.post("/images", data);
+};
+export const updatePosts = (id, data) => {
+  return postClient.put(`/images/${id}`, data);
 };
 export const deletePosts = (id) => {
-  return postClient.delete(`/posts/${id}`);
+  return postClient.delete(`/images/${id}`);
 };
 
 postClient.interceptors.request.use((request) => {

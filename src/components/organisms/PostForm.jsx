@@ -20,8 +20,9 @@ export default function PostForm({ handleGetPosts }) {
 
     const data = new FormData();
     images.map((image) => {
-      data.append("post[image][]", image);
+      data.append("image[image][]", image);
     });
+    alert("アップロードしました");
 
     navigate("/postedit");
 
