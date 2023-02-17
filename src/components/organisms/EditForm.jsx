@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { updatePosts } from "../../urls";
+import { updatePosts, deletePosts } from "../../urls";
 
 export const EditForm = (props) => {
   const { selectedIds, setSelectedIds } = props;
@@ -28,24 +28,31 @@ export const EditForm = (props) => {
   const [insectId, setInsectId] = useState("");
   const [sexId, setSexId] = useState("");
   const [parkId, setParkId] = useState("");
+  const [buttonName, setButtonName] = useState("");
 
-  const handleUpdatePost = async (e) => {
+  const handleUpdateDeletePost = async (e) => {
     e.preventDefault();
-
     const data = new FormData();
-    data.append("image[insect_id]", insectId);
-    data.append("image[park_id]", parkId);
 
-    alert("更新しました");
+    if (buttonName === "edit") {
+      data.append("image[insect_id]", insectId);
+      data.append("image[park_id]", parkId);
 
-    await updatePosts(selectedIds, data).then(() => {
-      setSelectedIds([]);
-    });
+      alert("更新しました");
+
+      await updatePosts(selectedIds, data).then(() => {
+        setSelectedIds([]);
+      });
+    } else if (buttonName === "delete") {
+      await deletePosts(selectedIds).then(() => {
+        setSelectedIds([]);
+      });
+    }
   };
 
   return (
     <>
-      <form onSubmit={handleUpdatePost}>
+      <form onSubmit={handleUpdateDeletePost}>
         <Box sx={{ width: "100%", maxWidth: 500, bgcolor: "background.paper" }}>
           <Box sx={{ my: 3, mx: 1 }}>
             <Typography gutterBottom variant="h6">
@@ -101,12 +108,23 @@ export const EditForm = (props) => {
           </Box>
           <Grid container alignItems="center">
             <Grid item xs={6}>
-              <Button type="submit" color="success" variant="contained">
+              <Button
+                type="submit"
+                onClick={() => setButtonName("edit")}
+                color="success"
+                variant="contained"
+              >
                 保存
               </Button>
             </Grid>
             <Grid item xs={6}>
-              <Button variant="contained">削除</Button>
+              <Button
+                type="submit"
+                onClick={() => setButtonName("delete")}
+                variant="contained"
+              >
+                削除
+              </Button>
             </Grid>
           </Grid>
         </Box>
