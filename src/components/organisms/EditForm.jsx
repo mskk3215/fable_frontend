@@ -109,6 +109,7 @@ export const EditForm = (props) => {
           <Grid container alignItems="center">
             <Grid item xs={6}>
               <Button
+                disabled={selectedIds.length === 0}
                 type="submit"
                 onClick={() => setButtonName("edit")}
                 color="success"
@@ -119,6 +120,7 @@ export const EditForm = (props) => {
             </Grid>
             <Grid item xs={6}>
               <Button
+                disabled={selectedIds.length === 0}
                 type="submit"
                 onClick={() => setButtonName("delete")}
                 variant="contained"
