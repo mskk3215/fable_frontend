@@ -8,24 +8,15 @@ import {
   Typography,
 } from "@mui/material";
 import styled from "styled-components";
-import { deletePosts } from "../../urls";
 import format from "date-fns/format";
 import ja from "date-fns/locale/ja";
 import { useAllInsects } from "../../hooks/useAllInsects";
 import { useAllParks } from "../../hooks/useAllParks";
-import { useAllImages } from "../../hooks/useAllImages";
 
 export const PostItem = (props) => {
   const { post, handleSelect, handleRemove, checked } = props;
-  const { handleGetPosts } = useAllImages();
   const { insects } = useAllInsects();
   const { parks } = useAllParks();
-
-  const handleDeletePost = async (id) => {
-    await deletePosts(id).then(() => {
-      handleGetPosts();
-    });
-  };
 
   const CustomCard = styled(Card)({
     "&:hover": { opacity: 0.7 },
