@@ -31,11 +31,21 @@ export const deletePosts = (id) => {
   return postClient.delete(`/images/${id}`);
 };
 
-postClient.interceptors.request.use((request) => {
-  console.log(request);
-  return request;
-});
-postClient.interceptors.response.use((response) => {
-  console.log(response);
-  return response;
-});
+// postClient.interceptors.request.use((request) => {
+//   console.log(request);
+//   return request;
+// });
+// postClient.interceptors.response.use((response) => {
+//   console.log(response);
+//   return response;
+// });
+
+//insects
+export const getInsects = () => {
+  return postClient.get("/insects");
+};
+
+//parks
+export const getParks = () => {
+  return postClient.get("/parks");
+};
