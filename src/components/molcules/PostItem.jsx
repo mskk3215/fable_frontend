@@ -7,15 +7,18 @@ import {
   Typography,
 } from "@mui/material";
 import styled from "styled-components";
-import { deletePosts, getInsects, getParks } from "../../urls";
-import { useState, useEffect } from "react";
+import { deletePosts } from "../../urls";
 import format from "date-fns/format";
 import ja from "date-fns/locale/ja";
+import { useAllInsects } from "../../hooks/useAllInsects";
+import { useAllParks } from "../../hooks/useAllParks";
+import { useAllImages } from "../../hooks/useAllImages";
 
 export const PostItem = (props) => {
-  const { post, handleGetPosts, handleSelect, handleRemove, checked } = props;
-  const [insects, setInsects] = useState([]);
-  const [parks, setParks] = useState([]);
+  const { post, handleSelect, handleRemove, checked } = props;
+  const { handleGetPosts } = useAllImages();
+  const { insects } = useAllInsects();
+  const { parks } = useAllParks();
 
   const handleDeletePost = async (id) => {
     await deletePosts(id).then(() => {
@@ -34,24 +37,6 @@ export const PostItem = (props) => {
       handleSelect();
     }
   };
-
-  const handleGetInsects = async () => {
-    const { data } = await getInsects();
-    setInsects(data);
-  };
-
-  useEffect(() => {
-    handleGetInsects();
-  }, []);
-
-  const handleGetParks = async () => {
-    const { data } = await getParks();
-    setParks(data);
-  };
-
-  useEffect(() => {
-    handleGetParks();
-  }, []);
 
   const createdTime = (post) => {
     const date = new Date(post.created_at);

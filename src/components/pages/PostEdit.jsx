@@ -1,24 +1,12 @@
 import { Grid } from "@mui/material";
-import { useEffect } from "react";
 import { useState } from "react";
-import { getPosts } from "../../urls";
+import { useAllImages } from "../../hooks/useAllImages";
 import { PostItem } from "../molcules/PostItem";
 import { EditForm } from "../organisms/EditForm";
 
 export default function PostEdit() {
-  const [posts, setPosts] = useState([]);
-
-  const handleGetPosts = async () => {
-    const { data } = await getPosts();
-    setPosts(data);
-  };
-
-  useEffect(() => {
-    handleGetPosts();
-  }, []);
-
+  const { posts } = useAllImages();
   const [selectedIds, setSelectedIds] = useState([]);
-  console.log(selectedIds);
 
   return (
     <>
@@ -30,7 +18,6 @@ export default function PostEdit() {
                 <PostItem
                   key={post.id}
                   post={post}
-                  handleGetPosts={handleGetPosts}
                   handleSelect={() => {
                     setSelectedIds((ids) => [...ids, post.id]);
                   }}

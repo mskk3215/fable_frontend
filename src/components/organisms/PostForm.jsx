@@ -2,12 +2,14 @@ import { Cancel } from "@mui/icons-material";
 import { Box, Button, IconButton } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAllImages } from "../../hooks/useAllImages";
 import { createPosts } from "../../urls";
 
-export default function PostForm({ handleGetPosts }) {
+export default function PostForm() {
   const [images, setImages] = useState([]);
   const [isSending, setIsSending] = useState(false);
   const inputId = Math.random().toString(32).substring(2);
+  const { handleGetPosts } = useAllImages();
 
   const navigate = useNavigate();
   const uploadImage = (e) => {
