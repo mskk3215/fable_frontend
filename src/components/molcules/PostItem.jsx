@@ -4,6 +4,7 @@ import {
   CardContent,
   CardMedia,
   Checkbox,
+  FormControlLabel,
   Typography,
 } from "@mui/material";
 import styled from "styled-components";
@@ -47,21 +48,28 @@ export const PostItem = (props) => {
   return (
     <>
       {post.image?.url ? (
-        <CustomCard>
-          <CardMedia component="img" src={post.image.url} alt={post.id} />
-          <CardContent>
-            <Typography variant="body2">
-              {insects[post.insect_id]?.name}
-            </Typography>
-            <Typography variant="body2">{parks[post.park_id]?.name}</Typography>
-            <Typography variant="body2">{createdTime(post)}</Typography>
-            <Checkbox
-              checked={checked}
-              onChange={handleChange}
-              inputProps={{ "aria-label": "controlled" }}
-            />
-          </CardContent>
-        </CustomCard>
+        <FormControlLabel
+          control={
+            <CustomCard>
+              <CardMedia component="img" src={post.image.url} alt={post.id} />
+              <CardContent>
+                <Typography variant="body2">
+                  {insects[post.insect_id - 1]?.name}
+                </Typography>
+                <Typography variant="body2">
+                  {parks[post.park_id - 1]?.name}
+                </Typography>
+                <Typography variant="body2">{createdTime(post)}</Typography>
+                <Checkbox
+                  checked={checked}
+                  onChange={handleChange}
+                  inputProps={{ "aria-label": "controlled" }}
+                />
+              </CardContent>
+            </CustomCard>
+          }
+          label=""
+        />
       ) : null}
     </>
   );
