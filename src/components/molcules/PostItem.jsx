@@ -1,5 +1,6 @@
 import * as React from "react";
 import {
+  Box,
   Card,
   CardContent,
   CardMedia,
@@ -7,21 +8,17 @@ import {
   FormControlLabel,
   Typography,
 } from "@mui/material";
-import styled from "styled-components";
 import format from "date-fns/format";
 import ja from "date-fns/locale/ja";
 import { useAllInsects } from "../../hooks/useAllInsects";
 import { useAllParks } from "../../hooks/useAllParks";
+import styled from "styled-components";
 
 export const PostItem = (props) => {
   const { post, handleSelect, handleRemove, checked, isCheckboxVisible } =
     props;
   const { insects } = useAllInsects();
   const { parks } = useAllParks();
-
-  const CustomCard = styled(Card)({
-    "&:hover": { opacity: 0.7 },
-  });
 
   const handleChange = (e) => {
     if (checked) {
@@ -37,32 +34,71 @@ export const PostItem = (props) => {
     return formattedDate;
   };
 
+  const CustomTypography = styled(Typography)`
+    && {
+      font-size: 12px;
+    }
+  `;
+
   return (
     <>
       {post.image?.url ? (
         <FormControlLabel
           control={
-            <CustomCard>
-              <CardMedia component="img" src={post.image.url} alt={post.id} />
-              <CardContent>
-                <Typography variant="body2">
-                  {insects[post.insect_id - 1]?.name}
-                </Typography>
-                <Typography variant="body2">
-                  {parks[post.park_id - 1]?.name}
-                </Typography>
-                <Typography variant="body2">{createdTime(post)}</Typography>
-                {isCheckboxVisible && (
-                  <Checkbox
-                    checked={checked}
-                    onChange={handleChange}
-                    inputProps={{ "aria-label": "controlled" }}
-                  />
-                )}
-              </CardContent>
-            </CustomCard>
+            <Box
+              sx={{
+                position: "relative",
+                height: 250,
+                width: 250,
+                border: "0.5px solid gray",
+                borderRadius: "0.5rem",
+                "&:hover": { opacity: 0.8 },
+              }}
+            >
+              <Card>
+                <CardMedia
+                  component="img"
+                  src={post.image.url}
+                  alt={post.id}
+                  sx={{ height: 200, width: "100%", objectFit: "cover" }}
+                />
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: 0,
+                    right: 0,
+                  }}
+                >
+                  {isCheckboxVisible && (
+                    <Checkbox
+                      checked={checked}
+                      onChange={handleChange}
+                      inputProps={{ "aria-label": "controlled" }}
+                    />
+                  )}
+                </Box>
+                <Box
+                  sx={{
+                    height: 50,
+                    width: "100%",
+                    bottom: 10,
+                    left: 10,
+                    bgcolor: "rgba(192, 192, 192, 0.2)",
+                  }}
+                >
+                  <CustomTypography>
+                    {insects[post.insect_id - 1]?.name}
+                  </CustomTypography>
+                  <CustomTypography variant="body2">
+                    {parks[post.park_id - 1]?.name}
+                  </CustomTypography>
+                  <CustomTypography variant="body2">
+                    {createdTime(post)}
+                  </CustomTypography>
+                </Box>
+              </Card>
+            </Box>
           }
-          label=""
         />
       ) : null}
     </>
