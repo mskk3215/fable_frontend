@@ -10,26 +10,24 @@ export default function PostEdit() {
 
   return (
     <>
-      <Grid container direction="row" justifyContent={"center"}>
+      <Grid container direction="row" sx={{ margin: "0 0 0 10px" }}>
         <Grid item xs={10}>
-          <Grid container justifyContent={"left"}>
-            {posts?.map((post) => {
-              return (
-                <PostItem
-                  key={post.id}
-                  post={post}
-                  handleSelect={() => {
-                    setSelectedIds((ids) => [...ids, post.id]);
-                  }}
-                  handleRemove={() => {
-                    setSelectedIds((ids) => ids.filter((id) => id !== post.id));
-                  }}
-                  checked={selectedIds.includes(post.id)}
-                  isCheckboxVisible={true}
-                />
-              );
-            })}
-          </Grid>
+          {posts?.map((post) => {
+            return (
+              <PostItem
+                key={post.id}
+                post={post}
+                handleSelect={() => {
+                  setSelectedIds((ids) => [...ids, post.id]);
+                }}
+                handleRemove={() => {
+                  setSelectedIds((ids) => ids.filter((id) => id !== post.id));
+                }}
+                checked={selectedIds.includes(post.id)}
+                isCheckboxVisible={true}
+              />
+            );
+          })}
         </Grid>
         <Grid item xs={2}>
           <EditForm selectedIds={selectedIds} setSelectedIds={setSelectedIds} />
