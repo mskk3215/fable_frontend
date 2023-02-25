@@ -12,7 +12,7 @@ export const useAllImages = () => {
 
   useEffect(() => {
     handleGetPosts();
-  }, []);
+  }, [posts]);
 
   return { posts, handleGetPosts };
 };

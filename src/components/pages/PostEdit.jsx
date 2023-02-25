@@ -1,8 +1,8 @@
 import { Grid } from "@mui/material";
 import { useState } from "react";
-import { useAllImages } from "../../hooks/useAllImages";
 import { PostItem } from "../molcules/PostItem";
 import { EditForm } from "../organisms/EditForm";
+import { useAllImages } from "../../hooks/useAllImages";
 
 export default function PostEdit() {
   const { posts } = useAllImages();
@@ -31,7 +31,7 @@ export default function PostEdit() {
           </Grid>
         </Grid>
         <Grid item xs={2}>
-          <EditForm selectedIds={selectedIds} />
+          <EditForm selectedIds={selectedIds} setSelectedIds={setSelectedIds} />
         </Grid>
       </Grid>
     </>
