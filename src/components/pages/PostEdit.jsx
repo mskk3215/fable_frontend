@@ -25,6 +25,7 @@ export default function PostEdit() {
                     setSelectedIds((ids) => ids.filter((id) => id !== post.id));
                   }}
                   checked={selectedIds.includes(post.id)}
+                  isCheckboxVisible={true}
                 />
               );
             })}

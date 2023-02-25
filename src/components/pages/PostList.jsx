@@ -11,7 +11,9 @@ export default function PostList() {
       <Link to="/postedit">編集</Link>
       <Grid container direction="row" justifyContent={"center"}>
         {posts?.map((post) => {
-          return <PostItem key={post.id} post={post} />;
+          return (
+            <PostItem key={post.id} post={post} isCheckboxVisible={false} />
+          );
         })}
       </Grid>
     </>

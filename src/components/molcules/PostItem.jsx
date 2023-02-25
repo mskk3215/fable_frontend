@@ -14,7 +14,8 @@ import { useAllInsects } from "../../hooks/useAllInsects";
 import { useAllParks } from "../../hooks/useAllParks";
 
 export const PostItem = (props) => {
-  const { post, handleSelect, handleRemove, checked } = props;
+  const { post, handleSelect, handleRemove, checked, isCheckboxVisible } =
+    props;
   const { insects } = useAllInsects();
   const { parks } = useAllParks();
 
@@ -51,11 +52,13 @@ export const PostItem = (props) => {
                   {parks[post.park_id - 1]?.name}
                 </Typography>
                 <Typography variant="body2">{createdTime(post)}</Typography>
-                <Checkbox
-                  checked={checked}
-                  onChange={handleChange}
-                  inputProps={{ "aria-label": "controlled" }}
-                />
+                {isCheckboxVisible && (
+                  <Checkbox
+                    checked={checked}
+                    onChange={handleChange}
+                    inputProps={{ "aria-label": "controlled" }}
+                  />
+                )}
               </CardContent>
             </CustomCard>
           }
