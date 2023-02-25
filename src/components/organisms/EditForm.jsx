@@ -8,21 +8,18 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
+import { useAllInsects } from "../../hooks/useAllInsects";
+import { useAllParks } from "../../hooks/useAllParks";
 import { updatePosts, deletePosts } from "../../urls";
 
 export const EditForm = (props) => {
   const { selectedIds, setSelectedIds } = props;
-  const insectNameOptions = [
-    { label: "カブトムシ", id: 1 },
-    { label: "ノコギリクワガタ", id: 2 },
-  ];
+  const { insectOptions } = useAllInsects();
+  const { parkOptions } = useAllParks();
+
   const sexOptions = [
     { label: "オス", id: 1 },
     { label: "メス", id: 2 },
-  ];
-  const parkOptions = [
-    { label: "高尾山", id: 1 },
-    { label: "昭和記念公園", id: 2 },
   ];
 
   const [insectId, setInsectId] = useState("");
@@ -65,7 +62,7 @@ export const EditForm = (props) => {
                     setInsectId(value.id);
                   }}
                   id="demo"
-                  options={insectNameOptions}
+                  options={insectOptions}
                   sx={{ width: 200 }}
                   renderInput={(params) => (
                     <TextField {...params} label="例)カブトムシ" />
