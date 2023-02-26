@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "../components/auth/Login";
 import Registration from "../components/auth/Registration";
 import PostList from "../components/pages/PostList";
-import Top from "../components/pages/Top";
+import { Top } from "../components/pages/Top";
 import { Page404 } from "../components/pages/Page404";
 import { DefaultLayout } from "../components/templates/DefaultLayout";
 import { HeaderOnly } from "../components/templates/HeaderOnly";
