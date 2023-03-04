@@ -77,9 +77,20 @@ export default function PostEdit() {
                   }
                 }}
                 handleRemove={() => {
-                  setSelectedIndexes((indexes) =>
-                    indexes.filter((index) => index !== idToIndex(post.id))
-                  );
+                  if (isShiftDown) {
+                    const lastSelectedIndex =
+                      selectedIndexes[selectedIndexes.length - 1];
+                    const selectedIndex = idToIndex(post.id);
+                    setSelectedIndexes((indexes) =>
+                      indexes.filter((index) =>
+                        fill(selectedIndex, lastSelectedIndex).includes(index)
+                      )
+                    );
+                  } else {
+                    setSelectedIndexes((indexes) =>
+                      indexes.filter((index) => index !== idToIndex(post.id))
+                    );
+                  }
                 }}
                 checked={selectedIndexes.includes(idToIndex(post.id))}
                 isCheckboxVisible={true}
