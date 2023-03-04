@@ -61,20 +61,20 @@ export default function PostEdit() {
                 key={post.id}
                 post={post}
                 handleSelect={() => {
-                  if (isShiftDown) {
-                    const lastSelectedIndex =
-                      selectedIndexes[selectedIndexes.length - 1];
-                    const selectedIndex = idToIndex(post.id);
-                    setSelectedIndexes((indexes) => [
-                      ...indexes,
-                      ...fill(selectedIndex, lastSelectedIndex),
-                    ]);
-                  } else {
+                  const lastSelectedIndex =
+                    selectedIndexes[selectedIndexes.length - 1];
+                  if (!isShiftDown || lastSelectedIndex === undefined) {
                     setSelectedIndexes((indexes) => [
                       ...indexes,
                       idToIndex(post.id),
                     ]);
+                    return;
                   }
+                  const selectedIndex = idToIndex(post.id);
+                  setSelectedIndexes((indexes) => [
+                    ...indexes,
+                    ...fill(selectedIndex, lastSelectedIndex),
+                  ]);
                 }}
                 handleRemove={() => {
                   if (isShiftDown) {
