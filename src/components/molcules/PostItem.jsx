@@ -2,7 +2,6 @@ import * as React from "react";
 import {
   Box,
   Card,
-  CardContent,
   CardMedia,
   Checkbox,
   FormControlLabel,
@@ -86,14 +85,15 @@ export const PostItem = (props) => {
                     bgcolor: "rgba(192, 192, 192, 0.2)",
                   }}
                 >
-                  <CustomTypography>
+                  <CustomTypography>{createdTime(post)}</CustomTypography>
+                  <CustomTypography variant="body2">
                     {insects[post.insect_id - 1]?.name}
+                    {insects[post.insect_id - 1]
+                      ? `(${insects[post.insect_id - 1].sex})`
+                      : ""}
                   </CustomTypography>
                   <CustomTypography variant="body2">
                     {parks[post.park_id - 1]?.name}
-                  </CustomTypography>
-                  <CustomTypography variant="body2">
-                    {createdTime(post)}
                   </CustomTypography>
                 </Box>
               </Card>

@@ -16,12 +16,10 @@ export const EditForm = (props) => {
   const { selectedIds, setSelectedIds } = props;
   const { insectOptions } = useAllInsects();
   const { parkOptions } = useAllParks();
-
   const sexOptions = [
     { label: "オス", id: 1 },
     { label: "メス", id: 2 },
   ];
-
   const [insectId, setInsectId] = useState("");
   const [sexId, setSexId] = useState("");
   const [parkId, setParkId] = useState("");
@@ -50,13 +48,13 @@ export const EditForm = (props) => {
   return (
     <>
       <form onSubmit={handleUpdateDeletePost}>
-        <Box sx={{ width: "100%", maxWidth: 500, bgcolor: "background.paper" }}>
-          <Box sx={{ my: 3, mx: 1 }}>
-            <Typography gutterBottom variant="h6">
+        <Box sx={{ bgcolor: "background.paper", width: "100%" }}>
+          <Box>
+            <Typography sx={{ my: 3, mx: 1 }} gutterBottom variant="h6">
               昆虫名
             </Typography>
-            <Grid container alignItems="center" spacing={1}>
-              <Grid item xs={8}>
+            <Box sx={{ display: "flex" }}>
+              <Grid>
                 <Autocomplete
                   onChange={(e, value) => {
                     setInsectId(value.id);
@@ -82,14 +80,14 @@ export const EditForm = (props) => {
                   )}
                 />
               </Grid>
-            </Grid>
+            </Box>
           </Box>
-          <Divider variant="middle" />
-          <Box sx={{ my: 3, mx: 1 }}>
+          <Divider variant="middle" sx={{ my: 2 }} />
+          <Box sx={{ my: 3, mx: 1, width: "100%" }}>
             <Typography gutterBottom variant="h6">
               撮影場所
             </Typography>
-            <Grid item xs={8}>
+            <Grid item xs={12}>
               <Autocomplete
                 onChange={(e, value) => {
                   setParkId(value.id);
@@ -103,7 +101,7 @@ export const EditForm = (props) => {
               />
             </Grid>
           </Box>
-          <Grid container alignItems="center">
+          <Box sx={{ display: "flex" }}>
             <Grid item xs={6}>
               <Button
                 disabled={selectedIds.length === 0}
@@ -115,7 +113,7 @@ export const EditForm = (props) => {
                 保存
               </Button>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={6} sx={{ pl: 5 }}>
               <Button
                 disabled={selectedIds.length === 0}
                 type="submit"
@@ -125,7 +123,7 @@ export const EditForm = (props) => {
                 削除
               </Button>
             </Grid>
-          </Grid>
+          </Box>
         </Box>
       </form>
     </>
