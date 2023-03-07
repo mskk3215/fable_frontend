@@ -15,21 +15,17 @@ export default function PostEdit() {
       setIsShiftDown(true);
     }
   };
-  useEffect(() => {
-    document.addEventListener("keydown", keydownHandler);
-    return () => {
-      document.removeEventListener("keydown", keydownHandler);
-    };
-  }, []);
-
   const keyupHandler = (e) => {
     if (e.key === "Shift") {
       setIsShiftDown(false);
     }
   };
   useEffect(() => {
+    document.addEventListener("keydown", keydownHandler);
     document.addEventListener("keyup", keyupHandler);
+
     return () => {
+      document.removeEventListener("keydown", keydownHandler);
       document.removeEventListener("keyup", keyupHandler);
     };
   }, []);
@@ -45,7 +41,7 @@ export default function PostEdit() {
     const array = [];
     const start = Math.min(a, b);
     const last = Math.max(a, b);
-    for (let i = start + 1; i <= last; i++) {
+    for (let i = start; i <= last; i++) {
       array.push(i);
     }
     return array;
@@ -71,26 +67,35 @@ export default function PostEdit() {
                     return;
                   }
                   const selectedIndex = idToIndex(post.id);
+                  const selectedIndexRange = fill(
+                    selectedIndex,
+                    lastSelectedIndex
+                  );
                   setSelectedIndexes((indexes) => [
                     ...indexes,
-                    ...fill(selectedIndex, lastSelectedIndex),
+                    ...selectedIndexRange,
                   ]);
                 }}
                 handleRemove={() => {
-                  if (isShiftDown) {
-                    const lastSelectedIndex =
-                      selectedIndexes[selectedIndexes.length - 1];
-                    const selectedIndex = idToIndex(post.id);
-                    setSelectedIndexes((indexes) =>
-                      indexes.filter((index) =>
-                        fill(selectedIndex, lastSelectedIndex).includes(index)
-                      )
-                    );
-                  } else {
+                  if (!isShiftDown) {
                     setSelectedIndexes((indexes) =>
                       indexes.filter((index) => index !== idToIndex(post.id))
                     );
+                    return;
                   }
+                  const lastSelectedIndex =
+                    selectedIndexes[selectedIndexes.length - 1];
+                  const selectedIndex = idToIndex(post.id);
+                  const selectedIndexRange = fill(
+                    selectedIndex,
+                    lastSelectedIndex
+                  );
+
+                  setSelectedIndexes((indexes) =>
+                    indexes.filter((index) =>
+                      selectedIndexRange.includes(index)
+                    )
+                  );
                 }}
                 checked={selectedIndexes.includes(idToIndex(post.id))}
                 isCheckboxVisible={true}
