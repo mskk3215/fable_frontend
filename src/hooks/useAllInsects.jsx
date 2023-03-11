@@ -13,7 +13,7 @@ export const useAllInsects = () => {
     //EditFormの選択肢用
     const insectData = data.map((insect) => ({
       label: insect.name,
-      id: insect.id,
+      value: insect.name,
     }));
     setInsectOptions(insectData);
   };

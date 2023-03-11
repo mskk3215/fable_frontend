@@ -14,14 +14,11 @@ import { updatePosts, deletePosts } from "../../urls";
 
 export const EditForm = (props) => {
   const { selectedIds, setSelectedIds } = props;
-  const { insectOptions } = useAllInsects();
+  const { insects, insectOptions } = useAllInsects();
   const { parkOptions } = useAllParks();
-  const sexOptions = [
-    { label: "オス", id: 1 },
-    { label: "メス", id: 2 },
-  ];
-  const [insectId, setInsectId] = useState("");
-  const [sexId, setSexId] = useState("");
+  const [insectName, setInsectName] = useState("");
+  const [insectSex, setInsectSex] = useState("");
+
   const [parkId, setParkId] = useState("");
   const [buttonName, setButtonName] = useState("");
 
@@ -30,7 +27,8 @@ export const EditForm = (props) => {
     const data = new FormData();
 
     if (buttonName === "edit") {
-      data.append("image[insect_id]", insectId);
+      data.append("image[name]", insectName);
+      data.append("image[sex]", insectSex);
       data.append("image[park_id]", parkId);
 
       alert("更新しました");
@@ -45,6 +43,16 @@ export const EditForm = (props) => {
     }
   };
 
+  const getSexes = () => {
+    if (!insectName) {
+      return [];
+    }
+    const insectNameValue = insects.find(
+      (insect) => insect.name === insectName
+    );
+    return insectNameValue ? insectNameValue.availableSexes : [];
+  };
+
   return (
     <>
       <form onSubmit={handleUpdateDeletePost}>
@@ -57,7 +65,7 @@ export const EditForm = (props) => {
               <Grid>
                 <Autocomplete
                   onChange={(e, value) => {
-                    setInsectId(value.id);
+                    setInsectName(value.label);
                   }}
                   id="demo"
                   options={insectOptions}
@@ -70,10 +78,11 @@ export const EditForm = (props) => {
               <Grid item xs={4}>
                 <Autocomplete
                   onChange={(e, value) => {
-                    setSexId(value.id);
+                    setInsectSex(value);
                   }}
                   id="demo"
-                  options={sexOptions}
+                  options={getSexes()}
+                  getOptionLabel={(option) => option}
                   sx={{ width: 100 }}
                   renderInput={(params) => (
                     <TextField {...params} label="例) オス" />
