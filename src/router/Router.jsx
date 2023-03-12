@@ -12,6 +12,7 @@ import { UserContext } from "../providers/UserProvider";
 import { logged_inUrl } from "../urls/index";
 import UploadView from "../components/pages/UploadView";
 import PostEdit from "../components/pages/PostEdit";
+import { Map } from "../components/pages/Map";
 
 export const Router = () => {
   const { setUser, loggedInStatus, setLoggedInStatus } =
@@ -105,6 +106,14 @@ export const Router = () => {
             element={
               <HeaderOnly>
                 <PostEdit />
+              </HeaderOnly>
+            }
+          />
+          <Route
+            path="map"
+            element={
+              <HeaderOnly>
+                <Map />
               </HeaderOnly>
             }
           />
