@@ -29,7 +29,7 @@ export const Map = () => {
   ];
 
   return (
-    <LoadScript googleMapsApiKey="">
+    <LoadScript googleMapsApiKey={process.env.REACT_APP_API_KEY}>
       <GoogleMap mapContainerStyle={mapStyle} zoom={13} center={defaultCenter}>
         {locations?.map((item) => {
           return <Marker key={item.name} position={item.location} />;
