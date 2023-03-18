@@ -49,3 +49,8 @@ export const getInsects = () => {
 export const getParks = () => {
   return postClient.get("/parks");
 };
+
+//search parks
+export const getSearchParkResults = (searchWord) => {
+  return postClient.get("/parks", searchWord);
+};
