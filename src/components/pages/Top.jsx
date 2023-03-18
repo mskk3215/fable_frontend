@@ -12,12 +12,18 @@ import SearchIcon from "@mui/icons-material/Search";
 import styled from "styled-components";
 import { useAllInsects } from "../../hooks/useAllInsects";
 import { useAllParks } from "../../hooks/useAllParks";
+import { useSearchParks } from "../../hooks/useSearchParks";
 
 export const Top = (props) => {
   const { insectOptions } = useAllInsects();
   const { parkOptions } = useAllParks();
+  const { handleGetParkSearchResults } = useSearchParks();
 
   const [searchWord, setSearchWord] = useState("");
+
+  const handleSearch = useCallback(() => {
+    handleGetParkSearchResults(searchWord);
+  }, [handleGetParkSearchResults, searchWord]);
 
   const insectParkOptions = useMemo(
     () => [...insectOptions, ...parkOptions],
@@ -58,6 +64,40 @@ export const Top = (props) => {
               />
             )}
           ></Autocomplete>
+          <Grid container justifyContent="center" sx={{ mt: 2 }}>
+            {searchWord !== null && searchWord !== "" ? (
+              <Link to="map">
+                <Button
+                  variant="outlined"
+                  onClick={handleSearch}
+                  sx={{
+                    height: 40,
+                    width: 100,
+                    bgcolor: "grey.200",
+                    color: "black",
+                    borderColor: "grey.400",
+                  }}
+                >
+                  検索
+                </Button>
+              </Link>
+            ) : (
+              <Button
+                variant="outlined"
+                disabled
+                onClick={handleSearch}
+                sx={{
+                  height: 40,
+                  width: 100,
+                  bgcolor: "grey.200",
+                  color: "black",
+                  borderColor: "grey.400",
+                }}
+              >
+                検索
+              </Button>
+            )}
+          </Grid>
         </Container>
       </SConteiner>
     </>
