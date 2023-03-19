@@ -24,6 +24,9 @@ export const Map = () => {
       },
     },
   ];
+  const mapOptions = {
+    mapTypeControl: false,
+  };
 
   //mapのサイズを動的に合わせる
   useEffect(() => {
@@ -40,7 +43,12 @@ export const Map = () => {
 
   return (
     <LoadScript googleMapsApiKey={process.env.REACT_APP_API_KEY}>
-      <GoogleMap mapContainerStyle={mapStyle} zoom={13} center={defaultCenter}>
+      <GoogleMap
+        mapContainerStyle={mapStyle}
+        zoom={13}
+        center={defaultCenter}
+        options={mapOptions}
+      >
         {locations?.map((item) => {
           return <Marker key={item.name} position={item.location} />;
         })}
