@@ -1,11 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 
 export const Map = () => {
-  const mapStyle = {
-    width: "800px",
-    height: "800px",
-  };
+  const [mapStyle, setMapStyle] = useState({});
   const defaultCenter = {
     lat: 35.69575,
     lng: 139.77521,
@@ -27,6 +24,19 @@ export const Map = () => {
       },
     },
   ];
+
+  //mapのサイズを動的に合わせる
+  useEffect(() => {
+    const handleResize = () => {
+      setMapStyle({
+        width: window.innerWidth + "px",
+        height: window.innerHeight + "px",
+      });
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <LoadScript googleMapsApiKey={process.env.REACT_APP_API_KEY}>
