@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import { SwipeableTemporaryDrawer } from "../organisms/MapDrawer";
 
 export const Map = () => {
   const [mapStyle, setMapStyle] = useState({});
@@ -43,6 +44,7 @@ export const Map = () => {
 
   return (
     <LoadScript googleMapsApiKey={process.env.REACT_APP_API_KEY}>
+      <SwipeableTemporaryDrawer />
       <GoogleMap
         mapContainerStyle={mapStyle}
         zoom={13}
