@@ -10,12 +10,12 @@ export const SearchBox = () => {
   return (
     <Paper
       component="form"
-      sx={{ p: "2px 4px", display: "flex", alignItems: "center", width: 400 }}
+      sx={{ p: "2px 4px", display: "flex", alignItems: "center", width: 380 }}
     >
       <InputBase
         sx={{ ml: 1, flex: 1 }}
-        placeholder="Search Google Maps"
-        inputProps={{ "aria-label": "search google maps" }}
+        placeholder="Search New Insects"
+        inputProps={{ "aria-label": "search new insects" }}
       />
       <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
         <SearchIcon />
