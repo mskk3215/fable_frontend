@@ -78,6 +78,13 @@ export default function PostEdit() {
     );
   };
 
+  //selectedIndexesの内容をselectedIdsにする
+  useEffect(() => {
+    setSelectedIds(
+      selectedIndexes.map((selectedIndexes) => posts[selectedIndexes].id)
+    );
+  }, [selectedIndexes, posts]);
+
   return (
     <>
       <Grid container direction="row" sx={{ margin: "0 0 0 10px" }}>
