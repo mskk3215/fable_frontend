@@ -39,6 +39,7 @@ export const Header = (props) => {
             ログアウト
           </SLink>
           <SLink to="/camera">カメラ</SLink>
+          <SLink to="/map">地図</SLink>
           <SLink to="/uploadview">投稿する</SLink>
         </>
       )}

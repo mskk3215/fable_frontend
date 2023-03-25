@@ -1,21 +1,34 @@
+import React, { useCallback, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Autocomplete,
+  Button,
   Container,
+  Grid,
   InputAdornment,
   TextField,
 } from "@mui/material";
-import React, { useState } from "react";
-import styled from "styled-components";
 import SearchIcon from "@mui/icons-material/Search";
+import styled from "styled-components";
 import { useAllInsects } from "../../hooks/useAllInsects";
+import { useAllParks } from "../../hooks/useAllParks";
+import { useSearchParks } from "../../hooks/useSearchParks";
 
 export const Top = (props) => {
-  const [searchTerm, setSearchTerm] = useState();
   const { insectOptions } = useAllInsects();
+  const { parkOptions } = useAllParks();
+  const { handleGetParkSearchResults } = useSearchParks();
 
-  const handleSearchChange = (value) => {
-    setSearchTerm(value);
-  };
+  const [searchWord, setSearchWord] = useState("");
+
+  const handleSearch = useCallback(() => {
+    handleGetParkSearchResults(searchWord);
+  }, [handleGetParkSearchResults, searchWord]);
+
+  const insectParkOptions = useMemo(
+    () => [...insectOptions, ...parkOptions],
+    [insectOptions, parkOptions]
+  );
 
   const SConteiner = styled.div`
     text-align: center;
@@ -28,11 +41,11 @@ export const Top = (props) => {
         <Container maxWidth="md" sx={{ mt: 20 }}>
           <Autocomplete
             id="demo"
-            freeSolo
-            onChange={(e, value) => {
-              handleSearchChange(value.id);
+            value={searchWord}
+            onChange={(e, newValue) => {
+              setSearchWord(newValue?.label || "");
             }}
-            options={insectOptions}
+            options={insectParkOptions}
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -51,6 +64,40 @@ export const Top = (props) => {
               />
             )}
           ></Autocomplete>
+          <Grid container justifyContent="center" sx={{ mt: 2 }}>
+            {searchWord !== null && searchWord !== "" ? (
+              <Link to="map">
+                <Button
+                  variant="outlined"
+                  onClick={handleSearch}
+                  sx={{
+                    height: 40,
+                    width: 100,
+                    bgcolor: "grey.200",
+                    color: "black",
+                    borderColor: "grey.400",
+                  }}
+                >
+                  検索
+                </Button>
+              </Link>
+            ) : (
+              <Button
+                variant="outlined"
+                disabled
+                onClick={handleSearch}
+                sx={{
+                  height: 40,
+                  width: 100,
+                  bgcolor: "grey.200",
+                  color: "black",
+                  borderColor: "grey.400",
+                }}
+              >
+                検索
+              </Button>
+            )}
+          </Grid>
         </Container>
       </SConteiner>
     </>
