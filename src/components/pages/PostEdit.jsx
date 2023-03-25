@@ -47,6 +47,37 @@ export default function PostEdit() {
     return array;
   };
 
+  //画像選択追加
+  const handleSelect = (post) => {
+    const lastSelectedIndex = selectedIndexes[selectedIndexes.length - 1];
+
+    if (!isShiftDown || lastSelectedIndex === undefined) {
+      setSelectedIndexes((indexes) => [...indexes, idToIndex(post.id)]);
+      return;
+    }
+    const selectedIndex = idToIndex(post.id);
+    const selectedIndexRange = fill(selectedIndex, lastSelectedIndex);
+    setSelectedIndexes((indexes) => [...indexes, ...selectedIndexRange]);
+  };
+
+  //画像選択解除
+  const handleRemove = (post) => {
+    if (!isShiftDown) {
+      setSelectedIndexes((indexes) =>
+        indexes.filter((index) => index !== idToIndex(post.id))
+      );
+      return;
+    }
+
+    const lastSelectedIndex = selectedIndexes[selectedIndexes.length - 1];
+    const selectedIndex = idToIndex(post.id);
+    const selectedIndexRange = fill(selectedIndex, lastSelectedIndex);
+
+    setSelectedIndexes((indexes) =>
+      indexes.filter((index) => selectedIndexRange.includes(index))
+    );
+  };
+
   return (
     <>
       <Grid container direction="row" sx={{ margin: "0 0 0 10px" }}>
@@ -57,45 +88,10 @@ export default function PostEdit() {
                 key={post.id}
                 post={post}
                 handleSelect={() => {
-                  const lastSelectedIndex =
-                    selectedIndexes[selectedIndexes.length - 1];
-                  if (!isShiftDown || lastSelectedIndex === undefined) {
-                    setSelectedIndexes((indexes) => [
-                      ...indexes,
-                      idToIndex(post.id),
-                    ]);
-                    return;
-                  }
-                  const selectedIndex = idToIndex(post.id);
-                  const selectedIndexRange = fill(
-                    selectedIndex,
-                    lastSelectedIndex
-                  );
-                  setSelectedIndexes((indexes) => [
-                    ...indexes,
-                    ...selectedIndexRange,
-                  ]);
+                  handleSelect(post);
                 }}
                 handleRemove={() => {
-                  if (!isShiftDown) {
-                    setSelectedIndexes((indexes) =>
-                      indexes.filter((index) => index !== idToIndex(post.id))
-                    );
-                    return;
-                  }
-                  const lastSelectedIndex =
-                    selectedIndexes[selectedIndexes.length - 1];
-                  const selectedIndex = idToIndex(post.id);
-                  const selectedIndexRange = fill(
-                    selectedIndex,
-                    lastSelectedIndex
-                  );
-
-                  setSelectedIndexes((indexes) =>
-                    indexes.filter((index) =>
-                      selectedIndexRange.includes(index)
-                    )
-                  );
+                  handleRemove(post);
                 }}
                 checked={selectedIndexes.includes(idToIndex(post.id))}
                 isCheckboxVisible={true}
