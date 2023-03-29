@@ -56,7 +56,7 @@ export const EditForm = (props) => {
   return (
     <>
       <form onSubmit={handleUpdateDeletePost}>
-        <Box sx={{ bgcolor: "background.paper", width: "100%" }}>
+        <Box sx={{ width: "100%", pl: 2 }}>
           <Box>
             <Typography sx={{ my: 3, mx: 1 }} gutterBottom variant="h6">
               昆虫名
@@ -69,12 +69,13 @@ export const EditForm = (props) => {
                   }}
                   id="demo"
                   options={insectOptions}
-                  sx={{ width: 200 }}
+                  sx={{ width: 250 }}
                   renderInput={(params) => (
                     <TextField {...params} label="例)カブトムシ" />
                   )}
                 />
               </Grid>
+              <Grid item xs={1} />
               <Grid item xs={4}>
                 <Autocomplete
                   onChange={(e, value) => {
@@ -83,7 +84,7 @@ export const EditForm = (props) => {
                   id="demo"
                   options={getSexes()}
                   getOptionLabel={(option) => option}
-                  sx={{ width: 100 }}
+                  sx={{ width: 120 }}
                   renderInput={(params) => (
                     <TextField {...params} label="例) オス" />
                   )}
@@ -91,9 +92,9 @@ export const EditForm = (props) => {
               </Grid>
             </Box>
           </Box>
-          <Divider variant="middle" sx={{ my: 2 }} />
-          <Box sx={{ my: 3, mx: 1, width: "100%" }}>
-            <Typography gutterBottom variant="h6">
+          <Divider variant="fullWidth" sx={{ my: 2 }} />
+          <Box sx={{ width: 100 }}>
+            <Typography sx={{ my: 3, mx: 1 }} gutterBottom variant="h6">
               撮影場所
             </Typography>
             <Grid item xs={12}>
@@ -103,16 +104,17 @@ export const EditForm = (props) => {
                 }}
                 id="demo"
                 options={parkOptions}
-                sx={{ width: 200 }}
+                sx={{ width: 410 }}
                 renderInput={(params) => (
                   <TextField {...params} label="例)高尾山" />
                 )}
               />
             </Grid>
           </Box>
-          <Box sx={{ display: "flex" }}>
-            <Grid item xs={6}>
+          <Box sx={{ pt: 3, display: "flex" }}>
+            <Grid>
               <Button
+                size="large"
                 disabled={selectedIds.length === 0}
                 type="submit"
                 onClick={() => setButtonName("edit")}
@@ -122,8 +124,9 @@ export const EditForm = (props) => {
                 保存
               </Button>
             </Grid>
-            <Grid item xs={6} sx={{ pl: 5 }}>
+            <Grid sx={{ pl: 2 }}>
               <Button
+                size="large"
                 disabled={selectedIds.length === 0}
                 type="submit"
                 onClick={() => setButtonName("delete")}

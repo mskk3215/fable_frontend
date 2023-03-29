@@ -87,9 +87,10 @@ export default function PostEdit() {
 
   return (
     <>
-      <Grid container direction="row" sx={{ margin: "0 0 0 10px" }}>
-        <Grid item xs={10}>
+      <Grid container direction="row">
+        <Grid item xs={9} sx={{ pl: 2 }}>
           {posts?.map((post) => {
+            // console.log(post.id, selectedIndexes.includes(idToIndex(post.id)));
             return (
               <PostItem
                 key={post.id}
@@ -106,7 +107,7 @@ export default function PostEdit() {
             );
           })}
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <EditForm selectedIds={selectedIds} setSelectedIds={setSelectedIds} />
         </Grid>
       </Grid>

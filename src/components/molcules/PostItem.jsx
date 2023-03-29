@@ -83,6 +83,7 @@ export const PostItem = (props) => {
                     bottom: 10,
                     left: 10,
                     bgcolor: "rgba(192, 192, 192, 0.2)",
+                    pl: 1,
                   }}
                 >
                   <CustomTypography>{createdTime(post)}</CustomTypography>
