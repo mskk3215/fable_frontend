@@ -87,10 +87,8 @@ export const PostItem = (props) => {
                 >
                   <CustomTypography>{createdTime(post)}</CustomTypography>
                   <CustomTypography variant="body2">
-                    {insects[post.insect_id - 1]?.name}
-                    {insects[post.insect_id - 1]
-                      ? `(${insects[post.insect_id - 1].sex})`
-                      : ""}
+                    {post.insect_name}
+                    {post.insect_name ? `(${post.insect_sex})` : ""}
                   </CustomTypography>
                   <CustomTypography variant="body2">
                     {parks[post.park_id - 1]?.name}
