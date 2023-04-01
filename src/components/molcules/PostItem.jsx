@@ -9,23 +9,30 @@ import {
 } from "@mui/material";
 import format from "date-fns/format";
 import ja from "date-fns/locale/ja";
-import { useAllInsects } from "../../hooks/useAllInsects";
-import { useAllParks } from "../../hooks/useAllParks";
 import styled from "styled-components";
+import { memo } from "react";
+import { useCallback } from "react";
 
-export const PostItem = (props) => {
-  const { post, handleSelect, handleRemove, checked, isCheckboxVisible } =
-    props;
-  const { insects } = useAllInsects();
-  const { parks } = useAllParks();
+export const PostItem = memo((props) => {
+  const {
+    post,
+    handleSelect,
+    handleRemove,
+    checked,
+    isCheckboxVisible,
+    parks,
+  } = props;
 
-  const handleChange = (e) => {
-    if (checked) {
-      handleRemove();
-    } else {
-      handleSelect();
-    }
-  };
+  const handleChange = useCallback(
+    (e) => {
+      if (checked) {
+        handleRemove();
+      } else {
+        handleSelect();
+      }
+    },
+    [checked, handleSelect, handleRemove]
+  );
 
   const createdTime = (post) => {
     const date = new Date(post.created_at);
@@ -102,4 +109,4 @@ export const PostItem = (props) => {
       ) : null}
     </>
   );
-};
+});

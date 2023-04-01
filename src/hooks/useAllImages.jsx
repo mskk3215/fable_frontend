@@ -9,10 +9,9 @@ export const useAllImages = () => {
     const { data } = await getPosts();
     setPosts(data);
   };
-
   useEffect(() => {
     handleGetPosts();
-  }, [posts]);
+  }, []);
 
   return { posts, handleGetPosts };
 };

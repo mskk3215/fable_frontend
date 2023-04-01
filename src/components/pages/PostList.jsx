@@ -2,9 +2,11 @@ import { Grid } from "@mui/material";
 import { PostItem } from "../molcules/PostItem";
 import { Link } from "react-router-dom";
 import { useAllImages } from "../../hooks/useAllImages";
+import { useAllParks } from "../../hooks/useAllParks";
 
 export default function PostList() {
   const { posts } = useAllImages();
+  const { parks } = useAllParks();
 
   return (
     <>
@@ -12,7 +14,12 @@ export default function PostList() {
       <Grid container direction="row" justifyContent={"center"}>
         {posts?.map((post) => {
           return (
-            <PostItem key={post.id} post={post} isCheckboxVisible={false} />
+            <PostItem
+              key={post.id}
+              post={post}
+              isCheckboxVisible={false}
+              parks={parks}
+            />
           );
         })}
       </Grid>

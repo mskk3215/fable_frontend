@@ -7,15 +7,20 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { memo } from "react";
 import { useState } from "react";
 import { useAllInsects } from "../../hooks/useAllInsects";
-import { useAllParks } from "../../hooks/useAllParks";
 import { updatePosts, deletePosts } from "../../urls";
 
-export const EditForm = (props) => {
-  const { selectedIds, setSelectedIds } = props;
+export const EditForm = memo((props) => {
+  const {
+    selectedIds,
+    setSelectedIds,
+    setSelectedIndexes,
+    handleGetPosts,
+    parkOptions,
+  } = props;
   const { insects, insectOptions } = useAllInsects();
-  const { parkOptions } = useAllParks();
   const [insectName, setInsectName] = useState("");
   const [insectSex, setInsectSex] = useState("");
 
@@ -25,21 +30,25 @@ export const EditForm = (props) => {
   const handleUpdateDeletePost = async (e) => {
     e.preventDefault();
     const data = new FormData();
+    try {
+      if (buttonName === "edit") {
+        data.append("image[name]", insectName);
+        data.append("image[sex]", insectSex);
+        data.append("image[park_id]", parkId);
 
-    if (buttonName === "edit") {
-      data.append("image[name]", insectName);
-      data.append("image[sex]", insectSex);
-      data.append("image[park_id]", parkId);
-
-      alert("更新しました");
-
-      await updatePosts(selectedIds, data).then(() => {
-        setSelectedIds([]);
-      });
-    } else if (buttonName === "delete") {
-      await deletePosts(selectedIds).then(() => {
-        setSelectedIds([]);
-      });
+        await updatePosts(selectedIds, data).then(() => {
+          alert("更新しました");
+        });
+      } else if (buttonName === "delete") {
+        await deletePosts(selectedIds).then(() => {
+          alert("削除しました");
+        });
+      }
+      handleGetPosts();
+      setSelectedIds([]);
+      setSelectedIndexes([]);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -140,4 +149,4 @@ export const EditForm = (props) => {
       </form>
     </>
   );
-};
+});
