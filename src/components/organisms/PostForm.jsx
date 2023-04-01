@@ -2,14 +2,13 @@ import { Cancel } from "@mui/icons-material";
 import { Box, Button, IconButton } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAllImages } from "../../hooks/useAllImages";
 import { createPosts } from "../../urls";
 
-export const PostForm = () => {
+export const PostForm = (props) => {
+  const { handleGetPosts } = props;
   const [images, setImages] = useState([]);
   const [isSending, setIsSending] = useState(false);
   const inputId = Math.random().toString(32).substring(2);
-  const { handleGetPosts } = useAllImages();
 
   const navigate = useNavigate();
   const uploadImage = (e) => {
@@ -24,14 +23,14 @@ export const PostForm = () => {
     images.map((image) => {
       data.append("image[image][]", image);
     });
-    alert("アップロードしました");
-
-    navigate("/postedit");
 
     await createPosts(data).then(() => {
+      alert("アップロードしました");
+      navigate("/postedit");
+
+      handleGetPosts();
       setImages([]);
       setIsSending(false);
-      handleGetPosts();
     });
   };
 
