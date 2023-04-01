@@ -19,7 +19,7 @@ export const postClient = axios.create({
 });
 
 export const getPosts = () => {
-  return postClient.get("/images");
+  return postClient.get("/images.json");
 };
 export const createPosts = (data) => {
   return postClient.post("/images", data);

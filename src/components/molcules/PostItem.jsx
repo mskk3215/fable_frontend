@@ -48,7 +48,7 @@ export const PostItem = memo((props) => {
 
   return (
     <>
-      {post.image?.url ? (
+      {post.image ? (
         <FormControlLabel
           control={
             <Box
@@ -64,7 +64,7 @@ export const PostItem = memo((props) => {
               <Card>
                 <CardMedia
                   component="img"
-                  src={post.image.url}
+                  src={post.image}
                   alt={post.id}
                   sx={{ height: 200, width: "100%", objectFit: "cover" }}
                 />
