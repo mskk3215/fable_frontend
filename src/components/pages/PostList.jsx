@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useAllImages } from "../../hooks/useAllImages";
 import { useAllParks } from "../../hooks/useAllParks";
 
-export default function PostList() {
+export const PostList = () => {
   const { posts } = useAllImages();
   const { parks } = useAllParks();
 
@@ -25,4 +25,4 @@ export default function PostList() {
       </Grid>
     </>
   );
-}
+};

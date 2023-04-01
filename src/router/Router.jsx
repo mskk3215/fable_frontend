@@ -1,17 +1,17 @@
 import axios from "axios";
 import React, { useContext, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Login from "../components/auth/Login";
-import Registration from "../components/auth/Registration";
-import PostList from "../components/pages/PostList";
+import { Login } from "../components/auth/Login";
+import { Registration } from "../components/auth/Registration";
+import { PostList } from "../components/pages/PostList";
 import { Top } from "../components/pages/Top";
 import { Page404 } from "../components/pages/Page404";
 import { DefaultLayout } from "../components/templates/DefaultLayout";
 import { HeaderOnly } from "../components/templates/HeaderOnly";
 import { UserContext } from "../providers/UserProvider";
 import { logged_inUrl } from "../urls/index";
-import UploadView from "../components/pages/UploadView";
-import PostEdit from "../components/pages/PostEdit";
+import { UploadView } from "../components/pages/UploadView";
+import { PostEdit } from "../components/pages/PostEdit";
 import { Map } from "../components/pages/Map";
 
 export const Router = () => {

@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUrl } from "../../urls";
 
-export default function Login(props) {
+export const Login = (props) => {
+  const { handleSuccessfulAuthentication } = props;
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,7 +25,7 @@ export default function Login(props) {
       .then((response) => {
         console.log("login condition", response);
         if (response.data.logged_in) {
-          props.handleSuccessfulAuthentication(response.data);
+          handleSuccessfulAuthentication(response.data);
           navigate("/");
         }
       })
@@ -33,7 +34,6 @@ export default function Login(props) {
       });
     event.preventDefault();
   };
-
   return (
     <>
       <p>ログイン</p>
@@ -65,4 +65,4 @@ export default function Login(props) {
       </form>
     </>
   );
-}
+};

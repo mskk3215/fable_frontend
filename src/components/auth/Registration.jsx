@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registrationUrl } from "../../urls";
 
-export default function Registration(props) {
+export const Registration = (props) => {
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -73,4 +73,4 @@ export default function Registration(props) {
       </form>
     </>
   );
-}
+};

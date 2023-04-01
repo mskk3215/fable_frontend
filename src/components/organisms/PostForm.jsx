@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useAllImages } from "../../hooks/useAllImages";
 import { createPosts } from "../../urls";
 
-export default function PostForm() {
+export const PostForm = () => {
   const [images, setImages] = useState([]);
   const [isSending, setIsSending] = useState(false);
   const inputId = Math.random().toString(32).substring(2);
@@ -107,4 +107,4 @@ export default function PostForm() {
       </form>
     </>
   );
-}
+};

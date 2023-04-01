@@ -6,7 +6,7 @@ import { useAllImages } from "../../hooks/useAllImages";
 import { useCallback } from "react";
 import { useAllParks } from "../../hooks/useAllParks";
 
-export default function PostEdit() {
+export const PostEdit = () => {
   const { posts, handleGetPosts } = useAllImages();
   const { parks, parkOptions } = useAllParks();
 
@@ -134,4 +134,4 @@ export default function PostEdit() {
       </Grid>
     </>
   );
-}
+};

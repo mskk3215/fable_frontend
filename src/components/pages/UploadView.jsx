@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
-import PostForm from "../organisms/PostForm";
+import { PostForm } from "../organisms/PostForm";
 
-export default function UploadView() {
+export const UploadView = () => {
   return (
     <>
       <Grid container direction="row" justifyContent={"center"}>
@@ -9,4 +9,4 @@ export default function UploadView() {
       </Grid>
     </>
   );
-}
+};
