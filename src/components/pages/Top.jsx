@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Autocomplete,
@@ -11,24 +11,16 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import styled from "styled-components";
 import { useAllInsects } from "../../hooks/useAllInsects";
-import { useAllParks } from "../../hooks/useAllParks";
 import { useSearchParks } from "../../hooks/useSearchParks";
 
-export const Top = (props) => {
+export const Top = () => {
   const { insectOptions } = useAllInsects();
-  const { parkOptions } = useAllParks();
   const { handleGetParkSearchResults } = useSearchParks();
-
   const [searchWord, setSearchWord] = useState("");
 
-  const handleSearch = useCallback(() => {
+  const handleSearch = () => {
     handleGetParkSearchResults(searchWord);
-  }, [handleGetParkSearchResults, searchWord]);
-
-  const insectParkOptions = useMemo(
-    () => [...insectOptions, ...parkOptions],
-    [insectOptions, parkOptions]
-  );
+  };
 
   const SConteiner = styled.div`
     text-align: center;
@@ -45,11 +37,11 @@ export const Top = (props) => {
             onChange={(e, newValue) => {
               setSearchWord(newValue?.label || "");
             }}
-            options={insectParkOptions}
+            options={insectOptions}
             renderInput={(params) => (
               <TextField
                 {...params}
-                placeholder="昆虫名か公園名を入力して下さい"
+                placeholder="昆虫名を入力して下さい"
                 InputProps={{
                   ...params.InputProps,
                   startAdornment: (
