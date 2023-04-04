@@ -39,6 +39,7 @@ export const Header = (props) => {
           </SLink>
           <SLink to="/camera">カメラ</SLink>
           <SLink to="/post">投稿する</SLink>
+          <SLink to="/">検索する</SLink>
         </>
       )}
     </SHeader>
