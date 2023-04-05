@@ -11,11 +11,13 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import styled from "styled-components";
 import { useAllInsects } from "../../hooks/useAllInsects";
-import { useSearchParks } from "../../hooks/useSearchParks";
+import { useContext } from "react";
+import { SearchParkContext } from "../../providers/SearchParkProvider";
 
 export const Top = () => {
   const { insectOptions } = useAllInsects();
-  const { handleGetParkSearchResults } = useSearchParks();
+  const { handleGetParkSearchResults, searchResults } =
+    useContext(SearchParkContext);
   const [searchWord, setSearchWord] = useState("");
 
   const handleSearch = () => {
