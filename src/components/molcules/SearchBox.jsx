@@ -6,7 +6,9 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import Close from "@mui/icons-material/Close";
 
-export const SearchBox = () => {
+export const SearchBox = (props) => {
+  const { handleDrawerOpen, handleDrawerClose } = props;
+
   return (
     <Paper
       component="form"
@@ -17,11 +19,22 @@ export const SearchBox = () => {
         placeholder="Search New Insects"
         inputProps={{ "aria-label": "search new insects" }}
       />
-      <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
+
+      <IconButton
+        type="button"
+        sx={{ p: "10px" }}
+        aria-label="search"
+        onClick={handleDrawerOpen}
+      >
         <SearchIcon />
       </IconButton>
       <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-      <IconButton type="button" sx={{ p: "10px" }} aria-label="cancel">
+      <IconButton
+        type="button"
+        sx={{ p: "10px" }}
+        aria-label="cancel"
+        onClick={handleDrawerClose}
+      >
         <Close />
       </IconButton>
     </Paper>
