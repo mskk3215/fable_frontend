@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import { SwipeableTemporaryDrawer } from "../organisms/MapDrawer";
 
 export const Map = () => {
@@ -42,8 +42,15 @@ export const Map = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.REACT_APP_API_KEY,
+  });
+
+  if (loadError) return "Error loading maps";
+  if (!isLoaded) return "Loading Maps";
+
   return (
-    <LoadScript googleMapsApiKey={process.env.REACT_APP_API_KEY}>
+    <>
       <SwipeableTemporaryDrawer />
       <GoogleMap
         mapContainerStyle={mapStyle}
@@ -55,6 +62,6 @@ export const Map = () => {
           return <Marker key={item.name} position={item.location} />;
         })}
       </GoogleMap>
-    </LoadScript>
+    </>
   );
 };
