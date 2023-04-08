@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
-import { SwipeableTemporaryDrawer } from "../organisms/MapDrawer";
+import { MapDrawer } from "../organisms//MapDrawer";
 
 export const Map = () => {
   const [mapStyle, setMapStyle] = useState({});
@@ -51,7 +51,8 @@ export const Map = () => {
 
   return (
     <>
-      <SwipeableTemporaryDrawer />
+      <MapDrawer />
+
       <GoogleMap
         mapContainerStyle={mapStyle}
         zoom={13}
