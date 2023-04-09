@@ -109,14 +109,7 @@ export const Router = () => {
               </HeaderOnly>
             }
           />
-          <Route
-            path="map"
-            element={
-              <HeaderOnly>
-                <Map />
-              </HeaderOnly>
-            }
-          />
+          <Route path="map" element={<Map />} />
           <Route path="camera" element={<HeaderOnly></HeaderOnly>} />
           <Route
             path="*"
