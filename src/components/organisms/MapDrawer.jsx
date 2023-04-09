@@ -14,7 +14,7 @@ import { useState } from "react";
 import { useContext } from "react";
 import { SearchParkContext } from "../../providers/SearchParkProvider";
 
-import { ListItemAvatar } from "@mui/material";
+import { ListItemAvatar, Typography } from "@mui/material";
 import React from "react";
 
 const drawerWidth = 400;
@@ -72,8 +72,22 @@ export const MapDrawer = () => {
               <React.Fragment key={result.id}>
                 <ListItem>
                   <ListItemText
-                    primary={result.name}
-                    secondary={result.address}
+                    primary={
+                      <>
+                        <Typography variant="body1" color="textPrimary">
+                          {result.name}
+                        </Typography>
+                        <Typography variant="body2" color="textPrimary">
+                          {result.address}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary">
+                          投稿写真数：{result.image_count}枚
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary">
+                          昆虫種類数：{result.insect_count}種類
+                        </Typography>
+                      </>
+                    }
                   />
                   <ListItemAvatar>
                     <img
