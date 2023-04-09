@@ -7,7 +7,7 @@ export const SearchParkContext = createContext();
 
 export const SearchParkProvider = (props) => {
   const { children } = props;
-  const [searchResults, setSearchResults] = useState(null);
+  const [searchResults, setSearchResults] = useState([]);
 
   const handleGetParkSearchResults = async (word) => {
     const { data } = await getSearchParkResults(word);
