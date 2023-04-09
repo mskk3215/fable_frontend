@@ -6,21 +6,17 @@ import { getSearchParkResults } from "../urls";
 export const SearchParkContext = createContext();
 
 export const SearchParkProvider = (props) => {
-  const { children, searchWord } = props;
+  const { children } = props;
   const [searchResults, setSearchResults] = useState(null);
 
-  const handleGetParkSearchResults = async (searchWord) => {
-    const { data } = await getSearchParkResults(searchWord);
+  const handleGetParkSearchResults = async (word) => {
+    const { data } = await getSearchParkResults(word);
     setSearchResults(data);
   };
 
   useEffect(() => {
-    handleGetParkSearchResults(searchWord);
-  }, [searchWord]);
-
-  useEffect(() => {
-    console.log(searchResults);
-  }, [searchResults]);
+    handleGetParkSearchResults();
+  }, []);
 
   return (
     <SearchParkContext.Provider

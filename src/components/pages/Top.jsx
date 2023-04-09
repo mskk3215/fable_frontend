@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import {
   Autocomplete,
@@ -13,12 +13,13 @@ import styled from "styled-components";
 import { useAllInsects } from "../../hooks/useAllInsects";
 import { useContext } from "react";
 import { SearchParkContext } from "../../providers/SearchParkProvider";
+import { searchWordState } from "../../store/searchWordState";
+import { useRecoilState } from "recoil";
 
 export const Top = () => {
   const { insectOptions } = useAllInsects();
-  const { handleGetParkSearchResults, searchResults } =
-    useContext(SearchParkContext);
-  const [searchWord, setSearchWord] = useState("");
+  const { handleGetParkSearchResults } = useContext(SearchParkContext);
+  const [searchWord, setSearchWord] = useRecoilState(searchWordState);
 
   const handleSearch = () => {
     handleGetParkSearchResults(searchWord);

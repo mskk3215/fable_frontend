@@ -51,6 +51,6 @@ export const getParks = () => {
 };
 
 //search parks
-export const getSearchParkResults = (searchWord) => {
-  return postClient.get("/parks", { params: { search_word: searchWord } });
+export const getSearchParkResults = (word) => {
+  return postClient.get("/parks", { params: { search_word: word } });
 };
