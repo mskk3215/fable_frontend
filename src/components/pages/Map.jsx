@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import { MapDrawer } from "../organisms/MapDrawer";
 import { SearchParkContext } from "../../providers/SearchParkProvider";
+import styled from "styled-components";
 
 export const Map = () => {
   const { searchResults } = useContext(SearchParkContext);
@@ -53,7 +54,18 @@ export const Map = () => {
         options={mapOptions}
       >
         {locations?.map((item) => {
-          return <Marker key={item.title} position={item.latLng} />;
+          return (
+            <Marker
+              key={item.title}
+              position={item.latLng}
+              options={{
+                icon: {
+                  url: process.env.PUBLIC_URL + "/images/park_icon.png",
+                },
+                scaledSize: new window.google.maps.Size(1, 1),
+              }}
+            />
+          );
         })}
       </GoogleMap>
     </>
