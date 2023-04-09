@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
-import { MapDrawer } from "../organisms//MapDrawer";
+import { MapDrawer } from "../organisms/MapDrawer";
 
 export const Map = () => {
   const [mapStyle, setMapStyle] = useState({});
