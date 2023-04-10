@@ -22,12 +22,17 @@ const drawerWidth = 400;
 export const MapDrawer = () => {
   const { searchResults } = useContext(SearchParkContext);
   const [open, setOpen] = useState(true);
+  const [selectedItemId, setSelectedItemId] = useState(null);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleListItemClick = (itemId) => {
+    setSelectedItemId(itemId);
   };
 
   const SearchBoxStyled = styled.div`
@@ -71,8 +76,14 @@ export const MapDrawer = () => {
             {searchResults.map((result, index) => (
               <React.Fragment key={result.id}>
                 <ListItem
-                  onClick={() => setSelectedMarkedId(result.id)}
-                  sx={{ "&:hover": { backgroundColor: "#f5f5f5" } }}
+                  onClick={() => handleListItemClick(result.id)}
+                  sx={{
+                    "&:hover": {
+                      backgroundColor: "#f5f5f5",
+                    },
+                    backgroundColor:
+                      selectedItemId === result.id ? "#f5f5f5" : "initial",
+                  }}
                 >
                   <ListItemText
                     primary={
