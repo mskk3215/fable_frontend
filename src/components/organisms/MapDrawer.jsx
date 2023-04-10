@@ -70,7 +70,10 @@ export const MapDrawer = () => {
           <List>
             {searchResults.map((result, index) => (
               <React.Fragment key={result.id}>
-                <ListItem>
+                <ListItem
+                  onClick={() => setSelectedMarkedId(result.id)}
+                  sx={{ "&:hover": { backgroundColor: "#f5f5f5" } }}
+                >
                   <ListItemText
                     primary={
                       <>
