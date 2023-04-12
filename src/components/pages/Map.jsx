@@ -48,26 +48,23 @@ export const Map = () => {
       <MapDrawer />
 
       <GoogleMap
+        onLoad={(map) => {
+          locations?.forEach((item) => {
+            new window.google.maps.Marker({
+              position: item.latLng,
+              map,
+              icon: {
+                url: process.env.PUBLIC_URL + "/images/park_icon.png",
+              },
+              scaledSize: new window.google.maps.Size(1, 1),
+            });
+          });
+        }}
         mapContainerStyle={mapStyle}
         zoom={13}
         center={defaultCenter}
         options={mapOptions}
-      >
-        {locations?.map((item) => {
-          return (
-            <Marker
-              key={item.title}
-              position={item.latLng}
-              options={{
-                icon: {
-                  url: process.env.PUBLIC_URL + "/images/park_icon.png",
-                },
-                scaledSize: new window.google.maps.Size(1, 1),
-              }}
-            />
-          );
-        })}
-      </GoogleMap>
+      ></GoogleMap>
     </>
   );
 };
