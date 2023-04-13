@@ -4,6 +4,7 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import Close from "@mui/icons-material/Close";
+import DirectionsIcon from "@mui/icons-material/Directions";
 import { useRecoilState } from "recoil";
 import { searchWordState } from "../../store/searchWordState";
 import { useAllInsects } from "../../hooks/useAllInsects";
@@ -68,6 +69,7 @@ export const SearchBox = (props) => {
                   ) : (
                     ""
                   )}
+                  <DirectionsIcon color="primary" />
                 </InputAdornment>
               </>
             ),
