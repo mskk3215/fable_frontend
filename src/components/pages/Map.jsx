@@ -44,6 +44,13 @@ export const Map = () => {
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "Loading Maps";
 
+  const icon = {
+    url: process.env.PUBLIC_URL + "/images/park_icon.png",
+    size: new window.google.maps.Size(50, 50),
+    origin: new window.google.maps.Point(0, 0),
+    anchor: new window.google.maps.Point(25, 25),
+  };
+
   return (
     <>
       <MapDrawer
@@ -53,23 +60,15 @@ export const Map = () => {
       />
 
       <GoogleMap
-        onLoad={(map) => {
-          locations?.forEach((item) => {
-            new window.google.maps.Marker({
-              position: item.latLng,
-              map,
-              icon: {
-                url: process.env.PUBLIC_URL + "/images/park_icon.png",
-              },
-              scaledSize: new window.google.maps.Size(1, 1),
-            });
-          });
-        }}
         mapContainerStyle={mapStyle}
         zoom={13}
         center={selectedCenter}
         options={mapOptions}
-      ></GoogleMap>
+      >
+        {locations?.map(({ title, latLng }) => (
+          <Marker key={title} position={latLng} icon={icon} />
+        ))}
+      </GoogleMap>
     </>
   );
 };
