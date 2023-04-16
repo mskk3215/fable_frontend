@@ -14,10 +14,11 @@ export const Map = () => {
   });
 
   const locations = searchResults.map((result) => {
+    const id = result.id;
     const title = result.name;
     const latLng = { lat: result.latitude, lng: result.longitude };
     console.log(result);
-    return { title, latLng };
+    return { id, title, latLng };
   });
 
   const mapOptions = {
@@ -44,11 +45,15 @@ export const Map = () => {
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "Loading Maps";
 
-  const icon = {
-    url: process.env.PUBLIC_URL + "/images/park_icon.png",
-    size: new window.google.maps.Size(50, 50),
-    origin: new window.google.maps.Point(0, 0),
-    anchor: new window.google.maps.Point(25, 25),
+  const renderIcon = (id) => {
+    return id === selectedItemId
+      ? undefined
+      : {
+          url: process.env.PUBLIC_URL + "/images/park_icon.png",
+          size: new window.google.maps.Size(50, 50),
+          origin: new window.google.maps.Point(0, 0),
+          anchor: new window.google.maps.Point(25, 25),
+        };
   };
 
   return (
@@ -65,8 +70,17 @@ export const Map = () => {
         center={selectedCenter}
         options={mapOptions}
       >
-        {locations?.map(({ title, latLng }) => (
-          <Marker key={title} position={latLng} icon={icon} />
+        {locations?.map(({ id, title, latLng }) => (
+          <Marker
+            key={title}
+            position={latLng}
+            icon={renderIcon(id)}
+            animation={
+              id === selectedItemId
+                ? window.google.maps.Animation.DROP
+                : undefined
+            }
+          />
         ))}
       </GoogleMap>
     </>
