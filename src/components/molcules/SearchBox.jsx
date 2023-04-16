@@ -13,7 +13,12 @@ import { useContext } from "react";
 import { SearchParkContext } from "../../providers/SearchParkProvider";
 
 export const SearchBox = (props) => {
-  const { handleDrawerOpen, handleDrawerClose } = props;
+  const {
+    handleDrawerOpen,
+    handleDrawerClose,
+    selectedItemId,
+    setSelectedItemId,
+  } = props;
   const { handleGetParkSearchResults } = useContext(SearchParkContext);
   const [searchWord, setSearchWord] = useRecoilState(searchWordState);
   const { insectOptions } = useAllInsects();
@@ -25,6 +30,11 @@ export const SearchBox = (props) => {
   const handleSearchButtonClick = () => {
     handleDrawerOpen();
     handleSearch();
+  };
+
+  const handleCancelButtonClick = () => {
+    handleDrawerClose();
+    setSelectedItemId(false);
   };
 
   return (
@@ -62,14 +72,20 @@ export const SearchBox = (props) => {
                     <IconButton
                       type="button"
                       aria-label="cancel"
-                      onClick={handleDrawerClose}
+                      onClick={handleCancelButtonClick}
                     >
                       <Close />
                     </IconButton>
                   ) : (
                     ""
                   )}
-                  <DirectionsIcon color="primary" />
+                  {selectedItemId ? (
+                    <IconButton>
+                      <DirectionsIcon color="primary" />
+                    </IconButton>
+                  ) : (
+                    ""
+                  )}
                 </InputAdornment>
               </>
             ),

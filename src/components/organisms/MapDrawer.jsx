@@ -51,6 +51,8 @@ export const MapDrawer = (props) => {
         <SearchBox
           handleDrawerOpen={handleDrawerOpen}
           handleDrawerClose={handleDrawerClose}
+          selectedItemId={selectedItemId}
+          setSelectedItemId={setSelectedItemId}
         />
       </SearchBoxStyled>
       <Drawer
