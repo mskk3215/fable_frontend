@@ -7,6 +7,7 @@ import styled from "styled-components";
 export const Map = () => {
   const { searchResults } = useContext(SearchParkContext);
   const [mapStyle, setMapStyle] = useState({});
+  const [selectedItemId, setSelectedItemId] = useState([]);
   const defaultCenter = {
     lat: 35.69575,
     lng: 139.77521,
@@ -45,7 +46,10 @@ export const Map = () => {
 
   return (
     <>
-      <MapDrawer />
+      <MapDrawer
+        selectedItemId={selectedItemId}
+        setSelectedItemId={setSelectedItemId}
+      />
 
       <GoogleMap
         onLoad={(map) => {

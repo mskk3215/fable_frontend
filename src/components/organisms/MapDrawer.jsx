@@ -19,20 +19,16 @@ import React from "react";
 
 const drawerWidth = 400;
 
-export const MapDrawer = () => {
+export const MapDrawer = (props) => {
+  const { selectedItemId, setSelectedItemId } = props;
   const { searchResults } = useContext(SearchParkContext);
   const [open, setOpen] = useState(true);
-  const [selectedItemId, setSelectedItemId] = useState(null);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
-  };
-
-  const handleListItemClick = (itemId) => {
-    setSelectedItemId(itemId);
   };
 
   const SearchBoxStyled = styled.div`
@@ -76,7 +72,7 @@ export const MapDrawer = () => {
             {searchResults.map((result, index) => (
               <React.Fragment key={result.id}>
                 <ListItem
-                  onClick={() => handleListItemClick(result.id)}
+                  onClick={() => setSelectedItemId(result.id)}
                   sx={{
                     "&:hover": {
                       backgroundColor: "#f5f5f5",
