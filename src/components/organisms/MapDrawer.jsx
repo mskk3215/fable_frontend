@@ -73,7 +73,7 @@ export const MapDrawer = (props) => {
         }}
         open={open}
       >
-        <Toolbar style={{ height: "100px" }} />
+        <Toolbar style={{ height: "110px" }} />
         <Box sx={{ overflow: "auto" }}>
           <List>
             {searchResults.map((result, index) => (
