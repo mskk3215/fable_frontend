@@ -8,10 +8,10 @@ export const Map = () => {
   const { searchResults } = useContext(SearchParkContext);
   const [mapStyle, setMapStyle] = useState({});
   const [selectedItemId, setSelectedItemId] = useState([]);
-  const defaultCenter = {
+  const [selectedCenter, setSelectedCenter] = useState({
     lat: 35.69575,
     lng: 139.77521,
-  };
+  });
 
   const locations = searchResults.map((result) => {
     const title = result.name;
@@ -49,6 +49,7 @@ export const Map = () => {
       <MapDrawer
         selectedItemId={selectedItemId}
         setSelectedItemId={setSelectedItemId}
+        setSelectedCenter={setSelectedCenter}
       />
 
       <GoogleMap
@@ -66,7 +67,7 @@ export const Map = () => {
         }}
         mapContainerStyle={mapStyle}
         zoom={13}
-        center={defaultCenter}
+        center={selectedCenter}
         options={mapOptions}
       ></GoogleMap>
     </>

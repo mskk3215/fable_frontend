@@ -20,7 +20,7 @@ import React from "react";
 const drawerWidth = 400;
 
 export const MapDrawer = (props) => {
-  const { selectedItemId, setSelectedItemId } = props;
+  const { selectedItemId, setSelectedItemId, setSelectedCenter } = props;
   const { searchResults } = useContext(SearchParkContext);
   const [open, setOpen] = useState(true);
   const handleDrawerOpen = () => {
@@ -29,6 +29,11 @@ export const MapDrawer = (props) => {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleListItem = (result) => {
+    setSelectedItemId(result.id);
+    setSelectedCenter({ lat: result.latitude, lng: result.longitude });
   };
 
   const SearchBoxStyled = styled.div`
@@ -74,7 +79,7 @@ export const MapDrawer = (props) => {
             {searchResults.map((result, index) => (
               <React.Fragment key={result.id}>
                 <ListItem
-                  onClick={() => setSelectedItemId(result.id)}
+                  onClick={() => handleListItem(result)}
                   sx={{
                     "&:hover": {
                       backgroundColor: "#f5f5f5",
