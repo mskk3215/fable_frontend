@@ -6,11 +6,12 @@ import SearchIcon from "@mui/icons-material/Search";
 import Close from "@mui/icons-material/Close";
 import DirectionsIcon from "@mui/icons-material/Directions";
 import { useRecoilState } from "recoil";
-import { searchWordState } from "../../store/searchWordState";
+import { saveSearchWord, searchWordState } from "../../store/searchWordState";
 import { useAllInsects } from "../../hooks/useAllInsects";
 import { Autocomplete, InputAdornment, TextField } from "@mui/material";
 import { useContext } from "react";
 import { SearchParkContext } from "../../providers/SearchParkProvider";
+import { useEffect } from "react";
 
 export const SearchBox = (props) => {
   const {
@@ -36,6 +37,11 @@ export const SearchBox = (props) => {
     handleDrawerClose();
     setSelectedItemId(false);
   };
+
+  // searchWordの値が更新されたらローカルストレージに保存する
+  useEffect(() => {
+    saveSearchWord(searchWord);
+  }, [searchWord]);
 
   return (
     <Autocomplete
