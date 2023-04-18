@@ -56,6 +56,16 @@ export const Map = () => {
         };
   };
 
+  //label option
+  const markerLabel = (title) => ({
+    text: title,
+    color: "red",
+    fontFamily: "sans-serif",
+    fontSize: "15px",
+    fontWeight: "bold",
+    labelOrigin: new window.google.maps.Point(0, -30),
+  });
+
   return (
     <>
       <MapDrawer
@@ -80,6 +90,7 @@ export const Map = () => {
                 ? window.google.maps.Animation.DROP
                 : undefined
             }
+            label={markerLabel(title)}
           />
         ))}
       </GoogleMap>
