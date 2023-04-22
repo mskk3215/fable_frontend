@@ -20,7 +20,12 @@ import React from "react";
 const drawerWidth = 400;
 
 export const MapDrawer = (props) => {
-  const { selectedItemId, setSelectedItemId, setSelectedCenter } = props;
+  const {
+    selectedItemId,
+    setSelectedItemId,
+    setSelectedCenter,
+    setSwitchDrawer,
+  } = props;
   const { searchResults } = useContext(SearchParkContext);
   const [open, setOpen] = useState(true);
   const handleDrawerOpen = () => {
@@ -58,6 +63,7 @@ export const MapDrawer = (props) => {
           handleDrawerClose={handleDrawerClose}
           selectedItemId={selectedItemId}
           setSelectedItemId={setSelectedItemId}
+          setSwitchDrawer={setSwitchDrawer}
         />
       </SearchBoxStyled>
       <Drawer

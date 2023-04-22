@@ -19,6 +19,7 @@ export const InsectSearchBox = (props) => {
     handleDrawerClose,
     selectedItemId,
     setSelectedItemId,
+    setSwitchDrawer,
   } = props;
   const { handleGetParkSearchResults } = useContext(SearchParkContext);
   const [searchWord, setSearchWord] = useRecoilState(searchWordState);
@@ -36,6 +37,10 @@ export const InsectSearchBox = (props) => {
   const handleCancelButtonClick = () => {
     handleDrawerClose();
     setSelectedItemId(false);
+  };
+
+  const handleDirectionButtonClick = () => {
+    setSwitchDrawer(false);
   };
 
   // searchWordの値が更新されたらローカルストレージに保存する
@@ -87,7 +92,10 @@ export const InsectSearchBox = (props) => {
                   )}
                   {selectedItemId ? (
                     <IconButton>
-                      <DirectionsIcon color="primary" />
+                      <DirectionsIcon
+                        color="primary"
+                        onClick={handleDirectionButtonClick}
+                      />
                     </IconButton>
                   ) : (
                     ""

@@ -3,6 +3,7 @@ import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import { MapDrawer } from "../organisms/MapDrawer";
 import { SearchParkContext } from "../../providers/SearchParkProvider";
 import styled from "styled-components";
+import { DirectionDrawer } from "../organisms/DirectionDrawer";
 
 export const Map = () => {
   const { searchResults } = useContext(SearchParkContext);
@@ -12,6 +13,7 @@ export const Map = () => {
     lat: 35.69575,
     lng: 139.77521,
   });
+  const [switchDrawer, setSwitchDrawer] = useState(true);
 
   const locations = searchResults.map((result) => {
     const id = result.id;
@@ -68,11 +70,16 @@ export const Map = () => {
 
   return (
     <>
-      <MapDrawer
-        selectedItemId={selectedItemId}
-        setSelectedItemId={setSelectedItemId}
-        setSelectedCenter={setSelectedCenter}
-      />
+      {switchDrawer ? (
+        <MapDrawer
+          selectedItemId={selectedItemId}
+          setSelectedItemId={setSelectedItemId}
+          setSelectedCenter={setSelectedCenter}
+          setSwitchDrawer={setSwitchDrawer}
+        />
+      ) : (
+        <DirectionDrawer />
+      )}
 
       <GoogleMap
         mapContainerStyle={mapStyle}
