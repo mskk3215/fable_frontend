@@ -13,7 +13,7 @@ import { useContext } from "react";
 import { SearchParkContext } from "../../providers/SearchParkProvider";
 import { useEffect } from "react";
 
-export const SearchBox = (props) => {
+export const InsectSearchBox = (props) => {
   const {
     handleDrawerOpen,
     handleDrawerClose,

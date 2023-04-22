@@ -8,7 +8,7 @@ import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import { Header } from "../atoms/layout/Header";
-import { SearchBox } from "../molcules/SearchBox";
+import { InsectSearchBox } from "../molcules/InsectSearchBox";
 import styled from "styled-components";
 import { useState } from "react";
 import { useContext } from "react";
@@ -53,7 +53,7 @@ export const MapDrawer = (props) => {
         <Header />
       </AppBar>
       <SearchBoxStyled>
-        <SearchBox
+        <InsectSearchBox
           handleDrawerOpen={handleDrawerOpen}
           handleDrawerClose={handleDrawerClose}
           selectedItemId={selectedItemId}
