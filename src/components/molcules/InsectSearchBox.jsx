@@ -91,11 +91,8 @@ export const InsectSearchBox = (props) => {
                     ""
                   )}
                   {selectedItemId ? (
-                    <IconButton>
-                      <DirectionsIcon
-                        color="primary"
-                        onClick={handleDirectionButtonClick}
-                      />
+                    <IconButton onClick={handleDirectionButtonClick}>
+                      <DirectionsIcon color="primary" />
                     </IconButton>
                   ) : (
                     ""
