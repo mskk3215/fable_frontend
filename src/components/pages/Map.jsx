@@ -15,6 +15,7 @@ export const Map = () => {
   });
   const [open, setOpen] = useState(true);
   const [switchDrawer, setSwitchDrawer] = useState(true);
+  const [listItem, setListItem] = useState([]);
 
   const locations = searchResults.map((result) => {
     const id = result.id;
@@ -78,6 +79,7 @@ export const Map = () => {
           setSelectedItemId={setSelectedItemId}
           setSelectedCenter={setSelectedCenter}
           setSwitchDrawer={setSwitchDrawer}
+          setListItem={setListItem}
           open={open}
           setOpen={setOpen}
         />

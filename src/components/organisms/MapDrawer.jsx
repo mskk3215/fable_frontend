@@ -25,6 +25,7 @@ export const MapDrawer = (props) => {
     setSelectedItemId,
     setSelectedCenter,
     setSwitchDrawer,
+    setListItem,
     open,
     setOpen,
   } = props;
@@ -39,6 +40,7 @@ export const MapDrawer = (props) => {
 
   const handleListItem = (result) => {
     setSelectedItemId(result.id);
+    setListItem(result);
     setSelectedCenter({ lat: result.latitude, lng: result.longitude });
   };
 
