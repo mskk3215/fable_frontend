@@ -13,6 +13,7 @@ export const Map = () => {
     lat: 35.69575,
     lng: 139.77521,
   });
+  const [open, setOpen] = useState(true);
   const [switchDrawer, setSwitchDrawer] = useState(true);
 
   const locations = searchResults.map((result) => {
@@ -76,6 +77,8 @@ export const Map = () => {
           setSelectedItemId={setSelectedItemId}
           setSelectedCenter={setSelectedCenter}
           setSwitchDrawer={setSwitchDrawer}
+          open={open}
+          setOpen={setOpen}
         />
       ) : (
         <DirectionDrawer />

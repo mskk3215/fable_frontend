@@ -25,9 +25,10 @@ export const MapDrawer = (props) => {
     setSelectedItemId,
     setSelectedCenter,
     setSwitchDrawer,
+    open,
+    setOpen,
   } = props;
   const { searchResults } = useContext(SearchParkContext);
-  const [open, setOpen] = useState(true);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
