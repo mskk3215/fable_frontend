@@ -25,6 +25,7 @@ export const Map = () => {
   });
 
   const mapOptions = {
+    fullscreenControl: false,
     mapTypeControl: false,
   };
 
