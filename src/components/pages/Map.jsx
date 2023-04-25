@@ -1,5 +1,10 @@
-import React, { useEffect, useState, useContext } from "react";
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+import React, { useEffect, useState, useContext, useRef } from "react";
+import {
+  GoogleMap,
+  useLoadScript,
+  Marker,
+  DirectionsRenderer,
+} from "@react-google-maps/api";
 import { MapDrawer } from "../organisms/MapDrawer";
 import { SearchParkContext } from "../../providers/SearchParkProvider";
 import styled from "styled-components";
@@ -17,6 +22,9 @@ export const Map = () => {
   const [switchDrawer, setSwitchDrawer] = useState(true);
   const [listItem, setListItem] = useState([]);
 
+  const [directions, setDirections] = useState(null);
+  const originRef = useRef(null);
+  const destinationRef = useRef(null);
   const locations = searchResults.map((result) => {
     const id = result.id;
     const title = result.name;
@@ -45,6 +53,7 @@ export const Map = () => {
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_API_KEY,
+    libraries: ["places"],
   });
 
   if (loadError) return "Error loading maps";
@@ -71,6 +80,28 @@ export const Map = () => {
     labelOrigin: new window.google.maps.Point(0, -30),
   });
 
+  //directionsの計算
+  const calculateRoute = async () => {
+    if (originRef.current.value === "" || destinationRef.current.value === "") {
+      return;
+    }
+    setDirections(null);
+    const directionsService = new window.google.maps.DirectionsService();
+    const results = await directionsService.route({
+      origin: originRef.current.value,
+      destination: destinationRef.current.value,
+      travelMode: window.google.maps.TravelMode.BICYCLING,
+      avoidHighways: true,
+    });
+    setDirections(results);
+  };
+  //directionsの削除
+  const clearRoute = () => {
+    setDirections(null);
+    originRef.current.value = "";
+    destinationRef.current.value = "";
+  };
+
   return (
     <>
       {switchDrawer ? (
@@ -84,7 +115,16 @@ export const Map = () => {
           setOpen={setOpen}
         />
       ) : (
-        <DirectionDrawer />
+        <>
+          <DirectionDrawer
+            open={open}
+            listItem={listItem}
+            originRef={originRef}
+            destinationRef={destinationRef}
+            calculateRoute={calculateRoute}
+            clearRoute={clearRoute}
+          />
+        </>
       )}
 
       <GoogleMap
@@ -106,6 +146,7 @@ export const Map = () => {
             label={markerLabel(title)}
           />
         ))}
+        {directions && <DirectionsRenderer directions={directions} />}
       </GoogleMap>
     </>
   );
