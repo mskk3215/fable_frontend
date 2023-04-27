@@ -24,6 +24,8 @@ export const DirectionDrawer = (props) => {
     destinationRef,
     calculateRoute,
     clearRoute,
+    address,
+    setAddress,
   } = props;
 
   const DirectionBoxStyled = styled.div`
@@ -53,7 +55,12 @@ export const DirectionDrawer = (props) => {
         <Header />
       </AppBar>
       <DirectionBoxStyled>
-        <OriginBox style={{ marginBottom: "10px" }} originRef={originRef} />
+        <OriginBox
+          style={{ marginBottom: "10px" }}
+          originRef={originRef}
+          address={address}
+          setAddress={setAddress}
+        />
         <DestinationBox listItem={listItem} destinationRef={destinationRef} />
         <IconButtonStyled>
           <Button onClick={clearRoute}>button</Button>

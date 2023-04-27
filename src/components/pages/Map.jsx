@@ -25,6 +25,7 @@ export const Map = () => {
   const [directions, setDirections] = useState(null);
   const originRef = useRef(null);
   const destinationRef = useRef(null);
+  const [address, setAddress] = useState("");
   const locations = searchResults.map((result) => {
     const id = result.id;
     const title = result.name;
@@ -36,6 +37,21 @@ export const Map = () => {
   const mapOptions = {
     fullscreenControl: false,
     mapTypeControl: false,
+  };
+
+  const handleMapClick = (e) => {
+    const latLng = e.latLng;
+    const lat = latLng.lat();
+    const lng = latLng.lng();
+
+    const geocoder = new window.google.maps.Geocoder();
+    geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+      if (status === "OK") {
+        setAddress(results[0].formatted_address);
+      } else {
+        alert("住所が取得できませんでした。");
+      }
+    });
   };
 
   //mapのサイズを動的に合わせる
@@ -123,6 +139,8 @@ export const Map = () => {
             destinationRef={destinationRef}
             calculateRoute={calculateRoute}
             clearRoute={clearRoute}
+            address={address}
+            setAddress={setAddress}
           />
         </>
       )}
@@ -132,6 +150,7 @@ export const Map = () => {
         zoom={13}
         center={selectedCenter}
         options={mapOptions}
+        onClick={(e) => handleMapClick(e)}
       >
         {locations?.map(({ id, title, latLng }) => (
           <Marker
