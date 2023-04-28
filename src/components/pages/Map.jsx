@@ -2,8 +2,8 @@ import React, { useEffect, useState, useContext, useRef } from "react";
 import {
   GoogleMap,
   useLoadScript,
-  Marker,
   DirectionsRenderer,
+  MarkerF,
 } from "@react-google-maps/api";
 import { MapDrawer } from "../organisms/MapDrawer";
 import { SearchParkContext } from "../../providers/SearchParkProvider";
@@ -153,7 +153,7 @@ export const Map = () => {
         onClick={(e) => handleMapClick(e)}
       >
         {locations?.map(({ id, title, latLng }) => (
-          <Marker
+          <MarkerF
             key={title}
             position={latLng}
             icon={renderIcon(id)}
