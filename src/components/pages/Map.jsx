@@ -67,6 +67,21 @@ export const Map = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  //初期load時二重呼び出しを防ぐ
+  // https://tagomoris.hatenablog.com/entry/2022/06/10/144540s
+  const lines = [];
+  const onLoadHook = (line) => {
+    lines.push(line);
+  };
+  //クリーンアップ関数
+  useEffect(() => {
+    return () => {
+      lines.forEach((line) => {
+        line.setMap(null);
+      });
+    };
+  });
+
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_API_KEY,
     libraries: ["places"],
@@ -165,7 +180,9 @@ export const Map = () => {
             label={markerLabel(title)}
           />
         ))}
-        {directions && <DirectionsRenderer directions={directions} />}
+        {directions && (
+          <DirectionsRenderer directions={directions} onLoad={onLoadHook} />
+        )}
       </GoogleMap>
     </>
   );
