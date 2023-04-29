@@ -181,7 +181,17 @@ export const Map = () => {
           />
         ))}
         {directions && (
-          <DirectionsRenderer directions={directions} onLoad={onLoadHook} />
+          <DirectionsRenderer
+            directions={directions}
+            options={{
+              polylineOptions: {
+                strokeColor: "#F87171",
+                strokeOpacity: 1,
+                strokeWeight: 6,
+              },
+            }}
+            onLoad={onLoadHook}
+          />
         )}
       </GoogleMap>
     </>
