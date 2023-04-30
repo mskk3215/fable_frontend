@@ -26,8 +26,12 @@ export const DirectionDrawer = (props) => {
     clearRoute,
     address,
     setAddress,
+    setTravelMode,
   } = props;
 
+  const handleClick = (travelMode) => {
+    setTravelMode(travelMode);
+  };
   const DirectionBoxStyled = styled.div`
     position: absolute;
     top: 55px;
@@ -64,16 +68,16 @@ export const DirectionDrawer = (props) => {
         <DestinationBox listItem={listItem} destinationRef={destinationRef} />
         <IconButtonStyled>
           <Button onClick={clearRoute}>button</Button>
-          <IconButton>
+          <IconButton onClick={() => handleClick("DRIVING")}>
             <DirectionsCarIcon />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={() => handleClick("TRANSIT")}>
             <DirectionsTransitIcon />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={() => handleClick("BICYCLING")}>
             <DirectionsBikeIcon />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={() => handleClick("WALKING")}>
             <DirectionsWalkIcon />
           </IconButton>
         </IconButtonStyled>

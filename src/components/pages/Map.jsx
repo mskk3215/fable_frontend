@@ -26,6 +26,7 @@ export const Map = () => {
   const originRef = useRef(null);
   const destinationRef = useRef(null);
   const [address, setAddress] = useState("");
+  const [travelMode, setTravelMode] = useState("BICYCLING");
   const locations = searchResults.map((result) => {
     const id = result.id;
     const title = result.name;
@@ -121,7 +122,7 @@ export const Map = () => {
     const results = await directionsService.route({
       origin: originRef.current.value,
       destination: destinationRef.current.value,
-      travelMode: window.google.maps.TravelMode.BICYCLING,
+      travelMode: window.google.maps.TravelMode[travelMode],
       avoidHighways: true,
     });
     setDirections(results);
@@ -156,6 +157,7 @@ export const Map = () => {
             clearRoute={clearRoute}
             address={address}
             setAddress={setAddress}
+            setTravelMode={setTravelMode}
           />
         </>
       )}
