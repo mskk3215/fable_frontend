@@ -14,6 +14,7 @@ export const OriginBox = (props) => {
     <Autocomplete>
       <TextField
         id="originBox"
+        placeholder="出発地を入力 or 地図上でクリック"
         value={address === null ? undefined : address}
         sx={{ width: 300, height: 50 }}
         inputRef={originRef}
