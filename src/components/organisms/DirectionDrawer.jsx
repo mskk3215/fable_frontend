@@ -26,6 +26,7 @@ export const DirectionDrawer = (props) => {
     clearRoute,
     address,
     setAddress,
+    travelMode,
     setTravelMode,
   } = props;
 
@@ -48,6 +49,12 @@ export const DirectionDrawer = (props) => {
     align-items: center;
     gap: 20px;
   `;
+  const SIconButton = styled(IconButton)`
+    transition: background-color 0.3s ease;
+    &:hover {
+      color: gray;
+    }
+  `;
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -68,18 +75,26 @@ export const DirectionDrawer = (props) => {
         <DestinationBox listItem={listItem} destinationRef={destinationRef} />
         <IconButtonStyled>
           <Button onClick={clearRoute}>button</Button>
-          <IconButton onClick={() => handleClick("DRIVING")}>
-            <DirectionsCarIcon />
-          </IconButton>
-          <IconButton onClick={() => handleClick("TRANSIT")}>
-            <DirectionsTransitIcon />
-          </IconButton>
-          <IconButton onClick={() => handleClick("BICYCLING")}>
-            <DirectionsBikeIcon />
-          </IconButton>
-          <IconButton onClick={() => handleClick("WALKING")}>
-            <DirectionsWalkIcon />
-          </IconButton>
+          <SIconButton onClick={() => handleClick("DRIVING")}>
+            <DirectionsCarIcon
+              color={travelMode === "DRIVING" ? "primary" : "inherit"}
+            />
+          </SIconButton>
+          <SIconButton onClick={() => handleClick("TRANSIT")}>
+            <DirectionsTransitIcon
+              color={travelMode === "TRANSIT" ? "primary" : "inherit"}
+            />
+          </SIconButton>
+          <SIconButton onClick={() => handleClick("BICYCLING")}>
+            <DirectionsBikeIcon
+              color={travelMode === "BICYCLING" ? "primary" : "inherit"}
+            />
+          </SIconButton>
+          <SIconButton onClick={() => handleClick("WALKING")}>
+            <DirectionsWalkIcon
+              color={travelMode === "WALKING" ? "primary" : "inherit"}
+            />
+          </SIconButton>
         </IconButtonStyled>
         <Button onClick={calculateRoute}>経路を算出</Button>
       </DirectionBoxStyled>

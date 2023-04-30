@@ -157,6 +157,7 @@ export const Map = () => {
             clearRoute={clearRoute}
             address={address}
             setAddress={setAddress}
+            travelMode={travelMode}
             setTravelMode={setTravelMode}
           />
         </>
