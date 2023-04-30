@@ -10,6 +10,7 @@ import {
   Drawer,
   IconButton,
   Toolbar,
+  Typography,
 } from "@mui/material";
 import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";
 import DirectionsTransitIcon from "@mui/icons-material/DirectionsTransit";
@@ -28,6 +29,8 @@ export const DirectionDrawer = (props) => {
     setAddress,
     travelMode,
     setTravelMode,
+    distance,
+    duration,
   } = props;
 
   const handleClick = (travelMode) => {
@@ -97,6 +100,8 @@ export const DirectionDrawer = (props) => {
           </SIconButton>
         </IconButtonStyled>
         <Button onClick={calculateRoute}>経路を算出</Button>
+        <Typography>時間：{duration}</Typography>
+        <Typography>距離：{distance}</Typography>
       </DirectionBoxStyled>
       <Drawer
         variant="persistent"

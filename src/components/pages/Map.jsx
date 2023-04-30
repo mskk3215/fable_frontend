@@ -23,6 +23,8 @@ export const Map = () => {
   const [listItem, setListItem] = useState([]);
 
   const [directions, setDirections] = useState(null);
+  const [distance, setDistance] = useState("");
+  const [duration, setDuration] = useState("");
   const originRef = useRef(null);
   const destinationRef = useRef(null);
   const [address, setAddress] = useState("");
@@ -127,6 +129,8 @@ export const Map = () => {
         avoidHighways: true,
       });
       setDirections(results);
+      setDistance(results.routes[0].legs[0].distance.text);
+      setDuration(results.routes[0].legs[0].duration.text);
     } catch (error) {
       alert("他の交通手段に変えてください。");
     }
@@ -134,6 +138,8 @@ export const Map = () => {
   //directionsの削除
   const clearRoute = () => {
     setDirections(null);
+    setDistance("");
+    setDuration("");
     originRef.current.value = "";
     destinationRef.current.value = "";
   };
@@ -163,6 +169,8 @@ export const Map = () => {
             setAddress={setAddress}
             travelMode={travelMode}
             setTravelMode={setTravelMode}
+            distance={distance}
+            duration={duration}
           />
         </>
       )}
