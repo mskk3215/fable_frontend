@@ -119,13 +119,17 @@ export const Map = () => {
     }
     setDirections(null);
     const directionsService = new window.google.maps.DirectionsService();
-    const results = await directionsService.route({
-      origin: originRef.current.value,
-      destination: destinationRef.current.value,
-      travelMode: window.google.maps.TravelMode[travelMode],
-      avoidHighways: true,
-    });
-    setDirections(results);
+    try {
+      const results = await directionsService.route({
+        origin: originRef.current.value,
+        destination: destinationRef.current.value,
+        travelMode: window.google.maps.TravelMode[travelMode],
+        avoidHighways: true,
+      });
+      setDirections(results);
+    } catch (error) {
+      alert("他の交通手段に変えてください。");
+    }
   };
   //directionsの削除
   const clearRoute = () => {
