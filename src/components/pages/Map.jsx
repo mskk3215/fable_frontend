@@ -125,7 +125,7 @@ export const Map = () => {
     try {
       const results = await directionsService.route({
         origin: originRef.current.value,
-        destination: destinationRef.current.value,
+        destination: `${listItem.latitude},${listItem.longitude}`,
         travelMode: window.google.maps.TravelMode[travelMode],
         avoidHighways: true,
       });
@@ -205,9 +205,16 @@ export const Map = () => {
                 strokeOpacity: 1,
                 strokeWeight: 6,
               },
+              suppressMarkers: true,
             }}
             onLoad={onLoadHook}
           />
+        )}
+        {directions?.routes[0]?.legs[0]?.start_location && (
+          <MarkerF
+            position={directions.routes[0].legs[0].start_location}
+            title="出発地点"
+          ></MarkerF>
         )}
       </GoogleMap>
     </>
