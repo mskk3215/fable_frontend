@@ -74,10 +74,10 @@ export const DirectionDrawer = (props) => {
           originRef={originRef}
           address={address}
           setAddress={setAddress}
+          clearRoute={clearRoute}
         />
         <DestinationBox listItem={listItem} destinationRef={destinationRef} />
         <IconButtonStyled>
-          <Button onClick={clearRoute}>button</Button>
           <SIconButton onClick={() => handleClick("DRIVING")}>
             <DirectionsCarIcon
               color={travelMode === "DRIVING" ? "primary" : "inherit"}

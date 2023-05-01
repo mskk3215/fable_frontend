@@ -4,10 +4,11 @@ import { IconButton, TextField } from "@mui/material";
 import Close from "@mui/icons-material/Close";
 
 export const OriginBox = (props) => {
-  const { originRef, address, setAddress } = props;
+  const { originRef, address, setAddress, clearRoute } = props;
 
   const handleDeleteClick = () => {
     setAddress(undefined);
+    clearRoute();
   };
 
   return (
