@@ -35,6 +35,7 @@ export const DirectionDrawer = (props) => {
 
   const handleClick = (travelMode) => {
     setTravelMode(travelMode);
+    setAddress(originRef.current.value);
   };
   const DirectionBoxStyled = styled.div`
     position: absolute;

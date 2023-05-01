@@ -120,6 +120,7 @@ export const Map = () => {
       return;
     }
     setDirections(null);
+    setAddress(originRef.current.value);
     const directionsService = new window.google.maps.DirectionsService();
     try {
       const results = await directionsService.route({
