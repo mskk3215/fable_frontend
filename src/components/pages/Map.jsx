@@ -172,6 +172,7 @@ export const Map = () => {
             setTravelMode={setTravelMode}
             distance={distance}
             duration={duration}
+            setSwitchDrawer={setSwitchDrawer}
           />
         </>
       )}

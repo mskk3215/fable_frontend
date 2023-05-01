@@ -12,6 +12,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import Close from "@mui/icons-material/Close";
 import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";
 import DirectionsTransitIcon from "@mui/icons-material/DirectionsTransit";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
@@ -31,6 +32,7 @@ export const DirectionDrawer = (props) => {
     setTravelMode,
     distance,
     duration,
+    setSwitchDrawer,
   } = props;
 
   const handleClick = (travelMode) => {
@@ -70,13 +72,25 @@ export const DirectionDrawer = (props) => {
         <Header />
       </AppBar>
       <DirectionBoxStyled>
-        <OriginBox
-          style={{ marginBottom: "10px" }}
-          originRef={originRef}
-          address={address}
-          setAddress={setAddress}
-          clearRoute={clearRoute}
-        />
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <OriginBox
+            style={{ marginBottom: "10px" }}
+            originRef={originRef}
+            address={address}
+            setAddress={setAddress}
+            clearRoute={clearRoute}
+          />
+          <Button
+            style={{ marginTop: "5px" }}
+            variant="text"
+            sx={{ width: "15px", height: "50px" }}
+            onClick={() => {
+              setSwitchDrawer(true);
+            }}
+          >
+            <Close sx={{ color: "gray" }} />
+          </Button>
+        </Box>
         <DestinationBox listItem={listItem} destinationRef={destinationRef} />
         <IconButtonStyled>
           <SIconButton onClick={() => handleClick("DRIVING")}>
