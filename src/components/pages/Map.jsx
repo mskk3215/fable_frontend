@@ -107,7 +107,7 @@ export const Map = () => {
   //label option
   const markerLabel = (title) => ({
     text: title,
-    color: "red",
+    color: "blue",
     fontFamily: "sans-serif",
     fontSize: "15px",
     fontWeight: "bold",
