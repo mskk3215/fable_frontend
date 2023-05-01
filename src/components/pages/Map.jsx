@@ -27,7 +27,7 @@ export const Map = () => {
   const [duration, setDuration] = useState("");
   const originRef = useRef(null);
   const destinationRef = useRef(null);
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState(undefined);
   const [travelMode, setTravelMode] = useState("BICYCLING");
   const locations = searchResults.map((result) => {
     const id = result.id;

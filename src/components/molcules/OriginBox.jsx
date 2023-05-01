@@ -7,7 +7,7 @@ export const OriginBox = (props) => {
   const { originRef, address, setAddress, clearRoute } = props;
 
   const handleDeleteClick = () => {
-    setAddress(undefined);
+    setAddress("");
     clearRoute();
   };
 
@@ -16,7 +16,7 @@ export const OriginBox = (props) => {
       <TextField
         id="originBox"
         placeholder="出発地を入力 or 地図上でクリック"
-        value={address === null ? undefined : address}
+        value={address === "" ? undefined : address}
         sx={{ width: 300, height: 50 }}
         inputRef={originRef}
         InputProps={{
