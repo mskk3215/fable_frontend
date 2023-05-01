@@ -90,7 +90,7 @@ export const InsectSearchBox = (props) => {
                   ) : (
                     ""
                   )}
-                  {selectedItemId ? (
+                  {selectedItemId >= 1 ? (
                     <IconButton onClick={handleDirectionButtonClick}>
                       <DirectionsIcon color="primary" />
                     </IconButton>
