@@ -17,7 +17,7 @@ export const OriginBox = (props) => {
         id="originBox"
         placeholder="出発地を入力 or 地図上でクリック"
         value={address === "" ? undefined : address}
-        sx={{ width: 300, height: 50 }}
+        sx={{ width: 320, height: 50 }}
         inputRef={originRef}
         InputProps={{
           endAdornment: (

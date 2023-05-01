@@ -35,10 +35,11 @@ export const DirectionDrawer = (props) => {
     setSwitchDrawer,
   } = props;
 
-  const handleClick = (travelMode) => {
+  const handleTravelModeClick = (travelMode) => {
     setTravelMode(travelMode);
     setAddress(originRef.current.value);
   };
+
   const DirectionBoxStyled = styled.div`
     position: absolute;
     top: 55px;
@@ -93,22 +94,22 @@ export const DirectionDrawer = (props) => {
         </Box>
         <DestinationBox listItem={listItem} destinationRef={destinationRef} />
         <IconButtonStyled>
-          <SIconButton onClick={() => handleClick("DRIVING")}>
+          <SIconButton onClick={() => handleTravelModeClick("DRIVING")}>
             <DirectionsCarIcon
               color={travelMode === "DRIVING" ? "primary" : "inherit"}
             />
           </SIconButton>
-          <SIconButton onClick={() => handleClick("TRANSIT")}>
+          <SIconButton onClick={() => handleTravelModeClick("TRANSIT")}>
             <DirectionsTransitIcon
               color={travelMode === "TRANSIT" ? "primary" : "inherit"}
             />
           </SIconButton>
-          <SIconButton onClick={() => handleClick("BICYCLING")}>
+          <SIconButton onClick={() => handleTravelModeClick("BICYCLING")}>
             <DirectionsBikeIcon
               color={travelMode === "BICYCLING" ? "primary" : "inherit"}
             />
           </SIconButton>
-          <SIconButton onClick={() => handleClick("WALKING")}>
+          <SIconButton onClick={() => handleTravelModeClick("WALKING")}>
             <DirectionsWalkIcon
               color={travelMode === "WALKING" ? "primary" : "inherit"}
             />

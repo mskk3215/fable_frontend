@@ -10,7 +10,6 @@ import ListItemText from "@mui/material/ListItemText";
 import { Header } from "../atoms/layout/Header";
 import { InsectSearchBox } from "../molcules/InsectSearchBox";
 import styled from "styled-components";
-import { useState } from "react";
 import { useContext } from "react";
 import { SearchParkContext } from "../../providers/SearchParkProvider";
 

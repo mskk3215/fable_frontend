@@ -7,7 +7,6 @@ import {
 } from "@react-google-maps/api";
 import { MapDrawer } from "../organisms/MapDrawer";
 import { SearchParkContext } from "../../providers/SearchParkProvider";
-import styled from "styled-components";
 import { DirectionDrawer } from "../organisms/DirectionDrawer";
 
 export const Map = () => {
@@ -33,7 +32,6 @@ export const Map = () => {
     const id = result.id;
     const title = result.name;
     const latLng = { lat: result.latitude, lng: result.longitude };
-    console.log(result);
     return { id, title, latLng };
   });
 
@@ -42,6 +40,7 @@ export const Map = () => {
     mapTypeControl: false,
   };
 
+  //map上でクリックした地点の住所を取得する
   const handleMapClick = (e) => {
     const latLng = e.latLng;
     const lat = latLng.lat();
@@ -85,6 +84,7 @@ export const Map = () => {
     };
   });
 
+  //Google Maps APIの読み込み状態を管理する
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_API_KEY,
     libraries: ["places"],
@@ -93,6 +93,7 @@ export const Map = () => {
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "Loading Maps";
 
+  //Iconの設定
   const renderIcon = (id) => {
     return id === selectedItemId
       ? undefined
@@ -116,12 +117,14 @@ export const Map = () => {
 
   //directionsの計算
   const calculateRoute = async () => {
-    if (originRef.current.value === "" || destinationRef.current.value === "") {
+    if (originRef.current.value === "") {
+      alert("出発地を入力してください。");
       return;
     }
     setDirections(null);
     setAddress(originRef.current.value);
     const directionsService = new window.google.maps.DirectionsService();
+
     try {
       const results = await directionsService.route({
         origin: originRef.current.value,
@@ -129,6 +132,7 @@ export const Map = () => {
         travelMode: window.google.maps.TravelMode[travelMode],
         avoidHighways: true,
       });
+
       setDirections(results);
       setDistance(results.routes[0].legs[0].distance.text);
       setDuration(results.routes[0].legs[0].duration.text);
@@ -176,17 +180,16 @@ export const Map = () => {
           />
         </>
       )}
-
       <GoogleMap
         mapContainerStyle={mapStyle}
-        zoom={13}
+        zoom={10}
         center={selectedCenter}
         options={mapOptions}
         onClick={(e) => handleMapClick(e)}
       >
         {locations?.map(({ id, title, latLng }) => (
           <MarkerF
-            key={title}
+            key={id}
             position={latLng}
             icon={renderIcon(id)}
             animation={
