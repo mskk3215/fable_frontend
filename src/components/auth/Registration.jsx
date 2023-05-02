@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registrationUrl } from "../../urls";
+import { Box, Button, TextField, Typography } from "@mui/material";
 
 export const Registration = (props) => {
   const [nickname, setNickname] = useState("");
@@ -37,40 +38,87 @@ export const Registration = (props) => {
 
   return (
     <>
-      <p>新規登録</p>
-
-      <form onSubmit={handleSubmit}>
-        <input
-          type="nickname"
-          name="nickname"
-          placeholder="名前"
-          value={nickname}
-          onChange={(event) => setNickname(event.target.value)}
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="メールアドレス"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="パスワード"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-        />
-        <input
-          type="password"
-          name="password_confirmation"
-          placeholder="確認用パスワード"
-          value={passwordConfirmation}
-          onChange={(event) => setPasswordConfirmation(event.target.value)}
-        />
-
-        <button type="submit">登録</button>
-      </form>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+        }}
+      >
+        <Box
+          sx={{
+            p: 2,
+            border: "1px solid gray",
+            borderRadius: 4,
+            maxWidth: 400,
+            width: "100%",
+          }}
+        >
+          <Typography variant="h5" sx={{ textAlign: "center" }}>
+            新規登録
+          </Typography>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            sx={{ width: "100%", maxWidth: "400px" }}
+          >
+            <TextField
+              label="名前"
+              variant="outlined"
+              name="nickname"
+              type="text"
+              value={nickname}
+              onChange={(event) => setNickname(event.target.value)}
+              margin="normal"
+              required
+              fullWidth
+            ></TextField>
+            <TextField
+              label="メールアドレス"
+              variant="outlined"
+              name="email"
+              type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              margin="normal"
+              required
+              fullWidth
+            ></TextField>
+            <TextField
+              label="パスワード"
+              variant="outlined"
+              name="password"
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              margin="normal"
+              required
+              fullWidth
+            ></TextField>
+            <TextField
+              label="確認用パスワード"
+              variant="outlined"
+              name="password_confirmation"
+              type="password"
+              value={passwordConfirmation}
+              onChange={(event) => setPasswordConfirmation(event.target.value)}
+              margin="normal"
+              required
+              fullWidth
+            ></TextField>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+              mt={2}
+            >
+              登録
+            </Button>
+          </Box>
+        </Box>
+      </Box>
     </>
   );
 };
