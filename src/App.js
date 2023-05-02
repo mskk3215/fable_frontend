@@ -1,70 +1,16 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Dashboard from "./components/Dashboard";
-import Home from "./components/Home";
-import { logged_inUrl } from "./urls";
+import { UserProvider } from "./providers/UserProvider";
+import { SearchParkProvider } from "./providers/SearchParkProvider";
+import { Router } from "./router/Router";
+import { RecoilRoot } from "recoil";
 
-function App() {
-  const [loggedInStatus, setLoggedInStatus] = useState("未ログイン");
-  const [user, setUser] = useState({});
-
-  const handleLogin = (data) => {
-    setLoggedInStatus("ログインnow");
-    setUser(data.user);
-  };
-
-  useEffect(() => {
-    checkLoginStatus();
-  });
-
-  const checkLoginStatus = () => {
-    axios
-      .get(logged_inUrl, { withCredentials: true })
-      .then((response) => {
-        if (response.data.logged_in && loggedInStatus === "未ログイン") {
-          setLoggedInStatus("ログインnow");
-          setUser(response.data.user);
-        } else if (
-          !response.data.logged_in &&
-          loggedInStatus === "ログインnow"
-        ) {
-          setLoggedInStatus("未ログイン");
-          setUser({});
-        }
-      })
-      .catch((error) => {
-        console.log("ログインエラー", error);
-      });
-  };
-
-  const handleLogout = () => {
-    setLoggedInStatus("未ログイン");
-    setUser({});
-  };
-
+export const App = () => {
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Home
-                handleLogin={handleLogin}
-                handleLogout={handleLogout}
-                loggedInStatus={loggedInStatus}
-              />
-            }
-          />
-          <Route
-            path="/dashboard"
-            element={<Dashboard loggedInStatus={loggedInStatus} />}
-          />
-        </Routes>
-      </BrowserRouter>
-    </>
+    <UserProvider>
+      <RecoilRoot>
+        <SearchParkProvider>
+          <Router />
+        </SearchParkProvider>
+      </RecoilRoot>
+    </UserProvider>
   );
-}
-
-export default App;
+};
