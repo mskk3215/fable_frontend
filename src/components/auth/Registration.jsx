@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registrationUrl } from "../../urls";
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { GuestLoginButton } from "../atoms/button/GuestLoginButton";
 
 export const Registration = (props) => {
   const { handleSuccessfulAuthentication } = props;
@@ -135,9 +134,6 @@ export const Registration = (props) => {
                   width: "100%",
                 }}
               >
-                <Box sx={{ flexGrow: 1, flexBasis: 0, marginRight: 1 }}>
-                  <GuestLoginButton sx={{ width: "100%" }} />
-                </Box>
                 <Box sx={{ flexGrow: 1, flexBasis: 0 }}>
                   <Button
                     onClick={() => navigate("/login")}

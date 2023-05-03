@@ -1,7 +1,7 @@
 import axios from "axios";
 
 //default_api
-export const DEFAULT_API_LOCALHOST = "http://localhost:3001/api/v1";
+export const DEFAULT_API_LOCALHOST = "/api/v1";
 
 //ユーザー管理
 export const registrationUrl = `${DEFAULT_API_LOCALHOST}/signup`;
