@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registrationUrl } from "../../urls";
 import { Box, Button, TextField, Typography } from "@mui/material";
+import { GuestLoginButton } from "../atoms/button/GuestLoginButton";
 
 export const Registration = (props) => {
   const [nickname, setNickname] = useState("");
@@ -107,15 +108,48 @@ export const Registration = (props) => {
               required
               fullWidth
             ></TextField>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              fullWidth
-              mt={2}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                flexWrap: "wrap",
+                mt: 2,
+              }}
             >
-              登録
-            </Button>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                fullWidth
+                mt={2}
+              >
+                登録
+              </Button>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  mt: 2,
+                  width: "100%",
+                }}
+              >
+                <Box sx={{ flexGrow: 1, flexBasis: 0, marginRight: 1 }}>
+                  <GuestLoginButton sx={{ width: "100%" }} />
+                </Box>
+                <Box sx={{ flexGrow: 1, flexBasis: 0 }}>
+                  <Button
+                    onClick={() => navigate("/login")}
+                    color="secondary"
+                    fullWidth
+                    sx={{ width: "100%" }}
+                    fontSize="1rem"
+                  >
+                    ログイン
+                  </Button>
+                </Box>
+              </Box>
+            </Box>
           </Box>
         </Box>
       </Box>
