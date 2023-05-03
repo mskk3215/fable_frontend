@@ -6,6 +6,7 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 import { GuestLoginButton } from "../atoms/button/GuestLoginButton";
 
 export const Registration = (props) => {
+  const { handleSuccessfulAuthentication } = props;
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,7 +28,7 @@ export const Registration = (props) => {
       )
       .then((response) => {
         if (response.data.status === "created") {
-          props.handleSuccessfulAuthentication(response.data);
+          handleSuccessfulAuthentication(response.data);
           navigate("/");
         }
       })
