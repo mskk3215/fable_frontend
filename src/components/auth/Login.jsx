@@ -1,38 +1,17 @@
-import axios from "axios";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { loginUrl } from "../../urls";
+import { useLoginAuthAction } from "../../hooks/useLoginAuthAction";
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 
-export const Login = (props) => {
-  const { handleSuccessfulAuthentication } = props;
+export const Login = () => {
+  const { handleLoginAction } = useLoginAuthAction();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const navigate = useNavigate();
-  const handleSubmit = (event) => {
-    axios
-      .post(
-        loginUrl,
-        {
-          email: email,
-          password: password,
-        },
-        //cookieを含める
-        { withCredentials: true }
-      )
-      .then((response) => {
-        console.log("login condition", response);
-        if (response.data.logged_in) {
-          handleSuccessfulAuthentication(response.data);
-          navigate("/");
-        }
-      })
-      .catch((error) => {
-        console.log("login error", error);
-      });
-    event.preventDefault();
+  const handleLogin = (e) => {
+    handleLoginAction({ email: email, password: password });
   };
+
   return (
     <>
       <Box
@@ -55,41 +34,44 @@ export const Login = (props) => {
           <Typography variant="h5" sx={{ textAlign: "center" }}>
             ログイン
           </Typography>
-          <form onSubmit={handleSubmit}>
-            <Grid container spacing={2} sx={{ mt: 2 }}>
-              <Grid item xs={12}>
-                <TextField
-                  label="メールアドレス"
-                  variant="outlined"
-                  name="email"
-                  type="email"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  margin="normal"
-                  required
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  label="パスワード"
-                  variant="outlined"
-                  name="password"
-                  type="password"
-                  value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-                  margin="normal"
-                  required
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Button fullWidth variant="contained" type="submit">
-                  ログイン
-                </Button>
-              </Grid>
+          <Grid container spacing={2} sx={{ mt: 2 }}>
+            <Grid item xs={12}>
+              <TextField
+                label="メールアドレス"
+                variant="outlined"
+                name="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                margin="normal"
+                required
+                fullWidth
+              />
             </Grid>
-          </form>
+            <Grid item xs={12}>
+              <TextField
+                label="パスワード"
+                variant="outlined"
+                name="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                margin="normal"
+                required
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                onClick={handleLogin}
+              >
+                ログイン
+              </Button>
+            </Grid>
+          </Grid>
         </Box>
       </Box>
     </>

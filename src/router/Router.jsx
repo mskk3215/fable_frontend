@@ -18,11 +18,6 @@ export const Router = () => {
   const { setUser, loggedInStatus, setLoggedInStatus } =
     useContext(UserContext);
 
-  const handleLogin = (data) => {
-    setLoggedInStatus(true);
-    setUser(data.user.nickname);
-  };
-
   useEffect(() => {
     checkLoginStatus();
   });
@@ -44,10 +39,6 @@ export const Router = () => {
       });
   };
 
-  const handleSuccessfulAuthentication = (data) => {
-    handleLogin(data);
-  };
-
   return (
     <>
       <BrowserRouter>
@@ -65,11 +56,7 @@ export const Router = () => {
             path="registration"
             element={
               <HeaderOnly>
-                <Registration
-                  handleSuccessfulAuthentication={
-                    handleSuccessfulAuthentication
-                  }
-                />
+                <Registration />
               </HeaderOnly>
             }
           />
@@ -77,11 +64,7 @@ export const Router = () => {
             path="login"
             element={
               <HeaderOnly>
-                <Login
-                  handleSuccessfulAuthentication={
-                    handleSuccessfulAuthentication
-                  }
-                />
+                <Login />
               </HeaderOnly>
             }
           />

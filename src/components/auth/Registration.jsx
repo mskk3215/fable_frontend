@@ -1,19 +1,21 @@
-import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { registrationUrl } from "../../urls";
-import { Box, Button, TextField, Typography } from "@mui/material";
 import { GuestLoginButton } from "../atoms/button/GuestLoginButton";
+import { UserContext } from "../../providers/UserProvider";
+import { Box, Button, TextField, Typography } from "@mui/material";
 
-export const Registration = (props) => {
-  const { handleSuccessfulAuthentication } = props;
+export const Registration = () => {
+  const { handleSuccessfulAuthentication } = useContext(UserContext);
+
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
   const navigate = useNavigate();
-  const handleSubmit = (event) => {
+  const handleRegistrationAction = (e) => {
     axios
       .post(
         registrationUrl,
@@ -35,7 +37,7 @@ export const Registration = (props) => {
       .catch((error) => {
         console.log("registration error", error);
       });
-    event.preventDefault();
+    e.preventDefault();
   };
 
   return (
@@ -60,18 +62,14 @@ export const Registration = (props) => {
           <Typography variant="h5" sx={{ textAlign: "center" }}>
             新規登録
           </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            sx={{ width: "100%", maxWidth: "400px" }}
-          >
+          <Box sx={{ width: "100%", maxWidth: "400px" }}>
             <TextField
               label="名前"
               variant="outlined"
               name="nickname"
               type="text"
               value={nickname}
-              onChange={(event) => setNickname(event.target.value)}
+              onChange={(e) => setNickname(e.target.value)}
               margin="normal"
               required
               fullWidth
@@ -82,7 +80,7 @@ export const Registration = (props) => {
               name="email"
               type="email"
               value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               margin="normal"
               required
               fullWidth
@@ -93,7 +91,7 @@ export const Registration = (props) => {
               name="password"
               type="password"
               value={password}
-              onChange={(event) => setPassword(event.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               margin="normal"
               required
               fullWidth
@@ -104,7 +102,7 @@ export const Registration = (props) => {
               name="password_confirmation"
               type="password"
               value={passwordConfirmation}
-              onChange={(event) => setPasswordConfirmation(event.target.value)}
+              onChange={(e) => setPasswordConfirmation(e.target.value)}
               margin="normal"
               required
               fullWidth
@@ -120,9 +118,9 @@ export const Registration = (props) => {
             >
               <Button
                 type="submit"
-                variant="contained"
-                color="primary"
                 fullWidth
+                variant="contained"
+                onClick={handleRegistrationAction}
                 mt={2}
               >
                 登録
