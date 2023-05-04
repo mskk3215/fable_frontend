@@ -6,7 +6,6 @@ import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 
 export const Login = (props) => {
   const { handleSuccessfulAuthentication } = props;
-  const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -16,7 +15,6 @@ export const Login = (props) => {
       .post(
         loginUrl,
         {
-          nickname: nickname,
           email: email,
           password: password,
         },
@@ -59,19 +57,6 @@ export const Login = (props) => {
           </Typography>
           <form onSubmit={handleSubmit}>
             <Grid container spacing={2} sx={{ mt: 2 }}>
-              <Grid item xs={12}>
-                <TextField
-                  label="名前"
-                  variant="outlined"
-                  name="nickname"
-                  type="text"
-                  value={nickname}
-                  onChange={(event) => setNickname(event.target.value)}
-                  margin="normal"
-                  required
-                  fullWidth
-                />
-              </Grid>
               <Grid item xs={12}>
                 <TextField
                   label="メールアドレス"
