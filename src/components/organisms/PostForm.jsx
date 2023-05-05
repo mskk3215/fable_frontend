@@ -1,5 +1,5 @@
 import { Cancel } from "@mui/icons-material";
-import { Box, Button, IconButton } from "@mui/material";
+import { Box, Button, IconButton, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPosts } from "../../urls";
@@ -60,6 +60,10 @@ export const PostForm = (props) => {
               />
             </IconButton>
           </label>
+        </div>
+        {/* count text */}
+        <div>
+          <Typography color="grey">{images.length}枚アップロード</Typography>
         </div>
         {/* preview */}
         {images.map((image, i) => (
