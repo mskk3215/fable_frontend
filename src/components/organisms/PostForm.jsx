@@ -7,13 +7,11 @@ import { createPosts } from "../../urls";
 export const PostForm = (props) => {
   const { handleGetPosts } = props;
   const [images, setImages] = useState([]);
-  const [isSending, setIsSending] = useState(false);
   const inputId = Math.random().toString(32).substring(2);
 
   const navigate = useNavigate();
   const uploadImage = (e) => {
     setImages([...images, ...e.target.files]);
-    setIsSending(true);
   };
 
   const handleCreatePost = async (e) => {
@@ -30,7 +28,6 @@ export const PostForm = (props) => {
 
       handleGetPosts();
       setImages([]);
-      setIsSending(false);
     });
   };
 
@@ -98,15 +95,16 @@ export const PostForm = (props) => {
           </div>
         ))}
         {/* button */}
-        {isSending ? (
-          <div>
-            <Button type="submit" color="success" variant="contained">
-              Post
-            </Button>
-          </div>
-        ) : (
-          ""
-        )}
+        <div>
+          <Button
+            disabled={images.length === 0}
+            type="submit"
+            color="success"
+            variant="contained"
+          >
+            Post
+          </Button>
+        </div>
       </form>
     </>
   );
