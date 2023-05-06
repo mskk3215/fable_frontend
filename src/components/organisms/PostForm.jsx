@@ -1,8 +1,17 @@
-import { Cancel } from "@mui/icons-material";
-import { Box, Button, IconButton, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPosts } from "../../urls";
+import { Cancel, FileUpload } from "@mui/icons-material";
+import {
+  Box,
+  Button,
+  Card,
+  CardMedia,
+  Container,
+  Grid,
+  IconButton,
+  Typography,
+} from "@mui/material";
 
 export const PostForm = (props) => {
   const { handleGetPosts } = props;
@@ -39,73 +48,124 @@ export const PostForm = (props) => {
 
   return (
     <>
-      <form noValidate onSubmit={handleCreatePost}>
-        {/* upload */}
-        <div>
-          <label htmlFor={inputId}>
-            <IconButton color="success" variant="outlined" component="span">
-              アップロード
-              <input
-                accept="image/*"
-                id={inputId}
-                multiple
-                type="file"
-                style={{ display: "none" }}
-                onChange={(e) => {
-                  uploadImage(e);
-                }}
-              />
-            </IconButton>
-          </label>
-        </div>
-        {/* count text */}
-        <div>
-          <Typography color="grey">{images.length}枚アップロード</Typography>
-        </div>
-        {/* preview */}
-        {images.map((image, i) => (
-          <div key={i} style={{ position: "relative", width: "40%" }}>
-            <Box
-              sx={{
-                width: 200,
-                height: 200,
-                borderRadius: 1,
-                borderColor: "grey.400",
-              }}
-            >
-              <IconButton
-                color="inherit"
-                aria-label="delete image"
-                style={{
-                  position: "absolute",
-                  top: 10,
-                  left: 10,
-                  color: "#353535",
-                }}
-                onClick={() => handleOnRemoveImage(i)}
-              >
-                <Cancel />
-              </IconButton>
-              <img
-                src={URL.createObjectURL(image)}
-                alt="preview img"
-                style={{ width: "100%" }}
-              />
-            </Box>
-          </div>
-        ))}
-        {/* button */}
-        <div>
-          <Button
-            disabled={images.length === 0}
-            type="submit"
-            color="success"
-            variant="contained"
+      <Container
+        maxWidth="xl"
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <form noValidate onSubmit={handleCreatePost}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "space-between",
+              height: "80vh",
+              width: "50vw",
+              paddingTop: 2,
+              paddingBottom: 2,
+            }}
           >
-            Post
-          </Button>
-        </div>
-      </form>
+            {/* upload */}
+            <Box sx={{ width: "100%" }}>
+              <Box>
+                <label htmlFor={inputId}>
+                  <Button
+                    color="success"
+                    variant="outlined"
+                    component="span"
+                    startIcon={<FileUpload />}
+                  >
+                    アップロード
+                    <input
+                      accept="image/*"
+                      id={inputId}
+                      multiple
+                      type="file"
+                      style={{ display: "none" }}
+                      onChange={(e) => {
+                        uploadImage(e);
+                      }}
+                    />
+                  </Button>
+                </label>
+              </Box>
+              {/* count text */}
+              <div>
+                <Typography color="grey">
+                  {images.length}枚アップロード
+                </Typography>
+              </div>
+              {/* preview */}
+              <Grid container direction="row" justifyContent={"flex-start"}>
+                {images.map((image, i) => (
+                  <Box
+                    key={i}
+                    position={"relative"}
+                    sx={{
+                      width: 200,
+                      height: 200,
+                      borderRadius: 1,
+                      borderColor: "grey.400",
+                    }}
+                  >
+                    <Card>
+                      <CardMedia
+                        component="img"
+                        src={URL.createObjectURL(image)}
+                        alt="preview img"
+                        style={{ width: "100%" }}
+                      />
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          top: 0,
+                          left: 0,
+                        }}
+                      >
+                        <IconButton
+                          aria-label="delete image"
+                          style={{
+                            position: "absolute",
+                            top: 10,
+                            left: 10,
+                            color: "grey",
+                          }}
+                          onClick={() => handleOnRemoveImage(i)}
+                        >
+                          <Cancel />
+                        </IconButton>
+                      </Box>
+                    </Card>
+                  </Box>
+                ))}
+              </Grid>
+              {images.length === 0 ? (
+                <Typography color="grey">
+                  写真をアップロードしてください
+                </Typography>
+              ) : (
+                ""
+              )}
+            </Box>
+            <Box sx={{ width: "100%" }}>
+              {/* button */}
+              <Button
+                fullWidth
+                disabled={images.length === 0}
+                type="submit"
+                color="success"
+                variant="contained"
+              >
+                投稿する
+              </Button>
+            </Box>
+          </Box>
+        </form>
+      </Container>
     </>
   );
 };
