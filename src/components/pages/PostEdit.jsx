@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Box, Divider } from "@mui/material";
 import { useEffect, useState } from "react";
 import { PostItem } from "../molcules/PostItem";
 import { EditForm } from "../organisms/EditForm";
@@ -101,10 +101,9 @@ export const PostEdit = () => {
 
   return (
     <>
-      <Grid container direction="row">
-        <Grid item xs={9} sx={{ pl: 2 }}>
+      <Box display="flex" justifyContent="space-betweens">
+        <Box sx={{ pl: 2, width: "74%", backgroundColor: "red" }}>
           {posts?.map((post) => {
-            // console.log(post.id, selectedIndexes.includes(idToIndex(post.id)));
             return (
               <PostItem
                 key={post.id}
@@ -121,8 +120,9 @@ export const PostEdit = () => {
               />
             );
           })}
-        </Grid>
-        <Grid item xs={3}>
+        </Box>
+        <Divider orientation="vertical" flexItem />
+        <Box sx={{ width: "26%", pl: 1 }}>
           <EditForm
             selectedIds={selectedIds}
             setSelectedIds={setSelectedIds}
@@ -130,8 +130,8 @@ export const PostEdit = () => {
             handleGetPosts={handleGetPosts}
             parkOptions={parkOptions}
           />
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
     </>
   );
 };

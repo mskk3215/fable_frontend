@@ -68,7 +68,7 @@ export const EditForm = memo((props) => {
   return (
     <>
       <form onSubmit={handleUpdateDeletePost}>
-        <Box sx={{ width: "100%", pl: 2 }}>
+        <Box sx={{ width: "100%" }}>
           <Box>
             <Typography sx={{ my: 3, mx: 1 }} gutterBottom variant="h6">
               昆虫名
