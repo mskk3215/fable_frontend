@@ -11,6 +11,9 @@ import { memo } from "react";
 import { useState } from "react";
 import { useAllInsects } from "../../hooks/useAllInsects";
 import { updatePosts, deletePosts } from "../../urls";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 export const EditForm = memo((props) => {
   const {
@@ -111,13 +114,46 @@ export const EditForm = memo((props) => {
                 onChange={(e, value) => {
                   setParkId(value.id);
                 }}
-                id="demo"
+                id="parkName"
                 options={parkOptions}
-                sx={{ width: 410 }}
+                sx={{ width: 350 }}
                 renderInput={(params) => (
-                  <TextField {...params} label="例)高尾山" />
+                  <TextField {...params} label="公園名" />
                 )}
               />
+            </Grid>
+          </Box>
+          <Box sx={{ width: 100 }}>
+            <Grid item xs={12}>
+              <Autocomplete
+                id="prefecture"
+                sx={{ width: 200 }}
+                renderInput={(params) => (
+                  <TextField {...params} label="都道府県" />
+                )}
+              />
+            </Grid>
+          </Box>
+          <Box sx={{ width: 100 }}>
+            <Grid item xs={12}>
+              <Autocomplete
+                id="city"
+                sx={{ width: 200 }}
+                renderInput={(params) => (
+                  <TextField {...params} label="市町村名" />
+                )}
+              />
+            </Grid>
+          </Box>
+          <Divider variant="fullWidth" sx={{ my: 2 }} />
+          <Box sx={{ width: 200 }}>
+            <Typography sx={{ my: 3, mx: 1 }} gutterBottom variant="h6">
+              撮影日
+            </Typography>
+            <Grid item xs={12}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker />
+              </LocalizationProvider>
             </Grid>
           </Box>
           <Box sx={{ pt: 3, display: "flex" }}>
