@@ -1,10 +1,9 @@
-import { Box, Divider } from "@mui/material";
-import { useEffect, useState } from "react";
-import { PostItem } from "../molcules/PostItem";
+import { useEffect, useState, useCallback } from "react";
 import { EditForm } from "../organisms/EditForm";
+import { PostItem } from "../molcules/PostItem";
 import { useAllImages } from "../../hooks/useAllImages";
-import { useCallback } from "react";
 import { useAllParks } from "../../hooks/useAllParks";
+import { Box, Divider } from "@mui/material";
 
 export const PostEdit = () => {
   const { posts, handleGetPosts } = useAllImages();
@@ -102,7 +101,7 @@ export const PostEdit = () => {
   return (
     <>
       <Box display="flex" justifyContent="space-betweens">
-        <Box sx={{ pl: 2, width: "74%", backgroundColor: "red" }}>
+        <Box sx={{ pl: 2, width: "74%" }}>
           {posts?.map((post) => {
             return (
               <PostItem

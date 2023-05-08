@@ -1,3 +1,7 @@
+import { memo } from "react";
+import { useState } from "react";
+import { updatePosts, deletePosts } from "../../urls";
+import { useAllInsects } from "../../hooks/useAllInsects";
 import {
   Autocomplete,
   Box,
@@ -7,10 +11,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { memo } from "react";
-import { useState } from "react";
-import { useAllInsects } from "../../hooks/useAllInsects";
-import { updatePosts, deletePosts } from "../../urls";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -79,7 +79,7 @@ export const EditForm = memo((props) => {
                   onChange={(e, value) => {
                     setInsectName(value.label);
                   }}
-                  id="demo"
+                  id="insectName"
                   options={insectOptions}
                   sx={{ width: 250 }}
                   renderInput={(params) => (
@@ -93,7 +93,7 @@ export const EditForm = memo((props) => {
                   onChange={(e, value) => {
                     setInsectSex(value);
                   }}
-                  id="demo"
+                  id="sex"
                   options={getSexes()}
                   getOptionLabel={(option) => option}
                   sx={{ width: 120 }}
