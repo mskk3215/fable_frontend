@@ -34,11 +34,14 @@ export const Header = (props) => {
         </>
       ) : (
         <>
+          <SLink to="/postlist">マイページ</SLink>
           <SLink to="/" onClick={handleLogoutClick}>
             ログアウト
           </SLink>
           <SLink to="/camera">カメラ</SLink>
-          <SLink to="/postlist">投稿する</SLink>
+          <SLink to="/map">地図</SLink>
+          <SLink to="/uploadview">投稿する</SLink>
+          <SLink to="/">検索する</SLink>
         </>
       )}
     </SHeader>

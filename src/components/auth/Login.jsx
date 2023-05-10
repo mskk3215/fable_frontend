@@ -1,68 +1,79 @@
-import axios from "axios";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { loginUrl } from "../../urls";
+import { useLoginAuthAction } from "../../hooks/useLoginAuthAction";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 
-export default function Login(props) {
-  const [nickname, setNickname] = useState("");
+export const Login = () => {
+  const { handleLoginAction } = useLoginAuthAction();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const navigate = useNavigate();
-  const handleSubmit = (event) => {
-    axios
-      .post(
-        loginUrl,
-        {
-          nickname: nickname,
-          email: email,
-          password: password,
-        },
-        //cookieを含める
-        { withCredentials: true }
-      )
-      .then((response) => {
-        console.log("login condition", response);
-        if (response.data.logged_in) {
-          props.handleSuccessfulAuthentication(response.data);
-          navigate("/");
-        }
-      })
-      .catch((error) => {
-        console.log("login error", error);
-      });
-    event.preventDefault();
+  const handleLogin = (e) => {
+    handleLoginAction({ email: email, password: password });
   };
 
   return (
     <>
-      <p>ログイン</p>
-
-      <form onSubmit={handleSubmit}>
-        <input
-          type="nickname"
-          name="nickname"
-          placeholder="名前"
-          value={nickname}
-          onChange={(event) => setNickname(event.target.value)}
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="メールアドレス"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="パスワード"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-        />
-
-        <button type="submit">ログイン</button>
-      </form>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+        }}
+      >
+        <Box
+          sx={{
+            p: 2,
+            border: "1px solid gray",
+            borderRadius: 4,
+            maxWidth: 400,
+            width: "100%",
+          }}
+        >
+          <Typography variant="h5" sx={{ textAlign: "center" }}>
+            ログイン
+          </Typography>
+          <Grid container spacing={2} sx={{ mt: 2 }}>
+            <Grid item xs={12}>
+              <TextField
+                label="メールアドレス"
+                variant="outlined"
+                name="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                margin="normal"
+                required
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="パスワード"
+                variant="outlined"
+                name="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                margin="normal"
+                required
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                onClick={handleLogin}
+              >
+                ログイン
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
+      </Box>
     </>
   );
-}
+};
