@@ -13,7 +13,6 @@ import { logged_inUrl } from "../urls/index";
 import { UploadView } from "../components/pages/UploadView";
 import { PostEdit } from "../components/pages/PostEdit";
 import { Map } from "../components/pages/Map";
-import { CameraCapture } from "../components/pages/CameraCapture";
 
 export const Router = () => {
   const { setUser, loggedInStatus, setLoggedInStatus } =
@@ -94,14 +93,6 @@ export const Router = () => {
             }
           />
           <Route path="map" element={<Map />} />
-          <Route
-            path="camera"
-            element={
-              <HeaderOnly>
-                <CameraCapture />
-              </HeaderOnly>
-            }
-          />
           <Route
             path="*"
             element={
