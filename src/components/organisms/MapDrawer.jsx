@@ -84,52 +84,57 @@ export const MapDrawer = (props) => {
         <Toolbar style={{ height: "110px" }} />
         <Box sx={{ overflow: "auto" }}>
           <List>
-            {searchResults.map((result, index) => (
-              <React.Fragment key={result.id}>
-                <ListItem
-                  onClick={() => handleListItem(result)}
-                  sx={{
-                    "&:hover": {
-                      backgroundColor: "#f5f5f5",
-                    },
-                    backgroundColor:
-                      selectedItemId === result.id ? "#f5f5f5" : "initial",
-                  }}
-                >
-                  <ListItemText
-                    primary={
-                      <>
-                        <Typography variant="body1" color="textPrimary">
-                          {result.name}
-                        </Typography>
-                        <Typography variant="body2" color="textPrimary">
-                          {result.address}
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary">
-                          投稿写真数：{result.image_count}枚
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary">
-                          昆虫種類数：{result.insect_count}種類
-                        </Typography>
-                      </>
-                    }
-                  />
-                  <ListItemAvatar>
-                    <img
-                      src={result.image[0]}
-                      alt="avatar"
-                      style={{
-                        width: "100px",
-                        height: "100px",
-                        borderRadius: "10%",
-                      }}
+            {searchResults.length === 0 ? (
+              <ListItem>
+                <ListItemText primary="検索した昆虫は見つかりません。" />
+              </ListItem>
+            ) : (
+              searchResults.map((result, index) => (
+                <React.Fragment key={result.id}>
+                  <ListItem
+                    onClick={() => handleListItem(result)}
+                    sx={{
+                      "&:hover": {
+                        backgroundColor: "#f5f5f5",
+                      },
+                      backgroundColor:
+                        selectedItemId === result.id ? "#f5f5f5" : "initial",
+                    }}
+                  >
+                    <ListItemText
+                      primary={
+                        <>
+                          <Typography variant="body1" color="textPrimary">
+                            {result.name}
+                          </Typography>
+                          <Typography variant="body2" color="textPrimary">
+                            {result.address}
+                          </Typography>
+                          <Typography variant="body2" color="textSecondary">
+                            投稿写真数：{result.image_count}枚
+                          </Typography>
+                          <Typography variant="body2" color="textSecondary">
+                            昆虫種類数：{result.insect_count}種類
+                          </Typography>
+                        </>
+                      }
                     />
-                  </ListItemAvatar>
-                </ListItem>
-                {index !== searchResults.length - 1 && <Divider />}
-              </React.Fragment>
-            ))}
-            <Divider />
+                    <ListItemAvatar>
+                      <img
+                        src={result.image[0]}
+                        alt="avatar"
+                        style={{
+                          width: "100px",
+                          height: "100px",
+                          borderRadius: "10%",
+                        }}
+                      />
+                    </ListItemAvatar>
+                  </ListItem>
+                  {index !== searchResults.length - 1 && <Divider />}
+                </React.Fragment>
+              ))
+            )}
           </List>
         </Box>
       </Drawer>
