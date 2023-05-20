@@ -35,9 +35,12 @@ export const PostItem = memo((props) => {
   );
 
   const createdTime = (post) => {
-    const date = new Date(post.created_at);
-    const formattedDate = format(date, "yyyy/M/d/(E)", { locale: ja });
-    return formattedDate;
+    if (post.taken_at) {
+      const date = new Date(post.taken_at);
+      const formattedDate = format(date, "yyyy/M/d/(E)", { locale: ja });
+      return formattedDate;
+    }
+    return null;
   };
 
   const CustomTypography = styled(Typography)`
@@ -45,7 +48,6 @@ export const PostItem = memo((props) => {
       font-size: 12px;
     }
   `;
-
   return (
     <>
       {post.image ? (
@@ -93,13 +95,21 @@ export const PostItem = memo((props) => {
                     pl: 1,
                   }}
                 >
-                  <CustomTypography>{createdTime(post)}</CustomTypography>
-                  <CustomTypography variant="body2">
-                    {post.insect_name}
-                    {post.insect_name ? `(${post.insect_sex})` : ""}
+                  {/* 撮影日 */}
+                  <CustomTypography>
+                    {createdTime(post) ? createdTime(post) : "\u00a0"}
                   </CustomTypography>
+                  {/* 昆虫名 */}
                   <CustomTypography variant="body2">
-                    {parks[post.park_id - 1]?.name}
+                    {post.insect_name
+                      ? `${post.insect_name}(${post.insect_sex})`
+                      : "\u00a0"}
+                  </CustomTypography>
+                  {/* 公園名 or 市町村名 */}
+                  <CustomTypography variant="body2">
+                    {parks[post.park_id - 1]?.name
+                      ? parks[post.park_id - 1]?.name
+                      : post.city_name}
                   </CustomTypography>
                 </Box>
               </Card>
