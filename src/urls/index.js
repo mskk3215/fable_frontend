@@ -50,6 +50,11 @@ export const getParks = () => {
   return postClient.get("/parks");
 };
 
+//cities
+export const getPrefectures = () => {
+  return postClient.get("/prefectures");
+};
+
 //search parks
 export const getSearchParkResults = (word) => {
   return postClient.get("/parks", { params: { search_word: word } });
