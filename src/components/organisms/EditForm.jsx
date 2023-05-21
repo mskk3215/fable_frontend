@@ -26,6 +26,7 @@ export const EditForm = memo((props) => {
   const { insects, insectOptions } = useAllInsects();
   const [insectName, setInsectName] = useState("");
   const [insectSex, setInsectSex] = useState("");
+  const [takenDate, setTakenDate] = useState("");
 
   const [parkName, setParkName] = useState("");
   const [buttonName, setButtonName] = useState("");
@@ -38,6 +39,7 @@ export const EditForm = memo((props) => {
         data.append("image[name]", insectName);
         data.append("image[sex]", insectSex);
         data.append("image[parkName]", parkName);
+        data.append("image[taken_at]", takenDate);
 
         await updatePosts(selectedIds, data).then(() => {
           alert("更新しました");
@@ -63,6 +65,12 @@ export const EditForm = memo((props) => {
       (insect) => insect.name === insectName
     );
     return insectNameValue ? insectNameValue.availableSexes : [];
+  };
+
+  const handleDateChange = (date) => {
+    if (date === null) return setTakenDate("");
+    const formattedDate = date.format("YYYY-MM-DDTHH:mm:ss.SSSZ");
+    setTakenDate(formattedDate);
   };
 
   return (
@@ -152,7 +160,7 @@ export const EditForm = memo((props) => {
             </Typography>
             <Grid item xs={12}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker />
+                <DatePicker value={takenDate} onChange={handleDateChange} />
               </LocalizationProvider>
             </Grid>
           </Box>
