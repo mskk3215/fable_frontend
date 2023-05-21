@@ -4,11 +4,13 @@ import { PostItem } from "../molcules/PostItem";
 import { useAllImages } from "../../hooks/useAllImages";
 import { useAllParks } from "../../hooks/useAllParks";
 import { Box, Divider } from "@mui/material";
+import { useAllInsects } from "../../hooks/useAllInsects";
 
 export const PostEdit = () => {
   const { posts, handleGetPosts } = useAllImages();
   const { parks, parkOptions } = useAllParks();
 
+  const { insects, insectOptions } = useAllInsects();
   const [selectedIds, setSelectedIds] = useState([]);
   const [selectedIndexes, setSelectedIndexes] = useState([]);
   const [isShiftDown, setIsShiftDown] = useState(false);
@@ -128,6 +130,8 @@ export const PostEdit = () => {
             setSelectedIndexes={setSelectedIndexes}
             handleGetPosts={handleGetPosts}
             parkOptions={parkOptions}
+            insects={insects}
+            insectOptions={insectOptions}
           />
         </Box>
       </Box>

@@ -1,7 +1,6 @@
 import { memo } from "react";
 import { useState } from "react";
 import { updatePosts, deletePosts } from "../../urls";
-import { useAllInsects } from "../../hooks/useAllInsects";
 import {
   Autocomplete,
   Box,
@@ -22,8 +21,9 @@ export const EditForm = memo((props) => {
     setSelectedIndexes,
     handleGetPosts,
     parkOptions,
+    insects,
+    insectOptions,
   } = props;
-  const { insects, insectOptions } = useAllInsects();
   const [insectName, setInsectName] = useState("");
   const [insectSex, setInsectSex] = useState("");
   const [takenDate, setTakenDate] = useState("");
