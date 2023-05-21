@@ -27,7 +27,7 @@ export const EditForm = memo((props) => {
   const [insectName, setInsectName] = useState("");
   const [insectSex, setInsectSex] = useState("");
 
-  const [parkId, setParkId] = useState("");
+  const [parkName, setParkName] = useState("");
   const [buttonName, setButtonName] = useState("");
 
   const handleUpdateDeletePost = async (e) => {
@@ -37,7 +37,7 @@ export const EditForm = memo((props) => {
       if (buttonName === "edit") {
         data.append("image[name]", insectName);
         data.append("image[sex]", insectSex);
-        data.append("image[park_id]", parkId);
+        data.append("image[parkName]", parkName);
 
         await updatePosts(selectedIds, data).then(() => {
           alert("更新しました");
@@ -112,7 +112,7 @@ export const EditForm = memo((props) => {
             <Grid item xs={12}>
               <Autocomplete
                 onChange={(e, value) => {
-                  setParkId(value.id);
+                  setParkName(value.label);
                 }}
                 id="parkName"
                 options={parkOptions}
