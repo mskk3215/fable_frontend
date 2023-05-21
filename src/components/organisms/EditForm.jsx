@@ -160,7 +160,11 @@ export const EditForm = memo((props) => {
             </Typography>
             <Grid item xs={12}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker value={takenDate} onChange={handleDateChange} />
+                <DatePicker
+                  value={takenDate}
+                  onChange={handleDateChange}
+                  format="YYYY/MM/DD"
+                />
               </LocalizationProvider>
             </Grid>
           </Box>
