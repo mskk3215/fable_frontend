@@ -23,9 +23,13 @@ export const EditForm = memo((props) => {
     parkOptions,
     insects,
     insectOptions,
+    prefectures,
+    prefectureOptions,
   } = props;
   const [insectName, setInsectName] = useState("");
   const [insectSex, setInsectSex] = useState("");
+  const [prefectureName, setPrefectureName] = useState("");
+  const [cityName, setCityName] = useState("");
   const [takenDate, setTakenDate] = useState("");
 
   const [parkName, setParkName] = useState("");
@@ -39,6 +43,7 @@ export const EditForm = memo((props) => {
         data.append("image[name]", insectName);
         data.append("image[sex]", insectSex);
         data.append("image[parkName]", parkName);
+        data.append("image[cityName]", cityName);
         data.append("image[taken_at]", takenDate);
 
         await updatePosts(selectedIds, data).then(() => {
@@ -65,6 +70,13 @@ export const EditForm = memo((props) => {
       (insect) => insect.name === insectName
     );
     return insectNameValue ? insectNameValue.availableSexes : [];
+  };
+
+  const getCities = () => {
+    const prefectureNameValue = prefectures.find(
+      (prefecture) => prefecture.name === prefectureName
+    );
+    return prefectureNameValue ? prefectureNameValue.cities : [];
   };
 
   const handleDateChange = (date) => {
@@ -134,7 +146,13 @@ export const EditForm = memo((props) => {
           <Box sx={{ width: 100 }}>
             <Grid item xs={12}>
               <Autocomplete
+                value={prefectureName || null}
+                onChange={(e, value) => {
+                  setPrefectureName(value?.label || "");
+                  setCityName(value?.label ? "" : "");
+                }}
                 id="prefecture"
+                options={prefectureOptions}
                 sx={{ width: 200 }}
                 renderInput={(params) => (
                   <TextField {...params} label="都道府県" />
@@ -145,7 +163,12 @@ export const EditForm = memo((props) => {
           <Box sx={{ width: 100 }}>
             <Grid item xs={12}>
               <Autocomplete
+                value={cityName || null}
+                onChange={(e, value) => {
+                  setCityName(value);
+                }}
                 id="city"
+                options={getCities()}
                 sx={{ width: 200 }}
                 renderInput={(params) => (
                   <TextField {...params} label="市町村名" />

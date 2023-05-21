@@ -5,12 +5,14 @@ import { useAllImages } from "../../hooks/useAllImages";
 import { useAllParks } from "../../hooks/useAllParks";
 import { Box, Divider } from "@mui/material";
 import { useAllInsects } from "../../hooks/useAllInsects";
+import { useAllPrefectures } from "../../hooks/useAllPrefectures";
 
 export const PostEdit = () => {
   const { posts, handleGetPosts } = useAllImages();
   const { parks, parkOptions } = useAllParks();
 
   const { insects, insectOptions } = useAllInsects();
+  const { prefectures, prefectureOptions } = useAllPrefectures();
   const [selectedIds, setSelectedIds] = useState([]);
   const [selectedIndexes, setSelectedIndexes] = useState([]);
   const [isShiftDown, setIsShiftDown] = useState(false);
@@ -132,6 +134,8 @@ export const PostEdit = () => {
             parkOptions={parkOptions}
             insects={insects}
             insectOptions={insectOptions}
+            prefectures={prefectures}
+            prefectureOptions={prefectureOptions}
           />
         </Box>
       </Box>
