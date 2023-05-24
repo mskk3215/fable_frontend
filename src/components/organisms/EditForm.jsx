@@ -21,6 +21,7 @@ export const EditForm = memo((props) => {
     setSelectedIndexes,
     handleGetPosts,
     parkOptions,
+    parks,
     insects,
     insectOptions,
     prefectures,
@@ -85,6 +86,28 @@ export const EditForm = memo((props) => {
     setTakenDate(formattedDate);
   };
 
+  // 公園名の選択、入力、削除に関する処理
+  const [value, setValue] = useState("");
+  const [inputValue, setInputValue] = useState("");
+
+  // 公園名をautocompleteで選択した時に都道府県名と市町村名をセットする
+  //handleInputChangeParkNameでoptionsから選択した公園名とfreeSoloで入力した公園名両方取得できるが
+  //optionsから公園名を選択する場合disableとしたいので、handleChangeParkNameとhandleInputChangeParkNameで分けている
+  const handleChangeParkName = (e, newValue) => {
+    setValue(newValue);
+    setParkName(newValue?.label);
+    if (newValue === null) return;
+    setPrefectureName(
+      parks.find((park) => park.id === newValue.id)?.prefecture_name
+    );
+    setCityName(parks.find((park) => park.id === newValue.id)?.city_name);
+  };
+  // 公園名をテキスト入力した時に都道府県名と市町村名をセットする
+  const handleInputChangeParkName = (e, newInputValue) => {
+    setInputValue(newInputValue);
+    setParkName(newInputValue);
+  };
+
   return (
     <>
       <form onSubmit={handleUpdateDeletePost}>
@@ -131,12 +154,20 @@ export const EditForm = memo((props) => {
             </Typography>
             <Grid item xs={12}>
               <Autocomplete
-                onChange={(e, value) => {
-                  setParkName(value.label);
-                }}
                 id="parkName"
-                options={parkOptions}
                 sx={{ width: 350 }}
+                freeSolo
+                value={value}
+                onChange={handleChangeParkName}
+                inputValue={inputValue}
+                onInputChange={handleInputChangeParkName}
+                options={parkOptions}
+                renderOption={(props, option) => (
+                  <Box {...props}>
+                    {option.label} ({option.prefecture}
+                    {option.city})
+                  </Box>
+                )}
                 renderInput={(params) => (
                   <TextField {...params} label="公園名" />
                 )}

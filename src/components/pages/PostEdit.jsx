@@ -132,6 +132,7 @@ export const PostEdit = () => {
             setSelectedIndexes={setSelectedIndexes}
             handleGetPosts={handleGetPosts}
             parkOptions={parkOptions}
+            parks={parks}
             insects={insects}
             insectOptions={insectOptions}
             prefectures={prefectures}
