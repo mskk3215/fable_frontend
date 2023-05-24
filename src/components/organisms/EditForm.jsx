@@ -116,6 +116,21 @@ export const EditForm = memo((props) => {
     }
   }, [value, inputValue]);
 
+  // 保存、削除ボタンを押せるかどうかの判定
+  const noSelectedIds = selectedIds.length === 0;
+  const incompleteInsectInfo = insectName !== "" && insectSex === null;
+  const incompleteLocationInfo = prefectureName !== "" && cityName === "";
+  const incompleteAllInfo =
+    insectSex === "" && cityName === "" && takenDate === "";
+
+  const handleEditButton = () =>
+    noSelectedIds ||
+    incompleteInsectInfo ||
+    incompleteLocationInfo ||
+    incompleteAllInfo;
+
+  const handleDeleteButton = () => noSelectedIds;
+
   return (
     <>
       <form onSubmit={handleUpdateDeletePost}>
@@ -153,6 +168,7 @@ export const EditForm = memo((props) => {
                   renderInput={(params) => (
                     <TextField {...params} label="例) オス" />
                   )}
+                  disabled={!insectName}
                 />
               </Grid>
             </Box>
@@ -198,6 +214,7 @@ export const EditForm = memo((props) => {
                 renderInput={(params) => (
                   <TextField {...params} label="都道府県" />
                 )}
+                disabled={!!value}
               />
             </Grid>
           </Box>
@@ -214,6 +231,7 @@ export const EditForm = memo((props) => {
                 renderInput={(params) => (
                   <TextField {...params} label="市町村名" />
                 )}
+                disabled={!!value || !prefectureName}
               />
             </Grid>
           </Box>
@@ -236,7 +254,7 @@ export const EditForm = memo((props) => {
             <Grid>
               <Button
                 size="large"
-                disabled={selectedIds.length === 0}
+                disabled={handleEditButton()}
                 type="submit"
                 onClick={() => setButtonName("edit")}
                 color="success"
@@ -248,7 +266,7 @@ export const EditForm = memo((props) => {
             <Grid sx={{ pl: 2 }}>
               <Button
                 size="large"
-                disabled={selectedIds.length === 0}
+                disabled={handleDeleteButton()}
                 type="submit"
                 onClick={() => setButtonName("delete")}
                 variant="contained"
