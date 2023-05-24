@@ -9,8 +9,7 @@ import { useAllPrefectures } from "../../hooks/useAllPrefectures";
 
 export const PostEdit = () => {
   const { posts, handleGetPosts } = useAllImages();
-  const { parks, parkOptions } = useAllParks();
-
+  const { parks, parkOptions, handleGetParks } = useAllParks();
   const { insects, insectOptions } = useAllInsects();
   const { prefectures, prefectureOptions } = useAllPrefectures();
   const [selectedIds, setSelectedIds] = useState([]);
@@ -133,6 +132,7 @@ export const PostEdit = () => {
             handleGetPosts={handleGetPosts}
             parkOptions={parkOptions}
             parks={parks}
+            handleGetParks={handleGetParks}
             insects={insects}
             insectOptions={insectOptions}
             prefectures={prefectures}

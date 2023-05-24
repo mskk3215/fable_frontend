@@ -22,11 +22,13 @@ export const EditForm = memo((props) => {
     handleGetPosts,
     parkOptions,
     parks,
+    handleGetParks,
     insects,
     insectOptions,
     prefectures,
     prefectureOptions,
   } = props;
+
   const [insectName, setInsectName] = useState("");
   const [insectSex, setInsectSex] = useState("");
   const [prefectureName, setPrefectureName] = useState("");
@@ -55,6 +57,14 @@ export const EditForm = memo((props) => {
           alert("削除しました");
         });
       }
+      setInsectName("");
+      setValue("");
+      setInputValue("");
+      setPrefectureName("");
+      setCityName("");
+      setTakenDate("");
+
+      handleGetParks();
       handleGetPosts();
       setSelectedIds([]);
       setSelectedIndexes([]);
