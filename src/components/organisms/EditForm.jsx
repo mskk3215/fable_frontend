@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import { useState } from "react";
 import { updatePosts, deletePosts } from "../../urls";
 import {
@@ -107,6 +107,14 @@ export const EditForm = memo((props) => {
     setInputValue(newInputValue);
     setParkName(newInputValue);
   };
+  // 公園名を削除した時に都道府県名と市町村名を削除する
+  useEffect(() => {
+    if (value === null && inputValue === "") {
+      setParkName("");
+      setPrefectureName("");
+      setCityName("");
+    }
+  }, [value, inputValue]);
 
   return (
     <>
@@ -119,8 +127,10 @@ export const EditForm = memo((props) => {
             <Box sx={{ display: "flex" }}>
               <Grid>
                 <Autocomplete
+                  value={insectName || null}
                   onChange={(e, value) => {
-                    setInsectName(value.label);
+                    setInsectName(value?.label || "");
+                    setInsectSex(value?.label ? "" : "");
                   }}
                   id="insectName"
                   options={insectOptions}
@@ -133,12 +143,12 @@ export const EditForm = memo((props) => {
               <Grid item xs={1} />
               <Grid item xs={4}>
                 <Autocomplete
+                  value={insectSex || null}
                   onChange={(e, value) => {
                     setInsectSex(value);
                   }}
                   id="sex"
                   options={getSexes()}
-                  getOptionLabel={(option) => option}
                   sx={{ width: 120 }}
                   renderInput={(params) => (
                     <TextField {...params} label="例) オス" />
