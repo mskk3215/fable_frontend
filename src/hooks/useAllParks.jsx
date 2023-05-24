@@ -13,6 +13,8 @@ export const useAllParks = () => {
     //EditFormの選択肢用
     const parkData = data.map((park) => ({
       label: park.name,
+      prefecture: park.prefecture_name,
+      city: park.city_name,
       id: park.id,
     }));
     setParkOptions(parkData);
@@ -22,5 +24,5 @@ export const useAllParks = () => {
     handleGetParks();
   }, []);
 
-  return { parks, parkOptions };
+  return { parks, parkOptions, handleGetParks };
 };
