@@ -74,9 +74,6 @@ export const EditForm = memo((props) => {
   };
 
   const getSexes = () => {
-    if (!insectName) {
-      return [];
-    }
     const insectNameValue = insects.find(
       (insect) => insect.name === insectName
     );
