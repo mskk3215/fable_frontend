@@ -1,13 +1,15 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { registrationUrl } from "../../urls";
-import { GuestLoginButton } from "../atoms/button/GuestLoginButton";
-import { UserContext } from "../../providers/UserProvider";
+import { registrationUrl } from "../../../urls";
+import { GuestLoginButton } from "../../atoms/button/GuestLoginButton";
+import { UserContext } from "../../../providers/UserProvider";
 import { Box, Button, TextField, Typography } from "@mui/material";
+import { useLoginAuthAction } from "../../../hooks/useLoginAuthAction";
 
 export const Registration = () => {
   const { handleSuccessfulAuthentication } = useContext(UserContext);
+  const { handleLoginAction } = useLoginAuthAction();
 
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
@@ -134,7 +136,10 @@ export const Registration = () => {
                 }}
               >
                 <Box sx={{ flexGrow: 1, flexBasis: 0, marginRight: 1 }}>
-                  <GuestLoginButton sx={{ width: "100%" }} />
+                  <GuestLoginButton
+                    sx={{ width: "100%" }}
+                    handleLoginAction={handleLoginAction}
+                  />
                 </Box>
                 <Box sx={{ flexGrow: 1, flexBasis: 0 }}>
                   <Button

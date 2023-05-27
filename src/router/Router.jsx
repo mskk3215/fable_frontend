@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useContext, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Login } from "../components/auth/Login";
-import { Registration } from "../components/auth/Registration";
+import { Login } from "../components/pages/auth/Login";
+import { Registration } from "../components/pages/auth/Registration";
 import { PostList } from "../components/pages/PostList";
 import { Top } from "../components/pages/Top";
 import { Page404 } from "../components/pages/Page404";
