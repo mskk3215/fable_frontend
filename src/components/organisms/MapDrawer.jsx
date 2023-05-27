@@ -135,6 +135,7 @@ export const MapDrawer = (props) => {
                 </React.Fragment>
               ))
             )}
+            <Divider />
           </List>
         </Box>
       </Drawer>
