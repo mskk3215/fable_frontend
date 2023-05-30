@@ -102,7 +102,7 @@ export const PostEdit = () => {
   }, [selectedIndexes, posts]);
 
   return (
-    <>
+    <div style={{ marginTop: "45px" }}>
       <Box display="flex" justifyContent="space-betweens">
         <Box sx={{ pl: 2, width: "74%" }}>
           {posts?.map((post) => {
@@ -140,6 +140,6 @@ export const PostEdit = () => {
           />
         </Box>
       </Box>
-    </>
+    </div>
   );
 };

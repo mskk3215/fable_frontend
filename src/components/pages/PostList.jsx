@@ -9,7 +9,7 @@ export const PostList = () => {
   const { parks } = useAllParks();
 
   return (
-    <>
+    <div style={{ marginTop: "50px" }}>
       <Link to="/postedit">編集</Link>
       <Grid container direction="row" justifyContent={"center"}>
         {posts?.map((post) => {
@@ -23,6 +23,6 @@ export const PostList = () => {
           );
         })}
       </Grid>
-    </>
+    </div>
   );
 };

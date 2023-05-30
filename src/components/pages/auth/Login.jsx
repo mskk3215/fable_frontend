@@ -20,6 +20,7 @@ export const Login = () => {
           justifyContent: "center",
           alignItems: "center",
           height: "100%",
+          marginTop: 10,
         }}
       >
         <Box
