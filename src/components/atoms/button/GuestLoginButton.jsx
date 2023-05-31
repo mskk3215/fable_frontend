@@ -1,10 +1,8 @@
 import styled from "@emotion/styled";
 import { Button } from "@mui/material";
-import { useLoginAuthAction } from "../../../hooks/useLoginAuthAction";
 
-export const GuestLoginButton = () => {
-  const { handleLoginAction } = useLoginAuthAction();
-
+export const GuestLoginButton = (props) => {
+  const { handleLoginAction } = props;
   const SButton = styled(Button)`
     font-size: 1rem;
     height: 40px;

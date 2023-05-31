@@ -27,6 +27,7 @@ export const Top = () => {
 
   const SConteiner = styled.div`
     text-align: center;
+    margin-top: 100px;
   `;
 
   return (
@@ -60,26 +61,9 @@ export const Top = () => {
             )}
           ></Autocomplete>
           <Grid container justifyContent="center" sx={{ mt: 2 }}>
-            {searchWord !== null && searchWord !== "" ? (
-              <Link to="map">
-                <Button
-                  variant="outlined"
-                  onClick={handleSearch}
-                  sx={{
-                    height: 40,
-                    width: 100,
-                    bgcolor: "grey.200",
-                    color: "black",
-                    borderColor: "grey.400",
-                  }}
-                >
-                  検索
-                </Button>
-              </Link>
-            ) : (
+            <Link to={searchWord !== null && searchWord !== "" ? "map" : ""}>
               <Button
                 variant="outlined"
-                disabled
                 onClick={handleSearch}
                 sx={{
                   height: 40,
@@ -88,10 +72,11 @@ export const Top = () => {
                   color: "black",
                   borderColor: "grey.400",
                 }}
+                disabled={searchWord == null || searchWord === ""}
               >
                 検索
               </Button>
-            )}
+            </Link>
           </Grid>
         </Container>
       </SConteiner>

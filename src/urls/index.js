@@ -19,7 +19,7 @@ export const postClient = axios.create({
 });
 
 export const getPosts = () => {
-  return postClient.get("/images.json");
+  return postClient.get("/images");
 };
 export const createPosts = (data) => {
   return postClient.post("/images", data);
@@ -30,15 +30,6 @@ export const updatePosts = (id, data) => {
 export const deletePosts = (id) => {
   return postClient.delete(`/images/${id}`);
 };
-
-// postClient.interceptors.request.use((request) => {
-//   console.log(request);
-//   return request;
-// });
-// postClient.interceptors.response.use((response) => {
-//   console.log(response);
-//   return response;
-// });
 
 //insects
 export const getInsects = () => {
