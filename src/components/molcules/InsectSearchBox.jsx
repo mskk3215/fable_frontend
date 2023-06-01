@@ -75,6 +75,7 @@ export const InsectSearchBox = (props) => {
                     type="button"
                     aria-label="search"
                     onClick={handleSearchButtonClick}
+                    disabled={!searchWord}
                   >
                     <SearchIcon />
                   </IconButton>
