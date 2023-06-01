@@ -193,11 +193,13 @@ export const Map = () => {
             key={id}
             position={latLng}
             icon={renderIcon(id)}
-            animation={
-              id === selectedItemId
-                ? window.google.maps.Animation.DROP
-                : undefined
-            }
+            options={{
+              icon: renderIcon(id),
+              animation:
+                id === selectedItemId
+                  ? window.google.maps.Animation.DROP
+                  : undefined,
+            }}
             label={markerLabel(title)}
           />
         ))}
