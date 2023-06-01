@@ -197,7 +197,7 @@ export const Map = () => {
               icon: renderIcon(id),
               animation:
                 id === selectedItemId
-                  ? window.google.maps.Animation.DROP
+                  ? window.google.maps.Animation.BOUNCE
                   : undefined,
             }}
             label={markerLabel(title)}
