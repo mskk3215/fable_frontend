@@ -192,7 +192,6 @@ export const Map = () => {
           <MarkerF
             key={id}
             position={latLng}
-            icon={renderIcon(id)}
             options={{
               icon: renderIcon(id),
               animation:
