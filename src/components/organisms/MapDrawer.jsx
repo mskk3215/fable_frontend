@@ -10,7 +10,7 @@ import ListItemText from "@mui/material/ListItemText";
 import { Header } from "../atoms/layout/Header";
 import { InsectSearchBox } from "../molcules/InsectSearchBox";
 import styled from "styled-components";
-import { useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { SearchParkContext } from "../../providers/SearchParkProvider";
 
 import { ListItemAvatar, Typography } from "@mui/material";
@@ -49,6 +49,15 @@ export const MapDrawer = (props) => {
     left: 10px;
     z-index: 2;
   `;
+
+  // 検索結果のリストの先頭にスクロールする
+  const topListItemRef = useRef(null);
+
+  useEffect(() => {
+    if (selectedItemId && topListItemRef.current) {
+      topListItemRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [selectedItemId]);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -92,6 +101,7 @@ export const MapDrawer = (props) => {
               searchResults.map((result, index) => (
                 <React.Fragment key={result.id}>
                   <ListItem
+                    ref={selectedItemId === result.id ? topListItemRef : null}
                     onClick={() => handleListItem(result)}
                     sx={{
                       "&:hover": {

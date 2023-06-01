@@ -201,6 +201,11 @@ export const Map = () => {
                   : undefined,
             }}
             label={markerLabel(title)}
+            onClick={() => {
+              setSelectedItemId(id);
+              setSelectedCenter(latLng);
+              setListItem(searchResults.find((result) => result.id === id));
+            }}
           />
         ))}
         {directions && (
