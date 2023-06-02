@@ -51,9 +51,10 @@ export const InsectSearchBox = (props) => {
   return (
     <Autocomplete
       sx={{
-        p: "2px 4px",
         height: 100,
-        width: 380,
+        width: 350,
+        marginTop: -1,
+        marginLeft: 1,
       }}
       id="searchbox in map"
       value={searchWord}

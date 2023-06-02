@@ -138,12 +138,31 @@ export const EditForm = memo((props) => {
 
   const handleDeleteButton = () => noSelectedIds;
 
+  const handleFormSize = () => {
+    if (window.innerWidth >= 576) {
+      return "middle";
+    } else {
+      return "small";
+    }
+  };
+  const handleVariantSize = () => {
+    if (window.innerWidth >= 576) {
+      return "h6";
+    } else {
+      return "body1";
+    }
+  };
+
   return (
     <>
       <form onSubmit={handleUpdateDeletePost}>
         <Box sx={{ width: "100%" }}>
           <Box>
-            <Typography sx={{ my: 3, mx: 1 }} gutterBottom variant="h6">
+            <Typography
+              sx={{ my: { xs: 1, md: 3 }, mx: 1 }}
+              gutterBottom
+              variant={handleVariantSize()}
+            >
               昆虫名
             </Typography>
             <Box sx={{ display: "flex" }}>
@@ -155,8 +174,11 @@ export const EditForm = memo((props) => {
                     setInsectSex(value?.label ? "" : "");
                   }}
                   id="insectName"
+                  size={handleFormSize()}
                   options={insectOptions}
-                  sx={{ width: 250 }}
+                  sx={{
+                    width: { xs: 220, md: 250 }, // 画面サイズによって変更
+                  }}
                   renderInput={(params) => (
                     <TextField {...params} label="例)カブトムシ" />
                   )}
@@ -170,8 +192,9 @@ export const EditForm = memo((props) => {
                     setInsectSex(value);
                   }}
                   id="sex"
+                  size={handleFormSize()}
                   options={getSexes()}
-                  sx={{ width: 120 }}
+                  sx={{ width: 120 }} // 画面サイズによって変更
                   renderInput={(params) => (
                     <TextField {...params} label="例) オス" />
                   )}
@@ -180,15 +203,20 @@ export const EditForm = memo((props) => {
               </Grid>
             </Box>
           </Box>
-          <Divider variant="fullWidth" sx={{ my: 2 }} />
+          <Divider variant="fullWidth" sx={{ my: { xs: 1, md: 2 } }} />
           <Box sx={{ width: 100 }}>
-            <Typography sx={{ my: 3, mx: 1 }} gutterBottom variant="h6">
+            <Typography
+              sx={{ my: { xs: 1, md: 3 }, mx: 1 }}
+              gutterBottom
+              variant={handleVariantSize()}
+            >
               撮影場所
             </Typography>
             <Grid item xs={12}>
               <Autocomplete
                 id="parkName"
-                sx={{ width: 350 }}
+                size={handleFormSize()}
+                sx={{ width: { xs: 300, md: 350 } }}
                 freeSolo
                 value={value}
                 onChange={handleChangeParkName}
@@ -216,8 +244,9 @@ export const EditForm = memo((props) => {
                   setCityName(value?.label ? "" : "");
                 }}
                 id="prefecture"
+                size={handleFormSize()}
                 options={prefectureOptions}
-                sx={{ width: 200 }}
+                sx={{ width: { xs: 150, md: 200 } }}
                 renderInput={(params) => (
                   <TextField {...params} label="都道府県" />
                 )}
@@ -233,8 +262,9 @@ export const EditForm = memo((props) => {
                   setCityName(value);
                 }}
                 id="city"
+                size={handleFormSize()}
                 options={getCities()}
-                sx={{ width: 200 }}
+                sx={{ width: { xs: 150, md: 200 } }}
                 renderInput={(params) => (
                   <TextField {...params} label="市町村名" />
                 )}
@@ -242,9 +272,13 @@ export const EditForm = memo((props) => {
               />
             </Grid>
           </Box>
-          <Divider variant="fullWidth" sx={{ my: 2 }} />
+          <Divider variant="fullWidth" sx={{ my: { xs: 1, md: 2 } }} />
           <Box sx={{ width: 200 }}>
-            <Typography sx={{ my: 3, mx: 1 }} gutterBottom variant="h6">
+            <Typography
+              sx={{ my: { xs: 1, md: 3 }, mx: 1 }}
+              gutterBottom
+              variant={handleVariantSize()}
+            >
               撮影日
             </Typography>
             <Grid item xs={12}>
@@ -253,14 +287,18 @@ export const EditForm = memo((props) => {
                   value={takenDate}
                   onChange={handleDateChange}
                   format="YYYY/MM/DD"
+                  sx={{
+                    width: { xs: 150, md: 200 },
+                  }}
+                  slotProps={{ textField: { size: handleFormSize() } }}
                 />
               </LocalizationProvider>
             </Grid>
           </Box>
-          <Box sx={{ pt: 3, display: "flex" }}>
+          <Box sx={{ pt: { xs: 1, md: 3 }, display: "flex" }}>
             <Grid>
               <Button
-                size="large"
+                size={handleFormSize()}
                 disabled={handleEditButton()}
                 type="submit"
                 onClick={() => setButtonName("edit")}
@@ -272,7 +310,7 @@ export const EditForm = memo((props) => {
             </Grid>
             <Grid sx={{ pl: 2 }}>
               <Button
-                size="large"
+                size={handleFormSize()}
                 disabled={handleDeleteButton()}
                 type="submit"
                 onClick={() => setButtonName("delete")}

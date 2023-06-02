@@ -48,6 +48,7 @@ export const PostItem = memo((props) => {
       font-size: 12px;
     }
   `;
+
   return (
     <>
       {post.image ? (
@@ -56,8 +57,8 @@ export const PostItem = memo((props) => {
             <Box
               sx={{
                 position: "relative",
-                height: 250,
-                width: 250,
+                height: { xs: 150, md: 300 },
+                width: { xs: 165, md: 300 },
                 border: "0.5px solid gray",
                 borderRadius: "0.5rem",
                 "&:hover": { opacity: 0.8 },
@@ -68,7 +69,13 @@ export const PostItem = memo((props) => {
                   component="img"
                   src={post.image}
                   alt={post.id}
-                  sx={{ height: 200, width: "100%", objectFit: "cover" }}
+                  sx={{
+                    position: "absolute",
+                    height: "100%",
+                    width: "100%",
+                    objectFit: "contain",
+                    bgcolor: "black",
+                  }}
                 />
                 <Box
                   sx={{
@@ -87,12 +94,12 @@ export const PostItem = memo((props) => {
                 </Box>
                 <Box
                   sx={{
+                    position: "absolute",
                     height: 50,
                     width: "100%",
-                    bottom: 10,
-                    left: 10,
-                    bgcolor: "rgba(192, 192, 192, 0.2)",
-                    pl: 1,
+                    bottom: 5,
+                    left: 5,
+                    color: "white",
                   }}
                 >
                   {/* 撮影日 */}

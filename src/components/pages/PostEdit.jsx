@@ -3,7 +3,7 @@ import { EditForm } from "../organisms/EditForm";
 import { PostItem } from "../molcules/PostItem";
 import { useAllImages } from "../../hooks/useAllImages";
 import { useAllParks } from "../../hooks/useAllParks";
-import { Box, Divider } from "@mui/material";
+import { Box, Divider, Grid } from "@mui/material";
 import { useAllInsects } from "../../hooks/useAllInsects";
 import { useAllPrefectures } from "../../hooks/useAllPrefectures";
 
@@ -103,8 +103,8 @@ export const PostEdit = () => {
 
   return (
     <div style={{ marginTop: "45px" }}>
-      <Box display="flex" justifyContent="space-betweens">
-        <Box sx={{ pl: 2, width: "74%" }}>
+      <Box display="flex" flexWrap="wrap">
+        <Box sx={{ width: { xs: "100%", md: "80%" } }}>
           {posts?.map((post) => {
             return (
               <PostItem
@@ -124,7 +124,12 @@ export const PostEdit = () => {
           })}
         </Box>
         <Divider orientation="vertical" flexItem />
-        <Box sx={{ width: "26%", pl: 1 }}>
+        <Box
+          sx={{
+            width: { xs: "100%", md: "15%" },
+            pl: { md: 1 },
+          }}
+        >
           <EditForm
             selectedIds={selectedIds}
             setSelectedIds={setSelectedIds}

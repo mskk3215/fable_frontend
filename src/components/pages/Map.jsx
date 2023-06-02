@@ -11,7 +11,6 @@ import { DirectionDrawer } from "../organisms/DirectionDrawer";
 
 export const Map = () => {
   const { searchResults } = useContext(SearchParkContext);
-  const [mapStyle, setMapStyle] = useState({});
   const [selectedItemId, setSelectedItemId] = useState([]);
   const [selectedCenter, setSelectedCenter] = useState({
     lat: 35.69575,
@@ -20,7 +19,7 @@ export const Map = () => {
   const [open, setOpen] = useState(true);
   const [switchDrawer, setSwitchDrawer] = useState(true);
   const [listItem, setListItem] = useState([]);
-
+  const [anchor, setAnchor] = useState("left");
   const [directions, setDirections] = useState(null);
   const [distance, setDistance] = useState("");
   const [duration, setDuration] = useState("");
@@ -40,6 +39,24 @@ export const Map = () => {
     mapTypeControl: false,
   };
 
+  const drawerWidth = anchor === "bottom" ? "100%" : 400;
+  const drawerHeight =
+    anchor === "bottom" ? 250 : anchor === "top" ? 350 : "100%";
+
+  //画面サイズによってdrawerの位置を変更する
+  useEffect(() => {
+    const screenSize = window.innerWidth;
+    if (screenSize >= 576) {
+      setAnchor("left");
+    } else {
+      if (switchDrawer) {
+        setAnchor("bottom");
+      } else {
+        setAnchor("top");
+      }
+    }
+  }, [switchDrawer]);
+
   //map上でクリックした地点の住所を取得する
   const handleMapClick = (e) => {
     const latLng = e.latLng;
@@ -55,19 +72,6 @@ export const Map = () => {
       }
     });
   };
-
-  //mapのサイズを動的に合わせる
-  useEffect(() => {
-    const handleResize = () => {
-      setMapStyle({
-        width: window.innerWidth + "px",
-        height: window.innerHeight + "px",
-      });
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   //初期load時二重呼び出しを防ぐ
   // https://tagomoris.hatenablog.com/entry/2022/06/10/144540s
@@ -161,6 +165,9 @@ export const Map = () => {
           setListItem={setListItem}
           open={open}
           setOpen={setOpen}
+          anchor={anchor}
+          drawerWidth={drawerWidth}
+          drawerHeight={drawerHeight}
         />
       ) : (
         <>
@@ -178,11 +185,17 @@ export const Map = () => {
             distance={distance}
             duration={duration}
             setSwitchDrawer={setSwitchDrawer}
+            anchor={anchor}
+            drawerWidth={drawerWidth}
+            drawerHeight={drawerHeight}
           />
         </>
       )}
       <GoogleMap
-        mapContainerStyle={mapStyle}
+        mapContainerStyle={{
+          width: window.innerWidth + "px",
+          height: window.innerHeight + "px",
+        }}
         zoom={10}
         center={selectedCenter}
         options={mapOptions}

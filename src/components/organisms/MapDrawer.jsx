@@ -16,8 +16,6 @@ import { SearchParkContext } from "../../providers/SearchParkProvider";
 import { ListItemAvatar, Typography } from "@mui/material";
 import React from "react";
 
-const drawerWidth = 400;
-
 export const MapDrawer = (props) => {
   const {
     selectedItemId,
@@ -27,6 +25,9 @@ export const MapDrawer = (props) => {
     setListItem,
     open,
     setOpen,
+    anchor,
+    drawerWidth,
+    drawerHeight,
   } = props;
   const { searchResults } = useContext(SearchParkContext);
   const handleDrawerOpen = () => {
@@ -89,9 +90,10 @@ export const MapDrawer = (props) => {
           },
         }}
         open={open}
+        anchor={anchor}
       >
-        <Toolbar style={{ height: "110px" }} />
-        <Box sx={{ overflow: "auto" }}>
+        {anchor === "left" ? <Toolbar style={{ height: "110px" }} /> : <></>}
+        <Box sx={{ overflow: "auto", height: drawerHeight }}>
           <List>
             {searchResults.length === 0 ? (
               <ListItem>

@@ -33,6 +33,9 @@ export const DirectionDrawer = (props) => {
     distance,
     duration,
     setSwitchDrawer,
+    anchor,
+    drawerWidth,
+    drawerHeight,
   } = props;
 
   const handleTravelModeClick = (travelMode) => {
@@ -68,12 +71,19 @@ export const DirectionDrawer = (props) => {
       <CssBaseline />
       <AppBar
         position="fixed"
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
       >
         <Header />
       </AppBar>
       <DirectionBoxStyled>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
           <OriginBox
             style={{ marginBottom: "10px" }}
             originRef={originRef}
@@ -123,14 +133,16 @@ export const DirectionDrawer = (props) => {
         variant="persistent"
         sx={{
           zIndex: 1,
-          width: 400,
+          width: drawerWidth,
           flexShrink: 0,
           [`& .MuiDrawer-paper`]: {
-            width: 400,
+            width: drawerWidth,
             boxSizing: "border-box",
           },
+          height: drawerHeight,
         }}
         open={open}
+        anchor={anchor}
       >
         <Toolbar style={{ height: "110px" }} />
         <Box sx={{ overflow: "auto" }}></Box>
