@@ -1,15 +1,15 @@
 import * as React from "react";
 import {
-  Box,
   Card,
+  CardContent,
   CardMedia,
   Checkbox,
   FormControlLabel,
   Typography,
+  styled,
 } from "@mui/material";
 import format from "date-fns/format";
 import ja from "date-fns/locale/ja";
-import styled from "styled-components";
 import { memo } from "react";
 import { useCallback } from "react";
 
@@ -52,78 +52,73 @@ export const PostItem = memo((props) => {
   return (
     <>
       {post.image ? (
-        <FormControlLabel
-          control={
-            <Box
-              sx={{
-                position: "relative",
-                height: { xs: 150, md: 300 },
-                width: { xs: 165, md: 300 },
-                border: "0.5px solid gray",
-                borderRadius: "0.5rem",
-                "&:hover": { opacity: 0.8 },
-              }}
-            >
+        <SquareCard>
+          <FormControlLabel
+            control={
               <Card>
                 <CardMedia
                   component="img"
                   src={post.image}
-                  alt={post.id}
-                  sx={{
-                    position: "absolute",
+                  style={{
                     height: "100%",
-                    width: "100%",
                     objectFit: "contain",
-                    bgcolor: "black",
-                  }}
-                />
-                <Box
-                  sx={{
                     position: "absolute",
                     top: 0,
-                    right: 0,
+                    left: 0,
                   }}
-                >
-                  {isCheckboxVisible && (
-                    <Checkbox
-                      checked={checked}
-                      onChange={handleChange}
-                      inputProps={{ "aria-label": "controlled" }}
-                    />
-                  )}
-                </Box>
-                <Box
-                  sx={{
+                />
+                {isCheckboxVisible && (
+                  <Checkbox
+                    checked={checked}
+                    onChange={handleChange}
+                    inputProps={{ "aria-label": "controlled" }}
+                    style={{ position: "absolute", top: 5, right: 5 }}
+                  />
+                )}
+                <CardContent
+                  style={{
                     position: "absolute",
-                    height: 50,
+                    bottom: -20,
+                    left: -10,
                     width: "100%",
-                    bottom: 5,
-                    left: 5,
                     color: "white",
                   }}
                 >
                   {/* 撮影日 */}
-                  <CustomTypography>
+                  <CustomTypography variant="body2">
                     {createdTime(post) ? createdTime(post) : "\u00a0"}
                   </CustomTypography>
                   {/* 昆虫名 */}
-                  <CustomTypography variant="body2">
+                  <CustomTypography>
                     {post.insect_name
                       ? `${post.insect_name}(${post.insect_sex})`
                       : "\u00a0"}
                   </CustomTypography>
                   {/* 公園名 or 市町村名 */}
-                  <CustomTypography variant="body2">
+                  <CustomTypography>
                     {parks[post.park_id - 1]?.name
                       ? parks[post.park_id - 1]?.name
                       : post.city_name}
                   </CustomTypography>
-                </Box>
+                </CardContent>
               </Card>
-            </Box>
-          }
-        />
+            }
+          />
+        </SquareCard>
       ) : null}
     </>
   );
 });
+
+const SquareCard = styled(Card)(() => ({
+  backgroundColor: "black",
+  border: "1px solid",
+  borderColor: "#444d58",
+  borderRadius: "4px",
+  display: "flex",
+  flexDirection: "column",
+  paddingTop: "100%",
+  position: "relative",
+  overflow: "hidden",
+  "&:hover": { opacity: 0.8 },
+}));

@@ -105,23 +105,24 @@ export const PostEdit = () => {
     <div style={{ marginTop: "45px" }}>
       <Box display="flex" flexWrap="wrap">
         <Box sx={{ width: { xs: "100%", md: "80%" } }}>
-          {posts?.map((post) => {
-            return (
-              <PostItem
-                key={post.id}
-                post={post}
-                handleSelect={() => {
-                  handleSelect(post);
-                }}
-                handleRemove={() => {
-                  handleRemove(post);
-                }}
-                checked={selectedIndexes.includes(idToIndex(post.id))}
-                isCheckboxVisible={true}
-                parks={parks}
-              />
-            );
-          })}
+          <Grid container spacing={0.5}>
+            {posts?.map((post) => (
+              <Grid item xs={6} sm={4} md={2.4} key={post.id}>
+                <PostItem
+                  post={post}
+                  handleSelect={() => {
+                    handleSelect(post);
+                  }}
+                  handleRemove={() => {
+                    handleRemove(post);
+                  }}
+                  checked={selectedIndexes.includes(idToIndex(post.id))}
+                  isCheckboxVisible={true}
+                  parks={parks}
+                />
+              </Grid>
+            ))}
+          </Grid>
         </Box>
         <Divider orientation="vertical" flexItem />
         <Box
