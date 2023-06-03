@@ -1,10 +1,10 @@
-import Grid from "@mui/material/Grid";
-import { PostItem } from "../molcules/PostItem";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { useAllImages } from "../../hooks/useAllImages";
 import { useAllParks } from "../../hooks/useAllParks";
+import { PostItem } from "../molcules/PostItem";
 import Box from "@mui/system/Box";
+import Grid from "@mui/material/Grid";
 
 export const PostList = () => {
   const { posts } = useAllImages();
@@ -12,7 +12,6 @@ export const PostList = () => {
 
   return (
     <Box sx={{ flexGrow: 1, marginTop: 5 }}>
-      <Link to="/postedit">編集</Link>
       <Grid container spacing={0.5}>
         {posts.map((post) => (
           <Grid item xs={6} sm={4} md={2.4} key={post.id}>
@@ -20,6 +19,12 @@ export const PostList = () => {
           </Grid>
         ))}
       </Grid>
+      <Link
+        to="/postedit"
+        style={{ display: "block", textAlign: "right", marginTop: 10 }}
+      >
+        編集ページへ
+      </Link>
     </Box>
   );
 };

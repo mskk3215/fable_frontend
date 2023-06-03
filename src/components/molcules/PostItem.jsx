@@ -1,4 +1,9 @@
 import * as React from "react";
+import { memo } from "react";
+import { useCallback } from "react";
+import format from "date-fns/format";
+import ja from "date-fns/locale/ja";
+
 import {
   Card,
   CardContent,
@@ -8,10 +13,6 @@ import {
   Typography,
   styled,
 } from "@mui/material";
-import format from "date-fns/format";
-import ja from "date-fns/locale/ja";
-import { memo } from "react";
-import { useCallback } from "react";
 
 export const PostItem = memo((props) => {
   const {
@@ -42,12 +43,6 @@ export const PostItem = memo((props) => {
     }
     return null;
   };
-
-  const CustomTypography = styled(Typography)`
-    && {
-      font-size: 12px;
-    }
-  `;
 
   return (
     <>
@@ -122,3 +117,9 @@ const SquareCard = styled(Card)(() => ({
   overflow: "hidden",
   "&:hover": { opacity: 0.8 },
 }));
+
+const CustomTypography = styled(Typography)`
+  && {
+    font-size: 12px;
+  }
+`;
