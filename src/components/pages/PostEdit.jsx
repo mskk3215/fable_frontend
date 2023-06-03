@@ -88,7 +88,7 @@ export const PostEdit = () => {
       const selectedIndexRange = fill(selectedIndex, lastSelectedIndex);
 
       setSelectedIndexes((indexes) =>
-        indexes.filter((index) => selectedIndexRange.includes(index))
+        indexes.filter((index) => !selectedIndexRange.includes(index))
       );
     },
     [isShiftDown, selectedIndexes, idToIndex]
