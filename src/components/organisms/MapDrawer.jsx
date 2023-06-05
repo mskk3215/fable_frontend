@@ -14,9 +14,9 @@ import { useContext, useEffect, useRef } from "react";
 import { SearchParkContext } from "../../providers/SearchParkProvider";
 
 import { ListItemAvatar, Typography } from "@mui/material";
-import React from "react";
+import React, { memo } from "react";
 
-export const MapDrawer = (props) => {
+export const MapDrawer = memo((props) => {
   const {
     selectedItemId,
     setSelectedItemId,
@@ -153,4 +153,4 @@ export const MapDrawer = (props) => {
       </Drawer>
     </Box>
   );
-};
+});

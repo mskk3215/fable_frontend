@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPosts } from "../../urls";
 import { Cancel, FileUpload } from "@mui/icons-material";
@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 
-export const PostForm = (props) => {
+export const PostForm = memo((props) => {
   const { handleGetPosts } = props;
   const [images, setImages] = useState([]);
   const inputId = Math.random().toString(32).substring(2);
@@ -168,4 +168,4 @@ export const PostForm = (props) => {
       </Container>
     </>
   );
-};
+});

@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Header } from "../atoms/layout/Header";
 import { DestinationBox } from "../molecules/DestinationBox";
 import { OriginBox } from "../molecules/OriginBox";
@@ -18,7 +19,7 @@ import DirectionsTransitIcon from "@mui/icons-material/DirectionsTransit";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
 
-export const DirectionDrawer = (props) => {
+export const DirectionDrawer = memo((props) => {
   const {
     listItem,
     open,
@@ -149,4 +150,4 @@ export const DirectionDrawer = (props) => {
       </Drawer>
     </Box>
   );
-};
+});
