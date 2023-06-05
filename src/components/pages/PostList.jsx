@@ -2,7 +2,7 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import { useAllImages } from "../../hooks/useAllImages";
 import { useAllParks } from "../../hooks/useAllParks";
-import { PostItem } from "../molcules/PostItem";
+import { PostItem } from "../molecules/PostItem";
 import Box from "@mui/system/Box";
 import Grid from "@mui/material/Grid";
 

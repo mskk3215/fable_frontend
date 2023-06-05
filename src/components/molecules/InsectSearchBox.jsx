@@ -1,19 +1,20 @@
 import * as React from "react";
-
+import { useContext, useEffect, memo } from "react";
+import { useRecoilState } from "recoil";
+import {
+  saveSearchWord,
+  searchWordState,
+} from "../../store/atoms/searchWordState";
+import { useAllInsects } from "../../hooks/useAllInsects";
+import { SearchParkContext } from "../../providers/SearchParkProvider";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import Close from "@mui/icons-material/Close";
 import DirectionsIcon from "@mui/icons-material/Directions";
-import { useRecoilState } from "recoil";
-import { saveSearchWord, searchWordState } from "../../store/searchWordState";
-import { useAllInsects } from "../../hooks/useAllInsects";
 import { Autocomplete, InputAdornment, TextField } from "@mui/material";
-import { useContext } from "react";
-import { SearchParkContext } from "../../providers/SearchParkProvider";
-import { useEffect } from "react";
 
-export const InsectSearchBox = (props) => {
+export const InsectSearchBox = memo((props) => {
   const {
     handleDrawerOpen,
     handleDrawerClose,
@@ -107,4 +108,4 @@ export const InsectSearchBox = (props) => {
       )}
     />
   );
-};
+});

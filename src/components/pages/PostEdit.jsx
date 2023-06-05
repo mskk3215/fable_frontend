@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { EditForm } from "../organisms/EditForm";
-import { PostItem } from "../molcules/PostItem";
+import { PostItem } from "../molecules/PostItem";
 import { useAllImages } from "../../hooks/useAllImages";
 import { useAllParks } from "../../hooks/useAllParks";
 import { Box, Divider, Grid } from "@mui/material";

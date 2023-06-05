@@ -1,6 +1,5 @@
 import * as React from "react";
-import { memo } from "react";
-import { useCallback } from "react";
+import { useCallback, memo } from "react";
 import format from "date-fns/format";
 import ja from "date-fns/locale/ja";
 

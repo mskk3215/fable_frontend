@@ -1,7 +1,8 @@
 import * as React from "react";
+import { memo } from "react";
 import { TextField } from "@mui/material";
 
-export const DestinationBox = (props) => {
+export const DestinationBox = memo((props) => {
   const { listItem, destinationRef } = props;
 
   if (!listItem) {
@@ -16,4 +17,4 @@ export const DestinationBox = (props) => {
       inputRef={destinationRef}
     />
   );
-};
+});

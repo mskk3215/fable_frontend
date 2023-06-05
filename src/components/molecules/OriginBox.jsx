@@ -1,9 +1,10 @@
 import * as React from "react";
+import { memo } from "react";
 import { Autocomplete } from "@react-google-maps/api";
 import { IconButton, TextField } from "@mui/material";
 import Close from "@mui/icons-material/Close";
 
-export const OriginBox = (props) => {
+export const OriginBox = memo((props) => {
   const { originRef, address, setAddress, clearRoute } = props;
 
   const handleDeleteClick = () => {
@@ -33,4 +34,4 @@ export const OriginBox = (props) => {
       />
     </Autocomplete>
   );
-};
+});

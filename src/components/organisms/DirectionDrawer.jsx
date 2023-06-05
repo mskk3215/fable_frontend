@@ -1,6 +1,6 @@
 import { Header } from "../atoms/layout/Header";
-import { DestinationBox } from "../molcules/DestinationBox";
-import { OriginBox } from "../molcules/OriginBox";
+import { DestinationBox } from "../molecules/DestinationBox";
+import { OriginBox } from "../molecules/OriginBox";
 import styled from "styled-components";
 import {
   AppBar,

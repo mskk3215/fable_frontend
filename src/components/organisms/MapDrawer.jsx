@@ -8,7 +8,7 @@ import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import { Header } from "../atoms/layout/Header";
-import { InsectSearchBox } from "../molcules/InsectSearchBox";
+import { InsectSearchBox } from "../molecules/InsectSearchBox";
 import styled from "styled-components";
 import { useContext, useEffect, useRef } from "react";
 import { SearchParkContext } from "../../providers/SearchParkProvider";
