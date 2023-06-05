@@ -2,7 +2,7 @@
 import { createContext } from "react";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { searchWordState } from "../store/searchWordState";
+import { searchWordState } from "../store/atoms/searchWordState";
 import { getSearchParkResults } from "../urls";
 
 export const SearchParkContext = createContext();

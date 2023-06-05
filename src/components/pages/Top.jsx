@@ -13,7 +13,7 @@ import styled from "styled-components";
 import { useAllInsects } from "../../hooks/useAllInsects";
 import { useContext } from "react";
 import { SearchParkContext } from "../../providers/SearchParkProvider";
-import { searchWordState } from "../../store/searchWordState";
+import { searchWordState } from "../../store/atoms/searchWordState";
 import { useRecoilState } from "recoil";
 
 export const Top = () => {
