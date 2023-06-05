@@ -1,4 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
+import { useRecoilState } from "recoil";
+import { paginatedPostsState } from "../../store/atoms/paginatedPostsState";
 import { EditForm } from "../organisms/EditForm";
 import { PostItem } from "../molecules/PostItem";
 import { useAllImages } from "../../hooks/useAllImages";
@@ -6,6 +8,7 @@ import { useAllParks } from "../../hooks/useAllParks";
 import { Box, Divider, Grid } from "@mui/material";
 import { useAllInsects } from "../../hooks/useAllInsects";
 import { useAllPrefectures } from "../../hooks/useAllPrefectures";
+import { PageNavigator } from "../organisms/PageNavigator";
 
 export const PostEdit = () => {
   const { posts, handleGetPosts } = useAllImages();
@@ -15,6 +18,9 @@ export const PostEdit = () => {
   const [selectedIds, setSelectedIds] = useState([]);
   const [selectedIndexes, setSelectedIndexes] = useState([]);
   const [isShiftDown, setIsShiftDown] = useState(false);
+
+  const [paginatedPosts, setPaginatedPosts] =
+    useRecoilState(paginatedPostsState);
 
   const keydownHandler = (e) => {
     if (e.key === "Shift") {
@@ -106,7 +112,7 @@ export const PostEdit = () => {
       <Box display="flex" flexWrap="wrap">
         <Box sx={{ width: { xs: "100%", md: "80%" } }}>
           <Grid container spacing={0.5}>
-            {posts?.map((post) => (
+            {paginatedPosts?.map((post) => (
               <Grid item xs={6} sm={4} md={2.4} key={post.id}>
                 <PostItem
                   post={post}
@@ -123,6 +129,7 @@ export const PostEdit = () => {
               </Grid>
             ))}
           </Grid>
+          <PageNavigator posts={posts} setPaginatedPosts={setPaginatedPosts} />
         </Box>
         <Divider orientation="vertical" flexItem />
         <Box
