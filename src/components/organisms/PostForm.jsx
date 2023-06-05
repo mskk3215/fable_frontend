@@ -64,7 +64,7 @@ export const PostForm = memo((props) => {
               alignItems: "center",
               justifyContent: "space-between",
               height: "80vh",
-              width: "50vw",
+              width: { xs: "80vw", md: "50vw" },
               paddingTop: 2,
               paddingBottom: 2,
             }}
