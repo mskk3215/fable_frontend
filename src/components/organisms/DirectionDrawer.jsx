@@ -11,7 +11,6 @@ import {
   CssBaseline,
   Drawer,
   IconButton,
-  Toolbar,
   Typography,
 } from "@mui/material";
 import Close from "@mui/icons-material/Close";
@@ -40,7 +39,7 @@ export const DirectionDrawer = memo((props) => {
 
   const DirectionBoxStyled = styled.div`
     position: absolute;
-    top: 55px;
+    top: 50px;
     left: 20px;
     z-index: 2;
     display: flex;
@@ -126,8 +125,15 @@ export const DirectionDrawer = memo((props) => {
           </Tooltip>
         </IconButtonStyled>
         <Button onClick={calculateRoute}>経路を算出</Button>
-        <Typography>時間：{duration}</Typography>
-        <Typography>距離：{distance}</Typography>
+        <Typography
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <span>時間：{duration}</span>
+          <span>距離：{distance}</span>
+        </Typography>
       </DirectionBoxStyled>
       <Drawer
         variant="persistent"
@@ -144,7 +150,6 @@ export const DirectionDrawer = memo((props) => {
         open={true}
         anchor={anchor}
       >
-        <Toolbar style={{ height: "110px" }} />
         <Box sx={{ overflow: "auto" }}></Box>
       </Drawer>
     </Box>
