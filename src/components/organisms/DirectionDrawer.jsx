@@ -19,6 +19,7 @@ import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";
 import DirectionsTransitIcon from "@mui/icons-material/DirectionsTransit";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
+import Tooltip from "@mui/material/Tooltip";
 
 export const DirectionDrawer = memo((props) => {
   const {
@@ -86,33 +87,43 @@ export const DirectionDrawer = memo((props) => {
         </Box>
         <DestinationBox destinationRef={destinationRef} />
         <IconButtonStyled>
-          <SIconButton onClick={() => setTravelMode("DRIVING")}>
-            <DirectionsCarIcon
-              color={travelMode === "DRIVING" ? "primary" : "inherit"}
-            />
-          </SIconButton>
-          <SIconButton onClick={() => setTravelMode("TRANSIT")}>
-            <DirectionsTransitIcon
-              color={travelMode === "TRANSIT" ? "primary" : "inherit"}
-            />
-          </SIconButton>
-          <SIconButton onClick={() => setTravelMode("BICYCLING")}>
-            <DirectionsBikeIcon
-              color={travelMode === "BICYCLING" ? "primary" : "inherit"}
-            />
-          </SIconButton>
-          <SIconButton onClick={() => setTravelMode("WALKING")}>
-            <DirectionsWalkIcon
-              color={travelMode === "WALKING" ? "primary" : "inherit"}
-            />
-          </SIconButton>
-          <IconButton
-            onClick={() => {
-              navigate("/map");
-            }}
-          >
-            <Close sx={{ color: "gray" }} />
-          </IconButton>
+          <Tooltip title="車">
+            <SIconButton onClick={() => setTravelMode("DRIVING")}>
+              <DirectionsCarIcon
+                color={travelMode === "DRIVING" ? "primary" : "inherit"}
+              />
+            </SIconButton>
+          </Tooltip>
+          <Tooltip title="公共交通機関">
+            <SIconButton onClick={() => setTravelMode("TRANSIT")}>
+              <DirectionsTransitIcon
+                color={travelMode === "TRANSIT" ? "primary" : "inherit"}
+              />
+            </SIconButton>
+          </Tooltip>
+          <Tooltip title="自転車">
+            <SIconButton onClick={() => setTravelMode("BICYCLING")}>
+              <DirectionsBikeIcon
+                color={travelMode === "BICYCLING" ? "primary" : "inherit"}
+              />
+            </SIconButton>
+          </Tooltip>
+          <Tooltip title="徒歩">
+            <SIconButton onClick={() => setTravelMode("WALKING")}>
+              <DirectionsWalkIcon
+                color={travelMode === "WALKING" ? "primary" : "inherit"}
+              />
+            </SIconButton>
+          </Tooltip>
+          <Tooltip title="ルートを閉じる">
+            <IconButton
+              onClick={() => {
+                navigate("/map");
+              }}
+            >
+              <Close sx={{ color: "gray" }} />
+            </IconButton>
+          </Tooltip>
         </IconButtonStyled>
         <Button onClick={calculateRoute}>経路を算出</Button>
         <Typography>時間：{duration}</Typography>

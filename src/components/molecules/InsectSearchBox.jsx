@@ -13,10 +13,16 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import Close from "@mui/icons-material/Close";
 import DirectionsIcon from "@mui/icons-material/Directions";
-import { Autocomplete, InputAdornment, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  InputAdornment,
+  TextField,
+  Tooltip,
+} from "@mui/material";
 
 export const InsectSearchBox = memo((props) => {
   const { setOpen, selectedItemId, setSelectedItemId } = props;
+
   const { handleGetParkSearchResults } = useContext(SearchParkContext);
   const [searchWord, setSearchWord] = useRecoilState(searchWordState);
   const { insectOptions } = useAllInsects();
@@ -69,30 +75,38 @@ export const InsectSearchBox = memo((props) => {
             endAdornment: (
               <>
                 <InputAdornment position="end">
-                  <IconButton
-                    type="button"
-                    aria-label="search"
-                    onClick={handleSearchButtonClick}
-                    disabled={!searchWord}
-                  >
-                    <SearchIcon />
-                  </IconButton>
+                  <Tooltip title="昆虫を検索する">
+                    <span>
+                      <IconButton
+                        type="button"
+                        aria-label="search"
+                        onClick={handleSearchButtonClick}
+                        disabled={!searchWord}
+                      >
+                        <SearchIcon />
+                      </IconButton>
+                    </span>
+                  </Tooltip>
                   <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
                   {searchWord ? (
-                    <IconButton
-                      type="button"
-                      aria-label="cancel"
-                      onClick={handleCancelButtonClick}
-                    >
-                      <Close />
-                    </IconButton>
+                    <Tooltip title="閉じる">
+                      <IconButton
+                        type="button"
+                        aria-label="cancel"
+                        onClick={handleCancelButtonClick}
+                      >
+                        <Close />
+                      </IconButton>
+                    </Tooltip>
                   ) : (
                     ""
                   )}
                   {selectedItemId >= 1 ? (
-                    <IconButton onClick={handleDirectionButtonClick}>
-                      <DirectionsIcon color="primary" />
-                    </IconButton>
+                    <Tooltip title="ルートを検索する">
+                      <IconButton onClick={handleDirectionButtonClick}>
+                        <DirectionsIcon color="primary" />
+                      </IconButton>
+                    </Tooltip>
                   ) : (
                     ""
                   )}
