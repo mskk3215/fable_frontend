@@ -1,6 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
+import { useRecoilState } from "recoil";
 import { Link } from "react-router-dom";
-import { saveSearchWord } from "../../store/atoms/searchWordState";
+import { useAllInsects } from "../../hooks/useAllInsects";
+import { SearchParkContext } from "../../providers/SearchParkProvider";
+import {
+  saveSearchWord,
+  searchWordState,
+} from "../../store/atoms/searchWordState";
+import styled from "styled-components";
 import {
   Autocomplete,
   Button,
@@ -10,12 +17,6 @@ import {
   TextField,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import styled from "styled-components";
-import { useAllInsects } from "../../hooks/useAllInsects";
-import { useContext } from "react";
-import { SearchParkContext } from "../../providers/SearchParkProvider";
-import { searchWordState } from "../../store/atoms/searchWordState";
-import { useRecoilState } from "recoil";
 
 export const Top = () => {
   const { insectOptions } = useAllInsects();
