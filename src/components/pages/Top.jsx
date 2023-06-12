@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { saveSearchWord } from "../../store/atoms/searchWordState";
 import {
   Autocomplete,
   Button,
@@ -24,6 +25,11 @@ export const Top = () => {
   const handleSearch = () => {
     handleGetParkSearchResults(searchWord);
   };
+
+  // searchWordの値が更新されたらローカルストレージに保存する
+  useEffect(() => {
+    saveSearchWord(searchWord);
+  }, [searchWord]);
 
   const SConteiner = styled.div`
     text-align: center;
