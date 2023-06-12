@@ -13,6 +13,7 @@ import { logged_inUrl } from "../urls/index";
 import { UploadView } from "../components/pages/UploadView";
 import { PostEdit } from "../components/pages/PostEdit";
 import { Map } from "../components/pages/Map";
+import { Direction } from "../components/pages/Direction";
 
 export const Router = () => {
   const { setUser, loggedInStatus, setLoggedInStatus } =
@@ -93,6 +94,7 @@ export const Router = () => {
             }
           />
           <Route path="map" element={<Map />} />
+          <Route path="direction" element={<Direction />} />
           <Route
             path="*"
             element={

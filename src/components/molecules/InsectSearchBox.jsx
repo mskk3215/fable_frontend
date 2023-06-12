@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useContext, useEffect, memo } from "react";
 import { useRecoilState } from "recoil";
+import { useNavigate } from "react-router-dom";
 import {
   saveSearchWord,
   searchWordState,
@@ -15,13 +16,7 @@ import DirectionsIcon from "@mui/icons-material/Directions";
 import { Autocomplete, InputAdornment, TextField } from "@mui/material";
 
 export const InsectSearchBox = memo((props) => {
-  const {
-    handleDrawerOpen,
-    handleDrawerClose,
-    selectedItemId,
-    setSelectedItemId,
-    setSwitchDrawer,
-  } = props;
+  const { setOpen, selectedItemId, setSelectedItemId } = props;
   const { handleGetParkSearchResults } = useContext(SearchParkContext);
   const [searchWord, setSearchWord] = useRecoilState(searchWordState);
   const { insectOptions } = useAllInsects();
@@ -31,17 +26,18 @@ export const InsectSearchBox = memo((props) => {
   };
 
   const handleSearchButtonClick = () => {
-    handleDrawerOpen();
+    setOpen(true);
     handleSearch();
   };
 
   const handleCancelButtonClick = () => {
-    handleDrawerClose();
+    setOpen(false);
     setSelectedItemId(false);
   };
 
+  const navigate = useNavigate();
   const handleDirectionButtonClick = () => {
-    setSwitchDrawer(false);
+    navigate("/direction");
   };
 
   // searchWordの値が更新されたらローカルストレージに保存する

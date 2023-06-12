@@ -1,7 +1,15 @@
-import React, { memo } from "react";
-import { useContext, useEffect, useRef } from "react";
+import React, { useState, useContext, useEffect, useRef, memo } from "react";
+import { useRecoilState } from "recoil";
 import { SearchParkContext } from "../../providers/SearchParkProvider";
+import {
+  selectedCenterState,
+  selectedItemState,
+} from "../../store/atoms/MapDirectionState";
 import { Header } from "../atoms/layout/Header";
+import {
+  destinationLocationState,
+  saveDestinationLocation,
+} from "../../store/atoms/searchWordState";
 import { InsectSearchBox } from "../molecules/InsectSearchBox";
 import styled from "styled-components";
 import Box from "@mui/material/Box";
@@ -16,32 +24,24 @@ import ListItemText from "@mui/material/ListItemText";
 import { ListItemAvatar, Typography } from "@mui/material";
 
 export const MapDrawer = memo((props) => {
-  const {
-    selectedItemId,
-    setSelectedItemId,
-    setSelectedCenter,
-    setSwitchDrawer,
-    setListItem,
-    open,
-    setOpen,
-    anchor,
-    drawerWidth,
-    drawerHeight,
-  } = props;
+  const { anchor, drawerWidth, drawerHeight } = props;
   const { searchResults } = useContext(SearchParkContext);
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  const [selectedCenter, setSelectedCenter] =
+    useRecoilState(selectedCenterState);
+  const [destinationLocation, setDestinationLocation] = useRecoilState(
+    destinationLocationState
+  );
+  const [selectedItemId, setSelectedItemId] = useRecoilState(selectedItemState);
+  const [open, setOpen] = useState(true);
 
   const handleListItem = (result) => {
     setSelectedItemId(result.id);
-    setListItem(result);
+    setDestinationLocation(result.name);
     setSelectedCenter({ lat: result.latitude, lng: result.longitude });
   };
+  useEffect(() => {
+    saveDestinationLocation(destinationLocation);
+  }, [destinationLocation]);
 
   const SearchBoxStyled = styled.div`
     position: absolute;
@@ -70,11 +70,9 @@ export const MapDrawer = memo((props) => {
       </AppBar>
       <SearchBoxStyled>
         <InsectSearchBox
-          handleDrawerOpen={handleDrawerOpen}
-          handleDrawerClose={handleDrawerClose}
+          setOpen={setOpen}
           selectedItemId={selectedItemId}
           setSelectedItemId={setSelectedItemId}
-          setSwitchDrawer={setSwitchDrawer}
         />
       </SearchBoxStyled>
       <Drawer

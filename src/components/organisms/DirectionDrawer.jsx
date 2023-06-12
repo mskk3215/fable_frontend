@@ -1,4 +1,5 @@
 import { memo } from "react";
+import { useNavigate } from "react-router-dom";
 import { Header } from "../atoms/layout/Header";
 import { DestinationBox } from "../molecules/DestinationBox";
 import { OriginBox } from "../molecules/OriginBox";
@@ -21,28 +22,20 @@ import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
 
 export const DirectionDrawer = memo((props) => {
   const {
-    listItem,
-    open,
     originRef,
     destinationRef,
     calculateRoute,
     clearRoute,
-    address,
-    setAddress,
     travelMode,
     setTravelMode,
     distance,
     duration,
-    setSwitchDrawer,
     anchor,
     drawerWidth,
     drawerHeight,
   } = props;
 
-  const handleTravelModeClick = (travelMode) => {
-    setTravelMode(travelMode);
-    setAddress(originRef.current.value);
-  };
+  const navigate = useNavigate();
 
   const DirectionBoxStyled = styled.div`
     position: absolute;
@@ -88,43 +81,38 @@ export const DirectionDrawer = memo((props) => {
           <OriginBox
             style={{ marginBottom: "10px" }}
             originRef={originRef}
-            address={address}
-            setAddress={setAddress}
             clearRoute={clearRoute}
           />
-          <Button
-            style={{ marginTop: "5px" }}
-            variant="text"
-            sx={{ width: "15px", height: "50px" }}
-            onClick={() => {
-              setSwitchDrawer(true);
-            }}
-          >
-            <Close sx={{ color: "gray" }} />
-          </Button>
         </Box>
-        <DestinationBox listItem={listItem} destinationRef={destinationRef} />
+        <DestinationBox destinationRef={destinationRef} />
         <IconButtonStyled>
-          <SIconButton onClick={() => handleTravelModeClick("DRIVING")}>
+          <SIconButton onClick={() => setTravelMode("DRIVING")}>
             <DirectionsCarIcon
               color={travelMode === "DRIVING" ? "primary" : "inherit"}
             />
           </SIconButton>
-          <SIconButton onClick={() => handleTravelModeClick("TRANSIT")}>
+          <SIconButton onClick={() => setTravelMode("TRANSIT")}>
             <DirectionsTransitIcon
               color={travelMode === "TRANSIT" ? "primary" : "inherit"}
             />
           </SIconButton>
-          <SIconButton onClick={() => handleTravelModeClick("BICYCLING")}>
+          <SIconButton onClick={() => setTravelMode("BICYCLING")}>
             <DirectionsBikeIcon
               color={travelMode === "BICYCLING" ? "primary" : "inherit"}
             />
           </SIconButton>
-          <SIconButton onClick={() => handleTravelModeClick("WALKING")}>
+          <SIconButton onClick={() => setTravelMode("WALKING")}>
             <DirectionsWalkIcon
               color={travelMode === "WALKING" ? "primary" : "inherit"}
             />
           </SIconButton>
+          <IconButton
+            onClick={() => {
+              navigate("/map");
+            }}
+          >
+            <Close sx={{ color: "gray" }} />
+          </IconButton>
         </IconButtonStyled>
         <Button onClick={calculateRoute}>経路を算出</Button>
         <Typography>時間：{duration}</Typography>
@@ -142,7 +130,7 @@ export const DirectionDrawer = memo((props) => {
           },
           height: drawerHeight,
         }}
-        open={open}
+        open={true}
         anchor={anchor}
       >
         <Toolbar style={{ height: "110px" }} />
