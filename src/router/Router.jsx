@@ -1,24 +1,23 @@
 import axios from "axios";
 import React, { useContext, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Login from "../components/auth/Login";
-import Registration from "../components/auth/Registration";
-import Post from "../components/pages/Post";
-import Top from "../components/pages/Top";
-import Page404 from "../components/pages/Page404";
+import { Login } from "../components/pages/auth/Login";
+import { Registration } from "../components/pages/auth/Registration";
+import { PostList } from "../components/pages/PostList";
+import { Top } from "../components/pages/Top";
+import { Page404 } from "../components/pages/Page404";
 import { DefaultLayout } from "../components/templates/DefaultLayout";
 import { HeaderOnly } from "../components/templates/HeaderOnly";
 import { UserContext } from "../providers/UserProvider";
 import { logged_inUrl } from "../urls/index";
+import { UploadView } from "../components/pages/UploadView";
+import { PostEdit } from "../components/pages/PostEdit";
+import { Map } from "../components/pages/Map";
+import { Direction } from "../components/pages/Direction";
 
 export const Router = () => {
   const { setUser, loggedInStatus, setLoggedInStatus } =
     useContext(UserContext);
-
-  const handleLogin = (data) => {
-    setLoggedInStatus(true);
-    setUser(data.user.nickname);
-  };
 
   useEffect(() => {
     checkLoginStatus();
@@ -41,10 +40,6 @@ export const Router = () => {
       });
   };
 
-  const handleSuccessfulAuthentication = (data) => {
-    handleLogin(data);
-  };
-
   return (
     <>
       <BrowserRouter>
@@ -62,11 +57,7 @@ export const Router = () => {
             path="registration"
             element={
               <HeaderOnly>
-                <Registration
-                  handleSuccessfulAuthentication={
-                    handleSuccessfulAuthentication
-                  }
-                />
+                <Registration />
               </HeaderOnly>
             }
           />
@@ -74,16 +65,36 @@ export const Router = () => {
             path="login"
             element={
               <HeaderOnly>
-                <Login
-                  handleSuccessfulAuthentication={
-                    handleSuccessfulAuthentication
-                  }
-                />
+                <Login />
               </HeaderOnly>
             }
           />
-          <Route path="post" element={<HeaderOnly></HeaderOnly>} />
-          <Route path="camera" element={<HeaderOnly></HeaderOnly>} />
+          <Route
+            path="uploadview"
+            element={
+              <HeaderOnly>
+                <UploadView />
+              </HeaderOnly>
+            }
+          />
+          <Route
+            path="postlist"
+            element={
+              <HeaderOnly>
+                <PostList />
+              </HeaderOnly>
+            }
+          />
+          <Route
+            path="postedit"
+            element={
+              <HeaderOnly>
+                <PostEdit />
+              </HeaderOnly>
+            }
+          />
+          <Route path="map" element={<Map />} />
+          <Route path="direction" element={<Direction />} />
           <Route
             path="*"
             element={

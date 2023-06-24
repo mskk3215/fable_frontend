@@ -1,10 +1,16 @@
 import { UserProvider } from "./providers/UserProvider";
+import { SearchParkProvider } from "./providers/SearchParkProvider";
 import { Router } from "./router/Router";
+import { RecoilRoot } from "recoil";
 
-export default function App() {
+export const App = () => {
   return (
     <UserProvider>
-      <Router />
+      <RecoilRoot>
+        <SearchParkProvider>
+          <Router />
+        </SearchParkProvider>
+      </RecoilRoot>
     </UserProvider>
   );
-}
+};
