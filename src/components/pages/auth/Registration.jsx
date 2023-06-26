@@ -93,6 +93,7 @@ export const Registration = () => {
               variant="outlined"
               name="password"
               type="password"
+              placeholder="パスワードを入力してください"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               margin="normal"
@@ -104,6 +105,7 @@ export const Registration = () => {
               variant="outlined"
               name="password_confirmation"
               type="password"
+              placeholder="パスワードを再入力してください"
               value={passwordConfirmation}
               onChange={(e) => setPasswordConfirmation(e.target.value)}
               margin="normal"
