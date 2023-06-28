@@ -7,7 +7,7 @@ import axios from "axios";
 
 //単体テスト
 describe("Unit Test Registration component", () => {
-  it("name入力欄があるか", async () => {
+  it("名前入力欄があるか", async () => {
     render(
       <MemoryRouter>
         <Registration />
