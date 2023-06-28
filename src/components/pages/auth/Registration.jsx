@@ -15,9 +15,16 @@ export const Registration = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [errors, setErrors] = useState([]);
 
   const navigate = useNavigate();
   const handleRegistrationAction = (e) => {
+    // バリデーション
+    if (!nickname || !email || !password || !passwordConfirmation) {
+      setErrors(["入力されていない項目があります"]);
+      return;
+    }
+    // ユーザー登録
     axios
       .post(
         registrationUrl,
@@ -37,7 +44,7 @@ export const Registration = () => {
         }
       })
       .catch((error) => {
-        console.log("registration error", error);
+        setErrors(error.response.data.errors);
       });
     e.preventDefault();
   };
@@ -65,6 +72,17 @@ export const Registration = () => {
           <Typography variant="h5" sx={{ textAlign: "center" }}>
             新規登録
           </Typography>
+          {errors &&
+            errors.map((error, index) => (
+              <Typography
+                key={index}
+                variant="body1"
+                color="error"
+                sx={{ marginTop: 2 }}
+              >
+                {error}
+              </Typography>
+            ))}
           <Box sx={{ width: "100%", maxWidth: "400px" }}>
             <TextField
               label="名前"

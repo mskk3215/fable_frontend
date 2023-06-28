@@ -54,3 +54,161 @@ describe("Unit Test Registration component", () => {
     expect(screen.getByDisplayValue(value)).toBeInTheDocument();
   });
 });
+
+//統合テスト
+jest.mock("axios");
+describe("Integration Test Registration component", () => {
+  beforeEach(() => {
+    axios.post.mockClear();
+  });
+
+  //成功する場合
+  it("全ての項目が入力されていて登録ボタンをクリックすれば、フォーム送信処理が成功する", async () => {
+    axios.post.mockResolvedValue({ data: { status: "created" } }); //axios.postの返り値をモック化
+    render(
+      <MemoryRouter>
+        <Registration />
+      </MemoryRouter>
+    );
+
+    const formData = {
+      nickname: "jiro",
+      email: "test@example.com",
+      password: "password123",
+      password_confirmation: "password123",
+    };
+    const nameInput = screen.getByRole("textbox", { name: "名前" });
+    const emailInput = screen.getByRole("textbox", { name: "メールアドレス" });
+    const passwordInput =
+      screen.getByPlaceholderText("パスワードを入力してください");
+    const passwordConfirmationInput =
+      screen.getByPlaceholderText("パスワードを再入力してください");
+    const registrationButton = screen.getByRole("button", { name: "登録" });
+
+    userEvent.type(nameInput, formData.nickname);
+    userEvent.type(emailInput, formData.email);
+    userEvent.type(passwordInput, formData.password);
+    userEvent.type(passwordConfirmationInput, formData.password_confirmation);
+    fireEvent.click(registrationButton);
+
+    expect(axios.post).toHaveBeenCalledTimes(1); //axios.postが1回呼ばれているか
+    expect(axios.post).toHaveBeenCalledWith("/api/v1/signup", formData, {
+      withCredentials: true,
+    });
+  });
+
+  //失敗する場合
+  it("名前が入力されていなければ、エラーメッセージが出る", async () => {
+    render(
+      <MemoryRouter>
+        <Registration />
+      </MemoryRouter>
+    );
+
+    const formData = {
+      nickname: "jiro",
+      email: "test@example.com",
+      password: "password123",
+      password_confirmation: "password123",
+    };
+    const emailInput = screen.getByRole("textbox", { name: "メールアドレス" });
+    const passwordInput =
+      screen.getByPlaceholderText("パスワードを入力してください");
+    const passwordConfirmationInput =
+      screen.getByPlaceholderText("パスワードを再入力してください");
+    const registrationButton = screen.getByRole("button", { name: "登録" });
+
+    userEvent.type(emailInput, formData.email);
+    userEvent.type(passwordInput, formData.password);
+    userEvent.type(passwordConfirmationInput, formData.password_confirmation);
+
+    fireEvent.click(registrationButton);
+    const errorMessage = screen.queryByText("入力されていない項目があります");
+    expect(errorMessage).toBeInTheDocument();
+  });
+
+  it("メールアドレスが入力されていなければ、エラーメッセージが出る", async () => {
+    render(
+      <MemoryRouter>
+        <Registration />
+      </MemoryRouter>
+    );
+    const formData = {
+      nickname: "jiro",
+      email: "test@example.com",
+      password: "password123",
+      password_confirmation: "password123",
+    };
+
+    const nameInput = screen.getByRole("textbox", { name: "名前" });
+    const passwordInput =
+      screen.getByPlaceholderText("パスワードを入力してください");
+    const passwordConfirmationInput =
+      screen.getByPlaceholderText("パスワードを再入力してください");
+    const registrationButton = screen.getByRole("button", { name: "登録" });
+
+    userEvent.type(nameInput, formData.nickname);
+    userEvent.type(passwordInput, formData.password);
+    userEvent.type(passwordConfirmationInput, formData.password_confirmation);
+
+    fireEvent.click(registrationButton);
+    const errorMessage = screen.queryByText("入力されていない項目があります");
+    expect(errorMessage).toBeInTheDocument();
+  });
+  it("パスワードが入力されていなければ、エラーメッセージが出る", async () => {
+    render(
+      <MemoryRouter>
+        <Registration />
+      </MemoryRouter>
+    );
+    const formData = {
+      nickname: "jiro",
+      email: "test@example.com",
+      password: "password123",
+      password_confirmation: "password123",
+    };
+
+    const nameInput = screen.getByRole("textbox", { name: "名前" });
+    const emailInput = screen.getByRole("textbox", { name: "メールアドレス" });
+
+    const passwordConfirmationInput =
+      screen.getByPlaceholderText("パスワードを再入力してください");
+    const registrationButton = screen.getByRole("button", { name: "登録" });
+
+    userEvent.type(nameInput, formData.nickname);
+    userEvent.type(emailInput, formData.email);
+    userEvent.type(passwordConfirmationInput, formData.password_confirmation);
+
+    fireEvent.click(registrationButton);
+    const errorMessage = screen.queryByText("入力されていない項目があります");
+    expect(errorMessage).toBeInTheDocument();
+  });
+  it("確認用パスワードが入力されていなければ、エラーメッセージが出る", async () => {
+    render(
+      <MemoryRouter>
+        <Registration />
+      </MemoryRouter>
+    );
+    const formData = {
+      nickname: "jiro",
+      email: "test@example.com",
+      password: "password123",
+      password_confirmation: "password123",
+    };
+
+    const nameInput = screen.getByRole("textbox", { name: "名前" });
+    const emailInput = screen.getByRole("textbox", { name: "メールアドレス" });
+
+    const passwordInput =
+      screen.getByPlaceholderText("パスワードを入力してください");
+    const registrationButton = screen.getByRole("button", { name: "登録" });
+
+    userEvent.type(nameInput, formData.nickname);
+    userEvent.type(emailInput, formData.email);
+    userEvent.type(passwordInput, formData.password);
+
+    fireEvent.click(registrationButton);
+    const errorMessage = screen.queryByText("入力されていない項目があります");
+    expect(errorMessage).toBeInTheDocument();
+  });
+});
