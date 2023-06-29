@@ -96,6 +96,16 @@ describe("Integration Test Registration component", () => {
       withCredentials: true,
     });
   });
+  it("ログインボタンをクリックすれば、ログインページに遷移する", async () => {
+    render(
+      <MemoryRouter>
+        <Registration />
+      </MemoryRouter>
+    );
+    const loginButton = screen.getByRole("button", { name: "ログイン" });
+    fireEvent.click(loginButton);
+    expect(screen.getByText("ログイン")).toBeInTheDocument();
+  });
 
   //失敗する場合
   it("名前が入力されていなければ、エラーメッセージが出る", async () => {
