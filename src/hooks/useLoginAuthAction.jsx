@@ -9,7 +9,7 @@ export const useLoginAuthAction = () => {
 
   const navigate = useNavigate();
 
-  const handleLoginAction = ({ email, password }) => {
+  const handleLoginAction = ({ email, password, setErrors }) => {
     axios
       .post(
         loginUrl,
@@ -21,16 +21,14 @@ export const useLoginAuthAction = () => {
         { withCredentials: true }
       )
       .then((response) => {
-        console.log("login condition", response);
         if (response.data.logged_in) {
           handleSuccessfulAuthentication(response.data);
           navigate("/");
         }
       })
       .catch((error) => {
-        console.log("login error", error);
+        setErrors(error.response.data.errors);
       });
   };
-
   return { handleLoginAction };
 };

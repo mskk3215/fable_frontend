@@ -7,9 +7,20 @@ export const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState([]);
 
-  const handleLogin = (e) => {
-    handleLoginAction({ email: email, password: password });
+  const handleLogin = async (e) => {
+    // バリデーション
+    if (!email || !password) {
+      setErrors(["入力されていない項目があります"]);
+      return;
+    }
+    // ログイン認証
+    handleLoginAction({
+      email: email,
+      password: password,
+      setErrors: setErrors,
+    });
   };
 
   return (
@@ -35,6 +46,17 @@ export const Login = () => {
           <Typography variant="h5" sx={{ textAlign: "center" }}>
             ログイン
           </Typography>
+          {errors &&
+            errors.map((error, index) => (
+              <Typography
+                key={index}
+                variant="body1"
+                color="error"
+                sx={{ marginTop: 2 }}
+              >
+                {error}
+              </Typography>
+            ))}
           <Grid container spacing={2} sx={{ mt: 2 }}>
             <Grid item xs={12}>
               <TextField
@@ -55,6 +77,7 @@ export const Login = () => {
                 variant="outlined"
                 name="password"
                 type="password"
+                placeholder="パスワードを入力してください"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 margin="normal"
@@ -64,6 +87,7 @@ export const Login = () => {
             </Grid>
             <Grid item xs={12}>
               <Button
+                id="login-button"
                 type="submit"
                 fullWidth
                 variant="contained"
