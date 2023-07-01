@@ -19,8 +19,17 @@ export const PostEdit = () => {
   const [selectedIndexes, setSelectedIndexes] = useState([]);
   const [isShiftDown, setIsShiftDown] = useState(false);
 
+  const { loggedInStatus } = useContext(UserContext);
+  const navigate = useNavigate();
   const [paginatedPosts, setPaginatedPosts] =
     useRecoilState(paginatedPostsState);
+
+  // ログインしていない場合はログインページにリダイレクト
+  useEffect(() => {
+    if (!loggedInStatus) {
+      navigate("/login");
+    }
+  }, [loggedInStatus, navigate]);
 
   const keydownHandler = (e) => {
     if (e.key === "Shift") {

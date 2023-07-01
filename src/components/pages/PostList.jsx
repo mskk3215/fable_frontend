@@ -12,9 +12,18 @@ import Grid from "@mui/material/Grid";
 export const PostList = () => {
   const { posts } = useAllImages();
   const { parks } = useAllParks();
+  const { loggedInStatus } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const [paginatedPosts, setPaginatedPosts] =
     useRecoilState(paginatedPostsState);
+
+  // ログインしていない場合はログインページにリダイレクト
+  useEffect(() => {
+    if (!loggedInStatus) {
+      navigate("/login");
+    }
+  }, [loggedInStatus, navigate]);
 
   return (
     <Box sx={{ flexGrow: 1, marginTop: 5 }}>

@@ -4,6 +4,15 @@ import { PostForm } from "../organisms/PostForm";
 
 export const UploadView = () => {
   const { handleGetPosts } = useAllImages();
+  const { loggedInStatus } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  // ログインしていない場合はログインページにリダイレクト
+  useEffect(() => {
+    if (!loggedInStatus) {
+      navigate("/login");
+    }
+  }, [loggedInStatus, navigate]);
 
   return (
     <>
