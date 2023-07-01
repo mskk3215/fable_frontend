@@ -1,8 +1,10 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { paginatedPostsState } from "../../store/atoms/paginatedPostsState";
 import { EditForm } from "../organisms/EditForm";
 import { PostItem } from "../molecules/PostItem";
+import { UserContext } from "../../providers/UserProvider";
 import { useAllImages } from "../../hooks/useAllImages";
 import { useAllParks } from "../../hooks/useAllParks";
 import { useAllInsects } from "../../hooks/useAllInsects";
@@ -18,7 +20,6 @@ export const PostEdit = () => {
   const [selectedIds, setSelectedIds] = useState([]);
   const [selectedIndexes, setSelectedIndexes] = useState([]);
   const [isShiftDown, setIsShiftDown] = useState(false);
-
   const { loggedInStatus } = useContext(UserContext);
   const navigate = useNavigate();
   const [paginatedPosts, setPaginatedPosts] =

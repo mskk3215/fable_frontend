@@ -32,11 +32,6 @@ export const Top = () => {
     saveSearchWord(searchWord);
   }, [searchWord]);
 
-  const SConteiner = styled.div`
-    text-align: center;
-    margin-top: 100px;
-  `;
-
   return (
     <>
       <SConteiner>
@@ -90,3 +85,8 @@ export const Top = () => {
     </>
   );
 };
+
+const SConteiner = styled.div`
+  text-align: center;
+  margin-top: 100px;
+`;

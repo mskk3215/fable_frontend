@@ -1,9 +1,9 @@
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
-import { Login } from "../components/pages/auth/Login";
 import { MemoryRouter } from "react-router-dom";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import axios from "axios";
+import { Login } from "../components/pages/auth/Login";
 
 //単体テスト
 describe("Unit test Login component", () => {

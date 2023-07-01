@@ -1,11 +1,13 @@
 import * as React from "react";
+import { useContext, useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { Link } from "react-router-dom";
-import { paginatedPostsState } from "../../store/atoms/paginatedPostsState";
+import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../../providers/UserProvider";
 import { useAllImages } from "../../hooks/useAllImages";
 import { useAllParks } from "../../hooks/useAllParks";
 import { PostItem } from "../molecules/PostItem";
 import { PageNavigator } from "../organisms/PageNavigator";
+import { paginatedPostsState } from "../../store/atoms/paginatedPostsState";
 import Box from "@mui/system/Box";
 import Grid from "@mui/material/Grid";
 

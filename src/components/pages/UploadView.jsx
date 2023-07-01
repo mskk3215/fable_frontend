@@ -1,6 +1,9 @@
-import { Grid } from "@mui/material";
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../providers/UserProvider";
 import { useAllImages } from "../../hooks/useAllImages";
 import { PostForm } from "../organisms/PostForm";
+import { Grid } from "@mui/material";
 
 export const UploadView = () => {
   const { handleGetPosts } = useAllImages();
