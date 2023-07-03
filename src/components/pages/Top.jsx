@@ -38,7 +38,7 @@ export const Top = () => {
         <h1>Top</h1>
         <Container maxWidth="md" sx={{ mt: 20 }}>
           <Autocomplete
-            id="demo"
+            data-testid="autocomplete"
             value={searchWord}
             onChange={(e, newValue) => {
               setSearchWord(newValue?.label || "");
