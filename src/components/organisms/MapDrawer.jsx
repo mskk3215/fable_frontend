@@ -94,7 +94,7 @@ export const MapDrawer = memo((props) => {
           <List>
             {searchResults.length === 0 ? (
               <ListItem>
-                <ListItemText primary="検索した昆虫は見つかりません。" />
+                <SListItemText primary="検索した昆虫は見つかりません。" />
               </ListItem>
             ) : (
               searchResults.map((result, index) => (
@@ -151,3 +151,7 @@ export const MapDrawer = memo((props) => {
     </Box>
   );
 });
+
+const SListItemText = styled(ListItemText)`
+  color: red;
+`;
