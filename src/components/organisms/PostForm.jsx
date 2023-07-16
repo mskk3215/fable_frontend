@@ -31,13 +31,16 @@ export const PostForm = memo((props) => {
       data.append("image[image][]", image);
     });
 
-    await createPosts(data).then(() => {
-      alert("アップロードしました");
-      navigate("/postedit");
-
-      handleGetPosts();
-      setImages([]);
-    });
+    await createPosts(data)
+      .then(() => {
+        alert("アップロードしました");
+        navigate("/postedit");
+        handleGetPosts();
+        setImages([]);
+      })
+      .catch((error) => {
+        alert(error.response.data.error_messages);
+      });
   };
 
   const handleOnRemoveImage = (index) => {
