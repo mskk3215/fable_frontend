@@ -7,7 +7,7 @@ export const searchWordState = atom({
   key: "searchWordState",
   default: savedSearchWord,
 });
-export const saveSearchWord = (newSearchWord) => {
+export const saveSearchWord = (newSearchWord: any) => {
   localStorage.setItem("searchWord", newSearchWord);
 };
 
@@ -18,7 +18,7 @@ export const originLocationState = atom({
   key: "originLocationState",
   default: savedOriginLocation,
 });
-export const saveOriginLocation = (newSearchWord) => {
+export const saveOriginLocation = (newSearchWord: any) => {
   localStorage.setItem("originLocation", newSearchWord);
 };
 
@@ -30,6 +30,6 @@ export const destinationLocationState = atom({
   key: "destinationLocationState",
   default: savedDestinationLocation,
 });
-export const saveDestinationLocation = (newSearchWord) => {
+export const saveDestinationLocation = (newSearchWord: any) => {
   localStorage.setItem("destinationLocation", newSearchWord);
 };

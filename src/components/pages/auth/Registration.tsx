@@ -2,12 +2,16 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { registrationUrl } from "../../../urls";
+// @ts-expect-error TS(6142): Module '../../atoms/button/GuestLoginButton' was r... Remove this comment to see the full error message
 import { GuestLoginButton } from "../../atoms/button/GuestLoginButton";
+// @ts-expect-error TS(6142): Module '../../../providers/UserProvider' was resol... Remove this comment to see the full error message
 import { UserContext } from "../../../providers/UserProvider";
 import { Box, Button, TextField, Typography } from "@mui/material";
+// @ts-expect-error TS(6142): Module '../../../hooks/useLoginAuthAction' was res... Remove this comment to see the full error message
 import { useLoginAuthAction } from "../../../hooks/useLoginAuthAction";
 
 export const Registration = () => {
+  // @ts-expect-error TS(2339): Property 'handleSuccessfulAuthentication' does not... Remove this comment to see the full error message
   const { handleSuccessfulAuthentication } = useContext(UserContext);
   const { handleLoginAction } = useLoginAuthAction();
 
@@ -17,7 +21,18 @@ export const Registration = () => {
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
   const navigate = useNavigate();
+<<<<<<< HEAD
   const handleRegistrationAction = (e) => {
+=======
+  const handleRegistrationAction = (e: any) => {
+    // バリデーション
+    if (!nickname || !email || !password || !passwordConfirmation) {
+      // @ts-expect-error TS(2322): Type 'string' is not assignable to type 'never'.
+      setErrors(["入力されていない項目があります"]);
+      return;
+    }
+    // ユーザー登録
+>>>>>>> e985f6b (error output by ts-migrate)
     axios
       .post(
         registrationUrl,
@@ -43,7 +58,9 @@ export const Registration = () => {
   };
 
   return (
+    // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
     <>
+      // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <Box
         sx={{
           display: "flex",
@@ -53,6 +70,7 @@ export const Registration = () => {
           marginTop: 10,
         }}
       >
+        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <Box
           sx={{
             p: 2,
@@ -62,10 +80,28 @@ export const Registration = () => {
             width: "100%",
           }}
         >
+          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
           <Typography variant="h5" sx={{ textAlign: "center" }}>
             新規登録
           </Typography>
+<<<<<<< HEAD
+=======
+          {errors &&
+            errors.map((error, index) => (
+              // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
+              <Typography
+                key={index}
+                variant="body1"
+                color="error"
+                sx={{ marginTop: 2 }}
+              >
+                {error}
+              </Typography>
+            ))}
+          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
+>>>>>>> e985f6b (error output by ts-migrate)
           <Box sx={{ width: "100%", maxWidth: "400px" }}>
+            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <TextField
               label="名前"
               variant="outlined"
@@ -77,6 +113,7 @@ export const Registration = () => {
               required
               fullWidth
             ></TextField>
+            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <TextField
               label="メールアドレス"
               variant="outlined"
@@ -88,6 +125,7 @@ export const Registration = () => {
               required
               fullWidth
             ></TextField>
+            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <TextField
               label="パスワード"
               variant="outlined"
@@ -99,6 +137,7 @@ export const Registration = () => {
               required
               fullWidth
             ></TextField>
+            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <TextField
               label="確認用パスワード"
               variant="outlined"
@@ -110,6 +149,7 @@ export const Registration = () => {
               required
               fullWidth
             ></TextField>
+            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <Box
               sx={{
                 display: "flex",
@@ -119,6 +159,7 @@ export const Registration = () => {
                 mt: 2,
               }}
             >
+              // @ts-expect-error TS(2769): No overload matches this call.
               <Button
                 type="submit"
                 fullWidth
@@ -128,6 +169,7 @@ export const Registration = () => {
               >
                 登録
               </Button>
+              // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
               <Box
                 sx={{
                   display: "flex",
@@ -136,13 +178,17 @@ export const Registration = () => {
                   width: "100%",
                 }}
               >
+                // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                 <Box sx={{ flexGrow: 1, flexBasis: 0, marginRight: 1 }}>
+                  // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                   <GuestLoginButton
                     sx={{ width: "100%" }}
                     handleLoginAction={handleLoginAction}
                   />
                 </Box>
+                // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                 <Box sx={{ flexGrow: 1, flexBasis: 0 }}>
+                  // @ts-expect-error TS(2769): No overload matches this call.
                   <Button
                     onClick={() => navigate("/login")}
                     color="secondary"

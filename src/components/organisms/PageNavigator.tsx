@@ -2,6 +2,7 @@ import { useState, useEffect, memo } from "react";
 import { Pagination, useMediaQuery, useTheme } from "@mui/material";
 
 export const PageNavigator = memo((props) => {
+  // @ts-expect-error TS(2339): Property 'posts' does not exist on type '{}'.
   const { posts, setPaginatedPosts } = props;
 
   const [page, setPage] = useState(1);
@@ -31,12 +32,14 @@ export const PageNavigator = memo((props) => {
     setPaginatedPosts(paginatedPosts);
   }, [page, pageSize, posts, setPaginatedPosts]);
 
-  const handlePageChange = (e, newPage) => {
+  const handlePageChange = (e: any, newPage: any) => {
     setPage(newPage);
   };
 
   return (
+    // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
     <>
+      // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <Pagination
         count={Math.ceil(posts.length / pageSize)}
         page={page}

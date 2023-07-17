@@ -15,16 +15,22 @@ import {
 
 export const PostItem = memo((props) => {
   const {
+    // @ts-expect-error TS(2339): Property 'post' does not exist on type '{}'.
     post,
+    // @ts-expect-error TS(2339): Property 'handleSelect' does not exist on type '{}... Remove this comment to see the full error message
     handleSelect,
+    // @ts-expect-error TS(2339): Property 'handleRemove' does not exist on type '{}... Remove this comment to see the full error message
     handleRemove,
+    // @ts-expect-error TS(2339): Property 'checked' does not exist on type '{}'.
     checked,
+    // @ts-expect-error TS(2339): Property 'isCheckboxVisible' does not exist on typ... Remove this comment to see the full error message
     isCheckboxVisible,
+    // @ts-expect-error TS(2339): Property 'parks' does not exist on type '{}'.
     parks,
   } = props;
 
   const handleChange = useCallback(
-    (e) => {
+    (e: any) => {
       if (checked) {
         handleRemove();
       } else {
@@ -34,7 +40,7 @@ export const PostItem = memo((props) => {
     [checked, handleSelect, handleRemove]
   );
 
-  const createdTime = (post) => {
+  const createdTime = (post: any) => {
     if (post.taken_at) {
       const date = new Date(post.taken_at);
       const formattedDate = format(date, "yyyy/M/d/(E)", { locale: ja });
@@ -44,12 +50,17 @@ export const PostItem = memo((props) => {
   };
 
   return (
+    // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
     <>
       {post.image ? (
+        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <SquareCard>
+          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
           <FormControlLabel
             control={
+              // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
               <Card>
+                // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                 <CardMedia
                   component="img"
                   src={post.image}
@@ -62,6 +73,7 @@ export const PostItem = memo((props) => {
                   }}
                 />
                 {isCheckboxVisible && (
+                  // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                   <Checkbox
                     checked={checked}
                     onChange={handleChange}
@@ -69,6 +81,7 @@ export const PostItem = memo((props) => {
                     style={{ position: "absolute", top: 5, right: 5 }}
                   />
                 )}
+                // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                 <CardContent
                   style={{
                     position: "absolute",
@@ -79,16 +92,19 @@ export const PostItem = memo((props) => {
                   }}
                 >
                   {/* 撮影日 */}
+                  // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                   <CustomTypography variant="body2">
                     {createdTime(post) ? createdTime(post) : "\u00a0"}
                   </CustomTypography>
                   {/* 昆虫名 */}
+                  // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                   <CustomTypography>
                     {post.insect_name
                       ? `${post.insect_name}(${post.insect_sex})`
                       : "\u00a0"}
                   </CustomTypography>
                   {/* 公園名 or 市町村名 */}
+                  // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                   <CustomTypography>
                     {parks[post.park_id - 1]?.name
                       ? parks[post.park_id - 1]?.name

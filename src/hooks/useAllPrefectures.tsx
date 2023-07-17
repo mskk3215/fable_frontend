@@ -11,9 +11,9 @@ export const useAllPrefectures = () => {
     setPrefectures(data);
 
     //EditFormの選択肢用
-    const prefectureData = data.map((prefecture) => ({
+    const prefectureData = data.map((prefecture: any) => ({
       label: prefecture.name,
-      value: prefecture.name,
+      value: prefecture.name
     }));
     setPrefectureOptions(prefectureData);
   };

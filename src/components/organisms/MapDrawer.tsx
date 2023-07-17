@@ -1,16 +1,20 @@
 import React, { useState, useContext, useEffect, useRef, memo } from "react";
 import { useRecoilState } from "recoil";
+// @ts-expect-error TS(6142): Module '../../providers/SearchParkProvider' was re... Remove this comment to see the full error message
 import { SearchParkContext } from "../../providers/SearchParkProvider";
 import {
   selectedCenterState,
   selectedItemState,
 } from "../../store/atoms/MapDirectionState";
+// @ts-expect-error TS(6142): Module '../atoms/layout/Header' was resolved to '/... Remove this comment to see the full error message
 import { Header } from "../atoms/layout/Header";
 import {
   destinationLocationState,
   saveDestinationLocation,
 } from "../../store/atoms/searchWordState";
+// @ts-expect-error TS(6142): Module '../molecules/InsectSearchBox' was resolved... Remove this comment to see the full error message
 import { InsectSearchBox } from "../molecules/InsectSearchBox";
+// @ts-expect-error TS(7016): Could not find a declaration file for module 'styl... Remove this comment to see the full error message
 import styled from "styled-components";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -24,7 +28,9 @@ import ListItemText from "@mui/material/ListItemText";
 import { ListItemAvatar, Typography } from "@mui/material";
 
 export const MapDrawer = memo((props) => {
+  // @ts-expect-error TS(2339): Property 'anchor' does not exist on type '{}'.
   const { anchor, drawerWidth, drawerHeight } = props;
+  // @ts-expect-error TS(2339): Property 'searchResults' does not exist on type 'u... Remove this comment to see the full error message
   const { searchResults } = useContext(SearchParkContext);
   const [selectedCenter, setSelectedCenter] =
     useRecoilState(selectedCenterState);
@@ -34,7 +40,7 @@ export const MapDrawer = memo((props) => {
   const [selectedItemId, setSelectedItemId] = useRecoilState(selectedItemState);
   const [open, setOpen] = useState(true);
 
-  const handleListItem = (result) => {
+  const handleListItem = (result: any) => {
     setSelectedItemId(result.id);
     setDestinationLocation(result.name);
     setSelectedCenter({ lat: result.latitude, lng: result.longitude });
@@ -55,26 +61,35 @@ export const MapDrawer = memo((props) => {
 
   useEffect(() => {
     if (selectedItemId && topListItemRef.current) {
+      // @ts-expect-error TS(2339): Property 'scrollIntoView' does not exist on type '... Remove this comment to see the full error message
       topListItemRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [selectedItemId]);
 
   return (
+    // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
     <Box sx={{ display: "flex" }}>
+      // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <CssBaseline />
+      // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <AppBar
         position="fixed"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
+        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <Header />
       </AppBar>
+      // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <SearchBoxStyled>
+        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <InsectSearchBox
+          // @ts-expect-error TS(2322): Type '{ setOpen: Dispatch<SetStateAction<boolean>>... Remove this comment to see the full error message
           setOpen={setOpen}
           selectedItemId={selectedItemId}
           setSelectedItemId={setSelectedItemId}
         />
       </SearchBoxStyled>
+      // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <Drawer
         variant="persistent"
         sx={{
@@ -89,16 +104,23 @@ export const MapDrawer = memo((props) => {
         open={open}
         anchor={anchor}
       >
+        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         {anchor === "left" ? <Toolbar style={{ height: "110px" }} /> : <></>}
+        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <Box sx={{ overflow: "auto", height: drawerHeight }}>
+          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
           <List>
             {searchResults.length === 0 ? (
+              // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
               <ListItem>
+                // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                 <SListItemText primary="検索した昆虫は見つかりません。" />
               </ListItem>
             ) : (
-              searchResults.map((result, index) => (
+              searchResults.map((result: any, index: any) => (
+                // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                 <React.Fragment key={result.id}>
+                  // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                   <ListItem
                     ref={selectedItemId === result.id ? topListItemRef : null}
                     onClick={() => handleListItem(result)}
@@ -110,25 +132,33 @@ export const MapDrawer = memo((props) => {
                         selectedItemId === result.id ? "#f5f5f5" : "initial",
                     }}
                   >
+                    // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                     <ListItemText
                       primary={
+                        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                         <>
+                          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                           <Typography variant="body1" color="textPrimary">
                             {result.name}
                           </Typography>
+                          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                           <Typography variant="body2" color="textPrimary">
                             {result.address}
                           </Typography>
+                          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                           <Typography variant="body2" color="textSecondary">
                             投稿写真数：{result.image_count}枚
                           </Typography>
+                          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                           <Typography variant="body2" color="textSecondary">
                             昆虫種類数：{result.insect_count}種類
                           </Typography>
                         </>
                       }
                     />
+                    // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                     <ListItemAvatar>
+                      // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                       <img
                         src={result.image[0]}
                         alt="avatar"
@@ -140,10 +170,12 @@ export const MapDrawer = memo((props) => {
                       />
                     </ListItemAvatar>
                   </ListItem>
+                  // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                   {index !== searchResults.length - 1 && <Divider />}
                 </React.Fragment>
               ))
             )}
+            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <Divider />
           </List>
         </Box>
