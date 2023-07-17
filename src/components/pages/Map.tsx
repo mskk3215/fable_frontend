@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+// @ts-expect-error TS(6142): Module '../organisms/MapDrawer' was resolved to '/... Remove this comment to see the full error message
 import { MapDrawer } from "../organisms/MapDrawer";
+// @ts-expect-error TS(6142): Module '../organisms/MapView' was resolved to '/Us... Remove this comment to see the full error message
 import { MapView } from "../organisms/MapView";
 
 export const Map = () => {
@@ -20,12 +22,16 @@ export const Map = () => {
   }, []);
 
   return (
+    // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
     <>
+      // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <MapDrawer
+        // @ts-expect-error TS(2322): Type '{ anchor: string; drawerWidth: string | numb... Remove this comment to see the full error message
         anchor={anchor}
         drawerWidth={drawerWidth}
         drawerHeight={drawerHeight}
       />
+      // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <MapView />
     </>
   );

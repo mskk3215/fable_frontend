@@ -3,13 +3,16 @@ import { MemoryRouter } from "react-router-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import axios from "axios";
+// @ts-expect-error TS(6142): Module '../components/pages/auth/Registration' was... Remove this comment to see the full error message
 import { Registration } from "../components/pages/auth/Registration";
 
 //単体テスト
 describe("Unit Test Registration component", () => {
   it("名前入力欄があるか", async () => {
     render(
+      // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <MemoryRouter>
+        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <Registration />
       </MemoryRouter>
     );
@@ -20,7 +23,9 @@ describe("Unit Test Registration component", () => {
   });
   it("メールアドレス入力欄があるか", async () => {
     render(
+      // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <MemoryRouter>
+        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <Registration />
       </MemoryRouter>
     );
@@ -31,7 +36,9 @@ describe("Unit Test Registration component", () => {
   });
   it("パスワード入力欄があるか", async () => {
     render(
+      // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <MemoryRouter>
+        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <Registration />
       </MemoryRouter>
     );
@@ -43,7 +50,9 @@ describe("Unit Test Registration component", () => {
   });
   it("確認用パスワード入力欄があるか", async () => {
     render(
+      // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <MemoryRouter>
+        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <Registration />
       </MemoryRouter>
     );
@@ -59,14 +68,18 @@ describe("Unit Test Registration component", () => {
 jest.mock("axios");
 describe("Integration Test Registration component", () => {
   beforeEach(() => {
+    // @ts-expect-error TS(2339): Property 'mockClear' does not exist on type '<T = ... Remove this comment to see the full error message
     axios.post.mockClear();
   });
 
   //成功する場合
   it("全ての項目が入力されていて登録ボタンをクリックすれば、フォーム送信処理が成功する", async () => {
+    // @ts-expect-error TS(2339): Property 'mockResolvedValue' does not exist on typ... Remove this comment to see the full error message
     axios.post.mockResolvedValue({ data: { status: "created" } }); //axios.postの返り値をモック化
     render(
+      // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <MemoryRouter>
+        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <Registration />
       </MemoryRouter>
     );
@@ -98,7 +111,9 @@ describe("Integration Test Registration component", () => {
   });
   it("ログインボタンをクリックすれば、ログインページに遷移する", async () => {
     render(
+      // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <MemoryRouter>
+        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <Registration />
       </MemoryRouter>
     );
@@ -110,7 +125,9 @@ describe("Integration Test Registration component", () => {
   //失敗する場合
   it("名前が入力されていなければ、エラーメッセージが出る", async () => {
     render(
+      // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <MemoryRouter>
+        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <Registration />
       </MemoryRouter>
     );
@@ -139,7 +156,9 @@ describe("Integration Test Registration component", () => {
 
   it("メールアドレスが入力されていなければ、エラーメッセージが出る", async () => {
     render(
+      // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <MemoryRouter>
+        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <Registration />
       </MemoryRouter>
     );
@@ -167,7 +186,9 @@ describe("Integration Test Registration component", () => {
   });
   it("パスワードが入力されていなければ、エラーメッセージが出る", async () => {
     render(
+      // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <MemoryRouter>
+        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <Registration />
       </MemoryRouter>
     );
@@ -195,7 +216,9 @@ describe("Integration Test Registration component", () => {
   });
   it("確認用パスワードが入力されていなければ、エラーメッセージが出る", async () => {
     render(
+      // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <MemoryRouter>
+        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <Registration />
       </MemoryRouter>
     );

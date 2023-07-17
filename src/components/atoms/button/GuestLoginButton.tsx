@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Button } from "@mui/material";
 
-export const GuestLoginButton = (props) => {
+export const GuestLoginButton = (props: any) => {
   const { handleLoginAction } = props;
   const SButton = styled(Button)`
     font-size: 1rem;
@@ -17,5 +17,6 @@ export const GuestLoginButton = (props) => {
     });
   };
 
+  // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
   return <SButton onClick={handleGuestLogin}>ゲストログイン</SButton>;
 };

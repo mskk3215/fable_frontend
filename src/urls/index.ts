@@ -21,13 +21,13 @@ export const postClient = axios.create({
 export const getPosts = () => {
   return postClient.get("/images");
 };
-export const createPosts = (data) => {
+export const createPosts = (data: any) => {
   return postClient.post("/images", data);
 };
-export const updatePosts = (id, data) => {
+export const updatePosts = (id: any, data: any) => {
   return postClient.put(`/images/${id}`, data);
 };
-export const deletePosts = (id) => {
+export const deletePosts = (id: any) => {
   return postClient.delete(`/images/${id}`);
 };
 
@@ -47,6 +47,6 @@ export const getPrefectures = () => {
 };
 
 //search parks
-export const getSearchParkResults = (word) => {
+export const getSearchParkResults = (word: any) => {
   return postClient.get("/parks", { params: { search_word: word } });
 };

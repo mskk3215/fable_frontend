@@ -3,10 +3,12 @@ import { MemoryRouter, Route } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import userEvent from "@testing-library/user-event";
 import { render, screen, waitFor } from "@testing-library/react";
+// @ts-expect-error TS(6142): Module '../components/pages/Top' was resolved to '... Remove this comment to see the full error message
 import { Top } from "../components/pages/Top";
 import {
   SearchParkContext,
   SearchParkProvider,
+// @ts-expect-error TS(6142): Module '../providers/SearchParkProvider' was resol... Remove this comment to see the full error message
 } from "../providers/SearchParkProvider";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
@@ -56,9 +58,13 @@ describe("Unit test for Top component", () => {
 
   it("レンダリングされるか", () => {
     render(
+      // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <RecoilRoot>
+        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <MemoryRouter>
+          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
           <SearchParkProvider>
+            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <Top />
           </SearchParkProvider>
         </MemoryRouter>
@@ -74,9 +80,13 @@ describe("Unit test for Top component", () => {
   it("Autocompleteが機能するか", async () => {
     const handleGetParkSearchResults = jest.fn();
     render(
+      // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <RecoilRoot>
+        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <MemoryRouter>
+          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
           <SearchParkContext.Provider value={{ handleGetParkSearchResults }}>
+            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <Top />
           </SearchParkContext.Provider>
         </MemoryRouter>
@@ -97,9 +107,13 @@ describe("Unit test for Top component", () => {
   it("検索ワードの変更が正しく行われるか", async () => {
     const handleGetParkSearchResults = jest.fn();
     render(
+      // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <RecoilRoot>
+        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <MemoryRouter>
+          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
           <SearchParkContext.Provider value={{ handleGetParkSearchResults }}>
+            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <Top />
           </SearchParkContext.Provider>
         </MemoryRouter>
@@ -107,5 +121,6 @@ describe("Unit test for Top component", () => {
     );
     const searchInput = screen.getByPlaceholderText("昆虫名を入力して下さい");
     userEvent.type(searchInput, "カブトムシ");
+    // @ts-expect-error TS(2339): Property 'value' does not exist on type 'HTMLEleme... Remove this comment to see the full error message
     expect(searchInput.value).toBe("カブトムシ");
   });
