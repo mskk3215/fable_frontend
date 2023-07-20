@@ -1,10 +1,15 @@
 import React, { createContext, useState } from "react";
+import { UserContextType, UserProviderProps } from "../types/user";
 
-export const UserContext = createContext({});
+export const UserContext = createContext<UserContextType>({
+  user: null,
+  setUser: () => {},
+  loggedInStatus: false,
+  setLoggedInStatus: () => {},
+  handleSuccessfulAuthentication: () => {},
+});
 
-export const UserProvider = (props: any) => {
-  const { children } = props;
-
+export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [loggedInStatus, setLoggedInStatus] = useState(false);
   const [user, setUser] = useState("");
 
@@ -14,7 +19,6 @@ export const UserProvider = (props: any) => {
   };
 
   return (
-    // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
     <UserContext.Provider
       value={{
         user,
