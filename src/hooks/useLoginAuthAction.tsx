@@ -2,14 +2,13 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { loginUrl } from "../urls";
-// @ts-expect-error TS(6142): Module '../providers/UserProvider' was resolved to... Remove this comment to see the full error message
 import { UserContext } from "../providers/UserProvider";
+import { LoginAuthAction } from "../types/user";
 
 export const useLoginAuthAction = () => {
-  // @ts-expect-error TS(2339): Property 'handleSuccessfulAuthentication' does not... Remove this comment to see the full error message
   const { handleSuccessfulAuthentication } = useContext(UserContext);
-
   const navigate = useNavigate();
+<<<<<<< HEAD
 
 <<<<<<< HEAD
   const handleLoginAction = ({ email, password }) => {
@@ -20,6 +19,13 @@ export const useLoginAuthAction = () => {
     setErrors
   }: any) => {
 >>>>>>> e985f6b (error output by ts-migrate)
+=======
+  const handleLoginAction = ({
+    email,
+    password,
+    setErrors,
+  }: LoginAuthAction) => {
+>>>>>>> 5b01e68 (hooks&provider type to user add)
     axios
       .post(
         loginUrl,
@@ -38,7 +44,11 @@ export const useLoginAuthAction = () => {
         }
       })
       .catch((error) => {
+<<<<<<< HEAD
         console.log("login error", error);
+=======
+        setErrors && setErrors(error.response.data.errors);
+>>>>>>> 5b01e68 (hooks&provider type to user add)
       });
   };
 
