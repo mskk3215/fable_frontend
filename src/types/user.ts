@@ -14,5 +14,5 @@ export type UserProviderProps = {
 export type LoginAuthAction = {
   email: string;
   password: string;
-  setErrors?: (errors: string) => void | undefined;
+  setErrors?: (errors: string[]) => void | undefined;
 };
