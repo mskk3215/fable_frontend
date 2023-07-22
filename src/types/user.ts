@@ -5,7 +5,9 @@ export type UserContextType = {
   setUser: (user: string) => void;
   loggedInStatus: boolean;
   setLoggedInStatus: (loggedInStatus: boolean) => void;
-  handleSuccessfulAuthentication: (data: { user: string }) => void;
+  handleSuccessfulAuthentication: (data: {
+    user: { nickname: string };
+  }) => void;
 };
 export type UserProviderProps = {
   children: ReactNode;
