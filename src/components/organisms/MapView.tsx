@@ -1,4 +1,4 @@
-import { memo, useContext, useEffect } from "react";
+import React, { memo, useContext, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import {
   DirectionsRenderer,
@@ -6,7 +6,6 @@ import {
   MarkerF,
   useLoadScript,
 } from "@react-google-maps/api";
-// @ts-expect-error TS(6142): Module '../../providers/SearchParkProvider' was re... Remove this comment to see the full error message
 import { SearchParkContext } from "../../providers/SearchParkProvider";
 import {
   mapApiLoadState,
@@ -14,11 +13,14 @@ import {
   selectedItemState,
 } from "../../store/atoms/MapDirectionState";
 
-// @ts-expect-error TS(2769): No overload matches this call.
-export const MapView = memo((props) => {
-  // @ts-expect-error TS(2339): Property 'directions' does not exist on type '{}'.
+type Props = {
+  directions?: google.maps.DirectionsResult | null;
+  handleMapClick?: (e: google.maps.MapMouseEvent) => void;
+  onLoadHook?: (line: google.maps.DirectionsRenderer) => void;
+};
+
+export const MapView = memo((props: Props) => {
   const { directions, handleMapClick, onLoadHook } = props;
-  // @ts-expect-error TS(2339): Property 'searchResults' does not exist on type 'u... Remove this comment to see the full error message
   const { searchResults } = useContext(SearchParkContext);
   const [selectedCenter, setSelectedCenter] =
     useRecoilState(selectedCenterState);
@@ -39,20 +41,18 @@ export const MapView = memo((props) => {
 
   //Google Maps APIの読み込み状態を管理する
   const { isLoaded, loadError } = useLoadScript({
-    // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
-    googleMapsApiKey: process.env.REACT_APP_API_KEY,
+    googleMapsApiKey: String(process.env.REACT_APP_API_KEY),
     libraries: ["places"],
   });
   useEffect(() => {
-    // @ts-expect-error TS(2322): Type 'Error | undefined' is not assignable to type... Remove this comment to see the full error message
-    setMapLoadState({ isLoaded, loadError });
+    setMapLoadState({ isLoaded, loadError: Boolean(loadError) });
   }, [isLoaded, loadError, setMapLoadState]);
 
   if (mapLoadState.loadError) return "Error loading maps";
   if (!mapLoadState.isLoaded) return "Loading Maps";
 
   //Iconの設定
-  const renderIcon = (id: any) => {
+  const renderIcon = (id: number) => {
     const selectedIconUrl = process.env.PUBLIC_URL + "/images/selectedIcon.png";
     const parkIconUrl = process.env.PUBLIC_URL + "/images/park_icon.png";
 
@@ -65,17 +65,16 @@ export const MapView = memo((props) => {
   };
 
   //label option
-  const markerLabel = (title: any) => ({
+  const markerLabel = (title: string) => ({
     text: title,
     color: "blue",
     fontFamily: "sans-serif",
     fontSize: "15px",
     fontWeight: "bold",
-    labelOrigin: new window.google.maps.Point(0, -30)
+    labelOrigin: new window.google.maps.Point(0, -30),
   });
 
   return (
-    // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
     <GoogleMap
       mapContainerStyle={{
         width: window.innerWidth + "px",
@@ -84,14 +83,9 @@ export const MapView = memo((props) => {
       zoom={10}
       center={selectedCenter}
       options={mapOptions}
-      onClick={(e) => handleMapClick(e)}
+      onClick={(e) => handleMapClick?.(e)}
     >
-      {locations?.map(({
-        id,
-        title,
-        latLng
-      }: any) => (
-        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
+      {locations?.map(({ id, title, latLng }: any) => (
         <MarkerF
           key={id}
           position={latLng}
@@ -110,7 +104,6 @@ export const MapView = memo((props) => {
         />
       ))}
       {directions && (
-        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <DirectionsRenderer
           directions={directions}
           options={{
@@ -125,7 +118,6 @@ export const MapView = memo((props) => {
         />
       )}
       {directions?.routes[0]?.legs[0]?.start_location && (
-        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <MarkerF
           position={directions.routes[0].legs[0].start_location}
           title="出発地点"
