@@ -13,7 +13,9 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [loggedInStatus, setLoggedInStatus] = useState(false);
   const [user, setUser] = useState("");
 
-  const handleSuccessfulAuthentication = (data: any) => {
+  const handleSuccessfulAuthentication = (data: {
+    user: { nickname: string };
+  }) => {
     setLoggedInStatus(true);
     setUser(data.user.nickname);
   };
