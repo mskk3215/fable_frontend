@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useRef, memo } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { SearchParkContext } from "../../providers/SearchParkProvider";
 import {
   selectedCenterState,
@@ -33,8 +33,7 @@ type Props = {
 export const MapDrawer = memo((props: Props) => {
   const { anchor, drawerWidth, drawerHeight } = props;
   const { searchResults } = useContext(SearchParkContext);
-  const [selectedCenter, setSelectedCenter] =
-    useRecoilState(selectedCenterState);
+  const setSelectedCenter = useSetRecoilState(selectedCenterState);
   const [destinationLocation, setDestinationLocation] = useRecoilState(
     destinationLocationState
   );

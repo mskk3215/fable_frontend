@@ -1,5 +1,5 @@
 import React, { useState, useEffect, memo } from "react";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { Pagination, useMediaQuery, useTheme } from "@mui/material";
 import { paginatedPostsState } from "../../store/atoms/paginatedPostsState";
 import { Post } from "../../types/images";
@@ -9,8 +9,7 @@ type Props = {
 };
 export const PageNavigator = memo((props: Props) => {
   const { posts } = props;
-  const [paginatedPosts, setPaginatedPosts] =
-    useRecoilState(paginatedPostsState);
+  const setPaginatedPosts = useSetRecoilState(paginatedPostsState);
 
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(1);
