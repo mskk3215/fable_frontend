@@ -1,11 +1,21 @@
 import { atom } from "recoil";
 
-export const selectedItemState = atom({
+type SelectedItem = number | null;
+type SelectedCenter = {
+  lat: number;
+  lng: number;
+};
+type MapApiLoad = {
+  isLoaded: boolean;
+  loadError: boolean;
+};
+
+export const selectedItemState = atom<SelectedItem>({
   key: "selectedItemState",
-  default: [],
+  default: null,
 });
 
-export const selectedCenterState = atom({
+export const selectedCenterState = atom<SelectedCenter>({
   key: "selectedCenterState",
   default: {
     lat: 35.69575,
@@ -13,7 +23,7 @@ export const selectedCenterState = atom({
   },
 });
 
-export const mapApiLoadState = atom({
+export const mapApiLoadState = atom<MapApiLoad>({
   key: "mapApiLoadState",
   default: {
     isLoaded: false,

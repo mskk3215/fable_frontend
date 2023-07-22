@@ -1,11 +1,13 @@
-import * as React from "react";
-import { memo } from "react";
+import React, { memo } from "react";
 import { useRecoilValue } from "recoil";
 import { destinationLocationState } from "../../store/atoms/searchWordState";
 import { TextField } from "@mui/material";
 
-export const DestinationBox = memo((props) => {
-  // @ts-expect-error TS(2339): Property 'destinationRef' does not exist on type '... Remove this comment to see the full error message
+type Props = {
+  destinationRef: React.RefObject<HTMLInputElement>;
+};
+
+export const DestinationBox = memo((props: Props) => {
   const { destinationRef } = props;
   const destinationLocation = useRecoilValue(destinationLocationState);
   if (!destinationLocation) {
@@ -13,7 +15,6 @@ export const DestinationBox = memo((props) => {
   }
 
   return (
-    // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
     <TextField
       id="DestinationBox in map"
       value={destinationLocation}
