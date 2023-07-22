@@ -1,7 +1,13 @@
+import React from "react";
 import styled from "@emotion/styled";
 import { Button } from "@mui/material";
+import { LoginAuthAction } from "../../../types/user";
 
-export const GuestLoginButton = (props: any) => {
+type Props = {
+  handleLoginAction: (data: LoginAuthAction) => void;
+};
+
+export const GuestLoginButton = (props: Props) => {
   const { handleLoginAction } = props;
   const SButton = styled(Button)`
     font-size: 1rem;
@@ -17,6 +23,5 @@ export const GuestLoginButton = (props: any) => {
     });
   };
 
-  // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
   return <SButton onClick={handleGuestLogin}>ゲストログイン</SButton>;
 };
