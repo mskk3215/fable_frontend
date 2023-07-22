@@ -10,6 +10,7 @@ export const logoutUrl = `${DEFAULT_API_LOCALHOST}/logout`;
 export const logged_inUrl = `${DEFAULT_API_LOCALHOST}/logged_in`;
 
 //post
+
 export const postClient = axios.create({
   baseURL: DEFAULT_API_LOCALHOST,
   withCredentials: true,
@@ -21,13 +22,13 @@ export const postClient = axios.create({
 export const getPosts = () => {
   return postClient.get("/images");
 };
-export const createPosts = (data: any) => {
+export const createPosts = (data: FormData) => {
   return postClient.post("/images", data);
 };
-export const updatePosts = (id: any, data: any) => {
+export const updatePosts = (id: number[], data: FormData) => {
   return postClient.put(`/images/${id}`, data);
 };
-export const deletePosts = (id: any) => {
+export const deletePosts = (id: number[]) => {
   return postClient.delete(`/images/${id}`);
 };
 
@@ -47,6 +48,6 @@ export const getPrefectures = () => {
 };
 
 //search parks
-export const getSearchParkResults = (word: any) => {
+export const getSearchParkResults = (word: string) => {
   return postClient.get("/parks", { params: { search_word: word } });
 };

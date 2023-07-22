@@ -1,8 +1,6 @@
-import * as React from "react";
-import { useCallback, memo } from "react";
+import React, { useCallback, memo, ChangeEvent } from "react";
 import format from "date-fns/format";
 import ja from "date-fns/locale/ja";
-
 import {
   Card,
   CardContent,
@@ -13,28 +11,31 @@ import {
   styled,
 } from "@mui/material";
 
-export const PostItem = memo((props) => {
+type Props = {
+  post: any;
+  handleSelect?: () => void;
+  handleRemove?: () => void;
+  checked?: boolean;
+  isCheckboxVisible: boolean;
+  parks: any;
+};
+
+export const PostItem = memo((props: Props) => {
   const {
-    // @ts-expect-error TS(2339): Property 'post' does not exist on type '{}'.
     post,
-    // @ts-expect-error TS(2339): Property 'handleSelect' does not exist on type '{}... Remove this comment to see the full error message
     handleSelect,
-    // @ts-expect-error TS(2339): Property 'handleRemove' does not exist on type '{}... Remove this comment to see the full error message
     handleRemove,
-    // @ts-expect-error TS(2339): Property 'checked' does not exist on type '{}'.
     checked,
-    // @ts-expect-error TS(2339): Property 'isCheckboxVisible' does not exist on typ... Remove this comment to see the full error message
     isCheckboxVisible,
-    // @ts-expect-error TS(2339): Property 'parks' does not exist on type '{}'.
     parks,
   } = props;
 
   const handleChange = useCallback(
-    (e: any) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
       if (checked) {
-        handleRemove();
+        handleRemove?.();
       } else {
-        handleSelect();
+        handleSelect?.();
       }
     },
     [checked, handleSelect, handleRemove]
@@ -50,17 +51,12 @@ export const PostItem = memo((props) => {
   };
 
   return (
-    // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
     <>
       {post.image ? (
-        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <SquareCard>
-          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
           <FormControlLabel
             control={
-              // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
               <Card>
-                // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                 <CardMedia
                   component="img"
                   src={post.image}
@@ -73,7 +69,6 @@ export const PostItem = memo((props) => {
                   }}
                 />
                 {isCheckboxVisible && (
-                  // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                   <Checkbox
                     checked={checked}
                     onChange={handleChange}
@@ -81,7 +76,6 @@ export const PostItem = memo((props) => {
                     style={{ position: "absolute", top: 5, right: 5 }}
                   />
                 )}
-                // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                 <CardContent
                   style={{
                     position: "absolute",
@@ -92,19 +86,16 @@ export const PostItem = memo((props) => {
                   }}
                 >
                   {/* 撮影日 */}
-                  // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                   <CustomTypography variant="body2">
                     {createdTime(post) ? createdTime(post) : "\u00a0"}
                   </CustomTypography>
                   {/* 昆虫名 */}
-                  // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                   <CustomTypography>
                     {post.insect_name
                       ? `${post.insect_name}(${post.insect_sex})`
                       : "\u00a0"}
                   </CustomTypography>
                   {/* 公園名 or 市町村名 */}
-                  // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                   <CustomTypography>
                     {parks[post.park_id - 1]?.name
                       ? parks[post.park_id - 1]?.name
@@ -113,6 +104,7 @@ export const PostItem = memo((props) => {
                 </CardContent>
               </Card>
             }
+            label="card"
           />
         </SquareCard>
       ) : null}

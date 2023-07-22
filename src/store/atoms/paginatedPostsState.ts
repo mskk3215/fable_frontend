@@ -1,6 +1,9 @@
 import { atom } from "recoil";
+import { Post } from "../../types/images";
 
-export const paginatedPostsState = atom({
+export type PaginatedPosts = Post[];
+
+export const paginatedPostsState = atom<PaginatedPosts>({
   key: "paginatedPostsState",
   default: [],
 });
