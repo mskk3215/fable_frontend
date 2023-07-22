@@ -15,26 +15,16 @@ export const Registration = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
-<<<<<<< HEAD
-
-  const navigate = useNavigate();
-<<<<<<< HEAD
-  const handleRegistrationAction = (e) => {
-=======
-  const handleRegistrationAction = (e: any) => {
-=======
   const [errors, setErrors] = useState<string[]>([]);
 
   const navigate = useNavigate();
   const handleRegistrationAction = (e: React.MouseEvent<HTMLButtonElement>) => {
->>>>>>> 8885765 (type definitions add to user-related components)
     // バリデーション
     if (!nickname || !email || !password || !passwordConfirmation) {
       setErrors(["入力されていない項目があります"]);
       return;
     }
     // ユーザー登録
->>>>>>> e985f6b (error output by ts-migrate)
     axios
       .post(
         registrationUrl,
@@ -54,7 +44,7 @@ export const Registration = () => {
         }
       })
       .catch((error) => {
-        console.log("registration error", error);
+        setErrors(error.response.data.errors);
       });
     e.preventDefault();
   };
@@ -82,8 +72,6 @@ export const Registration = () => {
           <Typography variant="h5" sx={{ textAlign: "center" }}>
             新規登録
           </Typography>
-<<<<<<< HEAD
-=======
           {errors &&
             errors.map((error, index) => (
               <Typography
@@ -95,11 +83,6 @@ export const Registration = () => {
                 {error}
               </Typography>
             ))}
-<<<<<<< HEAD
-          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
->>>>>>> e985f6b (error output by ts-migrate)
-=======
->>>>>>> 8885765 (type definitions add to user-related components)
           <Box sx={{ width: "100%", maxWidth: "400px" }}>
             <TextField
               label="名前"
@@ -128,6 +111,7 @@ export const Registration = () => {
               variant="outlined"
               name="password"
               type="password"
+              placeholder="パスワードを入力してください"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               margin="normal"
@@ -139,6 +123,7 @@ export const Registration = () => {
               variant="outlined"
               name="password_confirmation"
               type="password"
+              placeholder="パスワードを再入力してください"
               value={passwordConfirmation}
               onChange={(e) => setPasswordConfirmation(e.target.value)}
               margin="normal"

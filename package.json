@@ -11,10 +11,6 @@
     "@mui/styled-engine-sc": "^5.12.0",
     "@mui/x-date-pickers": "^6.3.1",
     "@react-google-maps/api": "^2.18.1",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^29.5.3",
     "@types/node": "^20.4.2",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
@@ -42,14 +38,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-<<<<<<< HEAD
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-=======
     "test": "react-scripts test --env=jsdom --verbose",
     "eject": "react-scripts eject",
     "preinstall": "typesync || :"
->>>>>>> 738da2a (typescript install)
   },
   "eslintConfig": {
     "extends": [
@@ -68,8 +59,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-<<<<<<< HEAD
-=======
   },
   "jest": {
     "transformIgnorePatterns": [
@@ -78,13 +67,8 @@
   },
   "devDependencies": {
     "@types/path-browserify": "^1.0.0",
-    "@types/react-test-renderer": "^18.0.0",
     "@types/styled-components": "^5.1.26",
-    "@types/testing-library__jest-dom": "^5.14.8",
-    "@types/testing-library__user-event": "^4.2.0",
-    "msw": "^1.2.2",
     "ts-migrate": "^0.1.35",
     "typesync": "^0.11.1"
->>>>>>> 738da2a (typescript install)
   }
 }

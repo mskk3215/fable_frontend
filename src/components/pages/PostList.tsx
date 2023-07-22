@@ -1,25 +1,12 @@
-<<<<<<< HEAD
-import * as React from "react";
-import { useRecoilState } from "recoil";
-<<<<<<< HEAD
-import { Link } from "react-router-dom";
-import { paginatedPostsState } from "../../store/atoms/paginatedPostsState";
-=======
-=======
 import React, { useContext, useEffect } from "react";
 import { useRecoilValue } from "recoil";
->>>>>>> c5e0d1f (type definitions add to post-related components)
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../providers/UserProvider";
-<<<<<<< HEAD
-// @ts-expect-error TS(6142): Module '../../hooks/useAllImages' was resolved to ... Remove this comment to see the full error message
->>>>>>> e985f6b (error output by ts-migrate)
-=======
->>>>>>> c5e0d1f (type definitions add to post-related components)
 import { useAllImages } from "../../hooks/useAllImages";
 import { useAllParks } from "../../hooks/useAllParks";
 import { PostItem } from "../molecules/PostItem";
 import { PageNavigator } from "../organisms/PageNavigator";
+import { paginatedPostsState } from "../../store/atoms/paginatedPostsState";
 import Box from "@mui/system/Box";
 import Grid from "@mui/material/Grid";
 
@@ -27,9 +14,8 @@ export const PostList = () => {
   const { posts } = useAllImages();
   const { parks } = useAllParks();
   const { loggedInStatus } = useContext(UserContext);
-  const navigate = useNavigate();
-
   const paginatedPosts = useRecoilValue(paginatedPostsState);
+  const navigate = useNavigate();
 
   // ログインしていない場合はログインページにリダイレクト
   useEffect(() => {

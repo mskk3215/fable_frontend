@@ -37,24 +37,14 @@ export const Top = () => {
     saveSearchWord(searchWord);
   }, [searchWord]);
 
-  const SConteiner = styled.div`
-    text-align: center;
-    margin-top: 100px;
-  `;
-
   return (
     <>
       <SConteiner>
         <h1>Top</h1>
         <Container maxWidth="md" sx={{ mt: 20 }}>
           <Autocomplete
-<<<<<<< HEAD
-            id="demo"
-            value={searchWord}
-=======
             data-testid="autocomplete"
             value={selectedInsectOption || null}
->>>>>>> d61e727 (type definitions add to top page component)
             onChange={(e, newValue) => {
               setSearchWord(newValue?.label || "");
             }}
@@ -100,3 +90,8 @@ export const Top = () => {
     </>
   );
 };
+
+const SConteiner = styled.div`
+  text-align: center;
+  margin-top: 100px;
+`;

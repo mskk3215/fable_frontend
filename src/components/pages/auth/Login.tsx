@@ -7,18 +7,9 @@ export const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-<<<<<<< HEAD
-
-<<<<<<< HEAD
-  const handleLogin = (e) => {
-    handleLoginAction({ email: email, password: password });
-=======
-  const handleLogin = async (e: any) => {
-=======
   const [errors, setErrors] = useState<string[]>([]);
 
   const handleLogin = async () => {
->>>>>>> 8885765 (type definitions add to user-related components)
     // バリデーション
     if (!email || !password) {
       setErrors(["入力されていない項目があります"]);
@@ -30,7 +21,6 @@ export const Login = () => {
       password: password,
       setErrors: setErrors,
     });
->>>>>>> e985f6b (error output by ts-migrate)
   };
 
   return (
@@ -56,8 +46,6 @@ export const Login = () => {
           <Typography variant="h5" sx={{ textAlign: "center" }}>
             ログイン
           </Typography>
-<<<<<<< HEAD
-=======
           {errors &&
             errors.map((error, index) => (
               <Typography
@@ -69,11 +57,6 @@ export const Login = () => {
                 {error}
               </Typography>
             ))}
-<<<<<<< HEAD
-          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
->>>>>>> e985f6b (error output by ts-migrate)
-=======
->>>>>>> 8885765 (type definitions add to user-related components)
           <Grid container spacing={2} sx={{ mt: 2 }}>
             <Grid item xs={12}>
               <TextField
@@ -94,6 +77,7 @@ export const Login = () => {
                 variant="outlined"
                 name="password"
                 type="password"
+                placeholder="パスワードを入力してください"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 margin="normal"
@@ -103,6 +87,7 @@ export const Login = () => {
             </Grid>
             <Grid item xs={12}>
               <Button
+                id="login-button"
                 type="submit"
                 fullWidth
                 variant="contained"
