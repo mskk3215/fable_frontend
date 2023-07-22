@@ -1,0 +1,136 @@
+import React, { useState, useEffect, useRef } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { DirectionDrawer } from "../organisms/DirectionDrawer";
+import { MapView } from "../organisms/MapView";
+import {
+  destinationLocationState,
+  originLocationState,
+  saveOriginLocation,
+} from "../../store/atoms/searchWordState";
+import { Anchor, TravelMode } from "../../types/map";
+
+export const Direction = () => {
+  const [originLocation, setOriginLocation] =
+    useRecoilState(originLocationState);
+  const [directions, setDirections] =
+    useState<google.maps.DirectionsResult | null>(null);
+  const [distance, setDistance] = useState<string | null>(null);
+  const [duration, setDuration] = useState<string | null>(null);
+  const [anchor, setAnchor] = useState<Anchor>("left");
+  const destinationLocation = useRecoilValue(destinationLocationState);
+  const originRef = useRef<HTMLInputElement>(null);
+  const destinationRef = useRef<HTMLInputElement>(null);
+  const [travelMode, setTravelMode] = useState<TravelMode>("BICYCLING");
+
+  const drawerWidth = anchor === "bottom" || anchor === "top" ? "100%" : 400;
+  const drawerHeight =
+    anchor === "bottom" ? 250 : anchor === "top" ? 310 : "100%";
+
+  //directionsの計算
+  const calculateRoute = async () => {
+    if (originRef.current?.value === "") {
+      alert("出発地を入力してください。");
+      return;
+    }
+    setDirections(null);
+    setOriginLocation(originRef.current?.value || "");
+    const directionsService = new window.google.maps.DirectionsService();
+    try {
+      const results = await directionsService.route({
+        origin: originLocation,
+        destination: destinationLocation,
+        travelMode: window.google.maps.TravelMode[travelMode],
+        avoidHighways: true,
+      });
+      setDirections(results);
+      const text = results?.routes[0]?.legs[0]?.distance?.text;
+      if (text) {
+        setDistance(text);
+        setDuration(text);
+      }
+    } catch (error) {
+      alert("他の交通手段に変えてください。");
+    }
+  };
+
+  //directionsの削除
+  const clearRoute = () => {
+    setDirections(null);
+    setDistance(null);
+    setDuration(null);
+    if (originRef.current) {
+      originRef.current.value = "";
+    }
+    if (destinationRef.current) {
+      destinationRef.current.value = "";
+    }
+  };
+  //map上でクリックした地点の住所を取得する
+  const handleMapClick = (e: google.maps.MapMouseEvent) => {
+    if (e.latLng) {
+      const lat = e.latLng.lat();
+      const lng = e.latLng.lng();
+
+      const geocoder = new window.google.maps.Geocoder();
+      geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+        if (status === "OK" && results) {
+          setOriginLocation(results[0].formatted_address);
+        } else {
+          alert("住所が取得できませんでした。");
+        }
+      });
+    }
+  };
+  useEffect(() => {
+    saveOriginLocation(originLocation);
+  }, [originLocation]);
+
+  //初期load時二重呼び出しを防ぐ
+  // https://tagomoris.hatenablog.com/entry/2022/06/10/144540s
+  const lines: google.maps.DirectionsRenderer[] = [];
+  const onLoadHook = (line: google.maps.DirectionsRenderer) => {
+    lines.push(line);
+  };
+  //クリーンアップ関数
+  useEffect(() => {
+    return () => {
+      lines.forEach((line) => {
+        line.setMap(null);
+      });
+    };
+  });
+
+  //画面サイズによってdrawerの位置を変更する
+  useEffect(() => {
+    const screenSize = window.innerWidth;
+    if (screenSize >= 576) {
+      setAnchor("left");
+    } else {
+      setAnchor("top");
+    }
+  }, []);
+
+  return (
+    <>
+      <DirectionDrawer
+        originRef={originRef}
+        destinationRef={destinationRef}
+        calculateRoute={calculateRoute}
+        clearRoute={clearRoute}
+        travelMode={travelMode}
+        setTravelMode={setTravelMode}
+        distance={distance}
+        duration={duration}
+        anchor={anchor}
+        drawerWidth={drawerWidth}
+        drawerHeight={drawerHeight}
+      />
+
+      <MapView
+        directions={directions}
+        handleMapClick={handleMapClick}
+        onLoadHook={onLoadHook}
+      />
+    </>
+  );
+};
