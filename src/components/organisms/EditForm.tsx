@@ -1,5 +1,12 @@
-import { memo, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  FormEvent,
+  memo,
+  useEffect,
+  useState,
+} from "react";
 import { updatePosts, deletePosts } from "../../urls";
+import { useAllImages } from "../../hooks/useAllImages";
 import {
   Autocomplete,
   Box,
@@ -12,43 +19,48 @@ import {
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { Insect, InsectOption } from "../../types/insects";
+import { Park, ParkOption } from "../../types/parks";
+import { Prefecture, PrefectureOption } from "../../types/prefectures";
 
-export const EditForm = memo((props) => {
+type Props = {
+  selectedIds: number[];
+  setSelectedIds: (ids: number[]) => void;
+  setSelectedIndexes: (indexes: number[]) => void;
+  handleGetParks: () => void;
+  parkOptions: ParkOption[];
+  parks: Park[];
+  insectOptions: InsectOption[];
+  insects: Insect[];
+  prefectureOptions: PrefectureOption[];
+  prefectures: Prefecture[];
+};
+
+export const EditForm = memo((props: Props) => {
   const {
-    // @ts-expect-error TS(2339): Property 'selectedIds' does not exist on type '{}'... Remove this comment to see the full error message
     selectedIds,
-    // @ts-expect-error TS(2339): Property 'setSelectedIds' does not exist on type '... Remove this comment to see the full error message
     setSelectedIds,
-    // @ts-expect-error TS(2339): Property 'setSelectedIndexes' does not exist on ty... Remove this comment to see the full error message
     setSelectedIndexes,
-    // @ts-expect-error TS(2339): Property 'handleGetPosts' does not exist on type '... Remove this comment to see the full error message
-    handleGetPosts,
-    // @ts-expect-error TS(2339): Property 'parkOptions' does not exist on type '{}'... Remove this comment to see the full error message
-    parkOptions,
-    // @ts-expect-error TS(2339): Property 'parks' does not exist on type '{}'.
-    parks,
-    // @ts-expect-error TS(2339): Property 'handleGetParks' does not exist on type '... Remove this comment to see the full error message
     handleGetParks,
-    // @ts-expect-error TS(2339): Property 'insects' does not exist on type '{}'.
+    parkOptions,
+    parks,
     insects,
-    // @ts-expect-error TS(2339): Property 'insectOptions' does not exist on type '{... Remove this comment to see the full error message
     insectOptions,
-    // @ts-expect-error TS(2339): Property 'prefectures' does not exist on type '{}'... Remove this comment to see the full error message
     prefectures,
-    // @ts-expect-error TS(2339): Property 'prefectureOptions' does not exist on typ... Remove this comment to see the full error message
     prefectureOptions,
   } = props;
+
+  const { handleGetPosts } = useAllImages();
 
   const [insectName, setInsectName] = useState("");
   const [insectSex, setInsectSex] = useState("");
   const [prefectureName, setPrefectureName] = useState("");
   const [cityName, setCityName] = useState("");
   const [takenDate, setTakenDate] = useState("");
-
   const [parkName, setParkName] = useState("");
   const [buttonName, setButtonName] = useState("");
 
-  const handleUpdateDeletePost = async (e: any) => {
+  const handleUpdateDeletePost = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData();
     try {
@@ -85,14 +97,14 @@ export const EditForm = memo((props) => {
 
   const getSexes = () => {
     const insectNameValue = insects.find(
-      (insect: any) => insect.name === insectName
+      (insect: Insect) => insect.name === insectName
     );
     return insectNameValue ? insectNameValue.availableSexes : [];
   };
 
   const getCities = () => {
     const prefectureNameValue = prefectures.find(
-      (prefecture: any) => prefecture.name === prefectureName
+      (prefecture: Prefecture) => prefecture.name === prefectureName
     );
     return prefectureNameValue ? prefectureNameValue.cities : [];
   };
@@ -110,17 +122,22 @@ export const EditForm = memo((props) => {
   // 公園名をautocompleteで選択した時に都道府県名と市町村名をセットする
   //handleInputChangeParkNameでoptionsから選択した公園名とfreeSoloで入力した公園名両方取得できるが
   //optionsから公園名を選択する場合disableとしたいので、handleChangeParkNameとhandleInputChangeParkNameで分けている
-  const handleChangeParkName = (e: any, newValue: any) => {
+  const handleChangeParkName = (e: ChangeEvent<{}>, newValue: any) => {
     setValue(newValue);
     setParkName(newValue?.label);
     if (newValue === null) return;
     setPrefectureName(
-      parks.find((park: any) => park.id === newValue.id)?.prefecture_name
+      parks.find((park: Park) => park.id === newValue.id)?.prefecture_name || ""
     );
-    setCityName(parks.find((park: any) => park.id === newValue.id)?.city_name);
+    setCityName(
+      parks.find((park: Park) => park.id === newValue.id)?.city_name || ""
+    );
   };
   // 公園名をテキスト入力した時に都道府県名と市町村名をセットする
-  const handleInputChangeParkName = (e: any, newInputValue: any) => {
+  const handleInputChangeParkName = (
+    e: ChangeEvent<{}>,
+    newInputValue: any
+  ) => {
     setInputValue(newInputValue);
     setParkName(newInputValue);
   };
@@ -150,7 +167,7 @@ export const EditForm = memo((props) => {
 
   const handleFormSize = () => {
     if (window.innerWidth >= 576) {
-      return "middle";
+      return "medium";
     } else {
       return "small";
     }
@@ -164,15 +181,10 @@ export const EditForm = memo((props) => {
   };
 
   return (
-    // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
     <>
-      // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
       <form onSubmit={handleUpdateDeletePost}>
-        // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
         <Box sx={{ width: "100%" }}>
-          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
           <Box>
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <Typography
               sx={{ my: { xs: 1, md: 3 }, mx: 1 }}
               gutterBottom
@@ -180,50 +192,41 @@ export const EditForm = memo((props) => {
             >
               昆虫名
             </Typography>
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <Box sx={{ display: "flex" }}>
-              // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
               <Grid>
-                // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                 <Autocomplete
-                  value={insectName || null}
+                  value={
+                    insectName ? { label: insectName, value: insectName } : null
+                  }
                   onChange={(e, value) => {
-                    // @ts-expect-error TS(2339): Property 'label' does not exist on type 'string'.
                     setInsectName(value?.label || "");
-                    // @ts-expect-error TS(2339): Property 'label' does not exist on type 'string'.
                     setInsectSex(value?.label ? "" : "");
                   }}
                   id="insectName"
-                  // @ts-expect-error TS(2322): Type '"middle" | "small"' is not assignable to typ... Remove this comment to see the full error message
                   size={handleFormSize()}
                   options={insectOptions}
                   sx={{
                     width: { xs: 220, md: 250 }, // 画面サイズによって変更
                   }}
                   renderInput={(params) => (
-                    // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                     <TextField {...params} label="例)カブトムシ" />
                   )}
                 />
               </Grid>
-              // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
               <Grid item xs={1} />
-              // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
               <Grid item xs={4}>
-                // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                 <Autocomplete
                   value={insectSex || null}
                   onChange={(e, value) => {
-                    // @ts-expect-error TS(2345): Argument of type 'string | null' is not assignable... Remove this comment to see the full error message
-                    setInsectSex(value);
+                    if (value !== null) {
+                      setInsectSex(value);
+                    }
                   }}
                   id="sex"
-                  // @ts-expect-error TS(2322): Type '"middle" | "small"' is not assignable to typ... Remove this comment to see the full error message
                   size={handleFormSize()}
                   options={getSexes()}
                   sx={{ width: 120 }} // 画面サイズによって変更
                   renderInput={(params) => (
-                    // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                     <TextField {...params} label="例) オス" />
                   )}
                   disabled={!insectName}
@@ -231,11 +234,8 @@ export const EditForm = memo((props) => {
               </Grid>
             </Box>
           </Box>
-          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
           <Divider variant="fullWidth" sx={{ my: { xs: 1, md: 2 } }} />
-          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
           <Box sx={{ width: 100 }}>
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <Typography
               sx={{ my: { xs: 1, md: 3 }, mx: 1 }}
               gutterBottom
@@ -243,12 +243,9 @@ export const EditForm = memo((props) => {
             >
               撮影場所
             </Typography>
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <Grid item xs={12}>
-              // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
               <Autocomplete
                 id="parkName"
-                // @ts-expect-error TS(2322): Type '"middle" | "small"' is not assignable to typ... Remove this comment to see the full error message
                 size={handleFormSize()}
                 sx={{ width: { xs: 300, md: 350 } }}
                 freeSolo
@@ -258,76 +255,63 @@ export const EditForm = memo((props) => {
                 onInputChange={handleInputChangeParkName}
                 options={parkOptions}
                 renderOption={(props, option) => (
-                  // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
-                  <Box {...props}>
-                    // @ts-expect-error TS(2339): Property 'label' does not exist on type 'string'.
-                    {option.label} ({option.prefecture}
-                    // @ts-expect-error TS(2339): Property 'city' does not exist on type 'string'.
-                    {option.city})
-                  </Box>
+                  <div {...(props as { [key: string]: any })}>
+                    {option.label} ({option.prefecture} {option.city})
+                  </div>
                 )}
                 renderInput={(params) => (
-                  // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                   <TextField {...params} label="公園名" />
                 )}
               />
             </Grid>
           </Box>
-          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
           <Box sx={{ width: 100 }}>
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <Grid item xs={12}>
-              // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
               <Autocomplete
-                value={prefectureName || null}
+                value={
+                  prefectureName !== ""
+                    ? { label: prefectureName, value: prefectureName }
+                    : null
+                }
                 onChange={(e, value) => {
-                  // @ts-expect-error TS(2339): Property 'label' does not exist on type 'string'.
-                  setPrefectureName(value?.label || "");
-                  // @ts-expect-error TS(2339): Property 'label' does not exist on type 'string'.
-                  setCityName(value?.label ? "" : "");
+                  if (value !== null) {
+                    setPrefectureName(value?.label || "");
+                    setCityName(value?.label ? "" : "");
+                  }
                 }}
                 id="prefecture"
-                // @ts-expect-error TS(2322): Type '"middle" | "small"' is not assignable to typ... Remove this comment to see the full error message
                 size={handleFormSize()}
                 options={prefectureOptions}
                 sx={{ width: { xs: 150, md: 200 } }}
                 renderInput={(params) => (
-                  // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                   <TextField {...params} label="都道府県" />
                 )}
                 disabled={!!value}
               />
             </Grid>
           </Box>
-          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
           <Box sx={{ width: 100 }}>
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <Grid item xs={12}>
-              // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
               <Autocomplete
                 value={cityName || null}
                 onChange={(e, value) => {
-                  // @ts-expect-error TS(2345): Argument of type 'string | null' is not assignable... Remove this comment to see the full error message
-                  setCityName(value);
+                  if (value !== null) {
+                    setCityName(value);
+                  }
                 }}
                 id="city"
-                // @ts-expect-error TS(2322): Type '"middle" | "small"' is not assignable to typ... Remove this comment to see the full error message
                 size={handleFormSize()}
                 options={getCities()}
                 sx={{ width: { xs: 150, md: 200 } }}
                 renderInput={(params) => (
-                  // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                   <TextField {...params} label="市町村名" />
                 )}
                 disabled={!!value || !prefectureName}
               />
             </Grid>
           </Box>
-          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
           <Divider variant="fullWidth" sx={{ my: { xs: 1, md: 2 } }} />
-          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
           <Box sx={{ width: 200 }}>
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <Typography
               sx={{ my: { xs: 1, md: 3 }, mx: 1 }}
               gutterBottom
@@ -335,11 +319,8 @@ export const EditForm = memo((props) => {
             >
               撮影日
             </Typography>
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <Grid item xs={12}>
-              // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
                 <DatePicker
                   value={takenDate}
                   onChange={handleDateChange}
@@ -347,19 +328,14 @@ export const EditForm = memo((props) => {
                   sx={{
                     width: { xs: 150, md: 200 },
                   }}
-                  // @ts-expect-error TS(2322): Type '"middle" | "small"' is not assignable to typ... Remove this comment to see the full error message
                   slotProps={{ textField: { size: handleFormSize() } }}
                 />
               </LocalizationProvider>
             </Grid>
           </Box>
-          // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
           <Box sx={{ pt: { xs: 1, md: 3 }, display: "flex" }}>
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <Grid>
-              // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
               <Button
-                // @ts-expect-error TS(2769): No overload matches this call.
                 size={handleFormSize()}
                 disabled={handleEditButton()}
                 type="submit"
@@ -370,11 +346,8 @@ export const EditForm = memo((props) => {
                 保存
               </Button>
             </Grid>
-            // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
             <Grid sx={{ pl: 2 }}>
-              // @ts-expect-error TS(17004): Cannot use JSX unless the '--jsx' flag is provided... Remove this comment to see the full error message
               <Button
-                // @ts-expect-error TS(2769): No overload matches this call.
                 size={handleFormSize()}
                 disabled={handleDeleteButton()}
                 type="submit"
