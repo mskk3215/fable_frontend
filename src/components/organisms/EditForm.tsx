@@ -22,6 +22,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { Insect, InsectOption } from "../../types/insects";
 import { Park, ParkOption } from "../../types/parks";
 import { Prefecture, PrefectureOption } from "../../types/prefectures";
+import dayjs, { Dayjs } from "dayjs";
 
 type Props = {
   selectedIds: number[];
@@ -56,7 +57,7 @@ export const EditForm = memo((props: Props) => {
   const [insectSex, setInsectSex] = useState("");
   const [prefectureName, setPrefectureName] = useState("");
   const [cityName, setCityName] = useState("");
-  const [takenDate, setTakenDate] = useState("");
+  const [takenDate, setTakenDate] = useState<Dayjs | null>(null);
   const [parkName, setParkName] = useState("");
   const [buttonName, setButtonName] = useState("");
 
@@ -69,7 +70,7 @@ export const EditForm = memo((props: Props) => {
         data.append("image[sex]", insectSex);
         data.append("image[parkName]", parkName);
         data.append("image[cityName]", cityName);
-        data.append("image[taken_at]", takenDate);
+        data.append("image[taken_at]", takenDate ? takenDate.format() : "");
 
         await updatePosts(selectedIds, data).then(() => {
           alert("更新しました");
@@ -84,7 +85,7 @@ export const EditForm = memo((props: Props) => {
       setInputValue("");
       setPrefectureName("");
       setCityName("");
-      setTakenDate("");
+      setTakenDate(null);
 
       handleGetParks();
       handleGetPosts();
@@ -109,34 +110,46 @@ export const EditForm = memo((props: Props) => {
     return prefectureNameValue ? prefectureNameValue.cities : [];
   };
 
-  const handleDateChange = (date: any) => {
-    if (date === null) return setTakenDate("");
+  const handleDateChange = (date: Dayjs | null) => {
+    if (date === null) return setTakenDate(null);
     const formattedDate = date.format("YYYY-MM-DDTHH:mm:ss.SSSZ");
-    setTakenDate(formattedDate);
+    setTakenDate(dayjs(formattedDate));
   };
 
   // 公園名の選択、入力、削除に関する処理
-  const [value, setValue] = useState("");
-  const [inputValue, setInputValue] = useState("");
+  const [value, setValue] = useState<string>("");
+  const [inputValue, setInputValue] = useState<string>("");
 
   // 公園名をautocompleteで選択した時に都道府県名と市町村名をセットする
   //handleInputChangeParkNameでoptionsから選択した公園名とfreeSoloで入力した公園名両方取得できるが
   //optionsから公園名を選択する場合disableとしたいので、handleChangeParkNameとhandleInputChangeParkNameで分けている
-  const handleChangeParkName = (e: ChangeEvent<{}>, newValue: any) => {
-    setValue(newValue);
-    setParkName(newValue?.label);
-    if (newValue === null) return;
-    setPrefectureName(
-      parks.find((park: Park) => park.id === newValue.id)?.prefecture_name || ""
-    );
-    setCityName(
-      parks.find((park: Park) => park.id === newValue.id)?.city_name || ""
-    );
+  const handleChangeParkName = (
+    e: ChangeEvent<{}>,
+    newValue: string | ParkOption | null
+  ) => {
+    if (typeof newValue === "string") return;
+    if (newValue) {
+      setValue(newValue.label);
+      setParkName(newValue?.label);
+      if (newValue === null) return;
+      setPrefectureName(
+        parks.find((park: Park) => park.id === newValue.id)?.prefecture_name ||
+          ""
+      );
+      setCityName(
+        parks.find((park: Park) => park.id === newValue.id)?.city_name || ""
+      );
+    } else {
+      setValue("");
+      setParkName("");
+      setPrefectureName("");
+      setCityName("");
+    }
   };
   // 公園名をテキスト入力した時に都道府県名と市町村名をセットする
   const handleInputChangeParkName = (
     e: ChangeEvent<{}>,
-    newInputValue: any
+    newInputValue: string
   ) => {
     setInputValue(newInputValue);
     setParkName(newInputValue);
@@ -155,7 +168,7 @@ export const EditForm = memo((props: Props) => {
   const incompleteInsectInfo = insectName !== "" && insectSex === null;
   const incompleteLocationInfo = prefectureName !== "" && cityName === "";
   const incompleteAllInfo =
-    insectSex === "" && cityName === "" && takenDate === "";
+    insectSex === "" && cityName === "" && takenDate === null;
 
   const handleEditButton = () =>
     noSelectedIds ||
@@ -255,7 +268,11 @@ export const EditForm = memo((props: Props) => {
                 onInputChange={handleInputChangeParkName}
                 options={parkOptions}
                 renderOption={(props, option) => (
-                  <div {...(props as { [key: string]: any })}>
+                  <div
+                    {...(props as {
+                      [key: string]: React.HtmlHTMLAttributes<HTMLDivElement>;
+                    })}
+                  >
                     {option.label} ({option.prefecture} {option.city})
                   </div>
                 )}

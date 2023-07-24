@@ -12,6 +12,7 @@ import {
   selectedCenterState,
   selectedItemState,
 } from "../../store/atoms/MapDirectionState";
+import { Location } from "../../types/map";
 
 type Props = {
   directions?: google.maps.DirectionsResult | null;
@@ -32,7 +33,7 @@ export const MapView = memo((props: Props) => {
     mapTypeControl: false,
   };
 
-  const locations = searchResults.map((result: any) => {
+  const locations = searchResults.map((result) => {
     const id = result.id;
     const title = result.name;
     const latLng = { lat: result.latitude, lng: result.longitude };
@@ -85,7 +86,7 @@ export const MapView = memo((props: Props) => {
       options={mapOptions}
       onClick={(e) => handleMapClick?.(e)}
     >
-      {locations?.map(({ id, title, latLng }: any) => (
+      {locations?.map(({ id, title, latLng }: Location) => (
         <MarkerF
           key={id}
           position={latLng}

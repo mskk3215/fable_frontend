@@ -11,6 +11,7 @@ import { useAllInsects } from "../../hooks/useAllInsects";
 import { useAllPrefectures } from "../../hooks/useAllPrefectures";
 import { PageNavigator } from "../organisms/PageNavigator";
 import { Box, Divider, Grid } from "@mui/material";
+import { Post } from "../../types/images";
 
 export const PostEdit = () => {
   const { posts } = useAllImages();
@@ -76,7 +77,7 @@ export const PostEdit = () => {
 
   //画像選択追加
   const handleSelect = useCallback(
-    (post: any) => {
+    (post: Post) => {
       const index = idToIndex(post.id);
       if (index === undefined) return;
 
@@ -94,7 +95,7 @@ export const PostEdit = () => {
 
   //画像選択解除
   const handleRemove = useCallback(
-    (post: any) => {
+    (post: Post) => {
       const selectedIndex = idToIndex(post.id);
       if (selectedIndex === undefined) return;
 
