@@ -10,14 +10,16 @@ import {
   Typography,
   styled,
 } from "@mui/material";
+import { Post } from "../../types/images";
+import { Park } from "../../types/parks";
 
 type Props = {
-  post: any;
+  post: Post;
   handleSelect?: () => void;
   handleRemove?: () => void;
   checked?: boolean;
   isCheckboxVisible: boolean;
-  parks: any;
+  parks: Park[];
 };
 
 export const PostItem = memo((props: Props) => {
@@ -41,7 +43,7 @@ export const PostItem = memo((props: Props) => {
     [checked, handleSelect, handleRemove]
   );
 
-  const createdTime = (post: any) => {
+  const createdTime = (post: Post) => {
     if (post.taken_at) {
       const date = new Date(post.taken_at);
       const formattedDate = format(date, "yyyy/M/d/(E)", { locale: ja });
@@ -97,7 +99,7 @@ export const PostItem = memo((props: Props) => {
                   </CustomTypography>
                   {/* 公園名 or 市町村名 */}
                   <CustomTypography>
-                    {parks[post.park_id - 1]?.name
+                    {post.park_id !== null && parks[post.park_id - 1]?.name
                       ? parks[post.park_id - 1]?.name
                       : post.city_name}
                   </CustomTypography>

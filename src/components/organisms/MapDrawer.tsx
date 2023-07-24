@@ -23,6 +23,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import { ListItemAvatar, Typography } from "@mui/material";
 import { Anchor } from "../../types/map";
+import { Park } from "../../types/parks";
 
 type Props = {
   anchor: Anchor;
@@ -40,7 +41,7 @@ export const MapDrawer = memo((props: Props) => {
   const [selectedItemId, setSelectedItemId] = useRecoilState(selectedItemState);
   const [open, setOpen] = useState(true);
 
-  const handleListItem = (result: any) => {
+  const handleListItem = (result: Park) => {
     setSelectedItemId(result.id);
     setDestinationLocation(result.name);
     setSelectedCenter({ lat: result.latitude, lng: result.longitude });
@@ -96,7 +97,7 @@ export const MapDrawer = memo((props: Props) => {
                 <SListItemText primary="検索した昆虫は見つかりません。" />
               </ListItem>
             ) : (
-              searchResults.map((result: any, index: number) => (
+              searchResults.map((result, index) => (
                 <React.Fragment key={result.id}>
                   <ListItem
                     ref={selectedItemId === result.id ? topListItemRef : null}

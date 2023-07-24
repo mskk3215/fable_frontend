@@ -3,10 +3,11 @@ import React, { createContext, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { getSearchParkResults } from "../urls";
 import { searchWordState } from "../store/atoms/searchWordState";
+import { Park } from "../types/parks";
 
 type SearchParkContextType = {
   handleGetParkSearchResults: (word: string) => void;
-  searchResults: string[];
+  searchResults: Park[];
 };
 type SearchParkProviderProps = {
   children: React.ReactNode;
@@ -20,7 +21,7 @@ export const SearchParkContext = createContext<SearchParkContextType>({
 export const SearchParkProvider: React.FC<SearchParkProviderProps> = ({
   children,
 }) => {
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState<Park[]>([]);
   const searchWord = useRecoilValue(searchWordState);
 
   const handleGetParkSearchResults = async (word: string) => {
