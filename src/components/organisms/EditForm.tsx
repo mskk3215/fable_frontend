@@ -35,6 +35,7 @@ type Props = {
   insects: Insect[];
   prefectureOptions: PrefectureOption[];
   prefectures: Prefecture[];
+  handleGetPosts: () => void;
 };
 
 export const EditForm = memo((props: Props) => {
@@ -49,9 +50,8 @@ export const EditForm = memo((props: Props) => {
     insectOptions,
     prefectures,
     prefectureOptions,
+    handleGetPosts,
   } = props;
-
-  const { handleGetPosts } = useAllImages();
 
   const [insectName, setInsectName] = useState("");
   const [insectSex, setInsectSex] = useState("");

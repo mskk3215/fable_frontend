@@ -14,7 +14,7 @@ import { Box, Divider, Grid } from "@mui/material";
 import { Post } from "../../types/images";
 
 export const PostEdit = () => {
-  const { posts } = useAllImages();
+  const { posts, handleGetPosts } = useAllImages();
   const { parks, parkOptions, handleGetParks } = useAllParks();
   const { insects, insectOptions } = useAllInsects();
   const { prefectures, prefectureOptions } = useAllPrefectures();
@@ -170,6 +170,7 @@ export const PostEdit = () => {
             insectOptions={insectOptions}
             prefectures={prefectures}
             prefectureOptions={prefectureOptions}
+            handleGetPosts={handleGetPosts}
           />
         </Box>
       </Box>
