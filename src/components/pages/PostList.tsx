@@ -29,7 +29,12 @@ export const PostList = () => {
       <Grid container spacing={0.5}>
         {paginatedPosts.map((post) => (
           <Grid item xs={6} sm={4} md={2.4} key={post.id}>
-            <PostItem post={post} parks={parks} isCheckboxVisible={false} />
+            <PostItem
+              post={post}
+              parks={parks}
+              isCheckboxVisible={false}
+              isDialogVisible={true}
+            />
           </Grid>
         ))}
       </Grid>
