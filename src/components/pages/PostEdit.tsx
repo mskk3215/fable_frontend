@@ -145,6 +145,7 @@ export const PostEdit = () => {
                     idToIndex(post.id) !== -1
                   }
                   isCheckboxVisible={true}
+                  isDialogVisible={false}
                   parks={parks}
                 />
               </Grid>

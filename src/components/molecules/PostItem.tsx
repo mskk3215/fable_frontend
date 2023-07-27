@@ -1,4 +1,4 @@
-import React, { useCallback, memo, ChangeEvent } from "react";
+import React, { useCallback, memo, ChangeEvent, useState } from "react";
 import format from "date-fns/format";
 import ja from "date-fns/locale/ja";
 import {
@@ -6,6 +6,8 @@ import {
   CardContent,
   CardMedia,
   Checkbox,
+  Dialog,
+  DialogContent,
   FormControlLabel,
   Typography,
   styled,
@@ -19,6 +21,7 @@ type Props = {
   handleRemove?: () => void;
   checked?: boolean;
   isCheckboxVisible: boolean;
+  isDialogVisible: boolean;
   parks: Park[];
 };
 
@@ -30,7 +33,20 @@ export const PostItem = memo((props: Props) => {
     checked,
     isCheckboxVisible,
     parks,
+    isDialogVisible,
   } = props;
+
+  const [open, setOpen] = useState<boolean>(false);
+  const [imageSize, setImageSize] = useState({ height: "auto", width: "auto" });
+
+  const handleClickOpen = useCallback(() => {
+    setOpen(true);
+    setImageSize({ height: "70vh", width: "auto" });
+  }, []);
+
+  const handleClickClose = useCallback(() => {
+    setOpen(false);
+  }, []);
 
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -55,7 +71,7 @@ export const PostItem = memo((props: Props) => {
   return (
     <>
       {post.image ? (
-        <SquareCard>
+        <SquareCard onClick={handleClickOpen}>
           <FormControlLabel
             control={
               <Card>
@@ -108,6 +124,42 @@ export const PostItem = memo((props: Props) => {
             }
             label="card"
           />
+          <Dialog
+            open={isDialogVisible && open}
+            onClose={handleClickClose}
+            fullWidth={true}
+            maxWidth={"xl"}
+            sx={{
+              backgroundColor: "rgba(0,0,0,0.9)",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <DialogContent
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                overflow: "auto",
+                margin: 0,
+                padding: 0,
+                width: "100%",
+                height: "100%",
+              }}
+            >
+              <img
+                src={post.image}
+                alt="postImage"
+                style={{
+                  objectFit: "contain",
+                  height: imageSize.height,
+                  width: imageSize.width,
+                }}
+              />
+            </DialogContent>
+          </Dialog>
         </SquareCard>
       ) : null}
     </>
