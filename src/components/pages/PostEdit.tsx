@@ -1,10 +1,8 @@
-import React, { useEffect, useState, useCallback, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState, useCallback } from "react";
 import { useRecoilValue } from "recoil";
 import { paginatedPostsState } from "../../store/atoms/paginatedPostsState";
 import { EditForm } from "../organisms/EditForm";
 import { PostItem } from "../molecules/PostItem";
-import { UserContext } from "../../providers/UserProvider";
 import { useAllImages } from "../../hooks/useAllImages";
 import { useAllParks } from "../../hooks/useAllParks";
 import { useAllInsects } from "../../hooks/useAllInsects";
@@ -22,16 +20,7 @@ export const PostEdit = () => {
   const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
   const [isShiftDown, setIsShiftDown] = useState<boolean>(false);
 
-  const { loggedInStatus } = useContext(UserContext);
-  const navigate = useNavigate();
   const paginatedPosts = useRecoilValue(paginatedPostsState);
-
-  // ログインしていない場合はログインページにリダイレクト
-  useEffect(() => {
-    if (!loggedInStatus) {
-      navigate("/login");
-    }
-  }, [loggedInStatus, navigate]);
 
   const keydownHandler = (e: KeyboardEvent) => {
     if (e.key === "Shift") {
