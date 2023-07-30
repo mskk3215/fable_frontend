@@ -1,6 +1,5 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import axios from "axios";
 import { Login } from "../components/pages/auth/Login";
 import { Registration } from "../components/pages/auth/Registration";
 import { PostList } from "../components/pages/PostList";
@@ -9,35 +8,35 @@ import { Page404 } from "../components/pages/Page404";
 import { DefaultLayout } from "../components/templates/DefaultLayout";
 import { HeaderOnly } from "../components/templates/HeaderOnly";
 import { UserContext } from "../providers/UserProvider";
-import { logged_inUrl } from "../urls/index";
 import { UploadView } from "../components/pages/UploadView";
 import { PostEdit } from "../components/pages/PostEdit";
 import { Map } from "../components/pages/Map";
 import { Direction } from "../components/pages/Direction";
 
+type RouteAuthGuardProps = {
+  children: React.ReactNode;
+};
+
 export const Router = () => {
-  const { setUser, loggedInStatus, setLoggedInStatus } =
-    useContext(UserContext);
+  const { loggedInStatus, checkLoginStatus } = useContext(UserContext);
+  const [authChecked, setAuthChecked] = useState(false);
 
+  // ログイン状態をチェック
   useEffect(() => {
-    checkLoginStatus();
-  });
+    const init = async () => {
+      await checkLoginStatus();
+      return setAuthChecked(true);
+    };
+    init();
+  }, []);
 
-  const checkLoginStatus = () => {
-    axios
-      .get(logged_inUrl, { withCredentials: true })
-      .then((response) => {
-        if (response.data.logged_in && loggedInStatus === false) {
-          setLoggedInStatus(true);
-          setUser(response.data.user.nickname);
-        } else if (!response.data.logged_in && loggedInStatus === true) {
-          setLoggedInStatus(false);
-          setUser("");
-        }
-      })
-      .catch((error) => {
-        console.log("ログインエラー", error);
-      });
+  // ログインしていなければログイン画面へ遷移
+  const RouteAuthGuard: React.FC<RouteAuthGuardProps> = ({ children }) => {
+    if (authChecked) {
+      return loggedInStatus ? <>{children}</> : <Login />;
+    } else {
+      return <></>;
+    }
   };
 
   return (
@@ -71,25 +70,31 @@ export const Router = () => {
           <Route
             path="uploadview"
             element={
-              <HeaderOnly>
-                <UploadView />
-              </HeaderOnly>
+              <RouteAuthGuard>
+                <HeaderOnly>
+                  <UploadView />
+                </HeaderOnly>
+              </RouteAuthGuard>
             }
           />
           <Route
             path="postlist"
             element={
-              <HeaderOnly>
-                <PostList />
-              </HeaderOnly>
+              <RouteAuthGuard>
+                <HeaderOnly>
+                  <PostList />
+                </HeaderOnly>
+              </RouteAuthGuard>
             }
           />
           <Route
             path="postedit"
             element={
-              <HeaderOnly>
-                <PostEdit />
-              </HeaderOnly>
+              <RouteAuthGuard>
+                <HeaderOnly>
+                  <PostEdit />
+                </HeaderOnly>
+              </RouteAuthGuard>
             }
           />
           <Route path="map" element={<Map />} />

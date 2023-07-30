@@ -1,6 +1,6 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { useRecoilValue } from "recoil";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { UserContext } from "../../providers/UserProvider";
 import { useAllImages } from "../../hooks/useAllImages";
 import { useAllParks } from "../../hooks/useAllParks";
@@ -13,16 +13,8 @@ import Grid from "@mui/material/Grid";
 export const PostList = () => {
   const { posts } = useAllImages();
   const { parks } = useAllParks();
-  const { loggedInStatus } = useContext(UserContext);
   const paginatedPosts = useRecoilValue(paginatedPostsState);
-  const navigate = useNavigate();
 
-  // ログインしていない場合はログインページにリダイレクト
-  useEffect(() => {
-    if (!loggedInStatus) {
-      navigate("/login");
-    }
-  }, [loggedInStatus, navigate]);
 
   return (
     <Box sx={{ flexGrow: 1, marginTop: 5 }}>

@@ -1,20 +1,8 @@
-import React, { useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../providers/UserProvider";
+import React from "react";
 import { PostForm } from "../organisms/PostForm";
 import { Grid } from "@mui/material";
 
 export const UploadView = () => {
-  const { loggedInStatus } = useContext(UserContext);
-  const navigate = useNavigate();
-
-  // ログインしていない場合はログインページにリダイレクト
-  useEffect(() => {
-    if (!loggedInStatus) {
-      navigate("/login");
-    }
-  }, [loggedInStatus, navigate]);
-
   return (
     <>
       <Grid
