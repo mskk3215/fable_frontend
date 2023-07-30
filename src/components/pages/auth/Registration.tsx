@@ -29,10 +29,12 @@ export const Registration = () => {
       .post(
         registrationUrl,
         {
-          nickname: nickname,
-          email: email,
-          password: password,
-          password_confirmation: passwordConfirmation,
+          user: {
+            nickname: nickname,
+            email: email,
+            password: password,
+            password_confirmation: passwordConfirmation,
+          },
         },
         //cookieを含める
         { withCredentials: true }
