@@ -12,6 +12,7 @@ import { UploadView } from "../components/pages/UploadView";
 import { PostEdit } from "../components/pages/PostEdit";
 import { Map } from "../components/pages/Map";
 import { Direction } from "../components/pages/Direction";
+import { ProfileEdit } from "../components/pages/ProfileEdit";
 
 type RouteAuthGuardProps = {
   children: React.ReactNode;
@@ -65,6 +66,16 @@ export const Router = () => {
               <HeaderOnly>
                 <Login />
               </HeaderOnly>
+            }
+          />
+          <Route
+            path="profileedit"
+            element={
+              <RouteAuthGuard>
+                <HeaderOnly>
+                  <ProfileEdit />
+                </HeaderOnly>
+              </RouteAuthGuard>
             }
           />
           <Route
