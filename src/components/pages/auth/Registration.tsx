@@ -40,7 +40,7 @@ export const Registration = () => {
         { withCredentials: true }
       )
       .then((response) => {
-        if (response.data.status === "created") {
+        if (response.data.registered) {
           handleSuccessfulAuthentication(response.data);
           navigate("/");
         }
