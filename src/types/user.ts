@@ -7,6 +7,12 @@ export type User = {
   avatar: File | null;
 };
 
+export type UserPasswordForm = {
+  password: string;
+  newPassword: string;
+  confirmNewPassword: string;
+};
+
 export type UserContextType = {
   user: User | null;
   setUser: (user: User | null) => void;
