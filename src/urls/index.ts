@@ -9,7 +9,9 @@ export const loginUrl = `${DEFAULT_API_LOCALHOST}/login`;
 export const logoutUrl = `${DEFAULT_API_LOCALHOST}/logout`;
 export const logged_inUrl = `${DEFAULT_API_LOCALHOST}/logged_in`;
 
-//post
+export const updateUser = (id: number, data: FormData) => {
+  return postClient.put(`/users/${id}`, data);
+};
 
 export const postClient = axios.create({
   baseURL: DEFAULT_API_LOCALHOST,
