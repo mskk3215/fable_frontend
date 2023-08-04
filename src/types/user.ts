@@ -7,6 +7,8 @@ export type User = {
   avatar: File | null;
 };
 
+export type UserProfileForm = Omit<User, "id"> & {};
+
 export type UserPasswordForm = {
   password: string;
   newPassword: string;

@@ -1,70 +1,81 @@
 import React, { useContext, useEffect, useState } from "react";
 import { updateUser } from "../../urls";
-import { Box, Button, Modal, TextField, Avatar, Stack } from "@mui/material";
 import { UserContext } from "../../providers/UserProvider";
+import { PasswordChangeButton } from "../atoms/button/PasswordChangeButton";
 import { UserProfileForm } from "../../types/user";
+import {
+  Box,
+  Button,
+  TextField,
+  Avatar,
+  Stack,
+  Typography,
+} from "@mui/material";
 
 export const ProfileEdit = () => {
-  const [open, setOpen] = useState(false);
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
-  const [values, setValues] = useState<UserProfileForm>({
+  const [profileValues, setProfileValues] = useState<UserProfileForm>({
     nickname: user ? user.nickname : "",
     email: user ? user.email : "",
-    password: "",
-    newPassword: "",
-    confirmNewPassword: "",
-    avatar: undefined,
+    avatar: user ? user.avatar : null,
   });
+  const [selectedImage, setSelectedImage] = useState<Blob | null>(null);
+  const [errors, setErrors] = useState<string[]>([]);
 
+  // ユーザー情報を取得
   useEffect(() => {
     if (user) {
-      setValues((v) => ({
+      setProfileValues((v) => ({
         ...v,
         nickname: user.nickname,
         email: user.email,
+        avatar: user.avatar,
       }));
     }
   }, [user]);
 
+  // プロフィール編集の処理
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setValues({ ...values, [name]: value });
+    setProfileValues({ ...profileValues, [name]: value });
   };
+  // 画像変更の処理
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    setValues({ ...values, avatar: file });
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setSelectedImage(file);
+      setProfileValues({ ...profileValues, avatar: file });
+    }
   };
 
-  const handleModalOpen = () => {
-    setOpen(true);
-  };
-  const handleModalClose = () => {
-    setOpen(false);
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  // サーバーに送信
+  const handleProfileSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const profileData = new FormData();
     if (user === null) return;
-    try {
-      profileData.append("nickname", values.nickname);
-      profileData.append("email", values.email);
-      profileData.append("password", values.password);
-      profileData.append("new_password", values.newPassword);
-      profileData.append("confirm_new_password", values.confirmNewPassword);
-      values.avatar && profileData.append("avatar", values.avatar);
-      await updateUser(user.id, profileData).then(() => {
-        alert("更新しました");
-      });
-    } catch (error) {
-      console.log(error);
+
+    profileData.append("user[nickname]", profileValues.nickname);
+    profileData.append("user[email]", profileValues.email);
+    if (selectedImage) {
+      profileData.append("user[avatar]", selectedImage);
     }
+    updateUser(user.id, profileData)
+      .then((updatedUser) => {
+        setUser(updatedUser.data.user);
+        alert("プロフィールを更新しました");
+      })
+      .catch((error) => {
+        if (error.response) {
+          setErrors(error.response.data.errors);
+        }
+      });
   };
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleProfileSubmit}>
         <Box sx={{ width: "100%", maxWidth: 400, m: "auto", marginTop: 10 }}>
           <Stack spacing={3}>
             <Box
@@ -76,7 +87,11 @@ export const ProfileEdit = () => {
             >
               <Avatar
                 src={
-                  values.avatar ? URL.createObjectURL(values.avatar) : undefined
+                  profileValues.avatar instanceof Blob
+                    ? URL.createObjectURL(profileValues.avatar)
+                    : user && typeof user.avatar === "string"
+                    ? user.avatar
+                    : ""
                 }
                 sx={{ width: 80, height: 80 }}
               />
@@ -85,79 +100,39 @@ export const ProfileEdit = () => {
                 <input type="file" hidden onChange={handleImageChange} />
               </Button>
             </Box>
+            {errors &&
+              errors.map((error, index) => (
+                <Typography
+                  key={index}
+                  variant="body1"
+                  color="error"
+                  sx={{ marginTop: 2 }}
+                >
+                  {error}
+                </Typography>
+              ))}
             <TextField
-              name="username"
+              name="nickname"
               label="アカウント名"
-              value={values.nickname}
+              value={profileValues.nickname}
               onChange={handleInputChange}
               fullWidth
             />
             <TextField
               name="email"
               label="メール"
-              value={values.email}
+              value={profileValues.email}
               onChange={handleInputChange}
               fullWidth
             />
-            <Button variant="outlined" onClick={handleModalOpen} fullWidth>
-              パスワード変更
-            </Button>
             <Button variant="contained" type="submit" color="primary" fullWidth>
-              保存
+              更新する
             </Button>
           </Stack>
         </Box>
-        <Modal open={open} onClose={handleModalClose}>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              p: 2,
-              m: "auto",
-              bgcolor: "background.paper",
-              borderRadius: "10px",
-              width: "90%",
-              maxWidth: 400,
-              marginTop: 10,
-            }}
-          >
-            <Stack spacing={3}>
-              <TextField
-                name="password"
-                type="password"
-                label="現在のパスワード"
-                value={values.password}
-                onChange={handleInputChange}
-                fullWidth
-              />
-              <TextField
-                name="newPassword"
-                type="password"
-                label="新しいパスワード"
-                value={values.newPassword}
-                onChange={handleInputChange}
-                fullWidth
-              />
-              <TextField
-                name="confirmNewPassword"
-                type="password"
-                label="新しいパスワード（確認）"
-                value={values.confirmNewPassword}
-                onChange={handleInputChange}
-                fullWidth
-              />
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleModalClose}
-                fullWidth
-              >
-                変更を保存
-              </Button>
-            </Stack>
-          </Box>
-        </Modal>
       </form>
+      <Box marginTop={3} marginBottom={3} />
+      <PasswordChangeButton setErrors={setErrors} />
     </>
   );
 };
