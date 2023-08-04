@@ -4,12 +4,14 @@ import axios from "axios";
 export const DEFAULT_API_LOCALHOST = "/api/v1";
 
 //ユーザー管理
-export const registrationUrl = `${DEFAULT_API_LOCALHOST}/signup`;
+export const registrationUrl = `${DEFAULT_API_LOCALHOST}/users`;
 export const loginUrl = `${DEFAULT_API_LOCALHOST}/login`;
 export const logoutUrl = `${DEFAULT_API_LOCALHOST}/logout`;
 export const logged_inUrl = `${DEFAULT_API_LOCALHOST}/logged_in`;
 
-//post
+export const updateUser = (id: number, data: FormData) => {
+  return postClient.put(`/users/${id}`, data);
+};
 
 export const postClient = axios.create({
   baseURL: DEFAULT_API_LOCALHOST,

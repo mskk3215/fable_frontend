@@ -1,7 +1,7 @@
 import React, { createContext, useState } from "react";
 import axios from "axios";
 import { logged_inUrl } from "../urls";
-import { UserContextType, UserProviderProps } from "../types/user";
+import { User, UserContextType, UserProviderProps } from "../types/user";
 
 export const UserContext = createContext<UserContextType>({
   user: null,
@@ -13,14 +13,12 @@ export const UserContext = createContext<UserContextType>({
 });
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState<User | null>(null);
   const [loggedInStatus, setLoggedInStatus] = useState(false);
 
-  const handleSuccessfulAuthentication = (data: {
-    user: { nickname: string };
-  }) => {
+  const handleSuccessfulAuthentication = (data: { user: User }) => {
     setLoggedInStatus(true);
-    setUser(data.user.nickname);
+    setUser(data.user);
   };
 
   const checkLoginStatus = (): Promise<boolean> => {
@@ -29,11 +27,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       .then((response) => {
         if (response.data.logged_in) {
           setLoggedInStatus(true);
-          setUser(response.data.user.nickname);
+          setUser(response.data.user);
           return true;
         } else {
           setLoggedInStatus(false);
-          setUser("");
+          setUser(null);
           return false;
         }
       })
