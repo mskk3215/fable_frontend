@@ -1,13 +1,18 @@
 import { ReactNode } from "react";
 
+export type User = {
+  id: number;
+  nickname: string;
+  email: string;
+  avatar: File | null;
+};
+
 export type UserContextType = {
-  user: string | null;
-  setUser: (user: string) => void;
+  user: User | null;
+  setUser: (user: User | null) => void;
   loggedInStatus: boolean;
   setLoggedInStatus: (loggedInStatus: boolean) => void;
-  handleSuccessfulAuthentication: (data: {
-    user: { nickname: string };
-  }) => void;
+  handleSuccessfulAuthentication: (data: { user: User }) => void;
   checkLoginStatus: () => void;
 };
 export type UserProviderProps = {
