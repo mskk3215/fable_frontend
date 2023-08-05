@@ -1,9 +1,9 @@
 //全画像を取得するカスタムフック
 import { useEffect, useState } from "react";
 import { getPosts } from "../urls";
-import { Post, UseAllImages } from "../types/images";
+import { Post, UseImages } from "../types/images";
 
-export const useAllImages = (): UseAllImages => {
+export const useAllImages = (): UseImages => {
   const [posts, setPosts] = useState<Post[]>([]);
 
   const handleGetPosts = async () => {
