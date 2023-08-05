@@ -22,7 +22,7 @@ export const Router = () => {
   const { loggedInStatus, checkLoginStatus } = useContext(UserContext);
   const [authChecked, setAuthChecked] = useState(false);
 
-  // ログイン状態をチェック
+  // ブラウザ更新時にログイン状態をチェック
   useEffect(() => {
     const init = async () => {
       await checkLoginStatus();

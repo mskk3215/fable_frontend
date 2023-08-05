@@ -19,11 +19,13 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [viewedUser, setViewedUser] = useState<User | null>(null);
   const [loggedInStatus, setLoggedInStatus] = useState(false);
 
+  // 新規登録、ログイン成功時の処理
   const handleSuccessfulAuthentication = (data: { user: User }) => {
     setLoggedInStatus(true);
     setUser(data.user);
   };
 
+  // ログイン状態チェック
   const checkLoginStatus = (): Promise<boolean> => {
     return axios
       .get(logged_inUrl, { withCredentials: true })
