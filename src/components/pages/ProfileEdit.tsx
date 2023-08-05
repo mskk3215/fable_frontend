@@ -107,7 +107,7 @@ export const ProfileEdit = () => {
                     ? URL.createObjectURL(user.avatar)
                     : user?.avatar || "")
                 }
-                sx={{ width: 80, height: 80 }}
+                sx={{ width: 125, height: 125 }}
               />
               <Button component="label">
                 画像を変更
