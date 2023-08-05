@@ -18,10 +18,12 @@ export type UserPasswordForm = {
 export type UserContextType = {
   user: User | null;
   setUser: (user: User | null) => void;
+  viewedUser: User | null;
   loggedInStatus: boolean;
   setLoggedInStatus: (loggedInStatus: boolean) => void;
   handleSuccessfulAuthentication: (data: { user: User }) => void;
   checkLoginStatus: () => void;
+  handleGetUser: (userId: number | undefined) => void;
 };
 export type UserProviderProps = {
   children: ReactNode;

@@ -22,7 +22,7 @@ export const Router = () => {
   const { loggedInStatus, checkLoginStatus } = useContext(UserContext);
   const [authChecked, setAuthChecked] = useState(false);
 
-  // ログイン状態をチェック
+  // ブラウザ更新時にログイン状態をチェック
   useEffect(() => {
     const init = async () => {
       await checkLoginStatus();
@@ -86,6 +86,14 @@ export const Router = () => {
                   <UploadView />
                 </HeaderOnly>
               </RouteAuthGuard>
+            }
+          />
+          <Route
+            path="postlist/:userId"
+            element={
+              <HeaderOnly>
+                <PostList />
+              </HeaderOnly>
             }
           />
           <Route

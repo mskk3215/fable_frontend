@@ -1,26 +1,31 @@
 import React, { createContext, useState } from "react";
 import axios from "axios";
-import { logged_inUrl } from "../urls";
+import { getUser, logged_inUrl } from "../urls";
 import { User, UserContextType, UserProviderProps } from "../types/user";
 
 export const UserContext = createContext<UserContextType>({
   user: null,
   setUser: () => {},
+  viewedUser: null,
   loggedInStatus: false,
   setLoggedInStatus: () => {},
   handleSuccessfulAuthentication: () => {},
   checkLoginStatus: () => Promise.resolve(false),
+  handleGetUser: () => {},
 });
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [viewedUser, setViewedUser] = useState<User | null>(null);
   const [loggedInStatus, setLoggedInStatus] = useState(false);
 
+  // 新規登録、ログイン成功時の処理
   const handleSuccessfulAuthentication = (data: { user: User }) => {
     setLoggedInStatus(true);
     setUser(data.user);
   };
 
+  // ログイン状態チェック
   const checkLoginStatus = (): Promise<boolean> => {
     return axios
       .get(logged_inUrl, { withCredentials: true })
@@ -41,6 +46,15 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       });
   };
 
+  const handleGetUser = async (userId: number | undefined) => {
+    if (userId !== undefined) {
+      const { data } = await getUser(userId);
+      setViewedUser(data.user);
+    } else {
+      setViewedUser(user);
+    }
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -50,6 +64,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         setLoggedInStatus,
         handleSuccessfulAuthentication,
         checkLoginStatus,
+        handleGetUser,
+        viewedUser,
       }}
     >
       {children}

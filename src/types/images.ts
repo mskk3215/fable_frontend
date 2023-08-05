@@ -10,7 +10,8 @@ export type Post = {
   city_name: string | null;
 };
 export type HandleGetPosts = () => Promise<void>;
-export type UseAllImages = {
+export type UseImages = {
   posts: Post[];
-  handleGetPosts: HandleGetPosts;
+  handleGetPosts?: HandleGetPosts;
+  handleGetUserPosts?: HandleGetPosts;
 };

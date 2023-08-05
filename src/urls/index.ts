@@ -3,17 +3,7 @@ import axios from "axios";
 //default_api
 export const DEFAULT_API_LOCALHOST = "/api/v1";
 
-//ユーザー管理
-export const registrationUrl = `${DEFAULT_API_LOCALHOST}/users`;
-export const loginUrl = `${DEFAULT_API_LOCALHOST}/login`;
-export const logoutUrl = `${DEFAULT_API_LOCALHOST}/logout`;
-export const logged_inUrl = `${DEFAULT_API_LOCALHOST}/logged_in`;
-
-export const updateUser = (id: number, data: FormData) => {
-  return postClient.put(`/users/${id}`, data);
-};
-
-export const postClient = axios.create({
+export const apiClient = axios.create({
   baseURL: DEFAULT_API_LOCALHOST,
   withCredentials: true,
   headers: {
@@ -21,35 +11,52 @@ export const postClient = axios.create({
   },
 });
 
+//users
+export const registrationUrl = `${DEFAULT_API_LOCALHOST}/users`;
+export const loginUrl = `${DEFAULT_API_LOCALHOST}/login`;
+export const logoutUrl = `${DEFAULT_API_LOCALHOST}/logout`;
+export const logged_inUrl = `${DEFAULT_API_LOCALHOST}/logged_in`;
+
+export const getUser = (userId: number | undefined) => {
+  return apiClient.get("/users", { params: { user_id: userId } });
+};
+export const updateUser = (id: number, data: FormData) => {
+  return apiClient.put(`/users/${id}`, data);
+};
+
+//images
 export const getPosts = () => {
-  return postClient.get("/images");
+  return apiClient.get("/images");
+};
+export const getUserPosts = (userId: number | undefined) => {
+  return apiClient.get("/images", { params: { user_id: userId } });
 };
 export const createPosts = (data: FormData) => {
-  return postClient.post("/images", data);
+  return apiClient.post("/images", data);
 };
 export const updatePosts = (id: number[], data: FormData) => {
-  return postClient.put(`/images/${id}`, data);
+  return apiClient.put(`/images/${id}`, data);
 };
 export const deletePosts = (id: number[]) => {
-  return postClient.delete(`/images/${id}`);
+  return apiClient.delete(`/images/${id}`);
 };
 
 //insects
 export const getInsects = () => {
-  return postClient.get("/insects");
+  return apiClient.get("/insects");
 };
 
 //parks
 export const getParks = () => {
-  return postClient.get("/parks");
+  return apiClient.get("/parks");
 };
 
 //cities
 export const getPrefectures = () => {
-  return postClient.get("/prefectures");
+  return apiClient.get("/prefectures");
 };
 
 //search parks
 export const getSearchParkResults = (word: string) => {
-  return postClient.get("/parks", { params: { search_word: word } });
+  return apiClient.get("/parks", { params: { search_word: word } });
 };
