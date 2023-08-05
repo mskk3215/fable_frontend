@@ -89,6 +89,14 @@ export const Router = () => {
             }
           />
           <Route
+            path="postlist/:userId"
+            element={
+              <HeaderOnly>
+                <PostList />
+              </HeaderOnly>
+            }
+          />
+          <Route
             path="postlist"
             element={
               <RouteAuthGuard>
