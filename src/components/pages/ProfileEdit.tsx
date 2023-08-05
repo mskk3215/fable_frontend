@@ -20,7 +20,8 @@ export const ProfileEdit = () => {
     email: user ? user.email : "",
     avatar: user ? user.avatar : null,
   });
-  const [selectedImage, setSelectedImage] = useState<Blob | null>(null);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [blobUrl, setBlobUrl] = useState<string | undefined>(undefined);
   const [errors, setErrors] = useState<string[]>([]);
 
   // ユーザー情報を取得
@@ -46,6 +47,11 @@ export const ProfileEdit = () => {
       const file = e.target.files[0];
       setSelectedImage(file);
       setProfileValues({ ...profileValues, avatar: file });
+      // メモリ解放
+      if (blobUrl) {
+        URL.revokeObjectURL(blobUrl);
+      }
+      setBlobUrl(URL.createObjectURL(file));
     }
   };
 
@@ -73,6 +79,15 @@ export const ProfileEdit = () => {
       });
   };
 
+  // メモリ解放
+  useEffect(() => {
+    return () => {
+      if (blobUrl !== undefined) {
+        URL.revokeObjectURL(blobUrl);
+      }
+    };
+  }, []);
+
   return (
     <>
       <form onSubmit={handleProfileSubmit}>
@@ -87,13 +102,12 @@ export const ProfileEdit = () => {
             >
               <Avatar
                 src={
-                  profileValues.avatar instanceof Blob
-                    ? URL.createObjectURL(profileValues.avatar)
-                    : user && typeof user.avatar === "string"
-                    ? user.avatar
-                    : ""
+                  blobUrl ||
+                  (user?.avatar instanceof File
+                    ? URL.createObjectURL(user.avatar)
+                    : user?.avatar || "")
                 }
-                sx={{ width: 80, height: 80 }}
+                sx={{ width: 125, height: 125 }}
               />
               <Button component="label">
                 画像を変更
