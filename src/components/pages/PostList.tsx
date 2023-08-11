@@ -1,7 +1,8 @@
-import React, { useCallback, useContext, useEffect } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { UserContext } from "../../providers/UserProvider";
 import { PostItem } from "../molecules/PostItem";
+import { FollowModal } from "../molecules/FollowModal";
 import { FollowButton } from "../atoms/button/FollowButton";
 import { useAllParks } from "../../hooks/useAllParks";
 import { useUserImages } from "../../hooks/useUserImages";
@@ -40,6 +41,17 @@ export const PostList = () => {
     },
     []
   );
+
+  // モーダルの開閉
+  const [open, setOpen] = useState(false);
+
+  const handleModalOpen = () => {
+    setOpen(true);
+  };
+  const handleModalClose = () => {
+    setOpen(false);
+    handleGetUser(numUserId);
+  };
 
   return (
     <Box sx={{ width: "100%", marginTop: 10 }}>
@@ -107,6 +119,15 @@ export const PostList = () => {
         </Box>
         <Typography>{viewedUser?.nickname}</Typography>
         <Typography>投稿枚数：{posts.length}枚</Typography>
+        {user?.id === viewedUser?.id && (
+          <FollowModal
+            viewedUser={viewedUser}
+            handleFollowButtonClick={handleFollowButtonClick}
+            open={open}
+            handleModalOpen={handleModalOpen}
+            handleModalClose={handleModalClose}
+          />
+        )}
       </Box>
       <Box
         sx={{
