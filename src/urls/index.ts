@@ -24,6 +24,24 @@ export const updateUser = (id: number, data: FormData) => {
   return apiClient.put(`/users/${id}`, data);
 };
 
+// user's relationships
+export const createUserRelationship = (
+  loginUserId: number,
+  followedUserId: number
+) => {
+  return apiClient.post(`/users/${loginUserId}/relationships`, {
+    id: followedUserId,
+  });
+};
+export const deleteUserRelationship = (
+  loginUserId: number,
+  followedUserId: number
+) => {
+  return apiClient.delete(
+    `/users/${loginUserId}/relationships/${followedUserId}`
+  );
+};
+
 //images
 export const getPosts = () => {
   return apiClient.get("/images");

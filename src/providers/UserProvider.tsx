@@ -12,12 +12,15 @@ export const UserContext = createContext<UserContextType>({
   handleSuccessfulAuthentication: () => {},
   checkLoginStatus: () => Promise.resolve(false),
   handleGetUser: () => {},
+  isFollowed: false,
+  setIsFollowed: () => {},
 });
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [viewedUser, setViewedUser] = useState<User | null>(null);
   const [loggedInStatus, setLoggedInStatus] = useState(false);
+  const [isFollowed, setIsFollowed] = useState(false);
 
   // 新規登録、ログイン成功時の処理
   const handleSuccessfulAuthentication = (data: { user: User }) => {
@@ -46,13 +49,18 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
       });
   };
 
+  // ユーザー情報を取得する
   const handleGetUser = async (userId: number | undefined) => {
-    if (userId !== undefined) {
-      const { data } = await getUser(userId);
+    const { data } = await getUser(userId);
+    if (JSON.stringify(viewedUser) !== JSON.stringify(data.user)) {
       setViewedUser(data.user);
-    } else {
-      setViewedUser(user);
     }
+
+    // フォロー状態を取得する
+    const isUserFollowed =
+      data.user.followers &&
+      data.user.followers.some((follower: User) => follower.id === user?.id);
+    setIsFollowed(isUserFollowed);
   };
 
   return (
@@ -66,6 +74,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         checkLoginStatus,
         handleGetUser,
         viewedUser,
+        isFollowed,
+        setIsFollowed,
       }}
     >
       {children}
