@@ -14,8 +14,9 @@ export const FollowButton = (props: Props) => {
         onClick={() => handleFollowButtonClick()}
         variant={isFollowed ? "outlined" : "contained"}
         color="primary"
+        style={{ minWidth: "120px" }}
       >
-        {isFollowed ? "フォロー解除" : "フォローする"}
+        {isFollowed ? "フォロー中" : "フォローする"}
       </Button>
     </>
   );
