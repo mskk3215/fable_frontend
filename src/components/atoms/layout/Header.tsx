@@ -1,17 +1,19 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { loggedInStatusState, userState } from "../../../store/atoms/userAtom";
 import axios from "axios";
-import { UserContext } from "../../../providers/UserProvider";
 import { logoutUrl } from "../../../urls";
 import styled from "styled-components";
 
 export const Header = () => {
-  const { setUser, loggedInStatus, setLoggedInStatus } =
-    useContext(UserContext);
+  const [loggedInStatus, setLoggedInStatus] =
+    useRecoilState(loggedInStatusState);
+  const setUser = useSetRecoilState(userState);
 
   const handleLogout = () => {
     setLoggedInStatus(false);
-    setUser("");
+    setUser(null);
   };
 
   const handleLogoutClick = () => {

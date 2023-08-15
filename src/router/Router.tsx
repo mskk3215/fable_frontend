@@ -1,5 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { loggedInStatusState } from "../store/atoms/userAtom";
+import { useUser } from "../hooks/useUser";
 import { Login } from "../components/pages/auth/Login";
 import { Registration } from "../components/pages/auth/Registration";
 import { PostList } from "../components/pages/PostList";
@@ -7,7 +10,6 @@ import { Top } from "../components/pages/Top";
 import { Page404 } from "../components/pages/Page404";
 import { DefaultLayout } from "../components/templates/DefaultLayout";
 import { HeaderOnly } from "../components/templates/HeaderOnly";
-import { UserContext } from "../providers/UserProvider";
 import { UploadView } from "../components/pages/UploadView";
 import { PostEdit } from "../components/pages/PostEdit";
 import { Map } from "../components/pages/Map";
@@ -19,7 +21,9 @@ type RouteAuthGuardProps = {
 };
 
 export const Router = () => {
-  const { loggedInStatus, checkLoginStatus } = useContext(UserContext);
+  const loggedInStatus = useRecoilValue(loggedInStatusState);
+  const { checkLoginStatus } = useUser();
+
   const [authChecked, setAuthChecked] = useState(false);
 
   // ブラウザ更新時にログイン状態をチェック

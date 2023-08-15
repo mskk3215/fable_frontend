@@ -1,9 +1,15 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { UserContext } from "../../providers/UserProvider";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  isFollowedState,
+  userState,
+  viewedUserState,
+} from "../../store/atoms/userAtom";
 import { PostItem } from "../molecules/PostItem";
 import { FollowModal } from "../molecules/FollowModal";
 import { FollowButton } from "../atoms/button/FollowButton";
+import { useUser } from "../../hooks/useUser";
 import { useAllParks } from "../../hooks/useAllParks";
 import { useUserImages } from "../../hooks/useUserImages";
 import {
@@ -16,8 +22,12 @@ import { Avatar, Button, Typography } from "@mui/material";
 
 export const PostList = () => {
   const { parks } = useAllParks();
-  const { user, viewedUser, handleGetUser, isFollowed, setIsFollowed } =
-    useContext(UserContext);
+
+  const user = useRecoilValue(userState);
+  const viewedUser = useRecoilValue(viewedUserState);
+  const [isFollowed, setIsFollowed] = useRecoilState(isFollowedState);
+  const { handleGetUser } = useUser();
+
   const { userId } = useParams();
   const numUserId = userId ? parseInt(userId, 10) : undefined;
   const { posts } = useUserImages(numUserId);

@@ -1,6 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+import { userState } from "../../store/atoms/userAtom";
 import { updateUser } from "../../urls";
-import { UserContext } from "../../providers/UserProvider";
 import { PasswordChangeButton } from "../atoms/button/PasswordChangeButton";
 import { UserProfileForm } from "../../types/user";
 import {
@@ -13,7 +14,7 @@ import {
 } from "@mui/material";
 
 export const ProfileEdit = () => {
-  const { user, setUser } = useContext(UserContext);
+  const [user, setUser] = useRecoilState(userState);
 
   const [profileValues, setProfileValues] = useState<UserProfileForm>({
     nickname: user ? user.nickname : "",

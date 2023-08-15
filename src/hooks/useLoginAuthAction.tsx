@@ -1,12 +1,11 @@
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { loginUrl } from "../urls";
-import { UserContext } from "../providers/UserProvider";
+import { useUser } from "./useUser";
 import { LoginAuthAction } from "../types/user";
 
 export const useLoginAuthAction = () => {
-  const { handleSuccessfulAuthentication } = useContext(UserContext);
+  const { handleSuccessfulAuthentication } = useUser();
   const navigate = useNavigate();
   const handleLoginAction = ({
     email,

@@ -1,14 +1,15 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { registrationUrl } from "../../../urls";
 import { GuestLoginButton } from "../../atoms/button/GuestLoginButton";
-import { UserContext } from "../../../providers/UserProvider";
 import { useLoginAuthAction } from "../../../hooks/useLoginAuthAction";
+import { useUser } from "../../../hooks/useUser";
 import { Box, Button, TextField, Typography } from "@mui/material";
 
 export const Registration = () => {
-  const { handleSuccessfulAuthentication } = useContext(UserContext);
+  const { handleSuccessfulAuthentication } = useUser();
+
   const { handleLoginAction } = useLoginAuthAction();
 
   const [nickname, setNickname] = useState("");

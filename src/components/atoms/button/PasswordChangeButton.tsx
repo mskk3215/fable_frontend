@@ -1,5 +1,6 @@
-import React, { useContext, useState } from "react";
-import { UserContext } from "../../../providers/UserProvider";
+import React, { useState } from "react";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../../store/atoms/userAtom";
 import { updateUser } from "../../../urls";
 import { Box, Button, Modal, Stack, TextField } from "@mui/material";
 import { UserPasswordForm } from "../../../types/user";
@@ -10,7 +11,7 @@ type Props = {
 
 export const PasswordChangeButton = (props: Props) => {
   const { setErrors } = props;
-  const { user } = useContext(UserContext);
+  const user = useRecoilValue(userState);
 
   const [passwordValues, setPasswordValues] = useState<UserPasswordForm>({
     password: "",
