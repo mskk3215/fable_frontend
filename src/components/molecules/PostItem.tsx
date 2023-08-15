@@ -1,7 +1,18 @@
 import React, { useCallback, memo, ChangeEvent, useState } from "react";
+import { useRecoilValue } from "recoil";
+import {
+  isFollowedState,
+  userState,
+  viewedUserState,
+} from "../../store/atoms/userAtom";
+import { useAllParks } from "../../hooks/useAllParks";
+import { FollowButton } from "../atoms/button/FollowButton";
 import format from "date-fns/format";
 import ja from "date-fns/locale/ja";
 import {
+  Avatar,
+  Box,
+  Button,
   Card,
   CardContent,
   CardMedia,
@@ -12,41 +23,52 @@ import {
   Typography,
   styled,
 } from "@mui/material";
+import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 import { Post } from "../../types/images";
-import { Park } from "../../types/parks";
 
 type Props = {
   post: Post;
+  index: number;
+  currentImageIndex: number | undefined;
+  setCurrentImageIndex: React.Dispatch<
+    React.SetStateAction<number | undefined>
+  >;
+  maxIndex: number;
   handleSelect?: () => void;
   handleRemove?: () => void;
   checked?: boolean;
   isCheckboxVisible: boolean;
   isDialogVisible: boolean;
-  parks: Park[];
+  handleFollowButtonClick: (userId?: number, followStatus?: boolean) => void;
+  numUserId: number | undefined;
+  handlePrevImageClick: () => void;
+  handleNextImageClick: () => void;
+  currentPost: Post | undefined;
 };
 
 export const PostItem = memo((props: Props) => {
   const {
     post,
+    index,
+    currentImageIndex,
+    maxIndex,
     handleSelect,
     handleRemove,
     checked,
     isCheckboxVisible,
-    parks,
     isDialogVisible,
+    handleFollowButtonClick,
+    numUserId,
+    setCurrentImageIndex,
+    handlePrevImageClick,
+    handleNextImageClick,
+    currentPost,
   } = props;
 
-  const [open, setOpen] = useState<boolean>(false);
-  const [imageSize, setImageSize] = useState({ height: "auto", width: "auto" });
-
-  const handleClickOpen = useCallback(() => {
-    setOpen(true);
-    setImageSize({ height: "70vh", width: "auto" });
-  }, []);
-
-  const handleClickClose = useCallback(() => {
-    setOpen(false);
-  }, []);
+  const { parks } = useAllParks();
+  const user = useRecoilValue(userState);
+  const viewedUser = useRecoilValue(viewedUserState);
+  const isFollowed = useRecoilValue(isFollowedState);
 
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -68,10 +90,28 @@ export const PostItem = memo((props: Props) => {
     return null;
   };
 
+  // DialogのOpen/Close
+  const [imageOpen, setImageOpen] = useState<boolean>(false);
+  const [imageSize, setImageSize] = useState({ height: "auto", width: "auto" });
+
+  const handleClickImageOpen = useCallback((e: React.MouseEvent) => {
+    if (isDialogVisible === false) return;
+    e.stopPropagation();
+    setCurrentImageIndex(index);
+    setImageOpen(true);
+    setImageSize({ height: "70vh", width: "auto" });
+  }, []);
+
+  const handleClickImageClose = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentImageIndex(undefined);
+    setImageOpen(false);
+  }, []);
+
   return (
     <>
       {post.image ? (
-        <SquareCard onClick={handleClickOpen}>
+        <SquareCard onClick={(e) => handleClickImageOpen(e)}>
           <FormControlLabel
             control={
               <Card>
@@ -124,42 +164,145 @@ export const PostItem = memo((props: Props) => {
             }
             label="card"
           />
-          <Dialog
-            open={isDialogVisible && open}
-            onClose={handleClickClose}
-            fullWidth={true}
-            maxWidth={"xl"}
-            sx={{
-              backgroundColor: "rgba(0,0,0,0.9)",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <DialogContent
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                overflow: "auto",
-                margin: 0,
-                padding: 0,
-                width: "100%",
-                height: "100%",
-              }}
-            >
-              <img
-                src={post.image}
-                alt="postImage"
-                style={{
-                  objectFit: "contain",
-                  height: imageSize.height,
-                  width: imageSize.width,
+          {currentPost && (
+            <>
+              <Dialog
+                open={isDialogVisible && imageOpen}
+                onClose={handleClickImageClose}
+                fullWidth={true}
+                maxWidth={"xl"}
+                sx={{
+                  backgroundColor: "rgba(0,0,0,0.9)",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
-              />
-            </DialogContent>
-          </Dialog>
+                onClick={(e) => e.stopPropagation()}
+              >
+                <DialogContent
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "flex-start",
+                    overflow: "auto",
+                    margin: 0,
+                    padding: 0,
+                    width: "100%",
+                    height: "100%",
+                  }}
+                >
+                  <Box component="span">
+                    <img
+                      src={currentPost.image}
+                      alt="currentPostImage"
+                      style={{
+                        objectFit: "contain",
+                        height: imageSize.height,
+                        width: imageSize.width,
+                        display: "block",
+                      }}
+                    />
+                  </Box>
+                  <Box
+                    component="span"
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="flex-start"
+                    gap={1.5}
+                    p={2}
+                    width="250px"
+                    overflow="auto"
+                  >
+                    <Box display="flex" flexDirection="row">
+                      <Avatar
+                        src={
+                          viewedUser?.avatar instanceof File
+                            ? URL.createObjectURL(viewedUser.avatar)
+                            : viewedUser?.avatar || ""
+                        }
+                      />
+                      <Typography
+                        variant="h6"
+                        paddingLeft="10px"
+                        paddingRight="10px"
+                      >
+                        {viewedUser?.nickname}
+                      </Typography>
+                      {user?.id !== viewedUser?.id && isFollowed === false && (
+                        <FollowButton
+                          handleFollowButtonClick={() =>
+                            handleFollowButtonClick(numUserId, isFollowed)
+                          }
+                          isFollowed={isFollowed}
+                        />
+                      )}
+                    </Box>
+                    <Typography variant="body1">
+                      昆虫名:{" "}
+                      {currentPost.insect_name
+                        ? `${currentPost.insect_name}(${currentPost.insect_sex})`
+                        : "\u00a0"}
+                    </Typography>
+                    <Typography variant="body1">
+                      撮影場所:{" "}
+                      {currentPost.park_id !== null &&
+                      parks[currentPost.park_id - 1]?.name
+                        ? parks[currentPost.park_id - 1]?.name
+                        : currentPost.city_name}
+                    </Typography>
+                    <Typography variant="body1">
+                      撮影日時:{" "}
+                      {createdTime(currentPost)
+                        ? createdTime(currentPost)
+                        : "\u00a0"}
+                    </Typography>
+                  </Box>
+                </DialogContent>
+                {currentImageIndex !== 0 && (
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handlePrevImageClick();
+                    }}
+                    sx={{
+                      position: "fixed",
+                      left: "1%",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      zIndex: 1500,
+                      color: "darkgray",
+                      borderRadius: "10%",
+                      "&:hover": {
+                        backgroundColor: "rgba(0,0,0,0.5)",
+                      },
+                    }}
+                  >
+                    <ArrowBackIos />
+                  </Button>
+                )}
+                {currentImageIndex !== maxIndex && (
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleNextImageClick();
+                    }}
+                    sx={{
+                      position: "fixed",
+                      right: "1%",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      zIndex: 1500,
+                      color: "darkgray",
+                      borderRadius: "10%",
+                    }}
+                  >
+                    <ArrowForwardIos />
+                  </Button>
+                )}
+              </Dialog>
+            </>
+          )}
         </SquareCard>
       ) : null}
     </>

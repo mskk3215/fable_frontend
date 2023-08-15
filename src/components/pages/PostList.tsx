@@ -10,7 +10,6 @@ import { PostItem } from "../molecules/PostItem";
 import { FollowModal } from "../molecules/FollowModal";
 import { FollowButton } from "../atoms/button/FollowButton";
 import { useUser } from "../../hooks/useUser";
-import { useAllParks } from "../../hooks/useAllParks";
 import { useUserImages } from "../../hooks/useUserImages";
 import {
   createUserRelationship,
@@ -21,8 +20,6 @@ import Grid from "@mui/material/Grid";
 import { Avatar, Button, Typography } from "@mui/material";
 
 export const PostList = () => {
-  const { parks } = useAllParks();
-
   const user = useRecoilValue(userState);
   const viewedUser = useRecoilValue(viewedUserState);
   const [isFollowed, setIsFollowed] = useRecoilState(isFollowedState);
@@ -52,16 +49,37 @@ export const PostList = () => {
     []
   );
 
-  // モーダルの開閉
-  const [open, setOpen] = useState(false);
+  // フォロー一覧モーダルの開閉
+  const [followOpen, setFollowOpen] = useState(false);
 
-  const handleModalOpen = () => {
-    setOpen(true);
-  };
-  const handleModalClose = () => {
-    setOpen(false);
+  const handleFollowModalOpen = useCallback(() => {
+    setFollowOpen(true);
+  }, []);
+
+  const handleFollowModalClose = useCallback(() => {
+    setFollowOpen(false);
     handleGetUser(numUserId);
-  };
+  }, []);
+
+  // Dialogの画像切り替え
+  const [currentImageIndex, setCurrentImageIndex] = useState<
+    number | undefined
+  >(undefined);
+
+  const handleNextImageClick = useCallback(() => {
+    if (
+      typeof currentImageIndex !== "undefined" &&
+      currentImageIndex < posts.length - 1
+    ) {
+      setCurrentImageIndex(currentImageIndex + 1);
+    }
+  }, [currentImageIndex, posts]);
+
+  const handlePrevImageClick = useCallback(() => {
+    if (typeof currentImageIndex !== "undefined" && currentImageIndex > 0) {
+      setCurrentImageIndex(currentImageIndex - 1);
+    }
+  }, [currentImageIndex]);
 
   return (
     <Box sx={{ width: "100%", marginTop: 10 }}>
@@ -160,13 +178,25 @@ export const PostList = () => {
         )}
       </Box>
       <Grid container spacing={0.5}>
-        {posts.map((post) => (
+        {posts.map((post, index) => (
           <Grid item xs={6} sm={4} md={2} key={post.id}>
             <PostItem
               post={post}
-              parks={parks}
+              index={index}
+              currentImageIndex={currentImageIndex}
+              maxIndex={posts.length - 1}
               isCheckboxVisible={false}
               isDialogVisible={true}
+              handleFollowButtonClick={handleFollowButtonClick}
+              numUserId={numUserId}
+              setCurrentImageIndex={setCurrentImageIndex}
+              handlePrevImageClick={handlePrevImageClick}
+              handleNextImageClick={handleNextImageClick}
+              currentPost={
+                currentImageIndex !== undefined
+                  ? posts[currentImageIndex]
+                  : undefined
+              }
             />
           </Grid>
         ))}
