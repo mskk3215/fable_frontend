@@ -1,26 +1,21 @@
-import React, { createContext, useState } from "react";
 import axios from "axios";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  userState,
+  viewedUserState,
+  loggedInStatusState,
+  isFollowedState,
+} from "../store/atoms/userAtom";
 import { getUser, logged_inUrl } from "../urls";
-import { User, UserContextType, UserProviderProps } from "../types/user";
+import { User } from "../types/user";
 
-export const UserContext = createContext<UserContextType>({
-  user: null,
-  setUser: () => {},
-  viewedUser: null,
-  loggedInStatus: false,
-  setLoggedInStatus: () => {},
-  handleSuccessfulAuthentication: () => {},
-  checkLoginStatus: () => Promise.resolve(false),
-  handleGetUser: () => {},
-  isFollowed: false,
-  setIsFollowed: () => {},
-});
-
-export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [viewedUser, setViewedUser] = useState<User | null>(null);
-  const [loggedInStatus, setLoggedInStatus] = useState(false);
-  const [isFollowed, setIsFollowed] = useState(false);
+export const useUser = () => {
+  const [user, setUser] = useRecoilState<User | null>(userState);
+  const setLoggedInStatus = useSetRecoilState<boolean>(loggedInStatusState);
+  const [viewedUser, setViewedUser] = useRecoilState<User | null>(
+    viewedUserState
+  );
+  const setIsFollowed = useSetRecoilState<boolean>(isFollowedState);
 
   // 新規登録、ログイン成功時の処理
   const handleSuccessfulAuthentication = (data: { user: User }) => {
@@ -63,22 +58,5 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     setIsFollowed(isUserFollowed);
   };
 
-  return (
-    <UserContext.Provider
-      value={{
-        user,
-        setUser,
-        loggedInStatus,
-        setLoggedInStatus,
-        handleSuccessfulAuthentication,
-        checkLoginStatus,
-        handleGetUser,
-        viewedUser,
-        isFollowed,
-        setIsFollowed,
-      }}
-    >
-      {children}
-    </UserContext.Provider>
-  );
+  return { handleSuccessfulAuthentication, checkLoginStatus, handleGetUser };
 };
