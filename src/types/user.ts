@@ -5,9 +5,10 @@ export type User = {
   nickname: string;
   email: string;
   avatar: File | null;
+  following: User[];
 };
 
-export type UserProfileForm = Omit<User, "id"> & {};
+export type UserProfileForm = Omit<User, "id" | "following"> & {};
 
 export type UserPasswordForm = {
   password: string;
@@ -24,6 +25,8 @@ export type UserContextType = {
   handleSuccessfulAuthentication: (data: { user: User }) => void;
   checkLoginStatus: () => void;
   handleGetUser: (userId: number | undefined) => void;
+  isFollowed: boolean;
+  setIsFollowed: (isFollowed: boolean) => void;
 };
 export type UserProviderProps = {
   children: ReactNode;

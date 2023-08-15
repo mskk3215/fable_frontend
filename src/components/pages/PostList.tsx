@@ -1,23 +1,57 @@
-import React, { useContext, useEffect } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { UserContext } from "../../providers/UserProvider";
 import { PostItem } from "../molecules/PostItem";
+import { FollowModal } from "../molecules/FollowModal";
+import { FollowButton } from "../atoms/button/FollowButton";
 import { useAllParks } from "../../hooks/useAllParks";
 import { useUserImages } from "../../hooks/useUserImages";
+import {
+  createUserRelationship,
+  deleteUserRelationship,
+} from "../../urls";
 import Box from "@mui/system/Box";
 import Grid from "@mui/material/Grid";
 import { Avatar, Button, Typography } from "@mui/material";
 
 export const PostList = () => {
   const { parks } = useAllParks();
-  const { user, viewedUser, handleGetUser } = useContext(UserContext);
+  const { user, viewedUser, handleGetUser, isFollowed, setIsFollowed } =
+    useContext(UserContext);
   const { userId } = useParams();
   const numUserId = userId ? parseInt(userId, 10) : undefined;
   const { posts } = useUserImages(numUserId);
 
+  // urlが変更されたらページに表示するユーザー情報を取得する
   useEffect(() => {
     handleGetUser(numUserId);
   }, [numUserId]);
+
+  // フォロー状態を切り替える
+  const handleFollowButtonClick = useCallback(
+    (followedUserId?: number, followStatus?: boolean) => {
+      if (user?.id === undefined || followedUserId === undefined) return;
+      const newIsFollowed = !followStatus;
+      if (newIsFollowed) {
+        createUserRelationship(user.id, followedUserId);
+      } else {
+        deleteUserRelationship(user.id, followedUserId);
+      }
+      setIsFollowed(newIsFollowed);
+    },
+    []
+  );
+
+  // モーダルの開閉
+  const [open, setOpen] = useState(false);
+
+  const handleModalOpen = () => {
+    setOpen(true);
+  };
+  const handleModalClose = () => {
+    setOpen(false);
+    handleGetUser(numUserId);
+  };
 
   return (
     <Box sx={{ width: "100%", marginTop: 10 }}>
@@ -66,9 +100,34 @@ export const PostList = () => {
               Profile編集
             </Button>
           )}
+          {user?.id !== viewedUser?.id && (
+            <Box
+              sx={{
+                position: "absolute",
+                top: 0,
+                right: -150,
+              }}
+            >
+              <FollowButton
+                handleFollowButtonClick={() =>
+                  handleFollowButtonClick(numUserId, isFollowed)
+                }
+                isFollowed={isFollowed}
+              />
+            </Box>
+          )}
         </Box>
         <Typography>{viewedUser?.nickname}</Typography>
         <Typography>投稿枚数：{posts.length}枚</Typography>
+        {user?.id === viewedUser?.id && (
+          <FollowModal
+            viewedUser={viewedUser}
+            handleFollowButtonClick={handleFollowButtonClick}
+            open={open}
+            handleModalOpen={handleModalOpen}
+            handleModalClose={handleModalClose}
+          />
+        )}
       </Box>
       <Box
         sx={{
