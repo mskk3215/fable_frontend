@@ -1,4 +1,6 @@
 import React, { useCallback, memo, ChangeEvent, useState } from "react";
+import { useAllParks } from "../../hooks/useAllParks";
+import { PostItemDialog } from "../molecules/PostItemDialog";
 import format from "date-fns/format";
 import ja from "date-fns/locale/ja";
 import {
@@ -6,49 +8,55 @@ import {
   CardContent,
   CardMedia,
   Checkbox,
-  Dialog,
-  DialogContent,
   FormControlLabel,
   Typography,
   styled,
 } from "@mui/material";
 import { Post } from "../../types/images";
-import { Park } from "../../types/parks";
 
 type Props = {
   post: Post;
+  index?: number;
+  currentImageIndex?: number | undefined;
+  maxIndex?: number;
   handleSelect?: () => void;
   handleRemove?: () => void;
   checked?: boolean;
   isCheckboxVisible: boolean;
   isDialogVisible: boolean;
-  parks: Park[];
+  handleFollowButtonClick: (userId?: number, followStatus?: boolean) => void;
+  numUserId?: number | undefined;
+  setCurrentImageIndex: React.Dispatch<
+    React.SetStateAction<number | undefined>
+  >;
+  handlePrevImageClick: () => void;
+  handleNextImageClick: () => void;
+  currentPost?: Post | undefined;
 };
 
 export const PostItem = memo((props: Props) => {
   const {
     post,
+    index,
+    currentImageIndex,
+    maxIndex,
     handleSelect,
     handleRemove,
     checked,
     isCheckboxVisible,
-    parks,
     isDialogVisible,
+    handleFollowButtonClick,
+    numUserId,
+    setCurrentImageIndex,
+    handlePrevImageClick,
+    handleNextImageClick,
+    currentPost,
   } = props;
 
-  const [open, setOpen] = useState<boolean>(false);
-  const [imageSize, setImageSize] = useState({ height: "auto", width: "auto" });
+  const { parks } = useAllParks();
 
-  const handleClickOpen = useCallback(() => {
-    setOpen(true);
-    setImageSize({ height: "70vh", width: "auto" });
-  }, []);
-
-  const handleClickClose = useCallback(() => {
-    setOpen(false);
-  }, []);
-
-  const handleChange = useCallback(
+  // checkboxの切り替え
+  const handleCheckBoxChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       if (checked) {
         handleRemove?.();
@@ -59,6 +67,7 @@ export const PostItem = memo((props: Props) => {
     [checked, handleSelect, handleRemove]
   );
 
+  // 撮影日時をフォーマットする
   const createdTime = (post: Post) => {
     if (post.taken_at) {
       const date = new Date(post.taken_at);
@@ -68,10 +77,34 @@ export const PostItem = memo((props: Props) => {
     return null;
   };
 
+  // DialogのOpen/Close
+  const [imageOpen, setImageOpen] = useState<boolean>(false);
+  const [imageSize, setImageSize] = useState({ height: "auto", width: "auto" });
+
+  const handleClickImageOpen = useCallback(
+    (e: React.MouseEvent) => {
+      if (isDialogVisible === false) return;
+      e.stopPropagation();
+      setCurrentImageIndex(index);
+      setImageOpen(true);
+      setImageSize({ height: "70vh", width: "auto" });
+    },
+    [setCurrentImageIndex, index, isDialogVisible]
+  );
+
+  const handleClickImageClose = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      setCurrentImageIndex(undefined);
+      setImageOpen(false);
+    },
+    [setCurrentImageIndex]
+  );
+
   return (
     <>
-      {post.image ? (
-        <SquareCard onClick={handleClickOpen}>
+      {post.image && (
+        <SquareCard onClick={(e) => handleClickImageOpen(e)}>
           <FormControlLabel
             control={
               <Card>
@@ -89,7 +122,7 @@ export const PostItem = memo((props: Props) => {
                 {isCheckboxVisible && (
                   <Checkbox
                     checked={checked}
-                    onChange={handleChange}
+                    onChange={handleCheckBoxChange}
                     inputProps={{ "aria-label": "controlled" }}
                     style={{ position: "absolute", top: 5, right: 5 }}
                   />
@@ -124,44 +157,26 @@ export const PostItem = memo((props: Props) => {
             }
             label="card"
           />
-          <Dialog
-            open={isDialogVisible && open}
-            onClose={handleClickClose}
-            fullWidth={true}
-            maxWidth={"xl"}
-            sx={{
-              backgroundColor: "rgba(0,0,0,0.9)",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <DialogContent
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                overflow: "auto",
-                margin: 0,
-                padding: 0,
-                width: "100%",
-                height: "100%",
-              }}
-            >
-              <img
-                src={post.image}
-                alt="postImage"
-                style={{
-                  objectFit: "contain",
-                  height: imageSize.height,
-                  width: imageSize.width,
-                }}
+          {currentPost && (
+            <>
+              <PostItemDialog
+                numUserId={numUserId}
+                currentPost={currentPost}
+                currentImageIndex={currentImageIndex}
+                maxIndex={maxIndex}
+                createdTime={createdTime}
+                isDialogVisible={isDialogVisible}
+                imageOpen={imageOpen}
+                imageSize={imageSize}
+                handleClickImageClose={handleClickImageClose}
+                handlePrevImageClick={handlePrevImageClick}
+                handleNextImageClick={handleNextImageClick}
+                handleFollowButtonClick={handleFollowButtonClick}
               />
-            </DialogContent>
-          </Dialog>
+            </>
+          )}
         </SquareCard>
-      ) : null}
+      )}
     </>
   );
 });

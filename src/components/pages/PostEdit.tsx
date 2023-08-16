@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useRecoilValue } from "recoil";
 import { paginatedPostsState } from "../../store/atoms/paginatedPostsState";
 import { EditForm } from "../organisms/EditForm";
-import { PostItem } from "../molecules/PostItem";
+import { PostItem } from "../organisms/PostItem";
 import { useAllImages } from "../../hooks/useAllImages";
 import { useAllParks } from "../../hooks/useAllParks";
 import { useAllInsects } from "../../hooks/useAllInsects";
