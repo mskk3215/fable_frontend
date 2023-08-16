@@ -16,22 +16,22 @@ import { Post } from "../../types/images";
 
 type Props = {
   post: Post;
-  index: number;
-  currentImageIndex: number | undefined;
-  setCurrentImageIndex: React.Dispatch<
-    React.SetStateAction<number | undefined>
-  >;
-  maxIndex: number;
+  index?: number;
+  currentImageIndex?: number | undefined;
+  maxIndex?: number;
   handleSelect?: () => void;
   handleRemove?: () => void;
   checked?: boolean;
   isCheckboxVisible: boolean;
   isDialogVisible: boolean;
   handleFollowButtonClick: (userId?: number, followStatus?: boolean) => void;
-  numUserId: number | undefined;
+  numUserId?: number | undefined;
+  setCurrentImageIndex: React.Dispatch<
+    React.SetStateAction<number | undefined>
+  >;
   handlePrevImageClick: () => void;
   handleNextImageClick: () => void;
-  currentPost: Post | undefined;
+  currentPost?: Post | undefined;
 };
 
 export const PostItem = memo((props: Props) => {
@@ -55,7 +55,8 @@ export const PostItem = memo((props: Props) => {
 
   const { parks } = useAllParks();
 
-  const handleChange = useCallback(
+  // checkboxの切り替え
+  const handleCheckBoxChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       if (checked) {
         handleRemove?.();
@@ -66,6 +67,7 @@ export const PostItem = memo((props: Props) => {
     [checked, handleSelect, handleRemove]
   );
 
+  // 撮影日時をフォーマットする
   const createdTime = (post: Post) => {
     if (post.taken_at) {
       const date = new Date(post.taken_at);
@@ -79,23 +81,29 @@ export const PostItem = memo((props: Props) => {
   const [imageOpen, setImageOpen] = useState<boolean>(false);
   const [imageSize, setImageSize] = useState({ height: "auto", width: "auto" });
 
-  const handleClickImageOpen = useCallback((e: React.MouseEvent) => {
-    if (isDialogVisible === false) return;
-    e.stopPropagation();
-    setCurrentImageIndex(index);
-    setImageOpen(true);
-    setImageSize({ height: "70vh", width: "auto" });
-  }, []);
+  const handleClickImageOpen = useCallback(
+    (e: React.MouseEvent) => {
+      if (isDialogVisible === false) return;
+      e.stopPropagation();
+      setCurrentImageIndex(index);
+      setImageOpen(true);
+      setImageSize({ height: "70vh", width: "auto" });
+    },
+    [setCurrentImageIndex, index, isDialogVisible]
+  );
 
-  const handleClickImageClose = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    setCurrentImageIndex(undefined);
-    setImageOpen(false);
-  }, []);
+  const handleClickImageClose = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      setCurrentImageIndex(undefined);
+      setImageOpen(false);
+    },
+    [setCurrentImageIndex]
+  );
 
   return (
     <>
-      {post.image ? (
+      {post.image && (
         <SquareCard onClick={(e) => handleClickImageOpen(e)}>
           <FormControlLabel
             control={
@@ -114,7 +122,7 @@ export const PostItem = memo((props: Props) => {
                 {isCheckboxVisible && (
                   <Checkbox
                     checked={checked}
-                    onChange={handleChange}
+                    onChange={handleCheckBoxChange}
                     inputProps={{ "aria-label": "controlled" }}
                     style={{ position: "absolute", top: 5, right: 5 }}
                   />
@@ -168,7 +176,7 @@ export const PostItem = memo((props: Props) => {
             </>
           )}
         </SquareCard>
-      ) : null}
+      )}
     </>
   );
 });
