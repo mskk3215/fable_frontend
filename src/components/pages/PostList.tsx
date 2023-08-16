@@ -6,7 +6,7 @@ import {
   userState,
   viewedUserState,
 } from "../../store/atoms/userAtom";
-import { PostItem } from "../molecules/PostItem";
+import { PostItem } from "../organisms/PostItem";
 import { FollowModal } from "../molecules/FollowModal";
 import { FollowButton } from "../atoms/button/FollowButton";
 import { useUser } from "../../hooks/useUser";

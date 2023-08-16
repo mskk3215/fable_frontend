@@ -1,6 +1,6 @@
 import React, { useCallback, memo, ChangeEvent, useState } from "react";
 import { useAllParks } from "../../hooks/useAllParks";
-import { PostItemDialog } from "./PostItemDialog";
+import { PostItemDialog } from "../molecules/PostItemDialog";
 import format from "date-fns/format";
 import ja from "date-fns/locale/ja";
 import {
