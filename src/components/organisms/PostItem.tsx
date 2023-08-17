@@ -1,5 +1,5 @@
 import React, { useCallback, memo, ChangeEvent, useState } from "react";
-import { useAllParks } from "../../hooks/useAllParks";
+import { useParks } from "../../hooks/useParks";
 import { PostItemDialog } from "../molecules/PostItemDialog";
 import format from "date-fns/format";
 import ja from "date-fns/locale/ja";
@@ -52,9 +52,7 @@ export const PostItem = memo((props: Props) => {
     handleNextImageClick,
     currentPost,
   } = props;
-
-  const { parks } = useAllParks();
-
+  const { parks } = useParks();
   // checkboxの切り替え
   const handleCheckBoxChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {

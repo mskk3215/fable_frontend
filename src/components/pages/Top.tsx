@@ -1,8 +1,8 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { Link } from "react-router-dom";
 import { useAllInsects } from "../../hooks/useAllInsects";
-import { SearchParkContext } from "../../providers/SearchParkProvider";
+import { useParks } from "../../hooks/useParks";
 import {
   saveSearchWord,
   searchWordState,
@@ -20,7 +20,7 @@ import SearchIcon from "@mui/icons-material/Search";
 
 export const Top = () => {
   const { insectOptions } = useAllInsects();
-  const { handleGetParkSearchResults } = useContext(SearchParkContext);
+  const { handleGetParkSearchResults } = useParks();
   const [searchWord, setSearchWord] = useRecoilState(searchWordState);
 
   const handleSearch = () => {

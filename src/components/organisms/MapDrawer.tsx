@@ -1,6 +1,5 @@
-import React, { useState, useContext, useEffect, useRef, memo } from "react";
+import React, { useState, useEffect, useRef, memo } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { SearchParkContext } from "../../providers/SearchParkProvider";
 import {
   selectedCenterState,
   selectedItemState,
@@ -11,6 +10,7 @@ import {
   saveDestinationLocation,
 } from "../../store/atoms/searchWordState";
 import { InsectSearchBox } from "../molecules/InsectSearchBox";
+import { useParks } from "../../hooks/useParks";
 import styled from "styled-components";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -33,7 +33,7 @@ type Props = {
 
 export const MapDrawer = memo((props: Props) => {
   const { anchor, drawerWidth, drawerHeight } = props;
-  const { searchResults } = useContext(SearchParkContext);
+  const { searchResults } = useParks();
   const setSelectedCenter = useSetRecoilState(selectedCenterState);
   const [destinationLocation, setDestinationLocation] = useRecoilState(
     destinationLocationState

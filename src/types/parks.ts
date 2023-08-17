@@ -17,8 +17,11 @@ export type ParkOption = {
   city: string;
   id: number;
 };
-export type UseAllParks = {
+
+export type UseParks = {
   parks: Park[];
   parkOptions: ParkOption[];
   handleGetParks: () => Promise<void>;
+  handleGetParkSearchResults: (word: string) => Promise<void>;
+  searchResults: Park[];
 };
