@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, memo } from "react";
+import React, { useEffect, memo } from "react";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import {
@@ -6,7 +6,7 @@ import {
   searchWordState,
 } from "../../store/atoms/searchWordState";
 import { useAllInsects } from "../../hooks/useAllInsects";
-import { SearchParkContext } from "../../providers/SearchParkProvider";
+import { useParks } from "../../hooks/useParks";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
@@ -28,7 +28,7 @@ type Props = {
 export const InsectSearchBox = memo((props: Props) => {
   const { setOpen, selectedItemId, setSelectedItemId } = props;
 
-  const { handleGetParkSearchResults } = useContext(SearchParkContext);
+  const { handleGetParkSearchResults } = useParks();
   const [searchWord, setSearchWord] = useRecoilState(searchWordState);
   const { insectOptions } = useAllInsects();
 

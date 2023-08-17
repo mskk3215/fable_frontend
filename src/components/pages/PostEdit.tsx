@@ -4,7 +4,7 @@ import { paginatedPostsState } from "../../store/atoms/paginatedPostsState";
 import { EditForm } from "../organisms/EditForm";
 import { PostItem } from "../organisms/PostItem";
 import { useAllImages } from "../../hooks/useAllImages";
-import { useAllParks } from "../../hooks/useAllParks";
+import { useParks } from "../../hooks/useParks";
 import { useAllInsects } from "../../hooks/useAllInsects";
 import { useAllPrefectures } from "../../hooks/useAllPrefectures";
 import { PageNavigator } from "../organisms/PageNavigator";
@@ -13,7 +13,7 @@ import { Post } from "../../types/images";
 
 export const PostEdit = () => {
   const { posts, handleGetPosts } = useAllImages();
-  const { parks, parkOptions, handleGetParks } = useAllParks();
+  const { parks, parkOptions, handleGetParks } = useParks();
   const { insects, insectOptions } = useAllInsects();
   const { prefectures, prefectureOptions } = useAllPrefectures();
   const [selectedIds, setSelectedIds] = useState<number[]>([]);

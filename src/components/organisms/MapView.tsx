@@ -1,4 +1,4 @@
-import React, { memo, useContext, useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import {
   DirectionsRenderer,
@@ -6,7 +6,7 @@ import {
   MarkerF,
   useLoadScript,
 } from "@react-google-maps/api";
-import { SearchParkContext } from "../../providers/SearchParkProvider";
+import { useParks } from "../../hooks/useParks";
 import {
   mapApiLoadState,
   selectedCenterState,
@@ -22,7 +22,7 @@ type Props = {
 
 export const MapView = memo((props: Props) => {
   const { directions, handleMapClick, onLoadHook } = props;
-  const { searchResults } = useContext(SearchParkContext);
+  const { searchResults } = useParks();
   const [selectedCenter, setSelectedCenter] =
     useRecoilState(selectedCenterState);
   const [selectedItemId, setSelectedItemId] = useRecoilState(selectedItemState);

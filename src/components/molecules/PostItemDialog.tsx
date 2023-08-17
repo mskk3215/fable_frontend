@@ -5,7 +5,7 @@ import {
   userState,
   viewedUserState,
 } from "../../store/atoms/userAtom";
-import { useAllParks } from "../../hooks/useAllParks";
+import { useParks } from "../../hooks/useParks";
 import { FollowButton } from "../atoms/button/FollowButton";
 import {
   Avatar,
@@ -48,9 +48,8 @@ export const PostItemDialog = memo((props: Props) => {
     handleNextImageClick,
     handleFollowButtonClick,
   } = props;
-
-  const { parks } = useAllParks();
   const user = useRecoilValue(userState);
+  const { parks } = useParks();
   const viewedUser = useRecoilValue(viewedUserState);
   const isFollowed = useRecoilValue(isFollowedState);
 
