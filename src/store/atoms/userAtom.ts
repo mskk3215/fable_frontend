@@ -18,5 +18,7 @@ export const loggedInStatusState = atom<boolean>({
 
 export const isFollowedState = atom<boolean>({
   key: "isFollowedState",
+export const authCheckedState = atom<boolean>({
+  key: "authCheckedState",
   default: false,
 });

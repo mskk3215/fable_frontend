@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { loggedInStatusState } from "../store/atoms/userAtom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { authCheckedState, loggedInStatusState } from "../store/atoms/userAtom";
 import { useUser } from "../hooks/useUser";
 import { Login } from "../components/pages/auth/Login";
 import { Registration } from "../components/pages/auth/Registration";
@@ -20,11 +20,27 @@ type RouteAuthGuardProps = {
   children: React.ReactNode;
 };
 
-export const Router = () => {
+// ログインしていなければログイン画面へ遷移
+const RouteAuthGuard: React.FC<RouteAuthGuardProps> = ({ children }) => {
   const loggedInStatus = useRecoilValue(loggedInStatusState);
-  const { checkLoginStatus } = useUser();
+  const authChecked = useRecoilValue(authCheckedState);
 
-  const [authChecked, setAuthChecked] = useState(false);
+  if (authChecked) {
+    return loggedInStatus ? (
+      <>{children}</>
+    ) : (
+      <HeaderOnly>
+        <Login />
+      </HeaderOnly>
+    );
+  } else {
+    return <></>;
+  }
+};
+
+export const Router = () => {
+  const setAuthChecked = useSetRecoilState(authCheckedState);
+  const { checkLoginStatus } = useUser();
 
   // ブラウザ更新時にログイン状態をチェック
   useEffect(() => {
@@ -34,15 +50,6 @@ export const Router = () => {
     };
     init();
   }, []);
-
-  // ログインしていなければログイン画面へ遷移
-  const RouteAuthGuard: React.FC<RouteAuthGuardProps> = ({ children }) => {
-    if (authChecked) {
-      return loggedInStatus ? <>{children}</> : <Login />;
-    } else {
-      return <></>;
-    }
-  };
 
   return (
     <>
