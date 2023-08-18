@@ -9,9 +9,8 @@ export type Post = {
   insect_sex: string | null;
   city_name: string | null;
 };
-export type HandleGetPosts = () => Promise<void>;
+export type HandleGetPosts = (userId: number | undefined) => Promise<void>;
 export type UseImages = {
   posts: Post[];
   handleGetPosts?: HandleGetPosts;
-  handleGetUserPosts?: HandleGetPosts;
 };
