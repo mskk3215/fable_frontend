@@ -32,6 +32,7 @@ type Props = {
   handlePrevImageClick: () => void;
   handleNextImageClick: () => void;
   currentPost?: Post | undefined;
+  isFollowed?: boolean;
 };
 
 export const PostItem = memo((props: Props) => {
@@ -51,6 +52,7 @@ export const PostItem = memo((props: Props) => {
     handlePrevImageClick,
     handleNextImageClick,
     currentPost,
+    isFollowed,
   } = props;
   const { parks } = useParks();
   // checkboxの切り替え
@@ -170,6 +172,7 @@ export const PostItem = memo((props: Props) => {
                 handlePrevImageClick={handlePrevImageClick}
                 handleNextImageClick={handleNextImageClick}
                 handleFollowButtonClick={handleFollowButtonClick}
+                isFollowed={isFollowed}
               />
             </>
           )}

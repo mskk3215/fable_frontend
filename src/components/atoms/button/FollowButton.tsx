@@ -3,7 +3,7 @@ import { Button } from "@mui/material";
 
 type Props = {
   isFollowed: boolean;
-  handleFollowButtonClick: (userId?: number, followStatus?: boolean) => void;
+  handleFollowButtonClick: (userId?: number) => void;
 };
 
 export const FollowButton = (props: Props) => {

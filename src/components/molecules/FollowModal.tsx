@@ -1,5 +1,7 @@
-import React, { memo, useState } from "react";
+import React, { memo } from "react";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { followUserState } from "../../store/atoms/userAtom";
 import { FollowButton } from "../atoms/button/FollowButton";
 import {
   Avatar,
@@ -15,12 +17,11 @@ import { Cancel } from "@mui/icons-material";
 
 type Props = {
   viewedUser: User | null;
-  handleFollowButtonClick: (userId?: number, followStatus?: boolean) => void;
+  handleFollowButtonClick: (userId?: number) => void;
   followOpen: boolean;
   handleFollowModalOpen: () => void;
   handleFollowModalClose: () => void;
 };
-type FollowedStatus = { [key: number]: boolean };
 
 export const FollowModal = memo((props: Props) => {
   const {
@@ -31,21 +32,7 @@ export const FollowModal = memo((props: Props) => {
     handleFollowModalClose,
   } = props;
 
-  // フォロー中のユーザーのフォロー状態を管理する
-  const [followedStatus, setFollowedStatus] = useState(() => {
-    return (viewedUser?.following || []).reduce<FollowedStatus>((acc, user) => {
-      acc[user.id] = true;
-      return acc;
-    }, {});
-  });
-
-  // フォローユーザー毎のフォロー状態を切り替える
-  const toggleFollowedStatus = (userId: number) => {
-    setFollowedStatus((prevStatus) => ({
-      ...prevStatus,
-      [userId]: !prevStatus[userId],
-    }));
-  };
+  const followUser = useRecoilValue(followUserState);
 
   return (
     <>
@@ -134,13 +121,9 @@ export const FollowModal = memo((props: Props) => {
                     </Box>
                     <FollowButton
                       handleFollowButtonClick={() => {
-                        handleFollowButtonClick(
-                          user.id,
-                          followedStatus[user.id]
-                        );
-                        toggleFollowedStatus(user.id);
+                        handleFollowButtonClick(user.id);
                       }}
-                      isFollowed={followedStatus[user.id]}
+                      isFollowed={!!followUser[user.id]}
                     />
                   </Box>
                 </React.Fragment>
