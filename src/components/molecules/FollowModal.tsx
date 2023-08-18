@@ -16,9 +16,9 @@ import { Cancel } from "@mui/icons-material";
 type Props = {
   viewedUser: User | null;
   handleFollowButtonClick: (userId?: number, followStatus?: boolean) => void;
-  open: boolean;
-  handleModalOpen: () => void;
-  handleModalClose: () => void;
+  followOpen: boolean;
+  handleFollowModalOpen: () => void;
+  handleFollowModalClose: () => void;
 };
 type FollowedStatus = { [key: number]: boolean };
 
@@ -26,9 +26,9 @@ export const FollowModal = memo((props: Props) => {
   const {
     viewedUser,
     handleFollowButtonClick,
-    open,
-    handleModalOpen,
-    handleModalClose,
+    followOpen,
+    handleFollowModalOpen,
+    handleFollowModalClose,
   } = props;
 
   // フォロー中のユーザーのフォロー状態を管理する
@@ -50,7 +50,7 @@ export const FollowModal = memo((props: Props) => {
   return (
     <>
       <Typography
-        onClick={handleModalOpen}
+        onClick={handleFollowModalOpen}
         sx={{
           cursor: "pointer",
           textDecoration: "none",
@@ -61,7 +61,7 @@ export const FollowModal = memo((props: Props) => {
       >
         フォロー中：{viewedUser?.following.length}人
       </Typography>
-      <Modal open={open} onClose={handleModalClose}>
+      <Modal open={followOpen} onClose={handleFollowModalClose}>
         <Box
           sx={{
             m: "auto",
@@ -88,7 +88,7 @@ export const FollowModal = memo((props: Props) => {
           </Typography>
           <IconButton
             sx={{ position: "absolute", top: 14, right: 10 }}
-            onClick={handleModalClose}
+            onClick={handleFollowModalClose}
           >
             <Cancel />
           </IconButton>

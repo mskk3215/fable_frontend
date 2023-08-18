@@ -151,9 +151,9 @@ export const PostList = () => {
           <FollowModal
             viewedUser={viewedUser}
             handleFollowButtonClick={handleFollowButtonClick}
-            open={open}
-            handleModalOpen={handleModalOpen}
-            handleModalClose={handleModalClose}
+            followOpen={followOpen}
+            handleFollowModalOpen={handleFollowModalOpen}
+            handleFollowModalClose={handleFollowModalClose}
           />
         )}
       </Box>
