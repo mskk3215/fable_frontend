@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { useRecoilValue } from "recoil";
-import { loginUserState } from "../../../store/atoms/userAtom";
-import { updateUser } from "../../../urls";
+import { loginUserState } from "../../store/atoms/userAtom";
+import { updateUser } from "../../urls";
 import { Box, Button, Modal, Stack, TextField } from "@mui/material";
-import { UserPasswordForm } from "../../../types/user";
+import { UserPasswordForm } from "../../types/user";
 
 type Props = {
   setErrors: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
-export const PasswordChangeButton = (props: Props) => {
+export const PasswordChangeModal = (props: Props) => {
   const { setErrors } = props;
   const loginUser = useRecoilValue(loginUserState);
 
