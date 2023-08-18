@@ -22,6 +22,7 @@ import { Insect, InsectOption } from "../../types/insects";
 import { Park, ParkOption } from "../../types/parks";
 import { Prefecture, PrefectureOption } from "../../types/prefectures";
 import dayjs, { Dayjs } from "dayjs";
+import { HandleGetPosts } from "../../types/images";
 
 type Props = {
   selectedIds: number[];
@@ -34,7 +35,7 @@ type Props = {
   insects: Insect[];
   prefectureOptions: PrefectureOption[];
   prefectures: Prefecture[];
-  handleGetPosts: () => void;
+  handleGetPosts: HandleGetPosts;
 };
 
 export const EditForm = memo((props: Props) => {
@@ -87,7 +88,7 @@ export const EditForm = memo((props: Props) => {
       setTakenDate(null);
 
       handleGetParks();
-      handleGetPosts();
+      handleGetPosts(undefined);
       setSelectedIds([]);
       setSelectedIndexes([]);
     } catch (error) {
