@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useRecoilValue } from "recoil";
-import { userState } from "../../../store/atoms/userAtom";
+import { loginUserState } from "../../../store/atoms/userAtom";
 import { updateUser } from "../../../urls";
 import { Box, Button, Modal, Stack, TextField } from "@mui/material";
 import { UserPasswordForm } from "../../../types/user";
@@ -11,7 +11,7 @@ type Props = {
 
 export const PasswordChangeButton = (props: Props) => {
   const { setErrors } = props;
-  const user = useRecoilValue(userState);
+  const loginUser = useRecoilValue(loginUserState);
 
   const [passwordValues, setPasswordValues] = useState<UserPasswordForm>({
     password: "",
@@ -43,12 +43,12 @@ export const PasswordChangeButton = (props: Props) => {
     if (handleValidation()) {
       handleModalClose();
       const passwordData = new FormData();
-      if (user === null) return;
+      if (loginUser === null) return;
 
       passwordData.append("user[password]", passwordValues.password);
       passwordData.append("user[new_password]", passwordValues.newPassword);
 
-      updateUser(user.id, passwordData)
+      updateUser(loginUser.id, passwordData)
         .then(() => {
           alert("パスワードを更新しました");
         })

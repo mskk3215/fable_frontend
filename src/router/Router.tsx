@@ -102,9 +102,11 @@ export const Router = () => {
           <Route
             path="postlist/:userId"
             element={
-              <HeaderOnly>
-                <PostList />
-              </HeaderOnly>
+              <RouteAuthGuard>
+                <HeaderOnly>
+                  <PostList />
+                </HeaderOnly>
+              </RouteAuthGuard>
             }
           />
           <Route
