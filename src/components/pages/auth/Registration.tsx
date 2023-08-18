@@ -4,11 +4,11 @@ import axios from "axios";
 import { registrationUrl } from "../../../urls";
 import { GuestLoginButton } from "../../atoms/button/GuestLoginButton";
 import { useLoginAuthAction } from "../../../hooks/useLoginAuthAction";
-import { useUser } from "../../../hooks/useUser";
+import { useUsers } from "../../../hooks/useUsers";
 import { Box, Button, TextField, Typography } from "@mui/material";
 
 export const Registration = () => {
-  const { handleSuccessfulAuthentication } = useUser();
+  const { handleSuccessfulAuthentication } = useUsers();
 
   const { handleLoginAction } = useLoginAuthAction();
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { loginUserState } from "../../store/atoms/userAtom";
 import { updateUser } from "../../urls";
-import { PasswordChangeButton } from "../atoms/button/PasswordChangeButton";
+import { PasswordChangeModal } from "../molecules/PasswordChangeModal";
 import { UserProfileForm } from "../../types/user";
 import {
   Box,
@@ -147,7 +147,7 @@ export const ProfileEdit = () => {
         </Box>
       </form>
       <Box marginTop={3} marginBottom={3} />
-      <PasswordChangeButton setErrors={setErrors} />
+      <PasswordChangeModal setErrors={setErrors} />
     </>
   );
 };

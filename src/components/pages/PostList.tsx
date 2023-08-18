@@ -9,8 +9,8 @@ import {
 import { PostItem } from "../organisms/PostItem";
 import { FollowModal } from "../molecules/FollowModal";
 import { FollowButton } from "../atoms/button/FollowButton";
-import { useUser } from "../../hooks/useUser";
 import { createUserRelationship, deleteUserRelationship } from "../../urls";
+import { useUsers } from "../../hooks/useUsers";
 import { useImages } from "../../hooks/useImages";
 import Box from "@mui/system/Box";
 import Grid from "@mui/material/Grid";
@@ -19,8 +19,8 @@ import { Avatar, Button, Typography } from "@mui/material";
 export const PostList = () => {
   const loginUser = useRecoilValue(loginUserState);
   const viewedUser = useRecoilValue(viewedUserState);
-  const { handleGetUser } = useUser();
   const [followUser, setFollowUser] = useRecoilState(followUserState);
+  const { handleGetUser } = useUsers();
 
   const { userId } = useParams();
   const numUserId = userId ? parseInt(userId, 10) : undefined;

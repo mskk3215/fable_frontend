@@ -9,7 +9,7 @@ import {
 import { getUser, logged_inUrl } from "../urls";
 import { User } from "../types/user";
 
-export const useUser = () => {
+export const useUsers = () => {
   const [loginUser, setLoginUser] = useRecoilState<User | null>(loginUserState);
   const setLoggedInStatus = useSetRecoilState<boolean>(loggedInStatusState);
   const [viewedUser, setViewedUser] = useRecoilState<User | null>(
