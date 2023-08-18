@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   isFollowedState,
-  userState,
+  loginUserState,
   viewedUserState,
 } from "../../store/atoms/userAtom";
 import { PostItem } from "../organisms/PostItem";
@@ -20,7 +20,7 @@ import Grid from "@mui/material/Grid";
 import { Avatar, Button, Typography } from "@mui/material";
 
 export const PostList = () => {
-  const user = useRecoilValue(userState);
+  const loginUser = useRecoilValue(loginUserState);
   const viewedUser = useRecoilValue(viewedUserState);
   const [isFollowed, setIsFollowed] = useRecoilState(isFollowedState);
   const { handleGetUser } = useUser();
@@ -40,9 +40,9 @@ export const PostList = () => {
       if (user?.id === undefined || followedUserId === undefined) return;
       const newIsFollowed = !followStatus;
       if (newIsFollowed) {
-        createUserRelationship(user.id, followedUserId);
+        createUserRelationship(loginUser.id, followedUserId);
       } else {
-        deleteUserRelationship(user.id, followedUserId);
+        deleteUserRelationship(loginUser.id, followedUserId);
       }
       setIsFollowed(newIsFollowed);
     },
@@ -113,7 +113,7 @@ export const PostList = () => {
               marginRight: "auto",
             }}
           />
-          {user?.id === viewedUser?.id && (
+          {loginUser?.id === viewedUser?.id && (
             <Button
               component={Link}
               to="/profileedit"
@@ -128,7 +128,7 @@ export const PostList = () => {
               Profile編集
             </Button>
           )}
-          {user?.id !== viewedUser?.id && (
+          {loginUser?.id !== viewedUser?.id && (
             <Box
               sx={{
                 position: "absolute",
@@ -147,7 +147,7 @@ export const PostList = () => {
         </Box>
         <Typography>{viewedUser?.nickname}</Typography>
         <Typography>投稿枚数：{posts.length}枚</Typography>
-        {user?.id === viewedUser?.id && (
+        {loginUser?.id === viewedUser?.id && (
           <FollowModal
             viewedUser={viewedUser}
             handleFollowButtonClick={handleFollowButtonClick}
@@ -166,7 +166,7 @@ export const PostList = () => {
           marginRight: 3,
         }}
       >
-        {user?.id === viewedUser?.id && (
+        {loginUser?.id === viewedUser?.id && (
           <Button
             component={Link}
             to="/postedit"

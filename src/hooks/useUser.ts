@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
-  userState,
+  loginUserState,
   viewedUserState,
   loggedInStatusState,
   isFollowedState,
@@ -10,7 +10,7 @@ import { getUser, logged_inUrl } from "../urls";
 import { User } from "../types/user";
 
 export const useUser = () => {
-  const [user, setUser] = useRecoilState<User | null>(userState);
+  const [loginUser, setLoginUser] = useRecoilState<User | null>(loginUserState);
   const setLoggedInStatus = useSetRecoilState<boolean>(loggedInStatusState);
   const [viewedUser, setViewedUser] = useRecoilState<User | null>(
     viewedUserState
@@ -20,7 +20,7 @@ export const useUser = () => {
   // 新規登録、ログイン成功時の処理
   const handleSuccessfulAuthentication = (data: { user: User }) => {
     setLoggedInStatus(true);
-    setUser(data.user);
+    setLoginUser(data.user);
   };
 
   // ログイン状態チェック
@@ -30,11 +30,11 @@ export const useUser = () => {
       .then((response) => {
         if (response.data.logged_in) {
           setLoggedInStatus(true);
-          setUser(response.data.user);
+          setLoginUser(response.data.user);
           return true;
         } else {
           setLoggedInStatus(false);
-          setUser(null);
+          setLoginUser(null);
           return false;
         }
       })
