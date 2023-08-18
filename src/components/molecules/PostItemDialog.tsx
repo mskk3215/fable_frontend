@@ -1,6 +1,5 @@
 import React, { memo } from "react";
 import { useRecoilValue } from "recoil";
-  isFollowedState,
 import { loginUserState, viewedUserState } from "../../store/atoms/userAtom";
 import { useParks } from "../../hooks/useParks";
 import { FollowButton } from "../atoms/button/FollowButton";
@@ -16,7 +15,7 @@ import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 import { Post } from "../../types/images";
 
 type Props = {
-  numUserId: number | undefined;
+  numUserId?: number | undefined;
   currentPost: Post;
   currentImageIndex: number | undefined;
   maxIndex?: number;
@@ -27,7 +26,8 @@ type Props = {
   handleClickImageClose: (e: React.MouseEvent) => void;
   handlePrevImageClick: () => void;
   handleNextImageClick: () => void;
-  handleFollowButtonClick: (userId?: number, followStatus?: boolean) => void;
+  handleFollowButtonClick: (userId?: number) => void;
+  isFollowed?: boolean;
 };
 
 export const PostItemDialog = memo((props: Props) => {
@@ -44,12 +44,11 @@ export const PostItemDialog = memo((props: Props) => {
     handlePrevImageClick,
     handleNextImageClick,
     handleFollowButtonClick,
+    isFollowed,
   } = props;
   const { parks } = useParks();
   const loginUser = useRecoilValue(loginUserState);
   const viewedUser = useRecoilValue(viewedUserState);
-  const isFollowed = useRecoilValue(isFollowedState);
-
   return (
     <>
       <Dialog
@@ -114,7 +113,7 @@ export const PostItemDialog = memo((props: Props) => {
               {loginUser?.id !== viewedUser?.id && isFollowed === false && (
                 <FollowButton
                   handleFollowButtonClick={() =>
-                    handleFollowButtonClick(numUserId, isFollowed)
+                    handleFollowButtonClick(numUserId)
                   }
                   isFollowed={isFollowed}
                 />

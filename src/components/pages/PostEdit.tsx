@@ -135,7 +135,10 @@ export const PostEdit = () => {
                   }
                   isCheckboxVisible={true}
                   isDialogVisible={false}
-                  parks={parks}
+                  setCurrentImageIndex={() => {}}
+                  handleFollowButtonClick={() => {}}
+                  handlePrevImageClick={() => {}}
+                  handleNextImageClick={() => {}}
                 />
               </Grid>
             ))}
