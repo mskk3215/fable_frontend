@@ -10,10 +10,7 @@ import { PostItem } from "../organisms/PostItem";
 import { FollowModal } from "../molecules/FollowModal";
 import { FollowButton } from "../atoms/button/FollowButton";
 import { useUser } from "../../hooks/useUser";
-import {
-  createUserRelationship,
-  deleteUserRelationship,
-} from "../../urls";
+import { createUserRelationship, deleteUserRelationship } from "../../urls";
 import { useImages } from "../../hooks/useImages";
 import Box from "@mui/system/Box";
 import Grid from "@mui/material/Grid";

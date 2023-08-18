@@ -86,5 +86,9 @@ export const useUser = () => {
     }
   };
 
-  return { handleSuccessfulAuthentication, checkLoginStatus, handleGetUser };
+  return {
+    handleSuccessfulAuthentication,
+    checkLoginStatus,
+    handleGetUser,
+  };
 };
