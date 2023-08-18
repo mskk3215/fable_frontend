@@ -6,7 +6,6 @@ import React, {
   useState,
 } from "react";
 import { updatePosts, deletePosts } from "../../urls";
-import { useAllImages } from "../../hooks/useAllImages";
 import {
   Autocomplete,
   Box,
