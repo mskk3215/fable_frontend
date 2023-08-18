@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { loginUrl } from "../urls";
-import { useUser } from "./useUser";
+import { useUsers } from "./useUsers";
 import { LoginAuthAction } from "../types/user";
 
 export const useLoginAuthAction = () => {
-  const { handleSuccessfulAuthentication } = useUser();
+  const { handleSuccessfulAuthentication } = useUsers();
   const navigate = useNavigate();
   const handleLoginAction = ({
     email,

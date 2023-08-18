@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { authCheckedState, loggedInStatusState } from "../store/atoms/userAtom";
-import { useUser } from "../hooks/useUser";
+import { useUsers } from "../hooks/useUsers";
 import { Login } from "../components/pages/auth/Login";
 import { Registration } from "../components/pages/auth/Registration";
 import { PostList } from "../components/pages/PostList";
@@ -40,7 +40,7 @@ const RouteAuthGuard: React.FC<RouteAuthGuardProps> = ({ children }) => {
 
 export const Router = () => {
   const setAuthChecked = useSetRecoilState(authCheckedState);
-  const { checkLoginStatus } = useUser();
+  const { checkLoginStatus } = useUsers();
 
   // ブラウザ更新時にログイン状態をチェック
   useEffect(() => {

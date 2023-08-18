@@ -12,8 +12,8 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { User } from "../../types/user";
 import { Cancel } from "@mui/icons-material";
+import { User } from "../../types/user";
 
 type Props = {
   viewedUser: User | null;
