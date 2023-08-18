@@ -1,7 +1,7 @@
 import React, { useState, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPosts } from "../../urls";
-import { useAllImages } from "../../hooks/useAllImages";
+import { useImages } from "../../hooks/useImages";
 import { Cancel, FileUpload } from "@mui/icons-material";
 import {
   Box,
@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 
 export const PostForm = memo(() => {
-  const { handleGetPosts } = useAllImages();
+  const { handleGetPosts } = useImages();
   const [images, setImages] = useState<File[]>([]);
   const inputId = Math.random().toString(32).substring(2);
 

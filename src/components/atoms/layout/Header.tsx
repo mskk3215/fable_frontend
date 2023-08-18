@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { loggedInStatusState, userState } from "../../../store/atoms/userAtom";
+import {
+  loggedInStatusState,
+  loginUserState,
+} from "../../../store/atoms/userAtom";
 import axios from "axios";
 import { logoutUrl } from "../../../urls";
 import styled from "styled-components";
@@ -9,11 +12,11 @@ import styled from "styled-components";
 export const Header = () => {
   const [loggedInStatus, setLoggedInStatus] =
     useRecoilState(loggedInStatusState);
-  const setUser = useSetRecoilState(userState);
+  const setLoginUser = useSetRecoilState(loginUserState);
 
   const handleLogout = () => {
     setLoggedInStatus(false);
-    setUser(null);
+    setLoginUser(null);
   };
 
   const handleLogoutClick = () => {

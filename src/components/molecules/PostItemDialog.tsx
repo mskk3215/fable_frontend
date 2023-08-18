@@ -1,10 +1,7 @@
 import React, { memo } from "react";
 import { useRecoilValue } from "recoil";
-import {
   isFollowedState,
-  userState,
-  viewedUserState,
-} from "../../store/atoms/userAtom";
+import { loginUserState, viewedUserState } from "../../store/atoms/userAtom";
 import { useParks } from "../../hooks/useParks";
 import { FollowButton } from "../atoms/button/FollowButton";
 import {
@@ -48,8 +45,8 @@ export const PostItemDialog = memo((props: Props) => {
     handleNextImageClick,
     handleFollowButtonClick,
   } = props;
-  const user = useRecoilValue(userState);
   const { parks } = useParks();
+  const loginUser = useRecoilValue(loginUserState);
   const viewedUser = useRecoilValue(viewedUserState);
   const isFollowed = useRecoilValue(isFollowedState);
 
@@ -114,7 +111,7 @@ export const PostItemDialog = memo((props: Props) => {
               <Typography variant="h6" paddingLeft="10px" paddingRight="10px">
                 {viewedUser?.nickname}
               </Typography>
-              {user?.id !== viewedUser?.id && isFollowed === false && (
+              {loginUser?.id !== viewedUser?.id && isFollowed === false && (
                 <FollowButton
                   handleFollowButtonClick={() =>
                     handleFollowButtonClick(numUserId, isFollowed)

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import { userState } from "../../store/atoms/userAtom";
+import { loginUserState } from "../../store/atoms/userAtom";
 import { updateUser } from "../../urls";
 import { PasswordChangeButton } from "../atoms/button/PasswordChangeButton";
 import { UserProfileForm } from "../../types/user";
@@ -14,12 +14,12 @@ import {
 } from "@mui/material";
 
 export const ProfileEdit = () => {
-  const [user, setUser] = useRecoilState(userState);
+  const [loginUser, setLoginUser] = useRecoilState(loginUserState);
 
   const [profileValues, setProfileValues] = useState<UserProfileForm>({
-    nickname: user ? user.nickname : "",
-    email: user ? user.email : "",
-    avatar: user ? user.avatar : null,
+    nickname: loginUser ? loginUser.nickname : "",
+    email: loginUser ? loginUser.email : "",
+    avatar: loginUser ? loginUser.avatar : null,
   });
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [blobUrl, setBlobUrl] = useState<string | undefined>(undefined);
@@ -27,15 +27,15 @@ export const ProfileEdit = () => {
 
   // ユーザー情報を取得
   useEffect(() => {
-    if (user) {
+    if (loginUser) {
       setProfileValues((v) => ({
         ...v,
-        nickname: user.nickname,
-        email: user.email,
-        avatar: user.avatar,
+        nickname: loginUser.nickname,
+        email: loginUser.email,
+        avatar: loginUser.avatar,
       }));
     }
-  }, [user]);
+  }, [loginUser]);
 
   // プロフィール編集の処理
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,16 +61,16 @@ export const ProfileEdit = () => {
     e.preventDefault();
 
     const profileData = new FormData();
-    if (user === null) return;
+    if (loginUser === null) return;
 
     profileData.append("user[nickname]", profileValues.nickname);
     profileData.append("user[email]", profileValues.email);
     if (selectedImage) {
       profileData.append("user[avatar]", selectedImage);
     }
-    updateUser(user.id, profileData)
+    updateUser(loginUser.id, profileData)
       .then((updatedUser) => {
-        setUser(updatedUser.data.user);
+        setLoginUser(updatedUser.data.user);
         alert("プロフィールを更新しました");
       })
       .catch((error) => {
@@ -104,9 +104,9 @@ export const ProfileEdit = () => {
               <Avatar
                 src={
                   blobUrl ||
-                  (user?.avatar instanceof File
-                    ? URL.createObjectURL(user.avatar)
-                    : user?.avatar || "")
+                  (loginUser?.avatar instanceof File
+                    ? URL.createObjectURL(loginUser.avatar)
+                    : loginUser?.avatar || "")
                 }
                 sx={{ width: 125, height: 125 }}
               />
