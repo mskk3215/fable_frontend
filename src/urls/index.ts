@@ -59,6 +59,14 @@ export const deletePosts = (id: number[]) => {
   return apiClient.delete(`/images/${id}`);
 };
 
+//likes
+export const createImageLike = (imageId: number) => {
+  return apiClient.post(`/images/${imageId}/likes`);
+};
+export const deleteImageLike = (imageId: number) => {
+  return apiClient.delete(`/images/${imageId}/likes`);
+};
+
 //insects
 export const getInsects = () => {
   return apiClient.get("/insects");

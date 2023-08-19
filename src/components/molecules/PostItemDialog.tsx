@@ -3,6 +3,7 @@ import { useRecoilValue } from "recoil";
 import { loginUserState, viewedUserState } from "../../store/atoms/userAtom";
 import { useParks } from "../../hooks/useParks";
 import { FollowButton } from "../atoms/button/FollowButton";
+import { LikeButton } from "../atoms/button/LikeButton";
 import {
   Avatar,
   Box,
@@ -136,6 +137,7 @@ export const PostItemDialog = memo((props: Props) => {
               撮影日時:{" "}
               {createdTime(currentPost) ? createdTime(currentPost) : "\u00a0"}
             </Typography>
+            <LikeButton post={currentPost} />
           </Box>
         </DialogContent>
         {currentImageIndex !== 0 && (

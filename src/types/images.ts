@@ -8,6 +8,8 @@ export type Post = {
   insect_name: string | null;
   insect_sex: string | null;
   city_name: string | null;
+  likes_count: number;
+  liked_user_ids: number[] | null;
 };
 export type HandleGetPosts = (userId: number | undefined) => Promise<void>;
 export type UseImages = {
