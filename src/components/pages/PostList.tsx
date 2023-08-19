@@ -24,11 +24,12 @@ export const PostList = () => {
 
   const { userId } = useParams();
   const numUserId = userId ? parseInt(userId, 10) : undefined;
-  const { posts } = useImages(numUserId);
+  const { posts, handleGetPosts } = useImages(numUserId);
 
   // urlが変更されたらページに表示するユーザー、ログインユーザー情報を取得する
   useEffect(() => {
     handleGetUser(numUserId);
+    handleGetPosts(numUserId);
   }, [numUserId]);
 
   // フォロー状態変更時の処理
