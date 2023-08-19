@@ -38,7 +38,7 @@ export const PostForm = memo(() => {
       .then(() => {
         alert("アップロードしました");
         navigate("/postedit");
-        handleGetPosts?.(undefined);
+        handleGetPosts(undefined);
         setImages([]);
       })
       .catch((error) => {

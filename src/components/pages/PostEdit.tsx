@@ -163,7 +163,7 @@ export const PostEdit = () => {
             insectOptions={insectOptions}
             prefectures={prefectures}
             prefectureOptions={prefectureOptions}
-            handleGetPosts={handleGetPosts!}
+            handleGetPosts={handleGetPosts}
           />
         </Box>
       </Box>
