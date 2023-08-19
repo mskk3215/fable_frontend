@@ -12,5 +12,5 @@ export type Post = {
 export type HandleGetPosts = (userId: number | undefined) => Promise<void>;
 export type UseImages = {
   posts: Post[];
-  handleGetPosts?: HandleGetPosts;
+  handleGetPosts: HandleGetPosts;
 };
