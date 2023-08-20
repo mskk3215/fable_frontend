@@ -5,7 +5,7 @@ import { authCheckedState, loggedInStatusState } from "../store/atoms/userAtom";
 import { useUsers } from "../hooks/useUsers";
 import { Login } from "../components/pages/auth/Login";
 import { Registration } from "../components/pages/auth/Registration";
-import { PostList } from "../components/pages/PostList";
+import { UserPage } from "../components/pages/UserPage";
 import { Top } from "../components/pages/Top";
 import { Page404 } from "../components/pages/Page404";
 import { DefaultLayout } from "../components/templates/DefaultLayout";
@@ -100,21 +100,21 @@ export const Router = () => {
             }
           />
           <Route
-            path="postlist/:userId"
+            path="userpage/:userId"
             element={
               <RouteAuthGuard>
                 <HeaderOnly>
-                  <PostList />
+                  <UserPage />
                 </HeaderOnly>
               </RouteAuthGuard>
             }
           />
           <Route
-            path="postlist"
+            path="userpage"
             element={
               <RouteAuthGuard>
                 <HeaderOnly>
-                  <PostList />
+                  <UserPage />
                 </HeaderOnly>
               </RouteAuthGuard>
             }

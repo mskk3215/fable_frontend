@@ -39,7 +39,7 @@ export const Header = () => {
         </>
       ) : (
         <>
-          <SLink to="/postlist">マイページ</SLink>
+          <SLink to="/userpage">マイページ</SLink>
           <SLink to="/" onClick={handleLogoutClick}>
             ログアウト
           </SLink>

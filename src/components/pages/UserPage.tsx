@@ -6,7 +6,7 @@ import {
   loginUserState,
   viewedUserState,
 } from "../../store/atoms/userAtom";
-import { PostItem } from "../organisms/PostItem";
+import { ImageItem } from "../organisms/ImageItem";
 import { FollowModal } from "../molecules/FollowModal";
 import { FollowButton } from "../atoms/button/FollowButton";
 import { createUserRelationship, deleteUserRelationship } from "../../urls";
@@ -16,7 +16,7 @@ import Box from "@mui/system/Box";
 import Grid from "@mui/material/Grid";
 import { Avatar, Button, Typography } from "@mui/material";
 
-export const PostList = () => {
+export const UserPage = () => {
   const loginUser = useRecoilValue(loginUserState);
   const viewedUser = useRecoilValue(viewedUserState);
   const [followUser, setFollowUser] = useRecoilState(followUserState);
@@ -24,12 +24,12 @@ export const PostList = () => {
 
   const { userId } = useParams();
   const numUserId = userId ? parseInt(userId, 10) : undefined;
-  const { posts, handleGetPosts } = useImages(numUserId);
+  const { images, handleGetImages } = useImages(numUserId);
 
   // urlが変更されたらページに表示するユーザー、ログインユーザー情報を取得する
   useEffect(() => {
     handleGetUser(numUserId);
-    handleGetPosts(numUserId);
+    handleGetImages(numUserId);
   }, [numUserId]);
 
   // フォロー状態変更時の処理
@@ -77,11 +77,11 @@ export const PostList = () => {
   const handleNextImageClick = useCallback(() => {
     if (
       typeof currentImageIndex !== "undefined" &&
-      currentImageIndex < posts.length - 1
+      currentImageIndex < images.length - 1
     ) {
       setCurrentImageIndex(currentImageIndex + 1);
     }
-  }, [currentImageIndex, posts]);
+  }, [currentImageIndex, images]);
 
   const handlePrevImageClick = useCallback(() => {
     if (typeof currentImageIndex !== "undefined" && currentImageIndex > 0) {
@@ -154,7 +154,7 @@ export const PostList = () => {
           )}
         </Box>
         <Typography>{viewedUser?.nickname}</Typography>
-        <Typography>投稿枚数：{posts.length}枚</Typography>
+        <Typography>投稿枚数：{images.length}枚</Typography>
         {loginUser?.id === viewedUser?.id && (
           <FollowModal
             viewedUser={viewedUser}
@@ -177,7 +177,7 @@ export const PostList = () => {
         {loginUser?.id === viewedUser?.id && (
           <Button
             component={Link}
-            to="/postedit"
+            to="/imageedit"
             variant="contained"
             color="primary"
           >
@@ -186,13 +186,13 @@ export const PostList = () => {
         )}
       </Box>
       <Grid container spacing={0.5}>
-        {posts.map((post, index) => (
-          <Grid item xs={6} sm={4} md={2} key={post.id}>
-            <PostItem
-              post={post}
+        {images.map((image, index) => (
+          <Grid item xs={6} sm={4} md={2} key={image.id}>
+            <ImageItem
+              image={image}
               index={index}
               currentImageIndex={currentImageIndex}
-              maxIndex={posts.length - 1}
+              maxIndex={images.length - 1}
               isCheckboxVisible={false}
               isDialogVisible={true}
               handleFollowButtonClick={handleFollowButtonClick}
@@ -200,9 +200,9 @@ export const PostList = () => {
               setCurrentImageIndex={setCurrentImageIndex}
               handlePrevImageClick={handlePrevImageClick}
               handleNextImageClick={handleNextImageClick}
-              currentPost={
+              currentImage={
                 currentImageIndex !== undefined
-                  ? posts[currentImageIndex]
+                  ? images[currentImageIndex]
                   : undefined
               }
               isFollowed={getIsFollowed(numUserId)}
