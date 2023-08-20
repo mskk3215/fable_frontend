@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 
 export const PostForm = memo(() => {
-  const { handleGetPosts } = useImages();
+  const { handleGetImages } = useImages();
   const [images, setImages] = useState<File[]>([]);
   const inputId = Math.random().toString(32).substring(2);
 
@@ -26,7 +26,7 @@ export const PostForm = memo(() => {
     }
   };
 
-  const handleCreatePost = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleCreateImage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const data = new FormData();
@@ -37,8 +37,8 @@ export const PostForm = memo(() => {
     await createPosts(data)
       .then(() => {
         alert("アップロードしました");
-        navigate("/postedit");
-        handleGetPosts(undefined);
+        navigate("/imageedit");
+        handleGetImages(undefined);
         setImages([]);
       })
       .catch((error) => {
@@ -62,7 +62,7 @@ export const PostForm = memo(() => {
           alignItems: "center",
         }}
       >
-        <form noValidate onSubmit={handleCreatePost}>
+        <form noValidate onSubmit={handleCreateImage}>
           <Box
             sx={{
               display: "flex",

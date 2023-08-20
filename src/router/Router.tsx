@@ -11,7 +11,7 @@ import { Page404 } from "../components/pages/Page404";
 import { DefaultLayout } from "../components/templates/DefaultLayout";
 import { HeaderOnly } from "../components/templates/HeaderOnly";
 import { UploadView } from "../components/pages/UploadView";
-import { PostEdit } from "../components/pages/PostEdit";
+import { ImageEdit } from "../components/pages/ImageEdit";
 import { Map } from "../components/pages/Map";
 import { Direction } from "../components/pages/Direction";
 import { ProfileEdit } from "../components/pages/ProfileEdit";
@@ -120,11 +120,11 @@ export const Router = () => {
             }
           />
           <Route
-            path="postedit"
+            path="imageedit"
             element={
               <RouteAuthGuard>
                 <HeaderOnly>
-                  <PostEdit />
+                  <ImageEdit />
                 </HeaderOnly>
               </RouteAuthGuard>
             }

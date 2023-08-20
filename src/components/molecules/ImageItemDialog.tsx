@@ -13,14 +13,14 @@ import {
   Typography,
 } from "@mui/material";
 import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
-import { Post } from "../../types/images";
+import { Image } from "../../types/images";
 
 type Props = {
   numUserId?: number | undefined;
-  currentPost: Post;
+  currentImage: Image;
   currentImageIndex: number | undefined;
   maxIndex?: number;
-  createdTime: (post: Post) => string | null;
+  createdTime: (image: Image) => string | null;
   isDialogVisible: boolean;
   imageOpen: boolean;
   imageSize: { height: string; width: string };
@@ -31,10 +31,10 @@ type Props = {
   isFollowed?: boolean;
 };
 
-export const PostItemDialog = memo((props: Props) => {
+export const ImageItemDialog = memo((props: Props) => {
   const {
     numUserId,
-    currentPost,
+    currentImage,
     currentImageIndex,
     maxIndex,
     createdTime,
@@ -80,8 +80,8 @@ export const PostItemDialog = memo((props: Props) => {
         >
           <Box component="span">
             <img
-              src={currentPost.image}
-              alt="currentPostImage"
+              src={currentImage.image}
+              alt="currentImageImage"
               style={{
                 objectFit: "contain",
                 height: imageSize.height,
@@ -122,22 +122,22 @@ export const PostItemDialog = memo((props: Props) => {
             </Box>
             <Typography variant="body1">
               昆虫名:{" "}
-              {currentPost.insect_name
-                ? `${currentPost.insect_name}(${currentPost.insect_sex})`
+              {currentImage.insect_name
+                ? `${currentImage.insect_name}(${currentImage.insect_sex})`
                 : "\u00a0"}
             </Typography>
             <Typography variant="body1">
               撮影場所:{" "}
-              {currentPost.park_id !== null &&
-              parks[currentPost.park_id - 1]?.name
-                ? parks[currentPost.park_id - 1]?.name
-                : currentPost.city_name}
+              {currentImage.park_id !== null &&
+              parks[currentImage.park_id - 1]?.name
+                ? parks[currentImage.park_id - 1]?.name
+                : currentImage.city_name}
             </Typography>
             <Typography variant="body1">
               撮影日時:{" "}
-              {createdTime(currentPost) ? createdTime(currentPost) : "\u00a0"}
+              {createdTime(currentImage) ? createdTime(currentImage) : "\u00a0"}
             </Typography>
-            <LikeButton post={currentPost} />
+            <LikeButton image={currentImage} />
           </Box>
         </DialogContent>
         {currentImageIndex !== 0 && (

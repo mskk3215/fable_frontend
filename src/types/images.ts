@@ -1,4 +1,4 @@
-export type Post = {
+export type Image = {
   id: number;
   user_id: number;
   insect_id: number | null;
@@ -11,8 +11,8 @@ export type Post = {
   likes_count: number;
   liked_user_ids: number[] | null;
 };
-export type HandleGetPosts = (userId: number | undefined) => Promise<void>;
+export type HandleGetImages = (userId: number | undefined) => Promise<void>;
 export type UseImages = {
-  posts: Post[];
-  handleGetPosts: HandleGetPosts;
+  images: Image[];
+  handleGetImages: HandleGetImages;
 };

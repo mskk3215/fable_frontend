@@ -7,14 +7,14 @@ import {
 import { createImageLike, deleteImageLike } from "../../../urls";
 import { Button } from "@mui/material";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
-import { Post } from "../../../types/images";
+import { Image } from "../../../types/images";
 
 type Props = {
-  post: Post;
+  image: Image;
 };
 
 export const LikeButton = (props: Props) => {
-  const { post } = props;
+  const { image } = props;
   const [likedImage, setLikedImage] = useRecoilState(likedImageState);
   const [likedCount, setLikedCount] = useRecoilState(likedCountState);
 
@@ -59,16 +59,16 @@ export const LikeButton = (props: Props) => {
       {" "}
       <Button
         startIcon={
-          getIsLiked(post.id) ? (
+          getIsLiked(image.id) ? (
             <Favorite style={{ color: "#FF69B4" }} />
           ) : (
             <FavoriteBorder style={{ color: "#808080" }} />
           )
         }
-        onClick={() => handleLikeButtonClick(post.id)}
+        onClick={() => handleLikeButtonClick(image.id)}
         style={{ paddingLeft: 5, minWidth: "auto", color: "#808080" }}
       >
-        {likedCount[post.id]}
+        {likedCount[image.id]}
       </Button>
     </>
   );

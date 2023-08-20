@@ -1,15 +1,15 @@
 import React, { useState, useEffect, memo } from "react";
 import { useSetRecoilState } from "recoil";
 import { Pagination, useMediaQuery, useTheme } from "@mui/material";
-import { paginatedPostsState } from "../../store/atoms/paginatedPostsState";
-import { Post } from "../../types/images";
+import { paginatedImagesState } from "../../store/atoms/paginatedImagesState";
+import { Image } from "../../types/images";
 
 type Props = {
-  posts: Post[];
+  images: Image[];
 };
 export const PageNavigator = memo((props: Props) => {
-  const { posts } = props;
-  const setPaginatedPosts = useSetRecoilState(paginatedPostsState);
+  const { images } = props;
+  const setPaginatedImages = useSetRecoilState(paginatedImagesState);
 
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(1);
@@ -34,9 +34,9 @@ export const PageNavigator = memo((props: Props) => {
   useEffect(() => {
     const start = (page - 1) * pageSize;
     const end = start + pageSize;
-    const paginatedPosts = posts.slice(start, end);
-    setPaginatedPosts(paginatedPosts);
-  }, [page, pageSize, posts, setPaginatedPosts]);
+    const paginatedImages = images.slice(start, end);
+    setPaginatedImages(paginatedImages);
+  }, [page, pageSize, images, setPaginatedImages]);
 
   const handlePageChange = (e: React.ChangeEvent<unknown>, newPage: number) => {
     setPage(newPage);
@@ -45,7 +45,7 @@ export const PageNavigator = memo((props: Props) => {
   return (
     <>
       <Pagination
-        count={Math.ceil(posts.length / pageSize)}
+        count={Math.ceil(images.length / pageSize)}
         page={page}
         onChange={handlePageChange}
         sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}
