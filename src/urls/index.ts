@@ -43,19 +43,19 @@ export const deleteUserRelationship = (
 };
 
 //images
-export const getPosts = () => {
+export const getImages = () => {
   return apiClient.get("/images");
 };
-export const getUserPosts = (userId: number | undefined) => {
+export const getUserImages = (userId: number | undefined) => {
   return apiClient.get("/images", { params: { user_id: userId } });
 };
 export const createPosts = (data: FormData) => {
   return apiClient.post("/images", data);
 };
-export const updatePosts = (id: number[], data: FormData) => {
+export const updateImages = (id: number[], data: FormData) => {
   return apiClient.put(`/images/${id}`, data);
 };
-export const deletePosts = (id: number[]) => {
+export const deleteImages = (id: number[]) => {
   return apiClient.delete(`/images/${id}`);
 };
 

@@ -1,18 +1,18 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useRecoilValue } from "recoil";
-import { paginatedPostsState } from "../../store/atoms/paginatedPostsState";
+import { paginatedImagesState } from "../../store/atoms/paginatedImagesState";
 import { EditForm } from "../organisms/EditForm";
-import { PostItem } from "../organisms/PostItem";
+import { ImageItem } from "../organisms/ImageItem";
 import { useImages } from "../../hooks/useImages";
 import { useParks } from "../../hooks/useParks";
 import { useAllInsects } from "../../hooks/useAllInsects";
 import { useAllPrefectures } from "../../hooks/useAllPrefectures";
 import { PageNavigator } from "../organisms/PageNavigator";
 import { Box, Divider, Grid } from "@mui/material";
-import { Post } from "../../types/images";
+import { Image } from "../../types/images";
 
-export const PostEdit = () => {
-  const { posts, handleGetPosts } = useImages();
+export const ImageEdit = () => {
+  const { images, handleGetImages } = useImages();
   const { parks, parkOptions, handleGetParks } = useParks();
   const { insects, insectOptions } = useAllInsects();
   const { prefectures, prefectureOptions } = useAllPrefectures();
@@ -20,7 +20,7 @@ export const PostEdit = () => {
   const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
   const [isShiftDown, setIsShiftDown] = useState<boolean>(false);
 
-  const paginatedPosts = useRecoilValue(paginatedPostsState);
+  const paginatedImages = useRecoilValue(paginatedImagesState);
 
   const keydownHandler = (e: KeyboardEvent) => {
     if (e.key === "Shift") {
@@ -44,14 +44,14 @@ export const PostEdit = () => {
 
   const idToIndex = useCallback(
     (id: number) => {
-      for (let i = 0; i < posts.length; i++) {
-        if (posts[i].id === id) {
+      for (let i = 0; i < images.length; i++) {
+        if (images[i].id === id) {
           return i;
         }
       }
       return -1;
     },
-    [posts]
+    [images]
   );
 
   const fill = (a: number, b: number) => {
@@ -66,8 +66,8 @@ export const PostEdit = () => {
 
   //画像選択追加
   const handleSelect = useCallback(
-    (post: Post) => {
-      const index = idToIndex(post.id);
+    (image: Image) => {
+      const index = idToIndex(image.id);
       if (index === undefined) return;
 
       const lastSelectedIndex = selectedIndexes[selectedIndexes.length - 1];
@@ -84,8 +84,8 @@ export const PostEdit = () => {
 
   //画像選択解除
   const handleRemove = useCallback(
-    (post: Post) => {
-      const selectedIndex = idToIndex(post.id);
+    (image: Image) => {
+      const selectedIndex = idToIndex(image.id);
       if (selectedIndex === undefined) return;
 
       if (!isShiftDown) {
@@ -110,28 +110,28 @@ export const PostEdit = () => {
   //selectedIndexesの内容をselectedIdsにする
   useEffect(() => {
     setSelectedIds(
-      selectedIndexes.map((selectedIndexes) => posts[selectedIndexes].id)
+      selectedIndexes.map((selectedIndexes) => images[selectedIndexes].id)
     );
-  }, [selectedIndexes, posts]);
+  }, [selectedIndexes, images]);
 
   return (
     <div style={{ marginTop: "45px" }}>
       <Box display="flex" flexWrap="wrap">
         <Box sx={{ width: { xs: "100%", md: "80%" } }}>
           <Grid container spacing={0.5}>
-            {paginatedPosts?.map((post) => (
-              <Grid item xs={6} sm={4} md={2.4} key={post.id}>
-                <PostItem
-                  post={post}
+            {paginatedImages?.map((image) => (
+              <Grid item xs={6} sm={4} md={2.4} key={image.id}>
+                <ImageItem
+                  image={image}
                   handleSelect={() => {
-                    handleSelect(post);
+                    handleSelect(image);
                   }}
                   handleRemove={() => {
-                    handleRemove(post);
+                    handleRemove(image);
                   }}
                   checked={
-                    selectedIndexes.includes(idToIndex(post.id)) &&
-                    idToIndex(post.id) !== -1
+                    selectedIndexes.includes(idToIndex(image.id)) &&
+                    idToIndex(image.id) !== -1
                   }
                   isCheckboxVisible={true}
                   isDialogVisible={false}
@@ -143,7 +143,7 @@ export const PostEdit = () => {
               </Grid>
             ))}
           </Grid>
-          <PageNavigator posts={posts} />
+          <PageNavigator images={images} />
         </Box>
         <Divider orientation="vertical" flexItem />
         <Box
@@ -163,7 +163,7 @@ export const PostEdit = () => {
             insectOptions={insectOptions}
             prefectures={prefectures}
             prefectureOptions={prefectureOptions}
-            handleGetPosts={handleGetPosts}
+            handleGetImages={handleGetImages}
           />
         </Box>
       </Box>

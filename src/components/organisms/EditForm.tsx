@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { updatePosts, deletePosts } from "../../urls";
+import { updateImages, deleteImages } from "../../urls";
 import {
   Autocomplete,
   Box,
@@ -22,7 +22,7 @@ import { Insect, InsectOption } from "../../types/insects";
 import { Park, ParkOption } from "../../types/parks";
 import { Prefecture, PrefectureOption } from "../../types/prefectures";
 import dayjs, { Dayjs } from "dayjs";
-import { HandleGetPosts } from "../../types/images";
+import { HandleGetImages } from "../../types/images";
 
 type Props = {
   selectedIds: number[];
@@ -35,7 +35,7 @@ type Props = {
   insects: Insect[];
   prefectureOptions: PrefectureOption[];
   prefectures: Prefecture[];
-  handleGetPosts: HandleGetPosts;
+  handleGetImages: HandleGetImages;
 };
 
 export const EditForm = memo((props: Props) => {
@@ -50,7 +50,7 @@ export const EditForm = memo((props: Props) => {
     insectOptions,
     prefectures,
     prefectureOptions,
-    handleGetPosts,
+    handleGetImages,
   } = props;
 
   const [insectName, setInsectName] = useState("");
@@ -61,7 +61,7 @@ export const EditForm = memo((props: Props) => {
   const [parkName, setParkName] = useState("");
   const [buttonName, setButtonName] = useState("");
 
-  const handleUpdateDeletePost = async (e: FormEvent<HTMLFormElement>) => {
+  const handleUpdateDeleteImage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData();
     try {
@@ -72,11 +72,11 @@ export const EditForm = memo((props: Props) => {
         data.append("image[cityName]", cityName);
         data.append("image[taken_at]", takenDate ? takenDate.format() : "");
 
-        await updatePosts(selectedIds, data).then(() => {
+        await updateImages(selectedIds, data).then(() => {
           alert("更新しました");
         });
       } else if (buttonName === "delete") {
-        await deletePosts(selectedIds).then(() => {
+        await deleteImages(selectedIds).then(() => {
           alert("削除しました");
         });
       }
@@ -88,7 +88,7 @@ export const EditForm = memo((props: Props) => {
       setTakenDate(null);
 
       handleGetParks();
-      handleGetPosts(undefined);
+      handleGetImages(undefined);
       setSelectedIds([]);
       setSelectedIndexes([]);
     } catch (error) {
@@ -195,7 +195,7 @@ export const EditForm = memo((props: Props) => {
 
   return (
     <>
-      <form onSubmit={handleUpdateDeletePost}>
+      <form onSubmit={handleUpdateDeleteImage}>
         <Box sx={{ width: "100%" }}>
           <Box>
             <Typography

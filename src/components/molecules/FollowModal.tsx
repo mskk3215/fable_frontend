@@ -105,7 +105,7 @@ export const FollowModal = memo((props: Props) => {
                           marginRight: 2,
                         }}
                       />
-                      <ButtonBase component={Link} to={`/postlist/${user.id}`}>
+                      <ButtonBase component={Link} to={`/userpage/${user.id}`}>
                         <Typography
                           sx={{
                             cursor: "pointer",

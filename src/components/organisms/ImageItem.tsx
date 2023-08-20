@@ -1,6 +1,6 @@
 import React, { useCallback, memo, ChangeEvent, useState } from "react";
 import { useParks } from "../../hooks/useParks";
-import { PostItemDialog } from "../molecules/PostItemDialog";
+import { ImageItemDialog } from "../molecules/ImageItemDialog";
 import format from "date-fns/format";
 import ja from "date-fns/locale/ja";
 import {
@@ -12,10 +12,10 @@ import {
   Typography,
   styled,
 } from "@mui/material";
-import { Post } from "../../types/images";
+import { Image } from "../../types/images";
 
 type Props = {
-  post: Post;
+  image: Image;
   index?: number;
   currentImageIndex?: number | undefined;
   maxIndex?: number;
@@ -31,13 +31,13 @@ type Props = {
   >;
   handlePrevImageClick: () => void;
   handleNextImageClick: () => void;
-  currentPost?: Post | undefined;
+  currentImage?: Image | undefined;
   isFollowed?: boolean;
 };
 
-export const PostItem = memo((props: Props) => {
+export const ImageItem = memo((props: Props) => {
   const {
-    post,
+    image,
     index,
     currentImageIndex,
     maxIndex,
@@ -51,7 +51,7 @@ export const PostItem = memo((props: Props) => {
     setCurrentImageIndex,
     handlePrevImageClick,
     handleNextImageClick,
-    currentPost,
+    currentImage,
     isFollowed,
   } = props;
   const { parks } = useParks();
@@ -68,9 +68,9 @@ export const PostItem = memo((props: Props) => {
   );
 
   // 撮影日時をフォーマットする
-  const createdTime = (post: Post) => {
-    if (post.taken_at) {
-      const date = new Date(post.taken_at);
+  const createdTime = (image: Image) => {
+    if (image.taken_at) {
+      const date = new Date(image.taken_at);
       const formattedDate = format(date, "yyyy/M/d/(E)", { locale: ja });
       return formattedDate;
     }
@@ -103,14 +103,14 @@ export const PostItem = memo((props: Props) => {
 
   return (
     <>
-      {post.image && (
+      {image.image && (
         <SquareCard onClick={(e) => handleClickImageOpen(e)}>
           <FormControlLabel
             control={
               <Card>
                 <CardMedia
                   component="img"
-                  src={post.image}
+                  src={image.image}
                   style={{
                     height: "100%",
                     objectFit: "contain",
@@ -138,30 +138,30 @@ export const PostItem = memo((props: Props) => {
                 >
                   {/* 撮影日 */}
                   <CustomTypography variant="body2">
-                    {createdTime(post) ? createdTime(post) : "\u00a0"}
+                    {createdTime(image) ? createdTime(image) : "\u00a0"}
                   </CustomTypography>
                   {/* 昆虫名 */}
                   <CustomTypography>
-                    {post.insect_name
-                      ? `${post.insect_name}(${post.insect_sex})`
+                    {image.insect_name
+                      ? `${image.insect_name}(${image.insect_sex})`
                       : "\u00a0"}
                   </CustomTypography>
                   {/* 公園名 or 市町村名 */}
                   <CustomTypography>
-                    {post.park_id !== null && parks[post.park_id - 1]?.name
-                      ? parks[post.park_id - 1]?.name
-                      : post.city_name}
+                    {image.park_id !== null && parks[image.park_id - 1]?.name
+                      ? parks[image.park_id - 1]?.name
+                      : image.city_name}
                   </CustomTypography>
                 </CardContent>
               </Card>
             }
             label="card"
           />
-          {currentPost && (
+          {currentImage && (
             <>
-              <PostItemDialog
+              <ImageItemDialog
                 numUserId={numUserId}
-                currentPost={currentPost}
+                currentImage={currentImage}
                 currentImageIndex={currentImageIndex}
                 maxIndex={maxIndex}
                 createdTime={createdTime}
