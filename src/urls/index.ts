@@ -42,15 +42,16 @@ export const deleteUserRelationship = (
   );
 };
 
+export const createPosts = (data: FormData) => {
+  return apiClient.post("/posts", data);
+};
+
 //images
 export const getImages = () => {
   return apiClient.get("/images");
 };
 export const getUserImages = (userId: number | undefined) => {
   return apiClient.get("/images", { params: { user_id: userId } });
-};
-export const createPosts = (data: FormData) => {
-  return apiClient.post("/images", data);
 };
 export const updateImages = (id: number[], data: FormData) => {
   return apiClient.put(`/images/${id}`, data);
