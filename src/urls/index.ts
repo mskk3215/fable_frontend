@@ -42,6 +42,10 @@ export const deleteUserRelationship = (
   );
 };
 
+//posts
+export const getPosts = () => {
+  return apiClient.get("/posts");
+};
 export const createPosts = (data: FormData) => {
   return apiClient.post("/posts", data);
 };
