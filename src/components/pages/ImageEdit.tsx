@@ -22,6 +22,10 @@ export const ImageEdit = () => {
 
   const paginatedImages = useRecoilValue(paginatedImagesState);
 
+  useEffect(() => {
+    handleGetImages(undefined);
+  }, []);
+
   const keydownHandler = (e: KeyboardEvent) => {
     if (e.key === "Shift") {
       setIsShiftDown(true);

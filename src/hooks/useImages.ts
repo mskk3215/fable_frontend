@@ -1,5 +1,5 @@
 //特定のユーザーの全画像を取得するカスタムフック
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { likedCountState, likedImageState } from "../store/atoms/imageAtom";
 import { loginUserState } from "../store/atoms/userAtom";
@@ -26,9 +26,6 @@ export const useImages = (userId?: number): UseImages => {
     updateLikedImage(data);
     updatedLikedCount(data);
   };
-  useEffect(() => {
-    handleGetImages(userId);
-  }, []);
 
   // いいね状態がtrueの画像を取得する
   const updateLikedImage = (allImageData: Image[] | undefined) => {
