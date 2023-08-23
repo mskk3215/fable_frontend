@@ -66,6 +66,8 @@ export const useImages = (userId?: number): UseImages => {
   return {
     images,
     handleGetImages,
+    updateLikedImage,
+    updatedLikedCount,
     createdTime,
   };
 };

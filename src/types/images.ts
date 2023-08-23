@@ -15,4 +15,6 @@ export type HandleGetImages = (userId: number | undefined) => Promise<void>;
 export type UseImages = {
   images: Image[];
   handleGetImages: HandleGetImages;
+  updateLikedImage: (allImageData: Image[] | undefined) => void;
+  updatedLikedCount: (allImageData: Image[] | undefined) => void;
 };
