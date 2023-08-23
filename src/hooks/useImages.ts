@@ -4,6 +4,8 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { likedCountState, likedImageState } from "../store/atoms/imageAtom";
 import { loginUserState } from "../store/atoms/userAtom";
 import { getImages, getUserImages } from "../urls";
+import format from "date-fns/format";
+import ja from "date-fns/locale/ja";
 import { Image, UseImages } from "../types/images";
 import { User } from "../types/user";
 
@@ -54,5 +56,19 @@ export const useImages = (userId?: number): UseImages => {
     setLikedCount(updatedLikedCount);
   };
 
-  return { images, handleGetImages };
+  // 撮影日時をフォーマットする
+  const createdTime = (image: Image) => {
+    if (image.taken_at) {
+      const date = new Date(image.taken_at);
+      const formattedDate = format(date, "yyyy/M/d/(E)", { locale: ja });
+      return formattedDate;
+    }
+    return null;
+  };
+
+  return {
+    images,
+    handleGetImages,
+    createdTime,
+  };
 };
