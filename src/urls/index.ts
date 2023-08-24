@@ -49,6 +49,9 @@ export const getPosts = () => {
 export const createPosts = (data: FormData) => {
   return apiClient.post("/posts", data);
 };
+export const deletePosts = (postId: number) => {
+  return apiClient.delete(`/posts/${postId}`);
+};
 
 //images
 export const getImages = () => {
