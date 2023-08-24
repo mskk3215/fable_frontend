@@ -2,9 +2,10 @@ export type Image = {
   id: number;
   user_id: number;
   insect_id: number | null;
-  park_id: number | null;
-  taken_at: Date | null;
   image: string;
+  taken_at: Date | null;
+  park_id: number | null;
+  park_name: string | null;
   insect_name: string | null;
   insect_sex: string | null;
   city_name: string | null;
@@ -17,4 +18,5 @@ export type UseImages = {
   handleGetImages: HandleGetImages;
   updateLikedImage: (allImageData: Image[] | undefined) => void;
   updatedLikedCount: (allImageData: Image[] | undefined) => void;
+  createdTime: (image: Image) => string | null;
 };
