@@ -1,22 +1,48 @@
 import React, { memo } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { followUserState, loginUserState } from "../../../store/atoms/userAtom";
+import { useUsers } from "../../../hooks/useUsers";
+import { createUserRelationship, deleteUserRelationship } from "../../../urls";
 import { Button } from "@mui/material";
 
 type Props = {
-  isFollowed: boolean;
-  handleFollowButtonClick: (userId?: number) => void;
+  followedUserId: number;
 };
 
 export const FollowButton = memo((props: Props) => {
-  const { isFollowed, handleFollowButtonClick } = props;
+  const { followedUserId } = props;
+  const loginUser = useRecoilValue(loginUserState);
+  const setFollowUser = useSetRecoilState(followUserState);
+  const { isFollowed } = useUsers();
+
+  // フォロー状態変更時の処理
+  const handleFollowButtonClick = (followedUserId?: number) => {
+    if (loginUser?.id === undefined || followedUserId === undefined) return;
+    // followUserのState更新
+    setFollowUser((prevStatus) => {
+      const updatedStatus = {
+        ...prevStatus,
+        [followedUserId]: !prevStatus[followedUserId],
+      };
+      // サーバーにフォロー状態を送信
+      if (updatedStatus[followedUserId] === true) {
+        createUserRelationship(loginUser.id, followedUserId);
+      } else {
+        deleteUserRelationship(loginUser.id, followedUserId);
+      }
+      return updatedStatus;
+    });
+  };
+
   return (
     <>
       <Button
-        onClick={() => handleFollowButtonClick()}
-        variant={isFollowed ? "outlined" : "contained"}
+        onClick={() => handleFollowButtonClick(followedUserId)}
+        variant={isFollowed(followedUserId) ? "outlined" : "contained"}
         color="primary"
         style={{ minWidth: "120px" }}
       >
-        {isFollowed ? "フォロー中" : "フォローする"}
+        {isFollowed(followedUserId) ? "フォロー中" : "フォローする"}
       </Button>
     </>
   );

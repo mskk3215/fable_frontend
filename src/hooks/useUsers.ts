@@ -86,9 +86,15 @@ export const useUsers = () => {
     }
   };
 
+  // フォロー状態の取得
+  const isFollowed = (followedUserId: number) => {
+    return followedUserId ? followUser[followedUserId] ?? false : false;
+  };
+
   return {
     handleSuccessfulAuthentication,
     checkLoginStatus,
     handleGetUser,
+    isFollowed,
   };
 };

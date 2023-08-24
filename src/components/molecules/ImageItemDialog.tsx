@@ -2,6 +2,7 @@ import React, { memo } from "react";
 import { useRecoilValue } from "recoil";
 import { loginUserState, viewedUserState } from "../../store/atoms/userAtom";
 import { useParks } from "../../hooks/useParks";
+import { useUsers } from "../../hooks/useUsers";
 import { FollowButton } from "../atoms/button/FollowButton";
 import { LikeButton } from "../atoms/button/LikeButton";
 import {
@@ -27,8 +28,6 @@ type Props = {
   handleClickImageClose: (e: React.MouseEvent) => void;
   handlePrevImageClick: () => void;
   handleNextImageClick: () => void;
-  handleFollowButtonClick: (userId?: number) => void;
-  isFollowed?: boolean;
 };
 
 export const ImageItemDialog = memo((props: Props) => {
@@ -44,10 +43,10 @@ export const ImageItemDialog = memo((props: Props) => {
     handleClickImageClose,
     handlePrevImageClick,
     handleNextImageClick,
-    handleFollowButtonClick,
-    isFollowed,
   } = props;
+
   const { parks } = useParks();
+  const { isFollowed } = useUsers();
   const loginUser = useRecoilValue(loginUserState);
   const viewedUser = useRecoilValue(viewedUserState);
   return (
@@ -111,14 +110,9 @@ export const ImageItemDialog = memo((props: Props) => {
               <Typography variant="h6" paddingLeft="10px" paddingRight="10px">
                 {viewedUser?.nickname}
               </Typography>
-              {loginUser?.id !== viewedUser?.id && isFollowed === false && (
-                <FollowButton
-                  handleFollowButtonClick={() =>
-                    handleFollowButtonClick(numUserId)
-                  }
-                  isFollowed={isFollowed}
-                />
-              )}
+              {loginUser?.id !== viewedUser?.id &&
+                isFollowed(viewedUser?.id ?? 0) === false &&
+                numUserId && <FollowButton followedUserId={numUserId} />}
             </Box>
             <Typography variant="body1">
               昆虫名:{" "}

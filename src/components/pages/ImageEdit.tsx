@@ -140,7 +140,6 @@ export const ImageEdit = () => {
                   isCheckboxVisible={true}
                   isDialogVisible={false}
                   setCurrentImageIndex={() => {}}
-                  handleFollowButtonClick={() => {}}
                   handlePrevImageClick={() => {}}
                   handleNextImageClick={() => {}}
                 />

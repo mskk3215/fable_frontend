@@ -23,7 +23,6 @@ type Props = {
   checked?: boolean;
   isCheckboxVisible: boolean;
   isDialogVisible: boolean;
-  handleFollowButtonClick: (userId?: number, followStatus?: boolean) => void;
   numUserId?: number | undefined;
   setCurrentImageIndex: React.Dispatch<
     React.SetStateAction<number | undefined>
@@ -31,7 +30,6 @@ type Props = {
   handlePrevImageClick: () => void;
   handleNextImageClick: () => void;
   currentImage?: Image | undefined;
-  isFollowed?: boolean;
 };
 
 export const ImageItem = memo((props: Props) => {
@@ -45,13 +43,11 @@ export const ImageItem = memo((props: Props) => {
     checked,
     isCheckboxVisible,
     isDialogVisible,
-    handleFollowButtonClick,
     numUserId,
     setCurrentImageIndex,
     handlePrevImageClick,
     handleNextImageClick,
     currentImage,
-    isFollowed,
   } = props;
   const { parks } = useParks();
   const { createdTime } = useImages();
@@ -161,8 +157,6 @@ export const ImageItem = memo((props: Props) => {
                 handleClickImageClose={handleClickImageClose}
                 handlePrevImageClick={handlePrevImageClick}
                 handleNextImageClick={handleNextImageClick}
-                handleFollowButtonClick={handleFollowButtonClick}
-                isFollowed={isFollowed}
               />
             </>
           )}

@@ -1,15 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
-import {
-  followUserState,
-  loginUserState,
-  viewedUserState,
-} from "../../store/atoms/userAtom";
+import { useRecoilValue } from "recoil";
+import { loginUserState, viewedUserState } from "../../store/atoms/userAtom";
 import { ImageItem } from "../organisms/ImageItem";
 import { FollowModal } from "../molecules/FollowModal";
 import { FollowButton } from "../atoms/button/FollowButton";
-import { createUserRelationship, deleteUserRelationship } from "../../urls";
 import { useUsers } from "../../hooks/useUsers";
 import { useImages } from "../../hooks/useImages";
 import Box from "@mui/system/Box";
@@ -19,7 +14,6 @@ import { Avatar, Button, Typography } from "@mui/material";
 export const UserPage = () => {
   const loginUser = useRecoilValue(loginUserState);
   const viewedUser = useRecoilValue(viewedUserState);
-  const [followUser, setFollowUser] = useRecoilState(followUserState);
   const { handleGetUser } = useUsers();
 
   const { userId } = useParams();
@@ -31,31 +25,6 @@ export const UserPage = () => {
     handleGetUser(numUserId);
     handleGetImages(numUserId);
   }, [numUserId]);
-
-  // フォロー状態変更時の処理
-  const handleFollowButtonClick = useCallback((followedUserId?: number) => {
-    if (loginUser?.id === undefined || followedUserId === undefined) return;
-    // followUserのState更新
-    setFollowUser((prevStatus) => {
-      const updatedStatus = {
-        ...prevStatus,
-        [followedUserId]: !prevStatus[followedUserId],
-      };
-      // サーバーにフォロー状態を送信
-      if (updatedStatus[followedUserId] === true) {
-        createUserRelationship(loginUser.id, followedUserId);
-      } else {
-        deleteUserRelationship(loginUser.id, followedUserId);
-      }
-      return updatedStatus;
-    });
-  }, []);
-
-  // フォロー状態の取得
-  const getIsFollowed = (userId?: number) => {
-    if (userId === undefined) return false;
-    return followUser[userId] ?? false;
-  };
 
   // フォロー一覧モーダルの開閉
   const [followOpen, setFollowOpen] = useState(false);
@@ -144,12 +113,7 @@ export const UserPage = () => {
                 right: -150,
               }}
             >
-              <FollowButton
-                handleFollowButtonClick={() =>
-                  handleFollowButtonClick(numUserId)
-                }
-                isFollowed={getIsFollowed(numUserId)}
-              />
+              <FollowButton followedUserId={numUserId} />
             </Box>
           )}
         </Box>
@@ -158,7 +122,6 @@ export const UserPage = () => {
         {loginUser?.id === viewedUser?.id && (
           <FollowModal
             viewedUser={viewedUser}
-            handleFollowButtonClick={handleFollowButtonClick}
             followOpen={followOpen}
             handleFollowModalOpen={handleFollowModalOpen}
             handleFollowModalClose={handleFollowModalClose}
@@ -195,7 +158,6 @@ export const UserPage = () => {
               maxIndex={images.length - 1}
               isCheckboxVisible={false}
               isDialogVisible={true}
-              handleFollowButtonClick={handleFollowButtonClick}
               numUserId={numUserId}
               setCurrentImageIndex={setCurrentImageIndex}
               handlePrevImageClick={handlePrevImageClick}
@@ -205,7 +167,6 @@ export const UserPage = () => {
                   ? images[currentImageIndex]
                   : undefined
               }
-              isFollowed={getIsFollowed(numUserId)}
             />
           </Grid>
         ))}
