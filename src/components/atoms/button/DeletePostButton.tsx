@@ -7,7 +7,7 @@ type Props = {
   postId: number;
 };
 
-export const DeleteButton = memo((props: Props) => {
+export const DeletePostButton = memo((props: Props) => {
   const { postId } = props;
 
   const handleDeleteButtonClick = async (postId: number) => {

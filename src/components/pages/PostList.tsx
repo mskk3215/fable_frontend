@@ -6,7 +6,7 @@ import { usePosts } from "../../hooks/usePosts";
 import { useImages } from "../../hooks/useImages";
 import { LikeButton } from "../atoms/button/LikeButton";
 import { FollowButton } from "../atoms/button/FollowButton";
-import { DeleteButton } from "../atoms/button/DeleteButton";
+import { DeletePostButton } from "../atoms/button/DeletePostButton";
 import {
   Card,
   CardMedia,
@@ -100,7 +100,7 @@ export const PostList = () => {
                 )}
                 {/* 削除ボタン */}
                 {loginUser?.id === post.user_id && (
-                  <DeleteButton postId={post.id} />
+                  <DeletePostButton postId={post.id} />
                 )}
               </Box>
               <Box sx={{ position: "relative" }}>
