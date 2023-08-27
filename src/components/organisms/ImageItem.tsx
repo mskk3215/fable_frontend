@@ -1,8 +1,7 @@
 import React, { useCallback, memo, ChangeEvent, useState } from "react";
 import { useParks } from "../../hooks/useParks";
+import { useImages } from "../../hooks/useImages";
 import { ImageItemDialog } from "../molecules/ImageItemDialog";
-import format from "date-fns/format";
-import ja from "date-fns/locale/ja";
 import {
   Card,
   CardContent,
@@ -24,7 +23,6 @@ type Props = {
   checked?: boolean;
   isCheckboxVisible: boolean;
   isDialogVisible: boolean;
-  handleFollowButtonClick: (userId?: number, followStatus?: boolean) => void;
   numUserId?: number | undefined;
   setCurrentImageIndex: React.Dispatch<
     React.SetStateAction<number | undefined>
@@ -32,7 +30,6 @@ type Props = {
   handlePrevImageClick: () => void;
   handleNextImageClick: () => void;
   currentImage?: Image | undefined;
-  isFollowed?: boolean;
 };
 
 export const ImageItem = memo((props: Props) => {
@@ -46,15 +43,14 @@ export const ImageItem = memo((props: Props) => {
     checked,
     isCheckboxVisible,
     isDialogVisible,
-    handleFollowButtonClick,
     numUserId,
     setCurrentImageIndex,
     handlePrevImageClick,
     handleNextImageClick,
     currentImage,
-    isFollowed,
   } = props;
   const { parks } = useParks();
+  const { createdTime } = useImages();
   // checkboxの切り替え
   const handleCheckBoxChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -66,16 +62,6 @@ export const ImageItem = memo((props: Props) => {
     },
     [checked, handleSelect, handleRemove]
   );
-
-  // 撮影日時をフォーマットする
-  const createdTime = (image: Image) => {
-    if (image.taken_at) {
-      const date = new Date(image.taken_at);
-      const formattedDate = format(date, "yyyy/M/d/(E)", { locale: ja });
-      return formattedDate;
-    }
-    return null;
-  };
 
   // DialogのOpen/Close
   const [imageOpen, setImageOpen] = useState<boolean>(false);
@@ -171,8 +157,6 @@ export const ImageItem = memo((props: Props) => {
                 handleClickImageClose={handleClickImageClose}
                 handlePrevImageClick={handlePrevImageClick}
                 handleNextImageClick={handleNextImageClick}
-                handleFollowButtonClick={handleFollowButtonClick}
-                isFollowed={isFollowed}
               />
             </>
           )}

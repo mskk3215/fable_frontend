@@ -1,7 +1,5 @@
 import React, { memo } from "react";
 import { Link } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { followUserState } from "../../store/atoms/userAtom";
 import { FollowButton } from "../atoms/button/FollowButton";
 import {
   Avatar,
@@ -17,7 +15,6 @@ import { User } from "../../types/user";
 
 type Props = {
   viewedUser: User | null;
-  handleFollowButtonClick: (userId?: number) => void;
   followOpen: boolean;
   handleFollowModalOpen: () => void;
   handleFollowModalClose: () => void;
@@ -26,13 +23,10 @@ type Props = {
 export const FollowModal = memo((props: Props) => {
   const {
     viewedUser,
-    handleFollowButtonClick,
     followOpen,
     handleFollowModalOpen,
     handleFollowModalClose,
   } = props;
-
-  const followUser = useRecoilValue(followUserState);
 
   return (
     <>
@@ -119,12 +113,7 @@ export const FollowModal = memo((props: Props) => {
                         </Typography>
                       </ButtonBase>
                     </Box>
-                    <FollowButton
-                      handleFollowButtonClick={() => {
-                        handleFollowButtonClick(user.id);
-                      }}
-                      isFollowed={!!followUser[user.id]}
-                    />
+                    <FollowButton followedUserId={user.id} />
                   </Box>
                 </React.Fragment>
               ))}
