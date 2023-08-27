@@ -10,6 +10,7 @@ import { useImages } from "../../hooks/useImages";
 import Box from "@mui/system/Box";
 import Grid from "@mui/material/Grid";
 import { Avatar, Button, Typography } from "@mui/material";
+import { ImageSortSelector } from "../atoms/selector/ImageSortSelector";
 
 export const UserPage = () => {
   const loginUser = useRecoilValue(loginUserState);
@@ -18,7 +19,7 @@ export const UserPage = () => {
 
   const { userId } = useParams();
   const numUserId = userId ? parseInt(userId, 10) : undefined;
-  const { images, handleGetImages } = useImages(numUserId);
+  const { images, setImages, handleGetImages } = useImages(numUserId);
 
   // urlが変更されたらページに表示するユーザー、ログインユーザー情報を取得する
   useEffect(() => {
@@ -109,7 +110,6 @@ export const UserPage = () => {
             <Box
               sx={{
                 position: "absolute",
-                top: 0,
                 right: -150,
               }}
             >
@@ -119,24 +119,30 @@ export const UserPage = () => {
         </Box>
         <Typography>{viewedUser?.nickname}</Typography>
         <Typography>投稿枚数：{images.length}枚</Typography>
-        {loginUser?.id === viewedUser?.id && (
+        {loginUser?.id === viewedUser?.id ? (
           <FollowModal
             viewedUser={viewedUser}
             followOpen={followOpen}
             handleFollowModalOpen={handleFollowModalOpen}
             handleFollowModalClose={handleFollowModalClose}
           />
+        ) : (
+          <Box mt={3} />
         )}
       </Box>
       <Box
         sx={{
           display: "flex",
-          justifyContent: "flex-end",
+          justifyContent: "space-between",
           alignItems: "center",
-          marginBottom: 3,
-          marginRight: 3,
+          marginBottom: 2,
         }}
       >
+        <ImageSortSelector
+          images={images}
+          setImages={setImages}
+          numUserId={numUserId}
+        />
         {loginUser?.id === viewedUser?.id && (
           <Button
             component={Link}
