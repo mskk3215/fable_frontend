@@ -110,7 +110,6 @@ export const UserPage = () => {
             <Box
               sx={{
                 position: "absolute",
-                top: 0,
                 right: -150,
               }}
             >
@@ -120,22 +119,23 @@ export const UserPage = () => {
         </Box>
         <Typography>{viewedUser?.nickname}</Typography>
         <Typography>投稿枚数：{images.length}枚</Typography>
-        {loginUser?.id === viewedUser?.id && (
+        {loginUser?.id === viewedUser?.id ? (
           <FollowModal
             viewedUser={viewedUser}
             followOpen={followOpen}
             handleFollowModalOpen={handleFollowModalOpen}
             handleFollowModalClose={handleFollowModalClose}
           />
+        ) : (
+          <Box mt={3} />
         )}
       </Box>
       <Box
         sx={{
           display: "flex",
-          justifyContent: "flex-end",
+          justifyContent: "space-between",
           alignItems: "center",
-          marginBottom: 3,
-          marginRight: 3,
+          marginBottom: 2,
         }}
       >
         <ImageSortSelector
