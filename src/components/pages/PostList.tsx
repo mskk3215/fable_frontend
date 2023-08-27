@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { loginUserState } from "../../store/atoms/userAtom";
-import { usePosts } from "../../hooks/usePosts";
 import { useImages } from "../../hooks/useImages";
 import { LikeButton } from "../atoms/button/LikeButton";
 import { FollowButton } from "../atoms/button/FollowButton";
 import { DeletePostButton } from "../atoms/button/DeletePostButton";
+import { PostTab } from "../atoms/tab/PostTab";
 import {
   Card,
   CardMedia,
@@ -19,20 +19,20 @@ import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 import { Post } from "../../types/posts";
 
 export const PostList = () => {
-  const { posts } = usePosts();
   const loginUser = useRecoilValue(loginUserState);
   const { createdTime } = useImages();
   const [displayedImages, setDisplayedImages] = useState<{
     [key: string]: number;
   }>({});
+  const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
 
+  // 投稿内の画像前後切り替え
   const handleNextImage = (postId: number) => {
     setDisplayedImages((prevState) => ({
       ...prevState,
       [postId]: (prevState[postId] || 0) + 1,
     }));
   };
-
   const handlePreviousImage = (postId: number) => {
     setDisplayedImages((prevState) => ({
       ...prevState,
@@ -42,10 +42,12 @@ export const PostList = () => {
 
   return (
     <>
-      {posts.map((post: Post) => {
+      {/* タブで表示切り替え */}
+      <PostTab setFilteredPosts={setFilteredPosts} />
+      {filteredPosts.map((post: Post) => {
         const currentImageIndex = displayedImages[post.id] || 0;
         return (
-          <Box key={post.id} sx={{ width: "100%", marginTop: 6 }}>
+          <Box key={post.id} sx={{ width: "100%" }}>
             <Card
               style={{
                 margin: "16px auto",
