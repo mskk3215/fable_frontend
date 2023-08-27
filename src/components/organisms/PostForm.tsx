@@ -109,11 +109,11 @@ export const PostForm = memo(() => {
                 </label>
               </Box>
               {/* count text */}
-              <div>
+              <Box>
                 <Typography color="grey">
                   {images.length}枚アップロード
                 </Typography>
-              </div>
+              </Box>
               {uploadError ? (
                 <Box>
                   <Typography color="error">{uploadError}</Typography>
