@@ -10,6 +10,7 @@ import { useImages } from "../../hooks/useImages";
 import Box from "@mui/system/Box";
 import Grid from "@mui/material/Grid";
 import { Avatar, Button, Typography } from "@mui/material";
+import { ImageSortSelector } from "../atoms/selector/ImageSortSelector";
 
 export const UserPage = () => {
   const loginUser = useRecoilValue(loginUserState);
@@ -18,7 +19,7 @@ export const UserPage = () => {
 
   const { userId } = useParams();
   const numUserId = userId ? parseInt(userId, 10) : undefined;
-  const { images, handleGetImages } = useImages(numUserId);
+  const { images, setImages, handleGetImages } = useImages(numUserId);
 
   // urlが変更されたらページに表示するユーザー、ログインユーザー情報を取得する
   useEffect(() => {
@@ -137,6 +138,11 @@ export const UserPage = () => {
           marginRight: 3,
         }}
       >
+        <ImageSortSelector
+          images={images}
+          setImages={setImages}
+          numUserId={numUserId}
+        />
         {loginUser?.id === viewedUser?.id && (
           <Button
             component={Link}
