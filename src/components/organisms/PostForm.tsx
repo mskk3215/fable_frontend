@@ -17,12 +17,21 @@ import {
 export const PostForm = memo(() => {
   const { handleGetImages } = useImages();
   const [images, setImages] = useState<File[]>([]);
+  const [uploadError, setUploadError] = useState<string | null>(null);
   const inputId = Math.random().toString(32).substring(2);
 
   const navigate = useNavigate();
   const uploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
+      if (
+        e.target.files?.length > 10 ||
+        images.length + e.target.files.length > 10
+      ) {
+        setUploadError("一度に投稿できるのは、10枚までです");
+        return;
+      }
       setImages([...images, ...Array.from(e.target.files)]);
+      setUploadError(null);
     }
   };
 
@@ -100,11 +109,27 @@ export const PostForm = memo(() => {
                 </label>
               </Box>
               {/* count text */}
-              <div>
+              <Box>
                 <Typography color="grey">
                   {images.length}枚アップロード
                 </Typography>
-              </div>
+              </Box>
+              {uploadError ? (
+                <Box>
+                  <Typography color="error">{uploadError}</Typography>
+                </Box>
+              ) : images.length === 0 ? (
+                <Box>
+                  <Typography color="grey">
+                    一度に投稿できるのは、10枚までです
+                  </Typography>
+                  <Typography color="grey">
+                    写真をアップロードしてください
+                  </Typography>
+                </Box>
+              ) : (
+                ""
+              )}
               {/* preview */}
               <Grid container direction="row" justifyContent={"flex-start"}>
                 {images.map((image, i) => (
@@ -149,13 +174,6 @@ export const PostForm = memo(() => {
                   </Box>
                 ))}
               </Grid>
-              {images.length === 0 ? (
-                <Typography color="grey">
-                  写真をアップロードしてください
-                </Typography>
-              ) : (
-                ""
-              )}
             </Box>
             <Box sx={{ width: "100%" }}>
               {/* button */}
