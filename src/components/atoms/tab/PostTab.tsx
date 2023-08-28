@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { followUserState } from "../../../store/atoms/userAtom";
 import { usePosts } from "../../../hooks/usePosts";
@@ -37,19 +37,21 @@ export const PostTab = (props: Props) => {
   };
 
   // タブの条件分岐
-  if (value === 2) {
-    setFilteredPosts(
-      posts
-        .filter((post) => isWithinAWeek(post))
-        .sort((a, b) => getTotalLikes(b) - getTotalLikes(a))
-    );
-  } else if (value === 1) {
-    setFilteredPosts(
-      posts.filter((post) => followUserIds.includes(post.user_id))
-    );
-  } else {
-    setFilteredPosts(posts);
-  }
+  useEffect(() => {
+    if (value === 2) {
+      setFilteredPosts(
+        posts
+          .filter((post) => isWithinAWeek(post))
+          .sort((a, b) => getTotalLikes(b) - getTotalLikes(a))
+      );
+    } else if (value === 1) {
+      setFilteredPosts(
+        posts.filter((post) => followUserIds.includes(post.user_id))
+      );
+    } else {
+      setFilteredPosts(posts);
+    }
+  }, [value, posts, followUserIds]);
 
   return (
     <Box
