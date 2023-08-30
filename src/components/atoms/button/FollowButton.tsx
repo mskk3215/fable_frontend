@@ -40,7 +40,7 @@ export const FollowButton = memo((props: Props) => {
         onClick={() => handleFollowButtonClick(followedUserId)}
         variant={isFollowed(followedUserId) ? "outlined" : "contained"}
         color="primary"
-        style={{ minWidth: "120px" }}
+        size="small"
       >
         {isFollowed(followedUserId) ? "フォロー中" : "フォローする"}
       </Button>
