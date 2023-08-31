@@ -113,9 +113,8 @@ export const PostList = () => {
                 }}
               >
                 {post.images.map((imageData, index) => (
-                  <Box>
+                  <Box key={index}>
                     <Box
-                      key={index}
                       sx={{
                         position: "absolute",
                         top: 0,
