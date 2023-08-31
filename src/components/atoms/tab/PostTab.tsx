@@ -51,7 +51,7 @@ export const PostTab = (props: Props) => {
     } else {
       setFilteredPosts(posts);
     }
-  }, [value, posts, followUserIds]);
+  }, [value, posts]);
 
   return (
     <Box
