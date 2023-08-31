@@ -68,6 +68,7 @@ export const ImageItemDialog = memo((props: Props) => {
         <DialogContent
           sx={{
             display: "flex",
+            flexDirection: { xs: "column", md: "row" },
             justifyContent: "center",
             alignItems: "flex-start",
             overflow: "auto",
@@ -77,7 +78,16 @@ export const ImageItemDialog = memo((props: Props) => {
             height: "100%",
           }}
         >
-          <Box component="span">
+          <Box
+            component="span"
+            m={0}
+            p={0}
+            sx={{
+              backgroundColor: "rgba(0,0,0,0.9)",
+              maxWidth: "100vw",
+              maxHeight: "60vh",
+            }}
+          >
             <img
               src={currentImage.image}
               alt="currentImageImage"
@@ -85,6 +95,8 @@ export const ImageItemDialog = memo((props: Props) => {
                 objectFit: "contain",
                 height: imageSize.height,
                 width: imageSize.width,
+                maxWidth: "100vw",
+                maxHeight: "60vh",
                 display: "block",
               }}
             />
@@ -96,38 +108,61 @@ export const ImageItemDialog = memo((props: Props) => {
             alignItems="flex-start"
             gap={1.5}
             p={2}
-            width="250px"
-            overflow="auto"
+            overflow="hidden"
+            m={0}
           >
-            <Box display="flex" flexDirection="row">
+            <Box display="flex" flexDirection="row" alignItems="center">
               <Avatar
                 src={
                   viewedUser?.avatar instanceof File
                     ? URL.createObjectURL(viewedUser.avatar)
                     : viewedUser?.avatar || ""
                 }
+                sx={{ width: { xs: 30, md: 50 }, height: { xs: 30, md: 50 } }}
               />
-              <Typography variant="h6" paddingLeft="10px" paddingRight="10px">
+              <Typography
+                variant="h6"
+                paddingLeft="10px"
+                paddingRight="10px"
+                sx={{
+                  fontSize: { xs: "0.9rem", md: "1rem" },
+                }}
+              >
                 {viewedUser?.nickname}
               </Typography>
               {loginUser?.id !== viewedUser?.id &&
                 isFollowed(viewedUser?.id ?? 0) === false &&
                 numUserId && <FollowButton followedUserId={numUserId} />}
             </Box>
-            <Typography variant="body1">
+            <Typography
+              variant="body1"
+              sx={{
+                fontSize: { xs: "0.8rem", md: "1rem" },
+              }}
+            >
               昆虫名:{" "}
               {currentImage.insect_name
                 ? `${currentImage.insect_name}(${currentImage.insect_sex})`
                 : "\u00a0"}
             </Typography>
-            <Typography variant="body1">
+            <Typography
+              variant="body1"
+              sx={{
+                fontSize: { xs: "0.8rem", md: "1rem" },
+              }}
+            >
               撮影場所:{" "}
               {currentImage.park_id !== null &&
               parks[currentImage.park_id - 1]?.name
                 ? parks[currentImage.park_id - 1]?.name
                 : currentImage.city_name}
             </Typography>
-            <Typography variant="body1">
+            <Typography
+              variant="body1"
+              sx={{
+                fontSize: { xs: "0.8rem", md: "1rem" },
+              }}
+            >
               撮影日時:{" "}
               {createdTime(currentImage) ? createdTime(currentImage) : "\u00a0"}
             </Typography>
