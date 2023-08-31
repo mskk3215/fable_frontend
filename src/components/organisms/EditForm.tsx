@@ -197,58 +197,54 @@ export const EditForm = memo((props: Props) => {
     <>
       <form onSubmit={handleUpdateDeleteImage}>
         <Box sx={{ width: "100%" }}>
-          <Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
             <Typography
-              sx={{ my: { xs: 1, md: 3 }, mx: 1 }}
+              sx={{ my: { xs: 1, md: 1 }, mx: 1 }}
               gutterBottom
               variant={handleVariantSize()}
             >
               昆虫名
             </Typography>
-            <Box sx={{ display: "flex" }}>
-              <Grid>
-                <Autocomplete
-                  value={
-                    insectName ? { label: insectName, value: insectName } : null
-                  }
-                  onChange={(e, value) => {
-                    setInsectName(value?.label || "");
-                    setInsectSex(value?.label ? "" : "");
-                  }}
-                  id="insectName"
-                  size={handleFormSize()}
-                  options={insectOptions}
-                  sx={{
-                    width: { xs: 220, md: 250 }, // 画面サイズによって変更
-                  }}
-                  renderInput={(params) => (
-                    <TextField {...params} label="例)カブトムシ" />
-                  )}
-                />
-              </Grid>
-              <Grid item xs={1} />
-              <Grid item xs={4}>
-                <Autocomplete
-                  value={insectSex || null}
-                  onChange={(e, value) => {
-                    if (value !== null) {
-                      setInsectSex(value);
-                    }
-                  }}
-                  id="sex"
-                  size={handleFormSize()}
-                  options={getSexes()}
-                  sx={{ width: 120 }} // 画面サイズによって変更
-                  renderInput={(params) => (
-                    <TextField {...params} label="例) オス" />
-                  )}
-                  disabled={!insectName}
-                />
-              </Grid>
-            </Box>
+            <Autocomplete
+              value={
+                insectName ? { label: insectName, value: insectName } : null
+              }
+              onChange={(e, value) => {
+                setInsectName(value?.label || "");
+                setInsectSex(value?.label ? "" : "");
+              }}
+              id="insectName"
+              size={handleFormSize()}
+              sx={{ maxWidth: 400 }}
+              options={insectOptions}
+              renderInput={(params) => (
+                <TextField {...params} label="例)カブトムシ" />
+              )}
+            />
+            <Autocomplete
+              value={insectSex || null}
+              onChange={(e, value) => {
+                if (value !== null) {
+                  setInsectSex(value);
+                }
+              }}
+              id="sex"
+              size={handleFormSize()}
+              options={getSexes()}
+              renderInput={(params) => (
+                <TextField {...params} label="例) オス" />
+              )}
+              disabled={!insectName}
+              sx={{ maxWidth: 150, pt: 1 }}
+            />
           </Box>
           <Divider variant="fullWidth" sx={{ my: { xs: 1, md: 2 } }} />
-          <Box sx={{ width: 100 }}>
+          <Box sx={{ width: "100%" }}>
             <Typography
               sx={{ my: { xs: 1, md: 3 }, mx: 1 }}
               gutterBottom
@@ -260,7 +256,7 @@ export const EditForm = memo((props: Props) => {
               <Autocomplete
                 id="parkName"
                 size={handleFormSize()}
-                sx={{ width: { xs: 300, md: 350 } }}
+                sx={{ maxWidth: 400 }}
                 freeSolo
                 value={value}
                 onChange={handleChangeParkName}
@@ -299,7 +295,7 @@ export const EditForm = memo((props: Props) => {
                 id="prefecture"
                 size={handleFormSize()}
                 options={prefectureOptions}
-                sx={{ width: { xs: 150, md: 200 } }}
+                sx={{ width: { xs: 150, md: 200 }, pt: 1 }}
                 renderInput={(params) => (
                   <TextField {...params} label="都道府県" />
                 )}
@@ -319,7 +315,7 @@ export const EditForm = memo((props: Props) => {
                 id="city"
                 size={handleFormSize()}
                 options={getCities()}
-                sx={{ width: { xs: 150, md: 200 } }}
+                sx={{ width: { xs: 150, md: 200 }, pt: 1 }}
                 renderInput={(params) => (
                   <TextField {...params} label="市町村名" />
                 )}

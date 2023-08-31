@@ -151,8 +151,8 @@ export const ImageEdit = () => {
         <Divider orientation="vertical" flexItem />
         <Box
           sx={{
-            width: { xs: "100%", md: "15%" },
-            pl: { md: 1 },
+            width: { xs: "100%", md: "18%" },
+            px: { md: 1 },
           }}
         >
           <EditForm

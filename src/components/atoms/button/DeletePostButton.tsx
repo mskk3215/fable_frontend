@@ -22,7 +22,7 @@ export const DeletePostButton = memo((props: Props) => {
         onClick={() => handleDeleteButtonClick(postId)}
         variant={"outlined"}
         color="secondary"
-        style={{ minWidth: "120px" }}
+        size="small"
       >
         {"削除する"}
       </Button>

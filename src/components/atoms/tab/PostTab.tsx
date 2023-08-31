@@ -58,7 +58,7 @@ export const PostTab = (props: Props) => {
       sx={{
         display: "flex",
         justifyContent: "center",
-        marginTop: 6,
+        marginTop: 7,
         width: "100%",
       }}
     >

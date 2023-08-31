@@ -50,7 +50,7 @@ export const FollowModal = memo((props: Props) => {
             borderRadius: "10px",
             outline: "none",
             width: "90%",
-            maxWidth: 500,
+            maxWidth: 400,
             marginTop: 10,
             position: "relative",
           }}
@@ -107,6 +107,7 @@ export const FollowModal = memo((props: Props) => {
                             "&:hover": {
                               textDecoration: "underline",
                             },
+                            marginRight: 1,
                           }}
                         >
                           {user.nickname}

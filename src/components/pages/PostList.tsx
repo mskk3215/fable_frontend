@@ -105,32 +105,62 @@ export const PostList = () => {
                   <DeletePostButton postId={post.id} />
                 )}
               </Box>
-              <Box sx={{ position: "relative" }}>
+              <Box
+                sx={{
+                  position: "relative",
+                  width: "100%",
+                  paddingBottom: "75%",
+                }}
+              >
                 {post.images.map((imageData, index) => (
-                  <Box key={index}>
-                    {/* 画像 */}
-                    <CardMedia
-                      component="img"
-                      height="400"
-                      image={imageData.image}
-                      alt="postlistimage"
-                      style={{
-                        display: currentImageIndex === index ? "block" : "none",
+                  <Box>
+                    <Box
+                      key={index}
+                      sx={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "80%",
                       }}
-                    />
+                    >
+                      <CardMedia
+                        component="img"
+                        image={imageData.image}
+                        alt="postlistimage"
+                        style={{
+                          objectFit: "contain",
+                          width: "100%",
+                          height: "100%",
+                          backgroundColor: "black",
+                          display:
+                            currentImageIndex === index ? "block" : "none",
+                        }}
+                      />
+                    </Box>
                     {currentImageIndex === index && (
                       <Box
                         sx={{
+                          position: "absolute",
+                          bottom: 0,
+                          left: 0,
+                          width: "100%",
+                          height: "20%",
                           display: "flex",
                           justifyContent: "flex-between",
-                          padding: "8px 16px",
-                          height: 50,
                         }}
                       >
                         {/* 画像ごとのタイトルと投稿日時 */}
-                        <Box>
+                        <Box sx={{ padding: "5px" }}>
                           {imageData.insect_name && (
-                            <Typography>
+                            <Typography
+                              sx={{
+                                fontSize: {
+                                  xs: "12px",
+                                  md: "16px",
+                                },
+                              }}
+                            >
                               {imageData.insect_name}の写真
                             </Typography>
                           )}
@@ -140,8 +170,25 @@ export const PostList = () => {
                               justifyContent: "flex-start",
                             }}
                           >
-                            <Typography>{imageData.park_name}</Typography>
-                            <Typography sx={{ paddingLeft: "10px" }}>
+                            <Typography
+                              sx={{
+                                fontSize: {
+                                  xs: "12px",
+                                  md: "16px",
+                                },
+                              }}
+                            >
+                              {imageData.park_name}
+                            </Typography>
+                            <Typography
+                              sx={{
+                                paddingLeft: "5px",
+                                fontSize: {
+                                  xs: "12px",
+                                  md: "16px",
+                                },
+                              }}
+                            >
                               {createdTime(imageData)
                                 ? createdTime(imageData)
                                 : "\u00a0"}
@@ -152,7 +199,7 @@ export const PostList = () => {
                         <Box
                           sx={{
                             position: "absolute",
-                            bottom: 10,
+                            top: 0,
                             right: 10,
                             display: "flex",
                             justifyContent: "center",
@@ -171,7 +218,7 @@ export const PostList = () => {
                   <Box
                     sx={{
                       position: "absolute",
-                      bottom: 80,
+                      bottom: "25%",
                       left: "50%",
                       transform: "translateX(-50%)",
                       display: "flex",
@@ -204,7 +251,7 @@ export const PostList = () => {
                       size="small"
                       sx={{
                         position: "absolute",
-                        top: "50%",
+                        top: "40%",
                         left: 10,
                         transform: "translateY(-50%)",
                         backgroundColor: "rgba(255, 255, 255, 0.5)",
@@ -219,7 +266,7 @@ export const PostList = () => {
                       size="small"
                       sx={{
                         position: "absolute",
-                        top: "50%",
+                        top: "40%",
                         right: 10,
                         transform: "translateY(-50%)",
                         backgroundColor: "rgba(255, 255, 255, 0.5)",
