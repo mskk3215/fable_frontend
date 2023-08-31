@@ -85,32 +85,38 @@ export const UserPage = () => {
                 : viewedUser?.avatar || ""
             }
             sx={{
-              width: 125,
-              height: 125,
+              width: { xs: 100, sm: 125 },
+              height: { xs: 100, sm: 125 },
               marginLeft: "auto",
               marginRight: "auto",
             }}
           />
           {loginUser?.id === viewedUser?.id && (
-            <Button
+            <Typography
               component={Link}
               to="/profileedit"
-              variant="contained"
+              variant="body1"
               color="primary"
               sx={{
                 position: "absolute",
                 top: 0,
-                left: -150,
+                right: -30,
+                cursor: "pointer",
+                textDecoration: "none",
+                "&:hover": {
+                  textDecoration: "underline",
+                },
               }}
             >
-              Profile編集
-            </Button>
+              編集
+            </Typography>
           )}
           {loginUser?.id !== viewedUser?.id && (
             <Box
               sx={{
                 position: "absolute",
-                right: -150,
+                right: -100,
+                top: 0,
               }}
             >
               <FollowButton followedUserId={numUserId} />
