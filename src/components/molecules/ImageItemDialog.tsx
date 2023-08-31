@@ -13,7 +13,7 @@ import {
   DialogContent,
   Typography,
 } from "@mui/material";
-import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
+import { ArrowBackIos, ArrowForwardIos, Cancel } from "@mui/icons-material";
 import { Image } from "../../types/images";
 
 type Props = {
@@ -210,6 +210,19 @@ export const ImageItemDialog = memo((props: Props) => {
             <ArrowForwardIos />
           </Button>
         )}
+        {/* キャンセルボタン */}
+        <Button
+          onClick={handleClickImageClose}
+          sx={{
+            position: "absolute",
+            right: "1%",
+            top: "1%",
+            zIndex: 1501,
+            color: "darkgray",
+          }}
+        >
+          <Cancel />
+        </Button>
       </Dialog>
     </>
   );
