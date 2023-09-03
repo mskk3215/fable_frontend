@@ -72,7 +72,7 @@ export const createImageLike = (imageId: number) => {
   return apiClient.post(`/images/${imageId}/likes`);
 };
 export const deleteImageLike = (imageId: number) => {
-  return apiClient.delete(`/images/${imageId}/likes`);
+  return apiClient.delete(`/images/${imageId}/likes/1`);
 };
 
 //insects
