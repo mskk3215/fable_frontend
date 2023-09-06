@@ -1,4 +1,5 @@
 import axios from "axios";
+import { UserLoginForm, UserRegistrationForm } from "../types/user";
 
 //default_api
 export const DEFAULT_API_LOCALHOST = "/api/v1";
@@ -12,7 +13,6 @@ export const apiClient = axios.create({
 });
 
 //users
-export const loginUrl = `${DEFAULT_API_LOCALHOST}/login`;
 export const logoutUrl = `${DEFAULT_API_LOCALHOST}/logout`;
 export const logged_inUrl = `${DEFAULT_API_LOCALHOST}/logged_in`;
 
@@ -26,6 +26,9 @@ export const updateUser = (id: number, data: FormData) => {
   return apiClient.put(`/users/${id}`, data);
 };
 
+export const userLogin = (data: UserLoginForm) => {
+  return apiClient.post(`/login`, data);
+};
 // user's relationships
 export const createUserRelationship = (
   loginUserId: number,

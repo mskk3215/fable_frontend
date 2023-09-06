@@ -23,6 +23,13 @@ export type UserRegistrationForm = {
   };
 };
 
+export type UserLoginForm = {
+  session: {
+    email: string;
+    password: string;
+  };
+};
+
 export type LoginAuthAction = {
   email: string;
   password: string;
