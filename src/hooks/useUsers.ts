@@ -7,6 +7,7 @@ import {
   followUserState,
 } from "../store/atoms/userAtom";
 import { getUser, logged_inUrl } from "../urls";
+import { useGetRequestErrorHandler } from "./error/useGetRequestErrorHandler";
 import { User } from "../types/user";
 
 export const useUsers = () => {
@@ -16,6 +17,9 @@ export const useUsers = () => {
     viewedUserState
   );
   const [followUser, setFollowUser] = useRecoilState(followUserState);
+
+  // エラーハンドリング呼び出し
+  useGetRequestErrorHandler();
 
   // 新規登録、ログイン成功時の処理
   const handleSuccessfulAuthentication = (data: { user: User }) => {
