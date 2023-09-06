@@ -13,6 +13,7 @@ export const apiClient = axios.create({
 });
 
 //users
+//user's get, post, put
 export const getUser = (userId: number | undefined) => {
   return apiClient.get("/users", { params: { user_id: userId } });
 };
@@ -23,6 +24,7 @@ export const updateUser = (id: number, data: FormData) => {
   return apiClient.put(`/users/${id}`, data);
 };
 
+//user's login, logout
 export const getUserLogin = () => {
   return apiClient.get(`/logged_in`);
 };
