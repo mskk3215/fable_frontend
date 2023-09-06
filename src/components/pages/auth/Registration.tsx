@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { registrationUrl } from "../../../urls";
+import { createUser } from "../../../urls";
 import { GuestLoginButton } from "../../atoms/button/GuestLoginButton";
 import { useLoginAuthAction } from "../../../hooks/useLoginAuthAction";
 import { useUsers } from "../../../hooks/useUsers";
@@ -19,27 +18,26 @@ export const Registration = () => {
   const [errors, setErrors] = useState<string[]>([]);
 
   const navigate = useNavigate();
-  const handleRegistrationAction = (e: React.MouseEvent<HTMLButtonElement>) => {
+
+  const handleRegistrationAction = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+
     // バリデーション
     if (!nickname || !email || !password || !passwordConfirmation) {
       setErrors(["入力されていない項目があります"]);
       return;
     }
     // ユーザー登録
-    axios
-      .post(
-        registrationUrl,
-        {
-          user: {
-            nickname: nickname,
-            email: email,
-            password: password,
-            password_confirmation: passwordConfirmation,
-          },
-        },
-        //cookieを含める
-        { withCredentials: true }
-      )
+    createUser({
+      user: {
+        nickname: nickname,
+        email: email,
+        password: password,
+        password_confirmation: passwordConfirmation,
+      },
+    })
       .then((response) => {
         if (response.data.registered) {
           handleSuccessfulAuthentication(response.data);
@@ -49,7 +47,6 @@ export const Registration = () => {
       .catch((error) => {
         setErrors(error.response.data.errors);
       });
-    e.preventDefault();
   };
 
   return (

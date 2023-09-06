@@ -14,6 +14,15 @@ export type UserPasswordForm = {
   confirmNewPassword: string;
 };
 
+export type UserRegistrationForm = {
+  user: {
+    nickname: string;
+    email: string;
+    password: string;
+    password_confirmation: string;
+  };
+};
+
 export type LoginAuthAction = {
   email: string;
   password: string;
