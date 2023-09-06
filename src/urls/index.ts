@@ -13,8 +13,6 @@ export const apiClient = axios.create({
 });
 
 //users
-export const logged_inUrl = `${DEFAULT_API_LOCALHOST}/logged_in`;
-
 export const getUser = (userId: number | undefined) => {
   return apiClient.get("/users", { params: { user_id: userId } });
 };
@@ -25,6 +23,9 @@ export const updateUser = (id: number, data: FormData) => {
   return apiClient.put(`/users/${id}`, data);
 };
 
+export const getUserLogin = () => {
+  return apiClient.get(`/logged_in`);
+};
 export const userLogin = (data: UserLoginForm) => {
   return apiClient.post(`/login`, data);
 };

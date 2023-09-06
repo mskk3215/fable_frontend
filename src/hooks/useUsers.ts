@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   loginUserState,
@@ -6,7 +5,7 @@ import {
   loggedInStatusState,
   followUserState,
 } from "../store/atoms/userAtom";
-import { getUser, logged_inUrl } from "../urls";
+import { getUser, getUserLogin } from "../urls";
 import { useGetRequestErrorHandler } from "./error/useGetRequestErrorHandler";
 import { User } from "../types/user";
 
@@ -29,33 +28,25 @@ export const useUsers = () => {
   };
 
   // ログイン状態チェック
-  const checkLoginStatus = (): Promise<boolean> => {
-    return axios
-      .get(logged_inUrl, { withCredentials: true })
-      .then((response) => {
-        if (response.data.logged_in) {
-          setLoggedInStatus(true);
-          setLoginUser(response.data.user);
-          updateFollowState(response.data.user.following);
-          return true;
-        } else {
-          setLoggedInStatus(false);
-          setLoginUser(null);
-          // フォロー状態をfalseに初期化する
-          if (response.data.user && response.data.user.following) {
-            let newFollowState: { [key: number]: boolean } = { ...followUser };
-            response.data.user.following.forEach((user: User) => {
-              newFollowState[user.id] = false;
-            });
-            setFollowUser(newFollowState);
-          }
-          return false;
-        }
-      })
-      .catch((error) => {
-        console.log("ログインエラー", error);
-        return false;
-      });
+  const checkLoginStatus = async () => {
+    const response = await getUserLogin();
+
+    if (response.data.logged_in) {
+      setLoggedInStatus(true);
+      setLoginUser(response.data.user);
+      updateFollowState(response.data.user.following);
+    } else {
+      setLoggedInStatus(false);
+      setLoginUser(null);
+      // フォロー状態をfalseに初期化する
+      if (response.data.user && response.data.user.following) {
+        let newFollowState: { [key: number]: boolean } = { ...followUser };
+        response.data.user.following.forEach((user: User) => {
+          newFollowState[user.id] = false;
+        });
+        setFollowUser(newFollowState);
+      }
+    }
   };
 
   // ユーザー情報を取得する
