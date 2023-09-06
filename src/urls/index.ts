@@ -13,7 +13,6 @@ export const apiClient = axios.create({
 });
 
 //users
-export const logoutUrl = `${DEFAULT_API_LOCALHOST}/logout`;
 export const logged_inUrl = `${DEFAULT_API_LOCALHOST}/logged_in`;
 
 export const getUser = (userId: number | undefined) => {
@@ -29,6 +28,10 @@ export const updateUser = (id: number, data: FormData) => {
 export const userLogin = (data: UserLoginForm) => {
   return apiClient.post(`/login`, data);
 };
+export const userLogout = () => {
+  return apiClient.delete(`/logout`);
+};
+
 // user's relationships
 export const createUserRelationship = (
   loginUserId: number,

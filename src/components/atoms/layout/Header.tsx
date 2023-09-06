@@ -5,8 +5,7 @@ import {
   loggedInStatusState,
   loginUserState,
 } from "../../../store/atoms/userAtom";
-import axios from "axios";
-import { logoutUrl } from "../../../urls";
+import { userLogout } from "../../../urls";
 import styled from "styled-components";
 
 export const Header = () => {
@@ -14,16 +13,13 @@ export const Header = () => {
     useRecoilState(loggedInStatusState);
   const setLoginUser = useSetRecoilState(loginUserState);
 
-  const handleLogout = () => {
-    setLoggedInStatus(false);
-    setLoginUser(null);
-  };
-
   const handleLogoutClick = () => {
-    axios
-      .delete(logoutUrl, { withCredentials: true })
+    userLogout()
       .then((response) => {
-        handleLogout();
+        if (response.data.logged_out) {
+          setLoggedInStatus(false);
+          setLoginUser(null);
+        }
       })
       .catch((error) => {
         console.log("ログアウトエラー", error);
