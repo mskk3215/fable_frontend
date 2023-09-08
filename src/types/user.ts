@@ -37,4 +37,9 @@ export type LoginAuthAction = {
   setIsLoading: (isLoading: boolean) => void;
 };
 
+export type userProfile = {
+  loginUser: User;
+  setLoginUser: (user: User) => void;
+  profileData: FormData;
+  setErrors: (errors: string[]) => void;
 };
