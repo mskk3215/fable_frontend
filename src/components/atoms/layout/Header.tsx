@@ -1,30 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import {
-  loggedInStatusState,
-  loginUserState,
-} from "../../../store/atoms/userAtom";
-import { userLogout } from "../../../urls";
+import { useRecoilValue } from "recoil";
+import { loggedInStatusState } from "../../../store/atoms/userAtom";
+import { LogoutButton } from "../button/LogoutButton";
 import styled from "styled-components";
 
 export const Header = () => {
-  const [loggedInStatus, setLoggedInStatus] =
-    useRecoilState(loggedInStatusState);
-  const setLoginUser = useSetRecoilState(loginUserState);
-
-  const handleLogoutClick = () => {
-    userLogout()
-      .then((response) => {
-        if (response.data.logged_out) {
-          setLoggedInStatus(false);
-          setLoginUser(null);
-        }
-      })
-      .catch((error) => {
-        console.log("ログアウトエラー", error);
-      });
-  };
+  const loggedInStatus = useRecoilValue(loggedInStatusState);
 
   return (
     <SHeader>
@@ -36,8 +18,8 @@ export const Header = () => {
       ) : (
         <>
           <SLink to="/userpage">マイページ</SLink>
-          <SLink to="/" onClick={handleLogoutClick}>
-            ログアウト
+          <SLink to="/">
+            <LogoutButton />
           </SLink>
           <SLink to="/map">地図</SLink>
           <SLink to="/uploadview">投稿</SLink>
