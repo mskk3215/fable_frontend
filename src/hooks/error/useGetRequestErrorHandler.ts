@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
-  getRequestErrorMessageState,
   getRequestErrorStatusState,
+  messageState,
 } from "../../store/atoms/errorAtom";
 import { apiClient } from "../../urls";
 
@@ -10,9 +10,7 @@ export const useGetRequestErrorHandler = () => {
   const [getRequestErrorStatus, setGetRequestErrorStatus] = useRecoilState(
     getRequestErrorStatusState
   );
-  const setGetRequestErrorMessage = useSetRecoilState(
-    getRequestErrorMessageState
-  );
+  const setMessage = useSetRecoilState(messageState);
 
   // Getリクエストのエラーハンドリング
   useEffect(() => {
@@ -63,7 +61,7 @@ export const useGetRequestErrorHandler = () => {
         default:
           userMessage = "不明なエラーが発生しました。";
       }
-      setGetRequestErrorMessage(userMessage);
+      setMessage(userMessage);
     }
   }, [getRequestErrorStatus]);
 };

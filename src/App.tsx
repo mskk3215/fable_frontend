@@ -1,12 +1,12 @@
 import { RecoilRoot } from "recoil";
 import { Router } from "./router/Router";
-import { ErrorMessageToast } from "./components/atoms/toast/ErrorMessageToast";
+import { MessageToast } from "./components/atoms/toast/MessageToast";
 
 export const App = () => {
   return (
     <RecoilRoot>
       <Router />
-      <ErrorMessageToast />
+      <MessageToast />
     </RecoilRoot>
   );
 };

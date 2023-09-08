@@ -1,24 +1,22 @@
 import { useRecoilState } from "recoil";
-import { getRequestErrorMessageState } from "../../../store/atoms/errorAtom";
+import { messageState } from "../../../store/atoms/errorAtom";
 import { Close } from "@mui/icons-material";
 import { IconButton, Snackbar } from "@mui/material";
 
-export const ErrorMessageToast = () => {
-  const [getRequestErrorMessage, setRequestErrorMessage] = useRecoilState(
-    getRequestErrorMessageState
-  );
+export const MessageToast = () => {
+  const [message, setMessage] = useRecoilState(messageState);
 
   const onClose = () => {
-    setRequestErrorMessage("");
+    setMessage("");
   };
 
   return (
     <Snackbar
-      anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-      open={!!getRequestErrorMessage}
+      anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      open={!!message}
       autoHideDuration={6000}
       onClose={onClose}
-      message={getRequestErrorMessage}
+      message={message}
       action={
         <>
           <IconButton size="small" color="inherit" onClick={onClose}>
