@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { messageState } from "../../../store/atoms/errorAtom";
 import { createUser } from "../../../urls";
 import { GuestLoginButton } from "../../atoms/button/GuestLoginButton";
 import { useLoginAuthAction } from "../../../hooks/useLoginAuthAction";
@@ -16,6 +18,9 @@ export const Registration = () => {
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [errors, setErrors] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const setMessage = useSetRecoilState(messageState);
 
   const navigate = useNavigate();
 
@@ -25,10 +30,37 @@ export const Registration = () => {
     e.preventDefault();
 
     // バリデーション
-    if (!nickname || !email || !password || !passwordConfirmation) {
-      setErrors(["入力されていない項目があります"]);
+    const inputFields = [
+      {
+        value: nickname,
+        name: "名前",
+      },
+      {
+        value: email,
+        name: "メールアドレス",
+      },
+      {
+        value: password,
+        name: "パスワード",
+      },
+      {
+        value: passwordConfirmation,
+        name: "確認用パスワード",
+      },
+    ];
+    const errorMessages = inputFields
+      .filter((field) => !field.value)
+      .map((field) => `${field.name}を入力してください`);
+    if (errorMessages.length > 0) {
+      setErrors(errorMessages);
       return;
     }
+    if (password !== passwordConfirmation) {
+      setErrors(["パスワードが一致しません"]);
+      return;
+    }
+    setIsLoading(true);
+
     // ユーザー登録
     createUser({
       user: {
@@ -42,10 +74,20 @@ export const Registration = () => {
         if (response.data.registered) {
           handleSuccessfulAuthentication(response.data);
           navigate("/");
+          setMessage("登録が完了しました。");
         }
       })
       .catch((error) => {
-        setErrors(error.response.data.errors);
+        if (!error.response || error.response.status >= 500) {
+          setErrors([
+            "ネットワークエラーが発生しました。しばらくしてから再試行してください。",
+          ]);
+        } else {
+          setErrors(error.response.data.errors);
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -144,6 +186,7 @@ export const Registration = () => {
                 fullWidth
                 variant="contained"
                 onClick={handleRegistrationAction}
+                disabled={isLoading}
               >
                 登録
               </Button>
