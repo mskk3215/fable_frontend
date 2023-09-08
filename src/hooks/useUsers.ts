@@ -10,11 +10,15 @@ import { useGetRequestErrorHandler } from "./error/useGetRequestErrorHandler";
 import { User } from "../types/user";
 
 export const useUsers = () => {
+  // ログインユーザー情報
   const [loginUser, setLoginUser] = useRecoilState<User | null>(loginUserState);
+  // ログイン状態
   const setLoggedInStatus = useSetRecoilState<boolean>(loggedInStatusState);
+  // 表示ユーザー情報
   const [viewedUser, setViewedUser] = useRecoilState<User | null>(
     viewedUserState
   );
+  // フォローユーザー情報
   const [followUser, setFollowUser] = useRecoilState(followUserState);
 
   // エラーハンドリング呼び出し
@@ -57,7 +61,7 @@ export const useUsers = () => {
     if (JSON.stringify(loginUser) !== JSON.stringify(loginUserData.data.user)) {
       setLoginUser(loginUserData.data.user);
     }
-    // 閲覧ユーザー情報を更新する
+    // 表示ユーザー情報を更新する
     const viewedUserData = await getUser(userId);
     if (
       JSON.stringify(viewedUser) !== JSON.stringify(viewedUserData.data.user)
