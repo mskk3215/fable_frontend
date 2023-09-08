@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import { loginUserState } from "../../store/atoms/userAtom";
-import { useProfileChangeAction } from "../../hooks/useProfileChangeAction";
+import { useProfileChangeAction } from "../../hooks/user/useProfileChangeAction";
 import { Box, Button, Modal, Stack, TextField } from "@mui/material";
 import { UserPasswordForm } from "../../types/user";
 

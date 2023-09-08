@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { useRecoilValue } from "recoil";
 import { loginUserState, viewedUserState } from "../../store/atoms/userAtom";
 import { useParks } from "../../hooks/useParks";
-import { useUsers } from "../../hooks/useUsers";
+import { useUsers } from "../../hooks/user/useUsers";
 import { FollowButton } from "../atoms/button/FollowButton";
 import { LikeButton } from "../atoms/button/LikeButton";
 import {

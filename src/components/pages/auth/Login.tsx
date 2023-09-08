@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLoginAuthAction } from "../../../hooks/useLoginAuthAction";
+import { useLoginAuthAction } from "../../../hooks/user/useLoginAuthAction";
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 
 export const Login = () => {

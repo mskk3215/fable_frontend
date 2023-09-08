@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { loginUserState } from "../../store/atoms/userAtom";
 import { PasswordChangeModal } from "../molecules/PasswordChangeModal";
-import { useProfileChangeAction } from "../../hooks/useProfileChangeAction";
+import { useProfileChangeAction } from "../../hooks/user/useProfileChangeAction";
 import { UserProfileForm } from "../../types/user";
 import {
   Box,

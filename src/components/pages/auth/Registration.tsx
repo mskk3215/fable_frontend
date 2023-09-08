@@ -4,8 +4,8 @@ import { useSetRecoilState } from "recoil";
 import { messageState } from "../../../store/atoms/errorAtom";
 import { createUser } from "../../../urls";
 import { GuestLoginButton } from "../../atoms/button/GuestLoginButton";
-import { useLoginAuthAction } from "../../../hooks/useLoginAuthAction";
-import { useUsers } from "../../../hooks/useUsers";
+import { useLoginAuthAction } from "../../../hooks/user/useLoginAuthAction";
+import { useUsers } from "../../../hooks/user/useUsers";
 import { Box, Button, TextField, Typography } from "@mui/material";
 
 export const Registration = () => {

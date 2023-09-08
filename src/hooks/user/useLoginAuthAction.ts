@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import { messageState } from "../store/atoms/errorAtom";
-import { userLogin } from "../urls";
+import { messageState } from "../../store/atoms/errorAtom";
+import { userLogin } from "../../urls";
 import { useUsers } from "./useUsers";
-import { LoginAuthAction } from "../types/user";
+import { LoginAuthAction } from "../../types/user";
 
 export const useLoginAuthAction = () => {
   const { handleSuccessfulAuthentication } = useUsers();

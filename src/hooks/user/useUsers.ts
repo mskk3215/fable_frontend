@@ -4,10 +4,10 @@ import {
   viewedUserState,
   loggedInStatusState,
   followUserState,
-} from "../store/atoms/userAtom";
-import { getUser, getUserLogin } from "../urls";
-import { useGetRequestErrorHandler } from "./error/useGetRequestErrorHandler";
-import { User } from "../types/user";
+} from "../../store/atoms/userAtom";
+import { getUser, getUserLogin } from "../../urls";
+import { useGetRequestErrorHandler } from "../error/useGetRequestErrorHandler";
+import { User } from "../../types/user";
 
 export const useUsers = () => {
   // ログインユーザー情報

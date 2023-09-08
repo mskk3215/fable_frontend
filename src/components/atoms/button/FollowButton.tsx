@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { followUserState, loginUserState } from "../../../store/atoms/userAtom";
-import { useUsers } from "../../../hooks/useUsers";
+import { useUsers } from "../../../hooks/user/useUsers";
 import { createUserRelationship, deleteUserRelationship } from "../../../urls";
 import { Button } from "@mui/material";
 

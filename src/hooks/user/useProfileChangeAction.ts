@@ -1,7 +1,7 @@
 import { useSetRecoilState } from "recoil";
-import { messageState } from "../store/atoms/errorAtom";
-import { userProfile } from "../types/user";
-import { updateUser } from "../urls";
+import { messageState } from "../../store/atoms/errorAtom";
+import { userProfile } from "../../types/user";
+import { updateUser } from "../../urls";
 
 export const useProfileChangeAction = () => {
   const setMessage = useSetRecoilState(messageState);
