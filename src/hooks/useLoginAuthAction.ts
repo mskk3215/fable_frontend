@@ -27,15 +27,15 @@ export const useLoginAuthAction = () => {
       })
       .catch((error) => {
         if (!error.response || error.response.status >= 500) {
-          setErrors([
+          setErrors?.([
             "ネットワークエラーが発生しました。しばらくしてから再試行してください。",
           ]);
         } else {
-          setErrors(error.response.data.errors);
+          setErrors?.(error.response.data.errors);
         }
       })
       .finally(() => {
-        setIsLoading(false);
+        setIsLoading?.(false);
       });
   };
   return { handleLoginAction };
