@@ -33,5 +33,8 @@ export type UserLoginForm = {
 export type LoginAuthAction = {
   email: string;
   password: string;
-  setErrors?: (errors: string[]) => void | undefined;
+  setErrors: (errors: string[]) => void;
+  setIsLoading: (isLoading: boolean) => void;
+};
+
 };

@@ -8,18 +8,36 @@ export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleLogin = async () => {
     // バリデーション
-    if (!email || !password) {
-      setErrors(["入力されていない項目があります"]);
+    const inputFields = [
+      {
+        value: email,
+        name: "メールアドレス",
+      },
+      {
+        value: password,
+        name: "パスワード",
+      },
+    ];
+    const errorMessages = inputFields
+      .filter((field) => !field.value)
+      .map((field) => `${field.name}を入力してください`);
+    if (errorMessages.length > 0) {
+      setErrors(errorMessages);
       return;
     }
+
+    setIsLoading(false);
+
     // ログイン認証
     handleLoginAction({
       email: email,
       password: password,
       setErrors: setErrors,
+      setIsLoading: setIsLoading,
     });
   };
 
@@ -92,6 +110,7 @@ export const Login = () => {
                 fullWidth
                 variant="contained"
                 onClick={handleLogin}
+                disabled={isLoading}
               >
                 ログイン
               </Button>
