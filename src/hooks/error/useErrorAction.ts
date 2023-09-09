@@ -15,3 +15,20 @@ export const useErrorAction = () => {
     }
   };
 
+  // 認証系のエラー処理
+  const handleAuthErrorAction = (
+    error: ApiError,
+    setErrors?: (errors: string[]) => void
+  ) => {
+    if (!setErrors) return;
+
+    if (!error.response || error.response.status >= 500) {
+      setErrors([
+        "ネットワークエラーが発生しました。しばらくしてから再試行してください。",
+      ]);
+    } else {
+      setErrors(error.response.data.errors);
+    }
+  };
+  return { handleGeneralErrorAction, handleAuthErrorAction };
+};

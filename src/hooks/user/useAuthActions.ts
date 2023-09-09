@@ -13,9 +13,11 @@ import {
   User,
 } from "../../types/user";
 import { ApiError, ApiResponse } from "../../types/api";
+import { useErrorAction } from "../error/useErrorAction";
 
 export const useAuthActions = () => {
   const { updateFollowState } = useUsers();
+  const { handleAuthErrorAction } = useErrorAction();
 
   const setLoginUser = useSetRecoilState<User | null>(loginUserState);
   const setLoggedInStatus = useSetRecoilState<boolean>(loggedInStatusState);
@@ -83,7 +85,7 @@ export const useAuthActions = () => {
           setMessage(successMessage);
         }
       })
-      .catch((error: ApiError) => handleAuthError(error, setErrors))
+      .catch((error: ApiError) => handleAuthErrorAction(error, setErrors))
       .finally(() => {
         setIsLoading?.(false);
       });
@@ -94,22 +96,6 @@ export const useAuthActions = () => {
     setLoggedInStatus(true);
     setLoginUser(data.user);
     updateFollowState(data.user.following);
-  };
-
-  // エラー処理
-  const handleAuthError = (
-    error: ApiError,
-    setErrors?: (errors: string[]) => void
-  ) => {
-    if (!setErrors) return;
-
-    if (!error.response || error.response.status >= 500) {
-      setErrors([
-        "ネットワークエラーが発生しました。しばらくしてから再試行してください。",
-      ]);
-    } else {
-      setErrors(error.response.data.errors);
-    }
   };
 
   return {

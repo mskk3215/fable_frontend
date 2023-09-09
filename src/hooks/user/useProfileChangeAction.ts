@@ -2,9 +2,12 @@ import { useSetRecoilState } from "recoil";
 import { messageState } from "../../store/atoms/errorAtom";
 import { updateUser } from "../../urls";
 import { userProfile } from "../../types/user";
+import { ApiError } from "../../types/api";
+import { useErrorAction } from "../error/useErrorAction";
 
 export const useProfileChangeAction = () => {
   const setMessage = useSetRecoilState(messageState);
+  const { handleAuthErrorAction } = useErrorAction();
 
   const handleProfileChangeAction = ({
     loginUser,
@@ -23,15 +26,7 @@ export const useProfileChangeAction = () => {
           } else setMessage("プロフィールを更新しました");
         }
       })
-      .catch((error) => {
-        if (!error.response || error.response.status >= 500) {
-          setErrors([
-            "ネットワークエラーが発生しました。しばらくしてから再試行してください。",
-          ]);
-        } else {
-          setErrors(error.response.data.errors);
-        }
-      });
+      .catch((error: ApiError) => handleAuthErrorAction(error, setErrors));
   };
   return { handleProfileChangeAction };
 };
