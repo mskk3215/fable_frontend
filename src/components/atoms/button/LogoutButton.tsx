@@ -22,9 +22,15 @@ export const LogoutButton = () => {
         }
       })
       .catch((error) => {
-        setMessage(
-          "ログアウトに失敗しました。問題が続く場合はサポートにお問い合わせください。"
-        );
+        if (!error.response || error.response.status >= 500) {
+          setMessage(
+            "ネットワークエラーが発生しました。しばらくしてから再試行してください。"
+          );
+        } else {
+          setMessage(
+            "ログアウトに失敗しました。問題が続く場合はサポートにお問い合わせください。"
+          );
+        }
       });
   };
 

@@ -58,7 +58,11 @@ export const PostForm = memo(() => {
         setImages([]);
       })
       .catch((error) => {
-        setMessage(error.response.data.error_messages);
+        if (!error.response || error.response.status >= 500) {
+          setMessage(
+            "ネットワークエラーが発生しました。しばらくしてから再試行してください。"
+          );
+        } else setMessage(error.response.data.error_messages);
       })
       .finally(() => {
         setIsLoading(false);
