@@ -5,6 +5,8 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import { useSetRecoilState } from "recoil";
+import { messageState } from "../../store/atoms/errorAtom";
 import { updateImages, deleteImages } from "../../urls";
 import {
   Autocomplete,
@@ -60,40 +62,68 @@ export const EditForm = memo((props: Props) => {
   const [takenDate, setTakenDate] = useState<Dayjs | null>(null);
   const [parkName, setParkName] = useState("");
   const [buttonName, setButtonName] = useState("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const setMessage = useSetRecoilState(messageState);
 
   const handleUpdateDeleteImage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    setIsLoading(true);
+
     const data = new FormData();
-    try {
-      if (buttonName === "edit") {
-        data.append("image[name]", insectName);
-        data.append("image[sex]", insectSex);
-        data.append("image[parkName]", parkName);
-        data.append("image[cityName]", cityName);
-        data.append("image[taken_at]", takenDate ? takenDate.format() : "");
+    if (buttonName === "edit") {
+      data.append("image[name]", insectName);
+      data.append("image[sex]", insectSex);
+      data.append("image[parkName]", parkName);
+      data.append("image[cityName]", cityName);
+      data.append("image[taken_at]", takenDate ? takenDate.format() : "");
 
-        await updateImages(selectedIds, data).then(() => {
-          alert("更新しました");
+      await updateImages(selectedIds, data)
+        .then(() => {
+          setMessage("更新しました");
+        })
+        .catch((error) => {
+          if (!error.response || error.response.status >= 500) {
+            setMessage(
+              "ネットワークエラーが発生しました。しばらくしてから再試行してください。"
+            );
+          } else {
+            setMessage(error.response.data.error_messages);
+          }
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
-      } else if (buttonName === "delete") {
-        await deleteImages(selectedIds).then(() => {
-          alert("削除しました");
+    } else if (buttonName === "delete") {
+      await deleteImages(selectedIds)
+        .then(() => {
+          setMessage("削除しました");
+        })
+        .catch((error) => {
+          if (!error.response || error.response.status >= 500) {
+            setMessage(
+              "ネットワークエラーが発生しました。しばらくしてから再試行してください。"
+            );
+          } else {
+            setMessage(error.response.data.error_messages);
+          }
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
-      }
-      setInsectName("");
-      setValue("");
-      setInputValue("");
-      setPrefectureName("");
-      setCityName("");
-      setTakenDate(null);
-
-      handleGetParks();
-      handleGetImages(undefined);
-      setSelectedIds([]);
-      setSelectedIndexes([]);
-    } catch (error) {
-      console.error(error);
     }
+    setInsectName("");
+    setValue("");
+    setInputValue("");
+    setPrefectureName("");
+    setCityName("");
+    setTakenDate(null);
+
+    handleGetParks();
+    handleGetImages(undefined);
+    setSelectedIds([]);
+    setSelectedIndexes([]);
   };
 
   const getSexes = () => {
@@ -350,7 +380,7 @@ export const EditForm = memo((props: Props) => {
             <Grid>
               <Button
                 size={handleFormSize()}
-                disabled={handleEditButton()}
+                disabled={handleEditButton() || isLoading}
                 type="submit"
                 onClick={() => setButtonName("edit")}
                 color="success"
@@ -362,7 +392,7 @@ export const EditForm = memo((props: Props) => {
             <Grid sx={{ pl: 2 }}>
               <Button
                 size={handleFormSize()}
-                disabled={handleDeleteButton()}
+                disabled={handleDeleteButton() || isLoading}
                 type="submit"
                 onClick={() => setButtonName("delete")}
                 variant="contained"
