@@ -1,5 +1,7 @@
 import React, { useState, memo } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { messageState } from "../../store/atoms/errorAtom";
 import { createPosts } from "../../urls";
 import { useImages } from "../../hooks/useImages";
 import { Cancel, FileUpload } from "@mui/icons-material";
@@ -19,6 +21,9 @@ export const PostForm = memo(() => {
   const [images, setImages] = useState<File[]>([]);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const inputId = Math.random().toString(32).substring(2);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const setMessage = useSetRecoilState(messageState);
 
   const navigate = useNavigate();
   const uploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,15 +48,20 @@ export const PostForm = memo(() => {
       data.append("image[image][]", image);
     });
 
+    setIsLoading(true);
+
     await createPosts(data)
       .then(() => {
-        alert("アップロードしました");
+        setMessage("アップロードしました");
         navigate("/imageedit");
         handleGetImages(undefined);
         setImages([]);
       })
       .catch((error) => {
-        alert(error.response.data.error_messages);
+        setMessage(error.response.data.error_messages);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -179,7 +189,7 @@ export const PostForm = memo(() => {
               {/* button */}
               <Button
                 fullWidth
-                disabled={images.length === 0}
+                disabled={images.length === 0 || isLoading}
                 type="submit"
                 color="success"
                 variant="contained"
