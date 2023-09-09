@@ -30,11 +30,20 @@ export type UserLoginForm = {
   };
 };
 
+export type RegistrationAuthAction = {
+  nickname: string;
+  email: string;
+  password: string;
+  passwordConfirmation: string;
+  setErrors: (errors: string[]) => void;
+  setIsLoading: (isLoading: boolean) => void;
+};
+
 export type LoginAuthAction = {
   email: string;
   password: string;
   setErrors?: (errors: string[]) => void;
-  setIsLoading?: (isLoading: boolean) => void;
+  setIsLoading: (isLoading: boolean) => void;
 };
 
 export type userProfile = {

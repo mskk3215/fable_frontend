@@ -24,13 +24,6 @@ export const useUsers = () => {
   // エラーハンドリング呼び出し
   useGetRequestErrorHandler();
 
-  // 新規登録、ログイン成功時の処理
-  const handleSuccessfulAuthentication = (data: { user: User }) => {
-    setLoggedInStatus(true);
-    setLoginUser(data.user);
-    updateFollowState(data.user.following);
-  };
-
   // ログイン状態チェック
   const checkLoginStatus = async () => {
     const response = await getUserLogin();
@@ -91,9 +84,9 @@ export const useUsers = () => {
   };
 
   return {
-    handleSuccessfulAuthentication,
     checkLoginStatus,
     handleGetUser,
     isFollowed,
+    updateFollowState,
   };
 };

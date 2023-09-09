@@ -1,14 +1,11 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { Button } from "@mui/material";
-import { LoginAuthAction } from "../../../types/user";
+import { useAuthActions } from "../../../hooks/user/useAuthActions";
 
-type Props = {
-  handleLoginAction: (data: LoginAuthAction) => void;
-};
+export const GuestLoginButton = () => {
+  const { handleLoginAction } = useAuthActions();
 
-export const GuestLoginButton = (props: Props) => {
-  const { handleLoginAction } = props;
   const SButton = styled(Button)`
     font-size: 1rem;
     height: 40px;

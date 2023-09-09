@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useLoginAuthAction } from "../../../hooks/user/useLoginAuthAction";
+import { useAuthActions } from "../../../hooks/user/useAuthActions";
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 
 export const Login = () => {
-  const { handleLoginAction } = useLoginAuthAction();
+  const { handleLoginAction } = useAuthActions();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,8 +29,6 @@ export const Login = () => {
       setErrors(errorMessages);
       return;
     }
-
-    setIsLoading(false);
 
     // ログイン認証
     handleLoginAction({
