@@ -13,6 +13,7 @@ export type ApiError = {
     status: number;
     data: {
       errors: string[];
+      error_messages: string;
     };
   };
 };

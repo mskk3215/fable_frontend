@@ -4,10 +4,13 @@ import {
   loginUserState,
 } from "../../../store/atoms/userAtom";
 import { messageState } from "../../../store/atoms/errorAtom";
+import { useErrorAction } from "../../../hooks/error/useErrorAction";
 import { userLogout } from "../../../urls";
 import { Button } from "@mui/material";
+import { ApiError } from "../../../types/api";
 
 export const LogoutButton = () => {
+  const { handleGeneralErrorAction } = useErrorAction();
   const setLoggedInStatus = useSetRecoilState(loggedInStatusState);
   const setLoginUser = useSetRecoilState(loginUserState);
   const setMessage = useSetRecoilState(messageState);
@@ -21,16 +24,8 @@ export const LogoutButton = () => {
           setMessage("ログアウトしました");
         }
       })
-      .catch((error) => {
-        if (!error.response || error.response.status >= 500) {
-          setMessage(
-            "ネットワークエラーが発生しました。しばらくしてから再試行してください。"
-          );
-        } else {
-          setMessage(
-            "ログアウトに失敗しました。問題が続く場合はサポートにお問い合わせください。"
-          );
-        }
+      .catch((error: ApiError) => {
+        handleGeneralErrorAction(error, setMessage);
       });
   };
 

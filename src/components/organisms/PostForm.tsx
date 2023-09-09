@@ -4,6 +4,7 @@ import { useSetRecoilState } from "recoil";
 import { messageState } from "../../store/atoms/errorAtom";
 import { createPosts } from "../../urls";
 import { useImages } from "../../hooks/useImages";
+import { useErrorAction } from "../../hooks/error/useErrorAction";
 import { Cancel, FileUpload } from "@mui/icons-material";
 import {
   Box,
@@ -15,9 +16,11 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
+import { ApiError } from "../../types/api";
 
 export const PostForm = memo(() => {
   const { handleGetImages } = useImages();
+  const { handleGeneralErrorAction } = useErrorAction();
   const [images, setImages] = useState<File[]>([]);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const inputId = Math.random().toString(32).substring(2);
@@ -57,12 +60,8 @@ export const PostForm = memo(() => {
         handleGetImages(undefined);
         setImages([]);
       })
-      .catch((error) => {
-        if (!error.response || error.response.status >= 500) {
-          setMessage(
-            "ネットワークエラーが発生しました。しばらくしてから再試行してください。"
-          );
-        } else setMessage(error.response.data.error_messages);
+      .catch((error: ApiError) => {
+        handleGeneralErrorAction(error, setMessage);
       })
       .finally(() => {
         setIsLoading(false);

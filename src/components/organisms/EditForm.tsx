@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { useSetRecoilState } from "recoil";
 import { messageState } from "../../store/atoms/errorAtom";
+import { useErrorAction } from "../../hooks/error/useErrorAction";
 import { updateImages, deleteImages } from "../../urls";
 import {
   Autocomplete,
@@ -25,6 +26,7 @@ import { Park, ParkOption } from "../../types/parks";
 import { Prefecture, PrefectureOption } from "../../types/prefectures";
 import dayjs, { Dayjs } from "dayjs";
 import { HandleGetImages } from "../../types/images";
+import { ApiError } from "../../types/api";
 
 type Props = {
   selectedIds: number[];
@@ -65,10 +67,10 @@ export const EditForm = memo((props: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const setMessage = useSetRecoilState(messageState);
+  const { handleGeneralErrorAction } = useErrorAction();
 
   const handleUpdateDeleteImage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     setIsLoading(true);
 
     const data = new FormData();
@@ -83,15 +85,7 @@ export const EditForm = memo((props: Props) => {
         .then(() => {
           setMessage("更新しました");
         })
-        .catch((error) => {
-          if (!error.response || error.response.status >= 500) {
-            setMessage(
-              "ネットワークエラーが発生しました。しばらくしてから再試行してください。"
-            );
-          } else {
-            setMessage(error.response.data.error_messages);
-          }
-        })
+        .catch((error: ApiError) => handleGeneralErrorAction(error, setMessage))
         .finally(() => {
           setIsLoading(false);
         });
@@ -100,19 +94,12 @@ export const EditForm = memo((props: Props) => {
         .then(() => {
           setMessage("削除しました");
         })
-        .catch((error) => {
-          if (!error.response || error.response.status >= 500) {
-            setMessage(
-              "ネットワークエラーが発生しました。しばらくしてから再試行してください。"
-            );
-          } else {
-            setMessage(error.response.data.error_messages);
-          }
-        })
+        .catch((error: ApiError) => handleGeneralErrorAction(error, setMessage))
         .finally(() => {
           setIsLoading(false);
         });
     }
+
     setInsectName("");
     setValue("");
     setInputValue("");

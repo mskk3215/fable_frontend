@@ -1,9 +1,11 @@
 import React, { memo, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { messageState } from "../../../store/atoms/errorAtom";
+import { useErrorAction } from "../../../hooks/error/useErrorAction";
 import { deletePosts } from "../../../urls";
 import { Button } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { ApiError } from "../../../types/api";
 
 type Props = {
   postId: number;
@@ -13,6 +15,7 @@ export const DeletePostButton = memo((props: Props) => {
   const { postId } = props;
 
   const setMessage = useSetRecoilState(messageState);
+  const { handleGeneralErrorAction } = useErrorAction();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleDeleteButtonClick = async (postId: number) => {
@@ -25,14 +28,8 @@ export const DeletePostButton = memo((props: Props) => {
           setMessage("削除しました");
         }
       })
-      .catch((error) => {
-        if (!error.response || error.response.status >= 500) {
-          setMessage(
-            "ネットワークエラーが発生しました。しばらくしてから再試行してください。"
-          );
-        } else {
-          setMessage(error.response.data.error_messages);
-        }
+      .catch((error: ApiError) => {
+        handleGeneralErrorAction(error, setMessage);
       })
       .finally(() => {
         setIsLoading(false);
