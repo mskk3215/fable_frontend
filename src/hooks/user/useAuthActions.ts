@@ -42,13 +42,22 @@ export const useAuthActions = () => {
         password_confirmation: passwordConfirmation,
       },
     };
-    handleApiCall(
-      createUser,
-      payload,
-      "登録が完了しました。",
-      setErrors,
-      setIsLoading
-    );
+
+    setIsLoading?.(true);
+    createUser(payload)
+      .then((response: ApiResponse) => {
+        if (response.data.registered) {
+          handleSuccessfulAuthentication(response.data);
+          navigate("/");
+          setMessage("登録が完了しました。");
+        }
+      })
+      .catch((error: ApiError) => {
+        handleAuthErrorAction(error, setErrors);
+      })
+      .finally(() => {
+        setIsLoading?.(false);
+      });
   };
 
   // ログイン
@@ -59,33 +68,19 @@ export const useAuthActions = () => {
     setIsLoading,
   }: LoginAuthAction) => {
     const payload = { session: { email: email, password: password } };
-    handleApiCall(
-      userLogin,
-      payload,
-      "ログインしました。",
-      setErrors,
-      setIsLoading
-    );
-  };
 
-  // APIコール
-  const handleApiCall = (
-    apiFunc: (payload: any) => Promise<ApiResponse>,
-    apiPayload: any,
-    successMessage: string,
-    setErrors?: (errors: string[]) => void,
-    setIsLoading?: (loading: boolean) => void
-  ) => {
     setIsLoading?.(true);
-    apiFunc(apiPayload)
+    userLogin(payload)
       .then((response: ApiResponse) => {
-        if (response.data.registered || response.data.logged_in) {
+        if (response.data.logged_in) {
           handleSuccessfulAuthentication(response.data);
           navigate("/");
-          setMessage(successMessage);
+          setMessage("ログインしました。");
         }
       })
-      .catch((error: ApiError) => handleAuthErrorAction(error, setErrors))
+      .catch((error: ApiError) => {
+        handleAuthErrorAction(error, setErrors);
+      })
       .finally(() => {
         setIsLoading?.(false);
       });
