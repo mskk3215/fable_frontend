@@ -2,14 +2,14 @@
 import { useEffect, useState } from "react";
 import { getInsects } from "../urls";
 import { Insect, InsectOption, UseAllInsects } from "../types/insects";
-import { useGetRequestErrorHandler } from "./error/useGetRequestErrorHandler";
+import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
 
 export const useAllInsects = (): UseAllInsects => {
   const [insects, setInsects] = useState<Insect[]>([]);
   const [insectOptions, setInsectOptions] = useState<InsectOption[]>([]);
 
   // エラーハンドリング呼び出し
-  useGetRequestErrorHandler();
+  useGetRequestErrorAction();
 
   const handleGetInsects = async () => {
     const { data } = await getInsects();

@@ -6,7 +6,7 @@ import {
   followUserState,
 } from "../../store/atoms/userAtom";
 import { getUser, getUserLogin } from "../../urls";
-import { useGetRequestErrorHandler } from "../error/useGetRequestErrorHandler";
+import { useGetRequestErrorAction } from "../error/useGetRequestErrorAction";
 import { User } from "../../types/user";
 
 export const useUsers = () => {
@@ -22,7 +22,7 @@ export const useUsers = () => {
   const [followUser, setFollowUser] = useRecoilState(followUserState);
 
   // エラーハンドリング呼び出し
-  useGetRequestErrorHandler();
+  useGetRequestErrorAction();
 
   // ログイン状態チェック
   const checkLoginStatus = async () => {

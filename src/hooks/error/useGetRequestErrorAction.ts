@@ -6,7 +6,7 @@ import {
 } from "../../store/atoms/errorAtom";
 import { apiClient } from "../../urls";
 
-export const useGetRequestErrorHandler = () => {
+export const useGetRequestErrorAction = () => {
   const [getRequestErrorStatus, setGetRequestErrorStatus] = useRecoilState(
     getRequestErrorStatusState
   );

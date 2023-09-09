@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { getPosts } from "../urls";
 import { useImages } from "./useImages";
 import { Post } from "../types/posts";
-import { useGetRequestErrorHandler } from "./error/useGetRequestErrorHandler";
+import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
 
 export const usePosts = () => {
   const { updateLikedImage, updatedLikedCount } = useImages();
@@ -10,7 +10,7 @@ export const usePosts = () => {
   const prevPostsRef = useRef<Post[]>([]);
 
   // エラーハンドリング呼び出し
-  useGetRequestErrorHandler();
+  useGetRequestErrorAction();
 
   // 投稿情報を取得する
   const handleGetPosts = async () => {

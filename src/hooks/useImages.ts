@@ -8,13 +8,13 @@ import format from "date-fns/format";
 import ja from "date-fns/locale/ja";
 import { Image, UseImages } from "../types/images";
 import { User } from "../types/user";
-import { useGetRequestErrorHandler } from "./error/useGetRequestErrorHandler";
+import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
 
 export const useImages = (userId?: number): UseImages => {
   const loginUser = useRecoilValue<User | null>(loginUserState);
 
   // エラーハンドリング呼び出し
-  useGetRequestErrorHandler();
+  useGetRequestErrorAction();
 
   // 画像情報
   const [images, setImages] = useState<Image[]>([]);

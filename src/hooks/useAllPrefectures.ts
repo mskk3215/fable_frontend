@@ -6,7 +6,7 @@ import {
   PrefectureOption,
   UseAllPrefectures,
 } from "../types/prefectures";
-import { useGetRequestErrorHandler } from "./error/useGetRequestErrorHandler";
+import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
 
 export const useAllPrefectures = (): UseAllPrefectures => {
   const [prefectures, setPrefectures] = useState<Prefecture[]>([]);
@@ -15,7 +15,7 @@ export const useAllPrefectures = (): UseAllPrefectures => {
   >([]);
 
   // エラーハンドリング呼び出し
-  useGetRequestErrorHandler();
+  useGetRequestErrorAction();
 
   const handleGetPrefectures = async () => {
     const { data } = await getPrefectures();
