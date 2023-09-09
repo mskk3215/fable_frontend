@@ -1,4 +1,5 @@
 import axios from "axios";
+import { UserLoginForm, UserRegistrationForm } from "../types/user";
 
 //default_api
 export const DEFAULT_API_LOCALHOST = "/api/v1";
@@ -12,16 +13,26 @@ export const apiClient = axios.create({
 });
 
 //users
-export const registrationUrl = `${DEFAULT_API_LOCALHOST}/users`;
-export const loginUrl = `${DEFAULT_API_LOCALHOST}/login`;
-export const logoutUrl = `${DEFAULT_API_LOCALHOST}/logout`;
-export const logged_inUrl = `${DEFAULT_API_LOCALHOST}/logged_in`;
-
+//user's get, post, put
 export const getUser = (userId: number | undefined) => {
   return apiClient.get("/users", { params: { user_id: userId } });
 };
+export const createUser = (data: UserRegistrationForm) => {
+  return apiClient.post("/users", data);
+};
 export const updateUser = (id: number, data: FormData) => {
   return apiClient.put(`/users/${id}`, data);
+};
+
+//user's login, logout
+export const getUserLogin = () => {
+  return apiClient.get(`/logged_in`);
+};
+export const userLogin = (data: UserLoginForm) => {
+  return apiClient.post(`/login`, data);
+};
+export const userLogout = () => {
+  return apiClient.delete(`/logout`);
 };
 
 // user's relationships

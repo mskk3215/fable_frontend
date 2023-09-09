@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { loginUserState } from "../../store/atoms/userAtom";
-import { updateUser } from "../../urls";
 import { PasswordChangeModal } from "../molecules/PasswordChangeModal";
+import { useProfileChangeAction } from "../../hooks/user/useProfileChangeAction";
 import { UserProfileForm } from "../../types/user";
 import {
   Box,
@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 
 export const ProfileEdit = () => {
+  const { handleProfileChangeAction } = useProfileChangeAction();
   const [loginUser, setLoginUser] = useRecoilState(loginUserState);
 
   const [profileValues, setProfileValues] = useState<UserProfileForm>({
@@ -60,24 +61,39 @@ export const ProfileEdit = () => {
   const handleProfileSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const profileData = new FormData();
-    if (loginUser === null) return;
+    if (handelValidation()) {
+      const profileData = new FormData();
+      if (loginUser === null) return;
 
-    profileData.append("user[nickname]", profileValues.nickname);
-    profileData.append("user[email]", profileValues.email);
-    if (selectedImage) {
-      profileData.append("user[avatar]", selectedImage);
-    }
-    updateUser(loginUser.id, profileData)
-      .then((updatedUser) => {
-        setLoginUser(updatedUser.data.user);
-        alert("プロフィールを更新しました");
-      })
-      .catch((error) => {
-        if (error.response) {
-          setErrors(error.response.data.errors);
-        }
+      profileData.append("user[nickname]", profileValues.nickname);
+      profileData.append("user[email]", profileValues.email);
+      if (selectedImage) {
+        profileData.append("user[avatar]", selectedImage);
+      }
+
+      // プロフィール更新の処理
+      handleProfileChangeAction({
+        loginUser: loginUser,
+        setLoginUser: setLoginUser,
+        profileData: profileData,
+        setErrors: setErrors,
+        isPasswordChange: false,
       });
+    }
+  };
+
+  // プロフィールバリデーション
+  const handelValidation = () => {
+    setErrors([]);
+    if (profileValues.nickname.length < 1) {
+      setErrors((prev) => [...prev, "アカウント名を入力してください"]);
+      return;
+    }
+    if (profileValues.email.length < 1) {
+      setErrors((prev) => [...prev, "メールアドレスを入力してください"]);
+      return;
+    }
+    return true;
   };
 
   // メモリ解放

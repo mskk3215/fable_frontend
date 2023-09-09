@@ -1,55 +1,66 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { registrationUrl } from "../../../urls";
 import { GuestLoginButton } from "../../atoms/button/GuestLoginButton";
-import { useLoginAuthAction } from "../../../hooks/useLoginAuthAction";
-import { useUsers } from "../../../hooks/useUsers";
+import { useAuthActions } from "../../../hooks/user/useAuthActions";
 import { Box, Button, TextField, Typography } from "@mui/material";
 
 export const Registration = () => {
-  const { handleSuccessfulAuthentication } = useUsers();
-
-  const { handleLoginAction } = useLoginAuthAction();
+  const { handleUserRegistrationAction } = useAuthActions();
 
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [errors, setErrors] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const navigate = useNavigate();
-  const handleRegistrationAction = (e: React.MouseEvent<HTMLButtonElement>) => {
+
+  const handleRegistrationAction = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+
     // バリデーション
-    if (!nickname || !email || !password || !passwordConfirmation) {
-      setErrors(["入力されていない項目があります"]);
+    const inputFields = [
+      {
+        value: nickname,
+        name: "名前",
+      },
+      {
+        value: email,
+        name: "メールアドレス",
+      },
+      {
+        value: password,
+        name: "パスワード",
+      },
+      {
+        value: passwordConfirmation,
+        name: "確認用パスワード",
+      },
+    ];
+    const errorMessages = inputFields
+      .filter((field) => !field.value)
+      .map((field) => `${field.name}を入力してください`);
+    if (errorMessages.length > 0) {
+      setErrors(errorMessages);
       return;
     }
+    if (password !== passwordConfirmation) {
+      setErrors(["パスワードが一致しません"]);
+      return;
+    }
+
     // ユーザー登録
-    axios
-      .post(
-        registrationUrl,
-        {
-          user: {
-            nickname: nickname,
-            email: email,
-            password: password,
-            password_confirmation: passwordConfirmation,
-          },
-        },
-        //cookieを含める
-        { withCredentials: true }
-      )
-      .then((response) => {
-        if (response.data.registered) {
-          handleSuccessfulAuthentication(response.data);
-          navigate("/");
-        }
-      })
-      .catch((error) => {
-        setErrors(error.response.data.errors);
-      });
-    e.preventDefault();
+    handleUserRegistrationAction({
+      nickname,
+      email,
+      password,
+      passwordConfirmation,
+      setErrors,
+      setIsLoading,
+    });
   };
 
   return (
@@ -147,6 +158,7 @@ export const Registration = () => {
                 fullWidth
                 variant="contained"
                 onClick={handleRegistrationAction}
+                disabled={isLoading}
               >
                 登録
               </Button>
@@ -159,7 +171,7 @@ export const Registration = () => {
                 }}
               >
                 <Box sx={{ flexGrow: 1, flexBasis: 0, marginRight: 1 }}>
-                  <GuestLoginButton handleLoginAction={handleLoginAction} />
+                  <GuestLoginButton />
                 </Box>
                 <Box sx={{ flexGrow: 1, flexBasis: 0 }}>
                   <Button

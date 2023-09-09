@@ -1,25 +1,41 @@
 import React, { useState } from "react";
-import { useLoginAuthAction } from "../../../hooks/useLoginAuthAction";
+import { useAuthActions } from "../../../hooks/user/useAuthActions";
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 
 export const Login = () => {
-  const { handleLoginAction } = useLoginAuthAction();
+  const { handleLoginAction } = useAuthActions();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleLogin = async () => {
     // バリデーション
-    if (!email || !password) {
-      setErrors(["入力されていない項目があります"]);
+    const inputFields = [
+      {
+        value: email,
+        name: "メールアドレス",
+      },
+      {
+        value: password,
+        name: "パスワード",
+      },
+    ];
+    const errorMessages = inputFields
+      .filter((field) => !field.value)
+      .map((field) => `${field.name}を入力してください`);
+    if (errorMessages.length > 0) {
+      setErrors(errorMessages);
       return;
     }
+
     // ログイン認証
     handleLoginAction({
       email: email,
       password: password,
       setErrors: setErrors,
+      setIsLoading: setIsLoading,
     });
   };
 
@@ -92,6 +108,7 @@ export const Login = () => {
                 fullWidth
                 variant="contained"
                 onClick={handleLogin}
+                disabled={isLoading}
               >
                 ログイン
               </Button>

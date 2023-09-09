@@ -5,7 +5,7 @@ import { loginUserState, viewedUserState } from "../../store/atoms/userAtom";
 import { ImageItem } from "../organisms/ImageItem";
 import { FollowModal } from "../molecules/FollowModal";
 import { FollowButton } from "../atoms/button/FollowButton";
-import { useUsers } from "../../hooks/useUsers";
+import { useUsers } from "../../hooks/user/useUsers";
 import { useImages } from "../../hooks/useImages";
 import Box from "@mui/system/Box";
 import Grid from "@mui/material/Grid";

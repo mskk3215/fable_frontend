@@ -1,57 +1,49 @@
-import axios from "axios";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   loginUserState,
   viewedUserState,
   loggedInStatusState,
   followUserState,
-} from "../store/atoms/userAtom";
-import { getUser, logged_inUrl } from "../urls";
-import { User } from "../types/user";
+} from "../../store/atoms/userAtom";
+import { getUser, getUserLogin } from "../../urls";
+import { useGetRequestErrorAction } from "../error/useGetRequestErrorAction";
+import { User } from "../../types/user";
 
 export const useUsers = () => {
+  // ログインユーザー情報
   const [loginUser, setLoginUser] = useRecoilState<User | null>(loginUserState);
+  // ログイン状態
   const setLoggedInStatus = useSetRecoilState<boolean>(loggedInStatusState);
+  // 表示ユーザー情報
   const [viewedUser, setViewedUser] = useRecoilState<User | null>(
     viewedUserState
   );
+  // フォローユーザー情報
   const [followUser, setFollowUser] = useRecoilState(followUserState);
 
-  // 新規登録、ログイン成功時の処理
-  const handleSuccessfulAuthentication = (data: { user: User }) => {
-    setLoggedInStatus(true);
-    setLoginUser(data.user);
-    updateFollowState(data.user.following);
-  };
+  // エラーハンドリング呼び出し
+  useGetRequestErrorAction();
 
   // ログイン状態チェック
-  const checkLoginStatus = (): Promise<boolean> => {
-    return axios
-      .get(logged_inUrl, { withCredentials: true })
-      .then((response) => {
-        if (response.data.logged_in) {
-          setLoggedInStatus(true);
-          setLoginUser(response.data.user);
-          updateFollowState(response.data.user.following);
-          return true;
-        } else {
-          setLoggedInStatus(false);
-          setLoginUser(null);
-          // フォロー状態をfalseに初期化する
-          if (response.data.user && response.data.user.following) {
-            let newFollowState: { [key: number]: boolean } = { ...followUser };
-            response.data.user.following.forEach((user: User) => {
-              newFollowState[user.id] = false;
-            });
-            setFollowUser(newFollowState);
-          }
-          return false;
-        }
-      })
-      .catch((error) => {
-        console.log("ログインエラー", error);
-        return false;
-      });
+  const checkLoginStatus = async () => {
+    const response = await getUserLogin();
+
+    if (response.data.logged_in) {
+      setLoggedInStatus(true);
+      setLoginUser(response.data.user);
+      updateFollowState(response.data.user.following);
+    } else {
+      setLoggedInStatus(false);
+      setLoginUser(null);
+      // フォロー状態をfalseに初期化する
+      if (response.data.user && response.data.user.following) {
+        let newFollowState: { [key: number]: boolean } = { ...followUser };
+        response.data.user.following.forEach((user: User) => {
+          newFollowState[user.id] = false;
+        });
+        setFollowUser(newFollowState);
+      }
+    }
   };
 
   // ユーザー情報を取得する
@@ -62,7 +54,7 @@ export const useUsers = () => {
     if (JSON.stringify(loginUser) !== JSON.stringify(loginUserData.data.user)) {
       setLoginUser(loginUserData.data.user);
     }
-    // 閲覧ユーザー情報を更新する
+    // 表示ユーザー情報を更新する
     const viewedUserData = await getUser(userId);
     if (
       JSON.stringify(viewedUser) !== JSON.stringify(viewedUserData.data.user)
@@ -92,9 +84,9 @@ export const useUsers = () => {
   };
 
   return {
-    handleSuccessfulAuthentication,
     checkLoginStatus,
     handleGetUser,
     isFollowed,
+    updateFollowState,
   };
 };

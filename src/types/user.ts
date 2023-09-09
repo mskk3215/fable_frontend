@@ -14,8 +14,42 @@ export type UserPasswordForm = {
   confirmNewPassword: string;
 };
 
+export type UserRegistrationForm = {
+  user: {
+    nickname: string;
+    email: string;
+    password: string;
+    password_confirmation: string;
+  };
+};
+
+export type UserLoginForm = {
+  session: {
+    email: string;
+    password: string;
+  };
+};
+
+export type RegistrationAuthAction = {
+  nickname: string;
+  email: string;
+  password: string;
+  passwordConfirmation: string;
+  setErrors: (errors: string[]) => void;
+  setIsLoading: (isLoading: boolean) => void;
+};
+
 export type LoginAuthAction = {
   email: string;
   password: string;
-  setErrors?: (errors: string[]) => void | undefined;
+  setErrors?: (errors: string[]) => void;
+  setIsLoading: (isLoading: boolean) => void;
+};
+
+export type userProfile = {
+  loginUser: User;
+  setLoginUser: (user: User) => void;
+  profileData: FormData;
+  setErrors: (errors: string[]) => void;
+  isPasswordChange: boolean;
 };

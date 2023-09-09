@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { messageState } from "../../store/atoms/errorAtom";
 import { DirectionDrawer } from "../organisms/DirectionDrawer";
 import { MapView } from "../organisms/MapView";
 import {
@@ -10,6 +11,8 @@ import {
 import { Anchor, TravelMode } from "../../types/map";
 
 export const Direction = () => {
+  const setMessage = useSetRecoilState(messageState);
+
   const [originLocation, setOriginLocation] =
     useRecoilState(originLocationState);
   const [directions, setDirections] =
@@ -29,28 +32,54 @@ export const Direction = () => {
   //directionsの計算
   const calculateRoute = async () => {
     if (originRef.current?.value === "") {
-      alert("出発地を入力してください。");
+      setMessage({
+        message: "出発地を入力してください。",
+        type: "error",
+      });
       return;
     }
     setDirections(null);
     setOriginLocation(originRef.current?.value || "");
     const directionsService = new window.google.maps.DirectionsService();
-    try {
-      const results = await directionsService.route({
+    directionsService.route(
+      {
         origin: originLocation,
         destination: destinationLocation,
         travelMode: window.google.maps.TravelMode[travelMode],
         avoidHighways: true,
-      });
-      setDirections(results);
-      const text = results?.routes[0]?.legs[0]?.distance?.text;
-      if (text) {
-        setDistance(text);
-        setDuration(text);
+      },
+      (result, status) => {
+        if (status === "OK") {
+          setDirections(result);
+          const text = result?.routes[0]?.legs[0]?.distance?.text;
+          if (text) {
+            setDistance(text);
+            setDuration(text);
+          }
+        } else {
+          switch (status) {
+            case "NOT_FOUND":
+              setMessage({
+                message: "出発地が見つかりませんでした。",
+                type: "error",
+              });
+              break;
+            case "ZERO_RESULTS":
+              setMessage({
+                message:
+                  "ルートが見つかりませんでした。他の交通手段に変えてください。",
+                type: "error",
+              });
+              break;
+            default:
+              setMessage({
+                message: "ルートの計算中にエラーが発生しました。",
+                type: "error",
+              });
+          }
+        }
       }
-    } catch (error) {
-      alert("他の交通手段に変えてください。");
-    }
+    );
   };
 
   //directionsの削除
@@ -76,7 +105,10 @@ export const Direction = () => {
         if (status === "OK" && results) {
           setOriginLocation(results[0].formatted_address);
         } else {
-          alert("住所が取得できませんでした。");
+          setMessage({
+            message: "住所が取得できませんでした。",
+            type: "error",
+          });
         }
       });
     }

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { authCheckedState, loggedInStatusState } from "../store/atoms/userAtom";
-import { useUsers } from "../hooks/useUsers";
+import { useUsers } from "../hooks/user/useUsers";
 import { Login } from "../components/pages/auth/Login";
 import { Registration } from "../components/pages/auth/Registration";
 import { UserPage } from "../components/pages/UserPage";

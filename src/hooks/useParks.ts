@@ -4,10 +4,14 @@ import { useRecoilValue } from "recoil";
 import { searchWordState } from "../store/atoms/searchWordState";
 import { getParks, getSearchParkResults } from "../urls";
 import { ParkOption, Park, UseParks } from "../types/parks";
+import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
 
 export const useParks = (): UseParks => {
   const [parks, setParks] = useState<Park[]>([]);
   const [parkOptions, setParkOptions] = useState<ParkOption[]>([]);
+
+  // エラーハンドリング呼び出し
+  useGetRequestErrorAction();
 
   // 全公園データを取得する
   const handleGetParks = async () => {
