@@ -77,6 +77,7 @@ export const ProfileEdit = () => {
         setLoginUser: setLoginUser,
         profileData: profileData,
         setErrors: setErrors,
+        isPasswordChange: false,
       });
     }
   };

@@ -51,4 +51,5 @@ export type userProfile = {
   setLoginUser: (user: User) => void;
   profileData: FormData;
   setErrors: (errors: string[]) => void;
+  isPasswordChange: boolean;
 };

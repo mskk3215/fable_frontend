@@ -55,6 +55,7 @@ export const PasswordChangeModal = (props: Props) => {
         setLoginUser,
         profileData: passwordData,
         setErrors,
+        isPasswordChange: true,
       });
     }
   };
