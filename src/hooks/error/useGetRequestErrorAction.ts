@@ -61,7 +61,7 @@ export const useGetRequestErrorAction = () => {
         default:
           userMessage = "不明なエラーが発生しました。";
       }
-      setMessage(userMessage);
+      setMessage({ message: userMessage, type: "error" });
     }
   }, [getRequestErrorStatus]);
 };

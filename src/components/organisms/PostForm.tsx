@@ -55,7 +55,11 @@ export const PostForm = memo(() => {
 
     await createPosts(data)
       .then(() => {
-        setMessage("アップロードしました");
+        setMessage({
+          message: "アップロードしました",
+          type: "success",
+        });
+
         navigate("/imageedit");
         handleGetImages(undefined);
         setImages([]);

@@ -21,7 +21,7 @@ export const LogoutButton = () => {
         if (response.data.logged_out) {
           setLoggedInStatus(false);
           setLoginUser(null);
-          setMessage("ログアウトしました");
+          setMessage({ message: "ログアウトしました", type: "success" });
         }
       })
       .catch((error: ApiError) => {

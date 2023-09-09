@@ -22,8 +22,15 @@ export const useProfileChangeAction = () => {
           setLoginUser(response.data.user);
           setErrors([]);
           if (isPasswordChange) {
-            setMessage("パスワードを変更しました");
-          } else setMessage("プロフィールを更新しました");
+            setMessage({
+              message: "パスワードを変更しました",
+              type: "success",
+            });
+          } else
+            setMessage({
+              message: "プロフィールを更新しました",
+              type: "success",
+            });
         }
       })
       .catch((error: ApiError) => handleAuthErrorAction(error, setErrors));

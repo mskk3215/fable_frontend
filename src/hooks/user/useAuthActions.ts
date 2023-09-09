@@ -49,7 +49,10 @@ export const useAuthActions = () => {
         if (response.data.registered) {
           handleSuccessfulAuthentication(response.data);
           navigate("/");
-          setMessage("登録が完了しました。");
+          setMessage({
+            message: "登録が完了しました。",
+            type: "success",
+          });
         }
       })
       .catch((error: ApiError) => {
@@ -75,7 +78,7 @@ export const useAuthActions = () => {
         if (response.data.logged_in) {
           handleSuccessfulAuthentication(response.data);
           navigate("/");
-          setMessage("ログインしました。");
+          setMessage({ message: "ログインしました。", type: "success" });
         }
       })
       .catch((error: ApiError) => {

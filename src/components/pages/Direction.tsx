@@ -32,7 +32,10 @@ export const Direction = () => {
   //directionsの計算
   const calculateRoute = async () => {
     if (originRef.current?.value === "") {
-      setMessage("出発地を入力してください。");
+      setMessage({
+        message: "出発地を入力してください。",
+        type: "error",
+      });
       return;
     }
     setDirections(null);
@@ -56,15 +59,23 @@ export const Direction = () => {
         } else {
           switch (status) {
             case "NOT_FOUND":
-              setMessage("出発地が見つかりませんでした。");
+              setMessage({
+                message: "出発地が見つかりませんでした。",
+                type: "error",
+              });
               break;
             case "ZERO_RESULTS":
-              setMessage(
-                "ルートが見つかりませんでした。他の交通手段に変えてください。"
-              );
+              setMessage({
+                message:
+                  "ルートが見つかりませんでした。他の交通手段に変えてください。",
+                type: "error",
+              });
               break;
             default:
-              setMessage("ルートの計算中にエラーが発生しました。");
+              setMessage({
+                message: "ルートの計算中にエラーが発生しました。",
+                type: "error",
+              });
           }
         }
       }
@@ -94,7 +105,10 @@ export const Direction = () => {
         if (status === "OK" && results) {
           setOriginLocation(results[0].formatted_address);
         } else {
-          setMessage("住所が取得できませんでした。");
+          setMessage({
+            message: "住所が取得できませんでした。",
+            type: "error",
+          });
         }
       });
     }

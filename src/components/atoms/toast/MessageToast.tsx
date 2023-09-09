@@ -1,22 +1,31 @@
 import { useRecoilState } from "recoil";
 import { messageState } from "../../../store/atoms/errorAtom";
 import { Close } from "@mui/icons-material";
-import { IconButton, Snackbar } from "@mui/material";
+import { Alert, IconButton, Snackbar } from "@mui/material";
 
 export const MessageToast = () => {
   const [message, setMessage] = useRecoilState(messageState);
 
   const onClose = () => {
-    setMessage("");
+    setMessage({ message: "", type: "info" });
   };
 
+  const snackBarColor = () => {
+    switch (message.type) {
+      case "error":
+        return "error";
+      case "success":
+        return "success";
+      default:
+        return "info";
+    }
+  };
   return (
     <Snackbar
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      open={!!message}
+      open={!!message.message}
       autoHideDuration={6000}
       onClose={onClose}
-      message={message}
       action={
         <>
           <IconButton size="small" color="inherit" onClick={onClose}>
@@ -24,6 +33,8 @@ export const MessageToast = () => {
           </IconButton>
         </>
       }
-    />
+    >
+      <Alert severity={snackBarColor()}>{message.message}</Alert>
+    </Snackbar>
   );
 };

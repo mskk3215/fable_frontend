@@ -25,7 +25,7 @@ export const DeletePostButton = memo((props: Props) => {
     await deletePosts(postId)
       .then((response) => {
         if (response.data.status === "deleted") {
-          setMessage("削除しました");
+          setMessage({ message: "削除しました", type: "success" });
         }
       })
       .catch((error: ApiError) => {

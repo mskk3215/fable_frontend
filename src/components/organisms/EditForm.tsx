@@ -83,7 +83,7 @@ export const EditForm = memo((props: Props) => {
 
       await updateImages(selectedIds, data)
         .then(() => {
-          setMessage("更新しました");
+          setMessage({ message: "更新しました", type: "success" });
         })
         .catch((error: ApiError) => handleGeneralErrorAction(error, setMessage))
         .finally(() => {
@@ -92,7 +92,7 @@ export const EditForm = memo((props: Props) => {
     } else if (buttonName === "delete") {
       await deleteImages(selectedIds)
         .then(() => {
-          setMessage("削除しました");
+          setMessage({ message: "削除しました", type: "success" });
         })
         .catch((error: ApiError) => handleGeneralErrorAction(error, setMessage))
         .finally(() => {

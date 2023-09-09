@@ -5,7 +5,7 @@ export const getRequestErrorStatusState = atom<number>({
   default: 0,
 });
 
-export const messageState = atom<string>({
+export const messageState = atom<{ message: string; type: string }>({
   key: "messageState",
-  default: "",
+  default: { message: "", type: "info" },
 });

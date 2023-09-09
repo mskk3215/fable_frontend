@@ -4,14 +4,19 @@ export const useErrorAction = () => {
   // 一般的なエラー処理
   const handleGeneralErrorAction = (
     error: ApiError,
-    setMessage: (message: string) => void
+    setMessage: (msg: { message: string; type: string }) => void
   ) => {
     if (!error.response || error.response.status >= 500) {
-      setMessage(
-        "ネットワークエラーが発生しました。しばらくしてから再試行してください。"
-      );
+      setMessage({
+        message:
+          "ネットワークエラーが発生しました。しばらくしてから再試行してください。",
+        type: "error",
+      });
     } else {
-      setMessage(error.response.data.error_messages);
+      setMessage({
+        message: error.response.data.error_messages,
+        type: "error",
+      });
     }
   };
 
