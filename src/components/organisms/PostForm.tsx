@@ -2,6 +2,7 @@ import React, { useState, memo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { messageState } from "../../store/atoms/errorAtom";
+import { LinearProgressBarWithLabel } from "../atoms/bar/LinearProgressBarWithLabel";
 import { createPosts } from "../../urls";
 import { useImages } from "../../hooks/useImages";
 import { useErrorAction } from "../../hooks/error/useErrorAction";
@@ -17,7 +18,6 @@ import {
   Typography,
 } from "@mui/material";
 import { ApiError } from "../../types/api";
-import { LinearProgressBar } from "../atoms/bar/LinearProgressBar";
 
 export const PostForm = memo(() => {
   const { handleGetImages } = useImages();
@@ -27,7 +27,7 @@ export const PostForm = memo(() => {
   const inputId = Math.random().toString(32).substring(2);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const [uploadProgress, setUploadProgress] = useState<number>(0);
+  const [uploadPostProgress, setUploadPostProgress] = useState<number>(0);
 
   const setMessage = useSetRecoilState(messageState);
 
@@ -60,7 +60,7 @@ export const PostForm = memo(() => {
       const { loaded, total } = progressEvent;
       if (total === undefined) return;
       const percentage = Math.floor((loaded * 100) / total);
-      setUploadProgress(percentage);
+      setUploadPostProgress(percentage);
     })
       .then(() => {
         setMessage({
@@ -77,7 +77,7 @@ export const PostForm = memo(() => {
       })
       .finally(() => {
         setIsLoading(false);
-        setUploadProgress(0);
+        setUploadPostProgress(0);
       });
   };
 
@@ -157,9 +157,9 @@ export const PostForm = memo(() => {
                 ""
               )}
               {/* プログレスバー */}
-              {uploadProgress > 0 && (
+              {uploadPostProgress > 0 && (
                 <Box sx={{ width: "100%", my: 2 }}>
-                  <LinearProgressBar value={uploadProgress} />
+                  <LinearProgressBarWithLabel value={uploadPostProgress} />
                 </Box>
               )}
               {/* preview */}

@@ -5,7 +5,7 @@ import {
   Typography,
 } from "@mui/material";
 
-export const LinearProgressBar = (
+export const LinearProgressBarWithLabel = (
   props: LinearProgressProps & { value: number }
 ) => {
   return (
