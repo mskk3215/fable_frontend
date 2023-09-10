@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosProgressEvent } from "axios";
 import { UserLoginForm, UserRegistrationForm } from "../types/user";
 
 //default_api
@@ -20,8 +20,12 @@ export const getUser = (userId: number | undefined) => {
 export const createUser = (data: UserRegistrationForm) => {
   return apiClient.post("/users", data);
 };
-export const updateUser = (id: number, data: FormData) => {
-  return apiClient.put(`/users/${id}`, data);
+export const updateUser = (
+  id: number,
+  data: FormData,
+  onUploadProgress: (progressEvent: AxiosProgressEvent) => void
+) => {
+  return apiClient.put(`/users/${id}`, data, { onUploadProgress });
 };
 
 //user's login, logout
@@ -57,8 +61,11 @@ export const deleteUserRelationship = (
 export const getPosts = () => {
   return apiClient.get("/posts");
 };
-export const createPosts = (data: FormData) => {
-  return apiClient.post("/posts", data);
+export const createPosts = (
+  data: FormData,
+  onUploadProgress: (progressEvent: AxiosProgressEvent) => void
+) => {
+  return apiClient.post("/posts", data, { onUploadProgress });
 };
 export const deletePosts = (postId: number) => {
   return apiClient.delete(`/posts/${postId}`);

@@ -24,4 +24,5 @@ export type UseParks = {
   handleGetParks: () => Promise<void>;
   handleGetParkSearchResults: (word: string) => Promise<void>;
   searchResults: Park[];
+  isParksLoading: boolean;
 };

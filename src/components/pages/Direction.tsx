@@ -24,6 +24,7 @@ export const Direction = () => {
   const originRef = useRef<HTMLInputElement>(null);
   const destinationRef = useRef<HTMLInputElement>(null);
   const [travelMode, setTravelMode] = useState<TravelMode>("BICYCLING");
+  const [isDirectionsLoading, setIsDirectionsLoading] = useState(false);
 
   const drawerWidth = anchor === "bottom" || anchor === "top" ? "100%" : 400;
   const drawerHeight =
@@ -31,6 +32,7 @@ export const Direction = () => {
 
   //directionsの計算
   const calculateRoute = async () => {
+    setIsDirectionsLoading(true);
     if (originRef.current?.value === "") {
       setMessage({
         message: "出発地を入力してください。",
@@ -41,45 +43,49 @@ export const Direction = () => {
     setDirections(null);
     setOriginLocation(originRef.current?.value || "");
     const directionsService = new window.google.maps.DirectionsService();
-    directionsService.route(
-      {
-        origin: originLocation,
-        destination: destinationLocation,
-        travelMode: window.google.maps.TravelMode[travelMode],
-        avoidHighways: true,
-      },
-      (result, status) => {
-        if (status === "OK") {
-          setDirections(result);
-          const text = result?.routes[0]?.legs[0]?.distance?.text;
-          if (text) {
-            setDistance(text);
-            setDuration(text);
-          }
-        } else {
-          switch (status) {
-            case "NOT_FOUND":
-              setMessage({
-                message: "出発地が見つかりませんでした。",
-                type: "error",
-              });
-              break;
-            case "ZERO_RESULTS":
-              setMessage({
-                message:
-                  "ルートが見つかりませんでした。他の交通手段に変えてください。",
-                type: "error",
-              });
-              break;
-            default:
-              setMessage({
-                message: "ルートの計算中にエラーが発生しました。",
-                type: "error",
-              });
+    directionsService
+      .route(
+        {
+          origin: originLocation,
+          destination: destinationLocation,
+          travelMode: window.google.maps.TravelMode[travelMode],
+          avoidHighways: true,
+        },
+        (result, status) => {
+          if (status === "OK") {
+            setDirections(result);
+            const text = result?.routes[0]?.legs[0]?.distance?.text;
+            if (text) {
+              setDistance(text);
+              setDuration(text);
+            }
+          } else {
+            switch (status) {
+              case "NOT_FOUND":
+                setMessage({
+                  message: "出発地が見つかりませんでした。",
+                  type: "error",
+                });
+                break;
+              case "ZERO_RESULTS":
+                setMessage({
+                  message:
+                    "ルートが見つかりませんでした。他の交通手段に変えてください。",
+                  type: "error",
+                });
+                break;
+              default:
+                setMessage({
+                  message: "ルートの計算中にエラーが発生しました。",
+                  type: "error",
+                });
+            }
           }
         }
-      }
-    );
+      )
+      .finally(() => {
+        setIsDirectionsLoading(false);
+      });
   };
 
   //directionsの削除
@@ -156,6 +162,7 @@ export const Direction = () => {
         anchor={anchor}
         drawerWidth={drawerWidth}
         drawerHeight={drawerHeight}
+        isDirectionsLoading={isDirectionsLoading}
       />
 
       <MapView

@@ -8,15 +8,18 @@ export const usePosts = () => {
   const { updateLikedImage, updatedLikedCount } = useImages();
   const [posts, setPosts] = useState<Post[]>([]);
   const prevPostsRef = useRef<Post[]>([]);
+  const [isPostsLoading, setIsPostsLoading] = useState<boolean>(false);
 
   // エラーハンドリング呼び出し
   useGetRequestErrorAction();
 
   // 投稿情報を取得する
   const handleGetPosts = async () => {
+    setIsPostsLoading(true);
     const { data } = await getPosts();
     // 投稿画像を取得する
     setPosts(data);
+    setIsPostsLoading(false);
     // すべての画像を取得する
     const allImages = data.flatMap((post: Post) => post.images);
     // いいねした画像を取得する
@@ -38,5 +41,5 @@ export const usePosts = () => {
     }
   }, [posts]);
 
-  return { posts, handleGetPosts };
+  return { posts, handleGetPosts, isPostsLoading };
 };

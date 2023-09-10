@@ -9,15 +9,17 @@ import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
 export const useParks = (): UseParks => {
   const [parks, setParks] = useState<Park[]>([]);
   const [parkOptions, setParkOptions] = useState<ParkOption[]>([]);
+  const [isParksLoading, setIsParksLoading] = useState(true);
 
   // エラーハンドリング呼び出し
   useGetRequestErrorAction();
 
   // 全公園データを取得する
   const handleGetParks = async () => {
+    setIsParksLoading(true);
     const { data } = await getParks();
     setParks(data);
-
+    setIsParksLoading(false);
     //EditFormの選択肢用
     const parkData = data.map((park: Park) => ({
       label: park.name,
@@ -36,8 +38,10 @@ export const useParks = (): UseParks => {
   const [searchResults, setSearchResults] = useState<Park[]>([]);
 
   const handleGetParkSearchResults = async (word: string) => {
+    setIsParksLoading(true);
     const { data } = await getSearchParkResults(word);
     setSearchResults(data);
+    setIsParksLoading(false);
   };
   useEffect(() => {
     handleGetParkSearchResults(searchWord);
@@ -49,5 +53,6 @@ export const useParks = (): UseParks => {
     handleGetParks,
     handleGetParkSearchResults,
     searchResults,
+    isParksLoading,
   };
 };

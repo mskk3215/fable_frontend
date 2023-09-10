@@ -1,7 +1,8 @@
-import React, { useState, memo } from "react";
+import React, { useState, memo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { messageState } from "../../store/atoms/errorAtom";
+import { LinearProgressBarWithLabel } from "../atoms/bar/LinearProgressBarWithLabel";
 import { createPosts } from "../../urls";
 import { useImages } from "../../hooks/useImages";
 import { useErrorAction } from "../../hooks/error/useErrorAction";
@@ -25,6 +26,8 @@ export const PostForm = memo(() => {
   const [uploadError, setUploadError] = useState<string | null>(null);
   const inputId = Math.random().toString(32).substring(2);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const [uploadPostProgress, setUploadPostProgress] = useState<number>(0);
 
   const setMessage = useSetRecoilState(messageState);
 
@@ -53,7 +56,12 @@ export const PostForm = memo(() => {
 
     setIsLoading(true);
 
-    await createPosts(data)
+    await createPosts(data, (progressEvent) => {
+      const { loaded, total } = progressEvent;
+      if (total === undefined) return;
+      const percentage = Math.floor((loaded * 100) / total);
+      setUploadPostProgress(percentage);
+    })
       .then(() => {
         setMessage({
           message: "アップロードしました",
@@ -69,6 +77,7 @@ export const PostForm = memo(() => {
       })
       .finally(() => {
         setIsLoading(false);
+        setUploadPostProgress(0);
       });
   };
 
@@ -146,6 +155,12 @@ export const PostForm = memo(() => {
                 </Box>
               ) : (
                 ""
+              )}
+              {/* プログレスバー */}
+              {uploadPostProgress > 0 && (
+                <Box sx={{ width: "100%", my: 2 }}>
+                  <LinearProgressBarWithLabel value={uploadPostProgress} />
+                </Box>
               )}
               {/* preview */}
               <Grid container direction="row" justifyContent={"flex-start"}>

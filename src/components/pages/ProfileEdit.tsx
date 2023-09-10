@@ -11,6 +11,7 @@ import {
   Avatar,
   Stack,
   Typography,
+  LinearProgress,
 } from "@mui/material";
 
 export const ProfileEdit = () => {
@@ -25,6 +26,8 @@ export const ProfileEdit = () => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [blobUrl, setBlobUrl] = useState<string | undefined>(undefined);
   const [errors, setErrors] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [uploadProfileProgress, setUploadProfileProgress] = useState<number>(0);
 
   // ユーザー情報を取得
   useEffect(() => {
@@ -60,7 +63,7 @@ export const ProfileEdit = () => {
   // サーバーに送信
   const handleProfileSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setIsLoading(true);
     if (handelValidation()) {
       const profileData = new FormData();
       if (loginUser === null) return;
@@ -78,6 +81,8 @@ export const ProfileEdit = () => {
         profileData: profileData,
         setErrors: setErrors,
         isPasswordChange: false,
+        setIsLoading: setIsLoading,
+        setUploadProfileProgress: setUploadProfileProgress,
       });
     }
   };
@@ -134,6 +139,14 @@ export const ProfileEdit = () => {
                 <input type="file" hidden onChange={handleImageChange} />
               </Button>
             </Box>
+            {uploadProfileProgress > 0 && (
+              <Box sx={{ width: "100%", my: 2 }}>
+                <LinearProgress
+                  variant="determinate"
+                  value={uploadProfileProgress}
+                />
+              </Box>
+            )}
             {errors &&
               errors.map((error, index) => (
                 <Typography
@@ -159,7 +172,13 @@ export const ProfileEdit = () => {
               onChange={handleInputChange}
               fullWidth
             />
-            <Button variant="contained" type="submit" color="primary" fullWidth>
+            <Button
+              variant="contained"
+              type="submit"
+              color="primary"
+              fullWidth
+              disabled={isLoading}
+            >
               更新する
             </Button>
           </Stack>

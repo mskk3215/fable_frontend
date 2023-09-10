@@ -21,7 +21,7 @@ import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import { ListItemAvatar, Typography } from "@mui/material";
+import { CircularProgress, ListItemAvatar, Typography } from "@mui/material";
 import { Anchor } from "../../types/map";
 import { Park } from "../../types/parks";
 
@@ -33,7 +33,7 @@ type Props = {
 
 export const MapDrawer = memo((props: Props) => {
   const { anchor, drawerWidth, drawerHeight } = props;
-  const { searchResults } = useParks();
+  const { searchResults, isParksLoading } = useParks();
   const setSelectedCenter = useSetRecoilState(selectedCenterState);
   const [destinationLocation, setDestinationLocation] = useRecoilState(
     destinationLocationState
@@ -92,7 +92,18 @@ export const MapDrawer = memo((props: Props) => {
         {anchor === "left" ? <Toolbar style={{ height: "110px" }} /> : <></>}
         <Box sx={{ overflow: "auto", height: drawerHeight }}>
           <List>
-            {searchResults.length === 0 ? (
+            {isParksLoading ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  width: "100%",
+                  mt: 2,
+                }}
+              >
+                <CircularProgress />
+              </Box>
+            ) : searchResults.length === 0 ? (
               <ListItem>
                 <SListItemText primary="検索した昆虫は見つかりません。" />
               </ListItem>

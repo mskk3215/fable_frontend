@@ -52,4 +52,6 @@ export type userProfile = {
   profileData: FormData;
   setErrors: (errors: string[]) => void;
   isPasswordChange: boolean;
+  setIsLoading: (isLoading: boolean) => void;
+  setUploadProfileProgress: (progress: number) => void;
 };

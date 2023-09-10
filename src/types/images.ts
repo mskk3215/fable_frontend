@@ -21,6 +21,7 @@ export type UseImages = {
   updateLikedImage: (allImageData: Image[] | undefined) => void;
   updatedLikedCount: (allImageData: Image[] | undefined) => void;
   createdTime: (image: Image) => string | null;
+  isImagesLoading: boolean;
 };
 
 export type ImageSortOption = "likes" | "posted" | "taken";
