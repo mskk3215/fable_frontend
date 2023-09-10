@@ -15,8 +15,15 @@ export const useProfileChangeAction = () => {
     profileData,
     setErrors,
     isPasswordChange,
+    setIsLoading,
+    setUploadProfileProgress,
   }: userProfile) => {
-    updateUser(loginUser.id, profileData)
+    updateUser(loginUser.id, profileData, (progressEvent) => {
+      const { loaded, total } = progressEvent;
+      if (total === undefined) return;
+      const percentage = Math.floor((loaded * 100) / total);
+      setUploadProfileProgress(percentage);
+    })
       .then((response) => {
         if (response.data.updated) {
           setLoginUser(response.data.user);
@@ -33,7 +40,11 @@ export const useProfileChangeAction = () => {
             });
         }
       })
-      .catch((error: ApiError) => handleAuthErrorAction(error, setErrors));
+      .catch((error: ApiError) => handleAuthErrorAction(error, setErrors))
+      .finally(() => {
+        setIsLoading(false);
+        setUploadProfileProgress(0);
+      });
   };
   return { handleProfileChangeAction };
 };
