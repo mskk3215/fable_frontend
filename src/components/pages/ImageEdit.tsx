@@ -8,11 +8,12 @@ import { useParks } from "../../hooks/useParks";
 import { useAllInsects } from "../../hooks/useAllInsects";
 import { useAllPrefectures } from "../../hooks/useAllPrefectures";
 import { PageNavigator } from "../organisms/PageNavigator";
-import { Box, Divider, Grid } from "@mui/material";
+import { Box, Divider, Grid, Skeleton } from "@mui/material";
+import styled from "styled-components";
 import { Image } from "../../types/images";
 
 export const ImageEdit = () => {
-  const { images, handleGetImages } = useImages();
+  const { images, handleGetImages, isImagesLoading } = useImages();
   const { parks, parkOptions, handleGetParks } = useParks();
   const { insects, insectOptions } = useAllInsects();
   const { prefectures, prefectureOptions } = useAllPrefectures();
@@ -123,28 +124,34 @@ export const ImageEdit = () => {
       <Box display="flex" flexWrap="wrap">
         <Box sx={{ width: { xs: "100%", md: "80%" } }}>
           <Grid container spacing={0.5}>
-            {paginatedImages?.map((image) => (
-              <Grid item xs={6} sm={4} md={2.4} key={image.id}>
-                <ImageItem
-                  image={image}
-                  handleSelect={() => {
-                    handleSelect(image);
-                  }}
-                  handleRemove={() => {
-                    handleRemove(image);
-                  }}
-                  checked={
-                    selectedIndexes.includes(idToIndex(image.id)) &&
-                    idToIndex(image.id) !== -1
-                  }
-                  isCheckboxVisible={true}
-                  isDialogVisible={false}
-                  setCurrentImageIndex={() => {}}
-                  handlePrevImageClick={() => {}}
-                  handleNextImageClick={() => {}}
-                />
-              </Grid>
-            ))}
+            {isImagesLoading
+              ? Array.from({ length: 10 }).map((_, index) => (
+                  <Grid item xs={6} sm={4} md={2.4} key={index}>
+                    <SquareSkeleton variant="rectangular" />
+                  </Grid>
+                ))
+              : paginatedImages?.map((image) => (
+                  <Grid item xs={6} sm={4} md={2.4} key={image.id}>
+                    <ImageItem
+                      image={image}
+                      handleSelect={() => {
+                        handleSelect(image);
+                      }}
+                      handleRemove={() => {
+                        handleRemove(image);
+                      }}
+                      checked={
+                        selectedIndexes.includes(idToIndex(image.id)) &&
+                        idToIndex(image.id) !== -1
+                      }
+                      isCheckboxVisible={true}
+                      isDialogVisible={false}
+                      setCurrentImageIndex={() => {}}
+                      handlePrevImageClick={() => {}}
+                      handleNextImageClick={() => {}}
+                    />
+                  </Grid>
+                ))}
           </Grid>
           <PageNavigator images={images} />
         </Box>
@@ -173,3 +180,11 @@ export const ImageEdit = () => {
     </div>
   );
 };
+
+const SquareSkeleton = styled(Skeleton)(() => ({
+  backgroundColor: "#eee",
+  borderRadius: "4px",
+  paddingTop: "100%",
+  position: "relative" as "relative",
+  width: "100%",
+}));
