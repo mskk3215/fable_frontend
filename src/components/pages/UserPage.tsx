@@ -9,8 +9,9 @@ import { useUsers } from "../../hooks/user/useUsers";
 import { useImages } from "../../hooks/useImages";
 import Box from "@mui/system/Box";
 import Grid from "@mui/material/Grid";
-import { Avatar, Button, Typography } from "@mui/material";
+import { Avatar, Button, Skeleton, Typography } from "@mui/material";
 import { ImageSortSelector } from "../atoms/selector/ImageSortSelector";
+import styled from "styled-components";
 
 export const UserPage = () => {
   const loginUser = useRecoilValue(loginUserState);
@@ -19,7 +20,8 @@ export const UserPage = () => {
 
   const { userId } = useParams();
   const numUserId = userId ? parseInt(userId, 10) : undefined;
-  const { images, setImages, handleGetImages } = useImages(numUserId);
+  const { images, setImages, handleGetImages, isImagesLoading } =
+    useImages(numUserId);
 
   // urlが変更されたらページに表示するユーザー、ログインユーザー情報を取得する
   useEffect(() => {
@@ -161,28 +163,42 @@ export const UserPage = () => {
         )}
       </Box>
       <Grid container spacing={0.5}>
-        {images.map((image, index) => (
-          <Grid item xs={6} sm={4} md={2} key={image.id}>
-            <ImageItem
-              image={image}
-              index={index}
-              currentImageIndex={currentImageIndex}
-              maxIndex={images.length - 1}
-              isCheckboxVisible={false}
-              isDialogVisible={true}
-              numUserId={numUserId}
-              setCurrentImageIndex={setCurrentImageIndex}
-              handlePrevImageClick={handlePrevImageClick}
-              handleNextImageClick={handleNextImageClick}
-              currentImage={
-                currentImageIndex !== undefined
-                  ? images[currentImageIndex]
-                  : undefined
-              }
-            />
-          </Grid>
-        ))}
+        {isImagesLoading
+          ? Array.from({ length: 10 }).map((_, index) => (
+              <Grid item xs={6} sm={4} md={2} key={index}>
+                <SquareSkeleton variant="rectangular" />
+              </Grid>
+            ))
+          : images.map((image, index) => (
+              <Grid item xs={6} sm={4} md={2} key={image.id}>
+                <ImageItem
+                  image={image}
+                  index={index}
+                  currentImageIndex={currentImageIndex}
+                  maxIndex={images.length - 1}
+                  isCheckboxVisible={false}
+                  isDialogVisible={true}
+                  numUserId={numUserId}
+                  setCurrentImageIndex={setCurrentImageIndex}
+                  handlePrevImageClick={handlePrevImageClick}
+                  handleNextImageClick={handleNextImageClick}
+                  currentImage={
+                    currentImageIndex !== undefined
+                      ? images[currentImageIndex]
+                      : undefined
+                  }
+                />
+              </Grid>
+            ))}
       </Grid>
     </Box>
   );
 };
+
+const SquareSkeleton = styled(Skeleton)(() => ({
+  backgroundColor: "#eee",
+  borderRadius: "4px",
+  paddingTop: "100%",
+  position: "relative" as "relative",
+  width: "100%",
+}));

@@ -11,6 +11,7 @@ import { User } from "../types/user";
 import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
 
 export const useImages = (userId?: number): UseImages => {
+  const [isImagesLoading, setIsImagesLoading] = useState<boolean>(false);
   const loginUser = useRecoilValue<User | null>(loginUserState);
 
   // エラーハンドリング呼び出し
@@ -24,8 +25,10 @@ export const useImages = (userId?: number): UseImages => {
 
   // ユーザーの全画像を取得する
   const handleGetImages = async (userId?: number) => {
+    setIsImagesLoading(true);
     const { data } = userId ? await getUserImages(userId) : await getImages();
     setImages(data);
+    setIsImagesLoading(false);
     // いいね情報を取得する
     updateLikedImage(data);
     updatedLikedCount(data);
@@ -74,5 +77,6 @@ export const useImages = (userId?: number): UseImages => {
     updateLikedImage,
     updatedLikedCount,
     createdTime,
+    isImagesLoading,
   };
 };
