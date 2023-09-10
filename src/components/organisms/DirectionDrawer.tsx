@@ -8,6 +8,7 @@ import {
   AppBar,
   Box,
   Button,
+  CircularProgress,
   CssBaseline,
   Drawer,
   IconButton,
@@ -33,6 +34,7 @@ type Props = {
   anchor: Anchor;
   drawerWidth: string | number;
   drawerHeight: string | number;
+  isDirectionsLoading: boolean;
 };
 
 export const DirectionDrawer = memo((props: Props) => {
@@ -48,6 +50,7 @@ export const DirectionDrawer = memo((props: Props) => {
     anchor,
     drawerWidth,
     drawerHeight,
+    isDirectionsLoading,
   } = props;
 
   const navigate = useNavigate();
@@ -119,8 +122,14 @@ export const DirectionDrawer = memo((props: Props) => {
             justifyContent: "space-between",
           }}
         >
-          <span>時間：{duration}</span>
-          <span>距離：{distance}</span>
+          <span>
+            時間：
+            {isDirectionsLoading ? <CircularProgress size={20} /> : duration}
+          </span>
+          <span>
+            距離：
+            {isDirectionsLoading ? <CircularProgress size={20} /> : distance}
+          </span>
         </Typography>
       </DirectionBoxStyled>
       <Drawer
