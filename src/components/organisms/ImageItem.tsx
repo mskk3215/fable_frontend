@@ -31,6 +31,7 @@ type Props = {
   currentImage?: Image | undefined;
   parks: Park[];
   createdTime: (image: Image) => string | null;
+  isFollowed: (followedUserId: number) => boolean;
 };
 
 export const ImageItem = memo((props: Props) => {
@@ -51,6 +52,7 @@ export const ImageItem = memo((props: Props) => {
     currentImage,
     parks,
     createdTime,
+    isFollowed,
   } = props;
   // checkboxの切り替え
   const handleCheckBoxChange = useCallback(
@@ -159,6 +161,7 @@ export const ImageItem = memo((props: Props) => {
                 handlePrevImageClick={handlePrevImageClick}
                 handleNextImageClick={handleNextImageClick}
                 parks={parks}
+                isFollowed={isFollowed}
               />
             </>
           )}

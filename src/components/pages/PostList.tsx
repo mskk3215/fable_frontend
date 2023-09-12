@@ -4,6 +4,7 @@ import { useRecoilValue } from "recoil";
 import { loginUserState } from "../../store/atoms/userAtom";
 import { useImages } from "../../hooks/useImages";
 import { usePosts } from "../../hooks/usePosts";
+import { useUsers } from "../../hooks/user/useUsers";
 import { LikeButton } from "../atoms/button/LikeButton";
 import { FollowButton } from "../atoms/button/FollowButton";
 import { DeletePostButton } from "../atoms/button/DeletePostButton";
@@ -24,6 +25,7 @@ export const PostList = () => {
   const loginUser = useRecoilValue(loginUserState);
   const { isPostsLoading, handleGetPosts, posts } = usePosts();
   const { createdTime } = useImages();
+  const { isFollowed } = useUsers();
   const [displayedImages, setDisplayedImages] = useState<{
     [key: string]: number;
   }>({});
@@ -133,7 +135,10 @@ export const PostList = () => {
                     </Box>
                     {/* フォローボタン */}
                     {loginUser?.id !== post.user_id && (
-                      <FollowButton followedUserId={post.user_id} />
+                      <FollowButton
+                        followedUserId={post.user_id}
+                        isFollowed={isFollowed}
+                      />
                     )}
                     {/* 削除ボタン */}
                     {loginUser?.id === post.user_id && (

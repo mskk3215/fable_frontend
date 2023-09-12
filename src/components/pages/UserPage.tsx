@@ -17,7 +17,7 @@ import styled from "styled-components";
 export const UserPage = () => {
   const loginUser = useRecoilValue(loginUserState);
   const viewedUser = useRecoilValue(viewedUserState);
-  const { handleGetUser } = useUsers();
+  const { handleGetUser, isFollowed } = useUsers();
   const { parks } = useParks();
 
   const { userId } = useParams();
@@ -123,7 +123,10 @@ export const UserPage = () => {
                 top: 0,
               }}
             >
-              <FollowButton followedUserId={numUserId} />
+              <FollowButton
+                followedUserId={numUserId}
+                isFollowed={isFollowed}
+              />
             </Box>
           )}
         </Box>
@@ -135,6 +138,7 @@ export const UserPage = () => {
             followOpen={followOpen}
             handleFollowModalOpen={handleFollowModalOpen}
             handleFollowModalClose={handleFollowModalClose}
+            isFollowed={isFollowed}
           />
         ) : (
           <Box mt={3} />
@@ -192,6 +196,7 @@ export const UserPage = () => {
                   }
                   parks={parks}
                   createdTime={createdTime}
+                  isFollowed={isFollowed}
                 />
               </Grid>
             ))}

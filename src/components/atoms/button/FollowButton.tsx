@@ -1,19 +1,18 @@
 import React, { memo } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { followUserState, loginUserState } from "../../../store/atoms/userAtom";
-import { useUsers } from "../../../hooks/user/useUsers";
 import { createUserRelationship, deleteUserRelationship } from "../../../urls";
 import { Button } from "@mui/material";
 
 type Props = {
   followedUserId: number;
+  isFollowed: (followedUserId: number) => boolean;
 };
 
 export const FollowButton = memo((props: Props) => {
-  const { followedUserId } = props;
+  const { followedUserId, isFollowed } = props;
   const loginUser = useRecoilValue(loginUserState);
   const setFollowUser = useSetRecoilState(followUserState);
-  const { isFollowed } = useUsers();
 
   // フォロー状態変更時の処理
   const handleFollowButtonClick = (followedUserId?: number) => {
