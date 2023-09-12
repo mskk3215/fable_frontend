@@ -5,7 +5,6 @@ import {
   saveSearchWord,
   searchWordState,
 } from "../../store/atoms/searchWordState";
-import { useAllInsects } from "../../hooks/useAllInsects";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
@@ -23,6 +22,7 @@ type Props = {
   selectedItemId: number | null;
   setSelectedItemId: (id: number | null) => void;
   handleGetParkSearchResults: (searchWord: string) => void;
+  insectOptions: { value: number; label: string }[];
 };
 
 export const InsectSearchBox = memo((props: Props) => {
@@ -31,10 +31,10 @@ export const InsectSearchBox = memo((props: Props) => {
     selectedItemId,
     setSelectedItemId,
     handleGetParkSearchResults,
+    insectOptions,
   } = props;
 
   const [searchWord, setSearchWord] = useRecoilState(searchWordState);
-  const { insectOptions } = useAllInsects();
 
   const handleSearch = () => {
     handleGetParkSearchResults(searchWord);

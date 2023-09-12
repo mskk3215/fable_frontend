@@ -3,10 +3,12 @@ import { MapDrawer } from "../organisms/MapDrawer";
 import { MapView } from "../organisms/MapView";
 import { Anchor } from "../../types/map";
 import { useParks } from "../../hooks/useParks";
+import { useAllInsects } from "../../hooks/useAllInsects";
 
 export const Map = () => {
   const { searchResults, isParksLoading, handleGetParkSearchResults } =
     useParks();
+  const { insectOptions } = useAllInsects;
   const [anchor, setAnchor] = useState<Anchor>("left");
 
   const drawerWidth = anchor === "bottom" ? "100%" : 400;
@@ -32,6 +34,7 @@ export const Map = () => {
         searchResults={searchResults}
         isParksLoading={isParksLoading}
         handleGetParkSearchResults={handleGetParkSearchResults}
+        insectOptions={insectOptions}
       />
       <MapView searchResults={searchResults} />
     </>
