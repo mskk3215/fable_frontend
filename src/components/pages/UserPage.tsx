@@ -7,6 +7,7 @@ import { FollowModal } from "../molecules/FollowModal";
 import { FollowButton } from "../atoms/button/FollowButton";
 import { useUsers } from "../../hooks/user/useUsers";
 import { useImages } from "../../hooks/useImages";
+import { useParks } from "../../hooks/useParks";
 import Box from "@mui/system/Box";
 import Grid from "@mui/material/Grid";
 import { Avatar, Button, Skeleton, Typography } from "@mui/material";
@@ -17,6 +18,7 @@ export const UserPage = () => {
   const loginUser = useRecoilValue(loginUserState);
   const viewedUser = useRecoilValue(viewedUserState);
   const { handleGetUser } = useUsers();
+  const { parks } = useParks();
 
   const { userId } = useParams();
   const numUserId = userId ? parseInt(userId, 10) : undefined;
@@ -187,6 +189,7 @@ export const UserPage = () => {
                       ? images[currentImageIndex]
                       : undefined
                   }
+                  parks={parks}
                 />
               </Grid>
             ))}

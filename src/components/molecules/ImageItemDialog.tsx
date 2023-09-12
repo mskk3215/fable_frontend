@@ -1,7 +1,6 @@
 import React, { memo } from "react";
 import { useRecoilValue } from "recoil";
 import { loginUserState, viewedUserState } from "../../store/atoms/userAtom";
-import { useParks } from "../../hooks/useParks";
 import { useUsers } from "../../hooks/user/useUsers";
 import { FollowButton } from "../atoms/button/FollowButton";
 import { LikeButton } from "../atoms/button/LikeButton";
@@ -15,6 +14,7 @@ import {
 } from "@mui/material";
 import { ArrowBackIos, ArrowForwardIos, Cancel } from "@mui/icons-material";
 import { Image } from "../../types/images";
+import { Park } from "../../types/parks";
 
 type Props = {
   numUserId?: number | undefined;
@@ -28,6 +28,7 @@ type Props = {
   handleClickImageClose: (e: React.MouseEvent) => void;
   handlePrevImageClick: () => void;
   handleNextImageClick: () => void;
+  parks: Park[];
 };
 
 export const ImageItemDialog = memo((props: Props) => {
@@ -43,9 +44,9 @@ export const ImageItemDialog = memo((props: Props) => {
     handleClickImageClose,
     handlePrevImageClick,
     handleNextImageClick,
+    parks,
   } = props;
 
-  const { parks } = useParks();
   const { isFollowed } = useUsers();
   const loginUser = useRecoilValue(loginUserState);
   const viewedUser = useRecoilValue(viewedUserState);

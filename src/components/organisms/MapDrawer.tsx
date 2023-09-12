@@ -10,7 +10,6 @@ import {
   saveDestinationLocation,
 } from "../../store/atoms/searchWordState";
 import { InsectSearchBox } from "../molecules/InsectSearchBox";
-import { useParks } from "../../hooks/useParks";
 import styled from "styled-components";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -29,11 +28,20 @@ type Props = {
   anchor: Anchor;
   drawerWidth: string | number;
   drawerHeight: string | number;
+  searchResults: Park[];
+  isParksLoading: boolean;
+  handleGetParkSearchResults: (searchWord: string) => void;
 };
 
 export const MapDrawer = memo((props: Props) => {
-  const { anchor, drawerWidth, drawerHeight } = props;
-  const { searchResults, isParksLoading } = useParks();
+  const {
+    anchor,
+    drawerWidth,
+    drawerHeight,
+    searchResults,
+    isParksLoading,
+    handleGetParkSearchResults,
+  } = props;
   const setSelectedCenter = useSetRecoilState(selectedCenterState);
   const [destinationLocation, setDestinationLocation] = useRecoilState(
     destinationLocationState
@@ -73,6 +81,7 @@ export const MapDrawer = memo((props: Props) => {
           setOpen={setOpen}
           selectedItemId={selectedItemId}
           setSelectedItemId={setSelectedItemId}
+          handleGetParkSearchResults={handleGetParkSearchResults}
         />
       </SearchBoxStyled>
       <Drawer

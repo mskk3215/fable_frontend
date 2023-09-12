@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import { MapDrawer } from "../organisms/MapDrawer";
 import { MapView } from "../organisms/MapView";
 import { Anchor } from "../../types/map";
+import { useParks } from "../../hooks/useParks";
 
 export const Map = () => {
+  const { searchResults, isParksLoading, handleGetParkSearchResults } =
+    useParks();
   const [anchor, setAnchor] = useState<Anchor>("left");
 
   const drawerWidth = anchor === "bottom" ? "100%" : 400;
@@ -26,8 +29,11 @@ export const Map = () => {
         anchor={anchor}
         drawerWidth={drawerWidth}
         drawerHeight={drawerHeight}
+        searchResults={searchResults}
+        isParksLoading={isParksLoading}
+        handleGetParkSearchResults={handleGetParkSearchResults}
       />
-      <MapView />
+      <MapView searchResults={searchResults} />
     </>
   );
 };

@@ -6,23 +6,23 @@ import {
   MarkerF,
   useLoadScript,
 } from "@react-google-maps/api";
-import { useParks } from "../../hooks/useParks";
 import {
   mapApiLoadState,
   selectedCenterState,
   selectedItemState,
 } from "../../store/atoms/MapDirectionState";
 import { Location } from "../../types/map";
+import { Park } from "../../types/parks";
 
 type Props = {
   directions?: google.maps.DirectionsResult | null;
   handleMapClick?: (e: google.maps.MapMouseEvent) => void;
   onLoadHook?: (line: google.maps.DirectionsRenderer) => void;
+  searchResults?: Park[];
 };
 
 export const MapView = memo((props: Props) => {
-  const { directions, handleMapClick, onLoadHook } = props;
-  const { searchResults } = useParks();
+  const { directions, handleMapClick, onLoadHook, searchResults } = props;
   const [selectedCenter, setSelectedCenter] =
     useRecoilState(selectedCenterState);
   const [selectedItemId, setSelectedItemId] = useRecoilState(selectedItemState);
@@ -33,7 +33,7 @@ export const MapView = memo((props: Props) => {
     mapTypeControl: false,
   };
 
-  const locations = searchResults.map((result) => {
+  const locations = searchResults?.map((result) => {
     const id = result.id;
     const title = result.name;
     const latLng = { lat: result.latitude, lng: result.longitude };

@@ -1,5 +1,4 @@
 import React, { useCallback, memo, ChangeEvent, useState } from "react";
-import { useParks } from "../../hooks/useParks";
 import { useImages } from "../../hooks/useImages";
 import { ImageItemDialog } from "../molecules/ImageItemDialog";
 import {
@@ -12,6 +11,7 @@ import {
   styled,
 } from "@mui/material";
 import { Image } from "../../types/images";
+import { Park } from "../../types/parks";
 
 type Props = {
   image: Image;
@@ -30,6 +30,7 @@ type Props = {
   handlePrevImageClick: () => void;
   handleNextImageClick: () => void;
   currentImage?: Image | undefined;
+  parks: Park[];
 };
 
 export const ImageItem = memo((props: Props) => {
@@ -48,8 +49,8 @@ export const ImageItem = memo((props: Props) => {
     handlePrevImageClick,
     handleNextImageClick,
     currentImage,
+    parks,
   } = props;
-  const { parks } = useParks();
   const { createdTime } = useImages();
   // checkboxの切り替え
   const handleCheckBoxChange = useCallback(
@@ -157,6 +158,7 @@ export const ImageItem = memo((props: Props) => {
                 handleClickImageClose={handleClickImageClose}
                 handlePrevImageClick={handlePrevImageClick}
                 handleNextImageClick={handleNextImageClick}
+                parks={parks}
               />
             </>
           )}

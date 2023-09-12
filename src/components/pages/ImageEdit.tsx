@@ -149,6 +149,7 @@ export const ImageEdit = () => {
                       setCurrentImageIndex={() => {}}
                       handlePrevImageClick={() => {}}
                       handleNextImageClick={() => {}}
+                      parks={parks}
                     />
                   </Grid>
                 ))}
