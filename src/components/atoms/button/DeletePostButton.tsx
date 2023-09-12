@@ -9,10 +9,11 @@ import { ApiError } from "../../../types/api";
 
 type Props = {
   postId: number;
+  handleGetPosts: () => void;
 };
 
 export const DeletePostButton = memo((props: Props) => {
-  const { postId } = props;
+  const { postId, handleGetPosts } = props;
 
   const setMessage = useSetRecoilState(messageState);
   const { handleGeneralErrorAction } = useErrorAction();
@@ -26,6 +27,7 @@ export const DeletePostButton = memo((props: Props) => {
       .then((response) => {
         if (response.data.status === "deleted") {
           setMessage({ message: "削除しました", type: "success" });
+          handleGetPosts();
         }
       })
       .catch((error: ApiError) => {

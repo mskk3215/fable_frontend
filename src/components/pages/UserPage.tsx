@@ -7,6 +7,7 @@ import { FollowModal } from "../molecules/FollowModal";
 import { FollowButton } from "../atoms/button/FollowButton";
 import { useUsers } from "../../hooks/user/useUsers";
 import { useImages } from "../../hooks/useImages";
+import { useParks } from "../../hooks/useParks";
 import Box from "@mui/system/Box";
 import Grid from "@mui/material/Grid";
 import { Avatar, Button, Skeleton, Typography } from "@mui/material";
@@ -16,11 +17,12 @@ import styled from "styled-components";
 export const UserPage = () => {
   const loginUser = useRecoilValue(loginUserState);
   const viewedUser = useRecoilValue(viewedUserState);
-  const { handleGetUser } = useUsers();
+  const { handleGetUser, isFollowed } = useUsers();
+  const { parks } = useParks();
 
   const { userId } = useParams();
   const numUserId = userId ? parseInt(userId, 10) : undefined;
-  const { images, setImages, handleGetImages, isImagesLoading } =
+  const { images, setImages, handleGetImages, isImagesLoading, createdTime } =
     useImages(numUserId);
 
   // urlが変更されたらページに表示するユーザー、ログインユーザー情報を取得する
@@ -121,7 +123,10 @@ export const UserPage = () => {
                 top: 0,
               }}
             >
-              <FollowButton followedUserId={numUserId} />
+              <FollowButton
+                followedUserId={numUserId}
+                isFollowed={isFollowed}
+              />
             </Box>
           )}
         </Box>
@@ -133,6 +138,7 @@ export const UserPage = () => {
             followOpen={followOpen}
             handleFollowModalOpen={handleFollowModalOpen}
             handleFollowModalClose={handleFollowModalClose}
+            isFollowed={isFollowed}
           />
         ) : (
           <Box mt={3} />
@@ -150,6 +156,7 @@ export const UserPage = () => {
           images={images}
           setImages={setImages}
           numUserId={numUserId}
+          handleGetImages={handleGetImages}
         />
         {loginUser?.id === viewedUser?.id && (
           <Button
@@ -187,6 +194,9 @@ export const UserPage = () => {
                       ? images[currentImageIndex]
                       : undefined
                   }
+                  parks={parks}
+                  createdTime={createdTime}
+                  isFollowed={isFollowed}
                 />
               </Grid>
             ))}

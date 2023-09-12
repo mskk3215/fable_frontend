@@ -1,8 +1,6 @@
 import React, { memo } from "react";
 import { useRecoilValue } from "recoil";
 import { loginUserState, viewedUserState } from "../../store/atoms/userAtom";
-import { useParks } from "../../hooks/useParks";
-import { useUsers } from "../../hooks/user/useUsers";
 import { FollowButton } from "../atoms/button/FollowButton";
 import { LikeButton } from "../atoms/button/LikeButton";
 import {
@@ -15,6 +13,7 @@ import {
 } from "@mui/material";
 import { ArrowBackIos, ArrowForwardIos, Cancel } from "@mui/icons-material";
 import { Image } from "../../types/images";
+import { Park } from "../../types/parks";
 
 type Props = {
   numUserId?: number | undefined;
@@ -28,6 +27,8 @@ type Props = {
   handleClickImageClose: (e: React.MouseEvent) => void;
   handlePrevImageClick: () => void;
   handleNextImageClick: () => void;
+  parks: Park[];
+  isFollowed: (followedUserId: number) => boolean;
 };
 
 export const ImageItemDialog = memo((props: Props) => {
@@ -43,10 +44,10 @@ export const ImageItemDialog = memo((props: Props) => {
     handleClickImageClose,
     handlePrevImageClick,
     handleNextImageClick,
+    parks,
+    isFollowed,
   } = props;
 
-  const { parks } = useParks();
-  const { isFollowed } = useUsers();
   const loginUser = useRecoilValue(loginUserState);
   const viewedUser = useRecoilValue(viewedUserState);
   return (
@@ -132,7 +133,12 @@ export const ImageItemDialog = memo((props: Props) => {
               </Typography>
               {loginUser?.id !== viewedUser?.id &&
                 isFollowed(viewedUser?.id ?? 0) === false &&
-                numUserId && <FollowButton followedUserId={numUserId} />}
+                numUserId && (
+                  <FollowButton
+                    followedUserId={numUserId}
+                    isFollowed={isFollowed}
+                  />
+                )}
             </Box>
             <Typography
               variant="body1"

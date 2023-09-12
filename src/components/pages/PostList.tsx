@@ -4,6 +4,7 @@ import { useRecoilValue } from "recoil";
 import { loginUserState } from "../../store/atoms/userAtom";
 import { useImages } from "../../hooks/useImages";
 import { usePosts } from "../../hooks/usePosts";
+import { useUsers } from "../../hooks/user/useUsers";
 import { LikeButton } from "../atoms/button/LikeButton";
 import { FollowButton } from "../atoms/button/FollowButton";
 import { DeletePostButton } from "../atoms/button/DeletePostButton";
@@ -22,8 +23,9 @@ import { Post } from "../../types/posts";
 
 export const PostList = () => {
   const loginUser = useRecoilValue(loginUserState);
-  const { isPostsLoading } = usePosts();
+  const { isPostsLoading, handleGetPosts, posts } = usePosts();
   const { createdTime } = useImages();
+  const { isFollowed } = useUsers();
   const [displayedImages, setDisplayedImages] = useState<{
     [key: string]: number;
   }>({});
@@ -46,7 +48,7 @@ export const PostList = () => {
   return (
     <>
       {/* タブで表示切り替え */}
-      <PostTab setFilteredPosts={setFilteredPosts} />
+      <PostTab posts={posts} setFilteredPosts={setFilteredPosts} />
       {isPostsLoading
         ? Array.from({ length: 3 }).map((_, index) => (
             <Box
@@ -133,11 +135,17 @@ export const PostList = () => {
                     </Box>
                     {/* フォローボタン */}
                     {loginUser?.id !== post.user_id && (
-                      <FollowButton followedUserId={post.user_id} />
+                      <FollowButton
+                        followedUserId={post.user_id}
+                        isFollowed={isFollowed}
+                      />
                     )}
                     {/* 削除ボタン */}
                     {loginUser?.id === post.user_id && (
-                      <DeletePostButton postId={post.id} />
+                      <DeletePostButton
+                        postId={post.id}
+                        handleGetPosts={handleGetPosts}
+                      />
                     )}
                   </Box>
                   <Box

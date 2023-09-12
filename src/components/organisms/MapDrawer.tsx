@@ -10,7 +10,6 @@ import {
   saveDestinationLocation,
 } from "../../store/atoms/searchWordState";
 import { InsectSearchBox } from "../molecules/InsectSearchBox";
-import { useParks } from "../../hooks/useParks";
 import styled from "styled-components";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -24,16 +23,28 @@ import ListItemText from "@mui/material/ListItemText";
 import { CircularProgress, ListItemAvatar, Typography } from "@mui/material";
 import { Anchor } from "../../types/map";
 import { Park } from "../../types/parks";
+import { InsectOption } from "../../types/insects";
 
 type Props = {
   anchor: Anchor;
   drawerWidth: string | number;
   drawerHeight: string | number;
+  searchResults: Park[];
+  isParksLoading: boolean;
+  handleGetParkSearchResults: (searchWord: string) => void;
+  insectOptions: InsectOption[];
 };
 
 export const MapDrawer = memo((props: Props) => {
-  const { anchor, drawerWidth, drawerHeight } = props;
-  const { searchResults, isParksLoading } = useParks();
+  const {
+    anchor,
+    drawerWidth,
+    drawerHeight,
+    searchResults,
+    isParksLoading,
+    handleGetParkSearchResults,
+    insectOptions,
+  } = props;
   const setSelectedCenter = useSetRecoilState(selectedCenterState);
   const [destinationLocation, setDestinationLocation] = useRecoilState(
     destinationLocationState
@@ -73,6 +84,8 @@ export const MapDrawer = memo((props: Props) => {
           setOpen={setOpen}
           selectedItemId={selectedItemId}
           setSelectedItemId={setSelectedItemId}
+          handleGetParkSearchResults={handleGetParkSearchResults}
+          insectOptions={insectOptions}
         />
       </SearchBoxStyled>
       <Drawer

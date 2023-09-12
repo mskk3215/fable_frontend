@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { getPosts } from "../urls";
 import { useImages } from "./useImages";
 import { Post } from "../types/posts";
@@ -7,7 +7,6 @@ import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
 export const usePosts = () => {
   const { updateLikedImage, updatedLikedCount } = useImages();
   const [posts, setPosts] = useState<Post[]>([]);
-  const prevPostsRef = useRef<Post[]>([]);
   const [isPostsLoading, setIsPostsLoading] = useState<boolean>(false);
 
   // エラーハンドリング呼び出し
@@ -28,18 +27,9 @@ export const usePosts = () => {
     updatedLikedCount(allImages);
   };
 
-  // マウント時の投稿情報を保持する
   useEffect(() => {
-    prevPostsRef.current = posts;
     handleGetPosts();
   }, []);
-
-  // 前回の投稿情報と現在の投稿情報が異なる場合は投稿情報を取得する
-  useEffect(() => {
-    if (JSON.stringify(prevPostsRef.current) !== JSON.stringify(posts)) {
-      handleGetPosts();
-    }
-  }, [posts]);
 
   return { posts, handleGetPosts, isPostsLoading };
 };

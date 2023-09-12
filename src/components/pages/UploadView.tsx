@@ -1,8 +1,11 @@
 import React from "react";
 import { PostForm } from "../organisms/PostForm";
+import { useImages } from "../../hooks/useImages";
 import { Grid } from "@mui/material";
 
 export const UploadView = () => {
+  const { handleGetImages } = useImages();
+
   return (
     <>
       <Grid
@@ -11,7 +14,7 @@ export const UploadView = () => {
         justifyContent={"center"}
         style={{ marginTop: "50px" }}
       >
-        <PostForm />
+        <PostForm handleGetImages={handleGetImages} />
       </Grid>
     </>
   );

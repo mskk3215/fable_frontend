@@ -18,6 +18,7 @@ type Props = {
   followOpen: boolean;
   handleFollowModalOpen: () => void;
   handleFollowModalClose: () => void;
+  isFollowed: (followedUserId: number) => boolean;
 };
 
 export const FollowModal = memo((props: Props) => {
@@ -26,6 +27,7 @@ export const FollowModal = memo((props: Props) => {
     followOpen,
     handleFollowModalOpen,
     handleFollowModalClose,
+    isFollowed,
   } = props;
 
   return (
@@ -114,7 +116,10 @@ export const FollowModal = memo((props: Props) => {
                         </Typography>
                       </ButtonBase>
                     </Box>
-                    <FollowButton followedUserId={user.id} />
+                    <FollowButton
+                      followedUserId={user.id}
+                      isFollowed={isFollowed}
+                    />
                   </Box>
                 </React.Fragment>
               ))}

@@ -5,8 +5,7 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
-import { Image, ImageSortOption } from "../../../types/images";
-import { useImages } from "../../../hooks/useImages";
+import { HandleGetImages, Image, ImageSortOption } from "../../../types/images";
 
 const Sort_Options: { value: ImageSortOption; label: string }[] = [
   { value: "likes", label: "いいね順" },
@@ -18,12 +17,12 @@ type Props = {
   images: Image[];
   setImages: React.Dispatch<React.SetStateAction<Image[]>>;
   numUserId: number | undefined;
+  handleGetImages: HandleGetImages;
 };
 
 // 画像のソートオプションを選択するセレクター
 export const ImageSortSelector = (props: Props) => {
-  const { images, setImages, numUserId } = props;
-  const { handleGetImages } = useImages();
+  const { images, setImages, numUserId, handleGetImages } = props;
 
   // ソートオプション
   const [sortOption, setSortOption] = useState<ImageSortOption>("posted");

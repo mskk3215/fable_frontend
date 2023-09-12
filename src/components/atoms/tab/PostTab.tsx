@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { followUserState } from "../../../store/atoms/userAtom";
-import { usePosts } from "../../../hooks/usePosts";
 import { Box, Tab, Tabs } from "@mui/material";
 import { Post } from "../../../types/posts";
 
 type Props = {
+  posts: Post[];
   setFilteredPosts: React.Dispatch<React.SetStateAction<Post[]>>;
 };
 
 export const PostTab = (props: Props) => {
-  const { setFilteredPosts } = props;
-  const { posts } = usePosts();
+  const { posts, setFilteredPosts } = props;
   const followUser = useRecoilValue(followUserState);
 
   const [value, setValue] = useState(0);
