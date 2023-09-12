@@ -22,7 +22,7 @@ import { Post } from "../../types/posts";
 
 export const PostList = () => {
   const loginUser = useRecoilValue(loginUserState);
-  const { isPostsLoading } = usePosts();
+  const { isPostsLoading, handleGetPosts, posts } = usePosts();
   const { createdTime } = useImages();
   const [displayedImages, setDisplayedImages] = useState<{
     [key: string]: number;
@@ -46,7 +46,7 @@ export const PostList = () => {
   return (
     <>
       {/* タブで表示切り替え */}
-      <PostTab setFilteredPosts={setFilteredPosts} />
+      <PostTab posts={posts} setFilteredPosts={setFilteredPosts} />
       {isPostsLoading
         ? Array.from({ length: 3 }).map((_, index) => (
             <Box
@@ -137,7 +137,10 @@ export const PostList = () => {
                     )}
                     {/* 削除ボタン */}
                     {loginUser?.id === post.user_id && (
-                      <DeletePostButton postId={post.id} />
+                      <DeletePostButton
+                        postId={post.id}
+                        handleGetPosts={handleGetPosts}
+                      />
                     )}
                   </Box>
                   <Box
