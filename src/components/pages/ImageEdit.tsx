@@ -13,7 +13,7 @@ import styled from "styled-components";
 import { Image } from "../../types/images";
 
 export const ImageEdit = () => {
-  const { images, handleGetImages, isImagesLoading } = useImages();
+  const { images, handleGetImages, isImagesLoading, createdTime } = useImages();
   const { parks, parkOptions, handleGetParks } = useParks();
   const { insects, insectOptions } = useAllInsects();
   const { prefectures, prefectureOptions } = useAllPrefectures();
@@ -150,6 +150,7 @@ export const ImageEdit = () => {
                       handlePrevImageClick={() => {}}
                       handleNextImageClick={() => {}}
                       parks={parks}
+                      createdTime={createdTime}
                     />
                   </Grid>
                 ))}

@@ -4,7 +4,6 @@ import { useSetRecoilState } from "recoil";
 import { messageState } from "../../store/atoms/errorAtom";
 import { LinearProgressBarWithLabel } from "../atoms/bar/LinearProgressBarWithLabel";
 import { createPosts } from "../../urls";
-import { useImages } from "../../hooks/useImages";
 import { useErrorAction } from "../../hooks/error/useErrorAction";
 import { Cancel, FileUpload } from "@mui/icons-material";
 import {
@@ -18,9 +17,14 @@ import {
   Typography,
 } from "@mui/material";
 import { ApiError } from "../../types/api";
+import { HandleGetImages } from "../../types/images";
 
-export const PostForm = memo(() => {
-  const { handleGetImages } = useImages();
+type Props = {
+  handleGetImages: HandleGetImages;
+};
+
+export const PostForm = memo((props: Props) => {
+  const { handleGetImages } = props;
   const { handleGeneralErrorAction } = useErrorAction();
   const [images, setImages] = useState<File[]>([]);
   const [uploadError, setUploadError] = useState<string | null>(null);

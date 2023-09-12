@@ -1,5 +1,4 @@
 import React, { useCallback, memo, ChangeEvent, useState } from "react";
-import { useImages } from "../../hooks/useImages";
 import { ImageItemDialog } from "../molecules/ImageItemDialog";
 import {
   Card,
@@ -31,6 +30,7 @@ type Props = {
   handleNextImageClick: () => void;
   currentImage?: Image | undefined;
   parks: Park[];
+  createdTime: (image: Image) => string | null;
 };
 
 export const ImageItem = memo((props: Props) => {
@@ -50,8 +50,8 @@ export const ImageItem = memo((props: Props) => {
     handleNextImageClick,
     currentImage,
     parks,
+    createdTime,
   } = props;
-  const { createdTime } = useImages();
   // checkboxの切り替え
   const handleCheckBoxChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {

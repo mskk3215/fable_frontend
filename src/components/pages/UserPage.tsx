@@ -22,7 +22,7 @@ export const UserPage = () => {
 
   const { userId } = useParams();
   const numUserId = userId ? parseInt(userId, 10) : undefined;
-  const { images, setImages, handleGetImages, isImagesLoading } =
+  const { images, setImages, handleGetImages, isImagesLoading, createdTime } =
     useImages(numUserId);
 
   // urlが変更されたらページに表示するユーザー、ログインユーザー情報を取得する
@@ -152,6 +152,7 @@ export const UserPage = () => {
           images={images}
           setImages={setImages}
           numUserId={numUserId}
+          handleGetImages={handleGetImages}
         />
         {loginUser?.id === viewedUser?.id && (
           <Button
@@ -190,6 +191,7 @@ export const UserPage = () => {
                       : undefined
                   }
                   parks={parks}
+                  createdTime={createdTime}
                 />
               </Grid>
             ))}
