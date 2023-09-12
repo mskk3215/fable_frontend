@@ -8,7 +8,7 @@ import { useAllInsects } from "../../hooks/useAllInsects";
 export const Map = () => {
   const { searchResults, isParksLoading, handleGetParkSearchResults } =
     useParks();
-  const { insectOptions } = useAllInsects;
+  const { insectOptions } = useAllInsects();
   const [anchor, setAnchor] = useState<Anchor>("left");
 
   const drawerWidth = anchor === "bottom" ? "100%" : 400;

@@ -16,13 +16,14 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
+import { InsectOption } from "../../types/insects";
 
 type Props = {
   setOpen: (open: boolean) => void;
   selectedItemId: number | null;
   setSelectedItemId: (id: number | null) => void;
   handleGetParkSearchResults: (searchWord: string) => void;
-  insectOptions: { value: number; label: string }[];
+  insectOptions: InsectOption[];
 };
 
 export const InsectSearchBox = memo((props: Props) => {
