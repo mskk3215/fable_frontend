@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAllInsects } from "../../hooks/useAllInsects";
 import { useParks } from "../../hooks/useParks";
 import {
@@ -22,6 +22,7 @@ export const Top = () => {
   const { insectOptions } = useAllInsects();
   const { handleGetParkSearchResults } = useParks();
   const [searchWord, setSearchWord] = useRecoilState(searchWordState);
+  const location = useLocation();
 
   const handleSearch = () => {
     handleGetParkSearchResults(searchWord);
@@ -36,6 +37,11 @@ export const Top = () => {
   useEffect(() => {
     saveSearchWord(searchWord);
   }, [searchWord]);
+
+  // ページ遷移時にsearchWordの値を初期化する
+  useEffect(() => {
+    setSearchWord("");
+  }, [location.pathname]);
 
   return (
     <>
