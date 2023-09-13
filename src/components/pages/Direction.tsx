@@ -54,10 +54,11 @@ export const Direction = () => {
         (result, status) => {
           if (status === "OK") {
             setDirections(result);
-            const text = result?.routes[0]?.legs[0]?.distance?.text;
-            if (text) {
-              setDistance(text);
-              setDuration(text);
+            const distanceText = result?.routes[0]?.legs[0]?.distance?.text;
+            const durationText = result?.routes[0]?.legs[0]?.duration?.text;
+            if (distanceText && durationText) {
+              setDistance(distanceText);
+              setDuration(durationText);
             }
           } else {
             switch (status) {
