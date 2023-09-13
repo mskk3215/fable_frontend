@@ -123,6 +123,7 @@ export const PostForm = memo((props: Props) => {
                     variant="outlined"
                     component="span"
                     startIcon={<FileUpload />}
+                    disabled={isLoading}
                   >
                     アップロード
                     <input
@@ -132,8 +133,11 @@ export const PostForm = memo((props: Props) => {
                       type="file"
                       style={{ display: "none" }}
                       onChange={(e) => {
-                        uploadImage(e);
+                        if (!isLoading) {
+                          uploadImage(e);
+                        }
                       }}
+                      disabled={isLoading}
                     />
                   </Button>
                 </label>
