@@ -17,6 +17,7 @@ import {
   Avatar,
   Box,
   Skeleton,
+  CircularProgress,
 } from "@mui/material";
 import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 import { Post } from "../../types/posts";
@@ -351,6 +352,11 @@ export const PostList = () => {
               </Box>
             );
           })}
+      {isPostsLoading && !isInitialLoading && (
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <CircularProgress />
+        </Box>
+      )}
     </>
   );
 };
