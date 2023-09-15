@@ -7,17 +7,27 @@ import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
 export const usePosts = () => {
   const { updateLikedImage, updatedLikedCount } = useImages();
   const [posts, setPosts] = useState<Post[]>([]);
+  const [isInitialLoading, setIsInitialLoading] = useState<boolean>(true);
   const [isPostsLoading, setIsPostsLoading] = useState<boolean>(false);
+  const [postPage, setPostPage] = useState(1);
+  const [hasMorePosts, setHasMorePosts] = useState<boolean>(true);
 
   // エラーハンドリング呼び出し
   useGetRequestErrorAction();
 
   // 投稿情報を取得する
   const handleGetPosts = async () => {
+    if (!hasMorePosts) return;
     setIsPostsLoading(true);
-    const { data } = await getPosts();
+    const { data } = await getPosts(postPage);
     // 投稿画像を取得する
-    setPosts(data);
+    setPosts((prevPosts) => {
+      const newData = data.filter(
+        (post: Post) => !prevPosts.some((prevItem) => prevItem.id === post.id)
+      );
+      return [...prevPosts, ...newData];
+    });
+    setIsInitialLoading(false);
     setIsPostsLoading(false);
     // すべての画像を取得する
     const allImages = data.flatMap((post: Post) => post.images);
@@ -25,11 +35,20 @@ export const usePosts = () => {
     updateLikedImage(allImages);
     // いいね数を取得する
     updatedLikedCount(allImages);
+    // 投稿がない場合は取得をやめる
+    if (data.length === 0) setHasMorePosts(false);
   };
 
   useEffect(() => {
     handleGetPosts();
-  }, []);
+  }, [postPage]);
 
-  return { posts, handleGetPosts, isPostsLoading };
+  return {
+    posts,
+    setPosts,
+    setPostPage,
+    handleGetPosts,
+    isInitialLoading,
+    isPostsLoading,
+  };
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { loginUserState } from "../../store/atoms/userAtom";
@@ -23,7 +23,14 @@ import { Post } from "../../types/posts";
 
 export const PostList = () => {
   const loginUser = useRecoilValue(loginUserState);
-  const { isPostsLoading, handleGetPosts, posts } = usePosts();
+  const {
+    isInitialLoading,
+    isPostsLoading,
+    handleGetPosts,
+    posts,
+    setPosts,
+    setPostPage,
+  } = usePosts();
   const { createdTime } = useImages();
   const { isFollowed } = useUsers();
   const [displayedImages, setDisplayedImages] = useState<{
@@ -44,12 +51,27 @@ export const PostList = () => {
       [postId]: (prevState[postId] || 0) - 1,
     }));
   };
+  // scrollで投稿を追加取得
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop !==
+        document.documentElement.offsetHeight ||
+      isPostsLoading
+    )
+      return;
+    setPostPage((prevPage) => prevPage + 1);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isPostsLoading]);
 
   return (
     <>
       {/* タブで表示切り替え */}
       <PostTab posts={posts} setFilteredPosts={setFilteredPosts} />
-      {isPostsLoading
+      {isInitialLoading
         ? Array.from({ length: 3 }).map((_, index) => (
             <Box
               key={index}
@@ -145,6 +167,7 @@ export const PostList = () => {
                       <DeletePostButton
                         postId={post.id}
                         handleGetPosts={handleGetPosts}
+                        setPosts={setPosts}
                       />
                     )}
                   </Box>
@@ -156,7 +179,7 @@ export const PostList = () => {
                     }}
                   >
                     {post.images.map((imageData, index) => (
-                      <Box key={index}>
+                      <Box key={post.id + "-" + index}>
                         <Box
                           sx={{
                             position: "absolute",
@@ -270,7 +293,7 @@ export const PostList = () => {
                       >
                         {post.images.map((_, index) => (
                           <span
-                            key={index}
+                            key={post.id + "-" + index}
                             style={{
                               width: 8,
                               height: 8,
