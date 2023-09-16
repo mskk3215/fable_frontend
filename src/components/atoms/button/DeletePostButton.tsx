@@ -6,14 +6,16 @@ import { deletePosts } from "../../../urls";
 import { Button } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { ApiError } from "../../../types/api";
+import { Post } from "../../../types/posts";
 
 type Props = {
   postId: number;
   handleGetPosts: () => void;
+  setPosts: React.Dispatch<React.SetStateAction<Post[]>>;
 };
 
 export const DeletePostButton = memo((props: Props) => {
-  const { postId, handleGetPosts } = props;
+  const { postId, setPosts } = props;
 
   const setMessage = useSetRecoilState(messageState);
   const { handleGeneralErrorAction } = useErrorAction();
@@ -26,8 +28,10 @@ export const DeletePostButton = memo((props: Props) => {
     await deletePosts(postId)
       .then((response) => {
         if (response.data.status === "deleted") {
+          setPosts((prevPosts) =>
+            prevPosts.filter((post) => post.id !== postId)
+          );
           setMessage({ message: "削除しました", type: "success" });
-          handleGetPosts();
         }
       })
       .catch((error: ApiError) => {

@@ -25,7 +25,7 @@ import { Insect, InsectOption } from "../../types/insects";
 import { Park, ParkOption } from "../../types/parks";
 import { Prefecture, PrefectureOption } from "../../types/prefectures";
 import dayjs, { Dayjs } from "dayjs";
-import { HandleGetImages } from "../../types/images";
+import { HandleGetImages, Image } from "../../types/images";
 import { ApiError } from "../../types/api";
 
 type Props = {
@@ -40,6 +40,7 @@ type Props = {
   prefectureOptions: PrefectureOption[];
   prefectures: Prefecture[];
   handleGetImages: HandleGetImages;
+  setImages: React.Dispatch<React.SetStateAction<Image[]>>;
 };
 
 export const EditForm = memo((props: Props) => {
@@ -55,6 +56,7 @@ export const EditForm = memo((props: Props) => {
     prefectures,
     prefectureOptions,
     handleGetImages,
+    setImages,
   } = props;
 
   const [insectName, setInsectName] = useState("");
@@ -91,8 +93,13 @@ export const EditForm = memo((props: Props) => {
         });
     } else if (buttonName === "delete") {
       await deleteImages(selectedIds)
-        .then(() => {
-          setMessage({ message: "削除しました", type: "success" });
+        .then((response) => {
+          if (response.data.status === "deleted") {
+            setImages((prevImages) =>
+              prevImages.filter((image) => !selectedIds.includes(image.id))
+            );
+            setMessage({ message: "削除しました", type: "success" });
+          }
         })
         .catch((error: ApiError) => handleGeneralErrorAction(error, setMessage))
         .finally(() => {
