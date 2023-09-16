@@ -22,8 +22,16 @@ export const UserPage = () => {
 
   const { userId } = useParams();
   const numUserId = userId ? parseInt(userId, 10) : undefined;
-  const { images, setImages, handleGetImages, isImagesLoading, createdTime } =
-    useImages(numUserId);
+  const {
+    images,
+    setImages,
+    totalImagesCount,
+    handleGetImages,
+    isImagesInitialLoading,
+    isImagesLoading,
+    setImagePage,
+    createdTime,
+  } = useImages(numUserId);
 
   // urlが変更されたらページに表示するユーザー、ログインユーザー情報を取得する
   useEffect(() => {
@@ -62,6 +70,22 @@ export const UserPage = () => {
       setCurrentImageIndex(currentImageIndex - 1);
     }
   }, [currentImageIndex]);
+
+  // scrollで投稿を追加取得
+  const handleImageScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop !==
+        document.documentElement.offsetHeight ||
+      isImagesLoading
+    )
+      return;
+    setImagePage((prevImagePage) => prevImagePage + 1);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleImageScroll);
+    return () => window.removeEventListener("scroll", handleImageScroll);
+  }, [isImagesLoading]);
 
   return (
     <Box sx={{ width: "100%", marginTop: 10 }}>
@@ -131,7 +155,7 @@ export const UserPage = () => {
           )}
         </Box>
         <Typography>{viewedUser?.nickname}</Typography>
-        <Typography>投稿枚数：{images.length}枚</Typography>
+        <Typography>投稿枚数：{totalImagesCount}枚</Typography>
         {loginUser?.id === viewedUser?.id ? (
           <FollowModal
             viewedUser={viewedUser}
@@ -170,8 +194,8 @@ export const UserPage = () => {
         )}
       </Box>
       <Grid container spacing={0.5}>
-        {isImagesLoading
           ? Array.from({ length: 10 }).map((_, index) => (
+        {isImagesInitialLoading
               <Grid item xs={6} sm={4} md={2} key={index}>
                 <SquareSkeleton variant="rectangular" />
               </Grid>

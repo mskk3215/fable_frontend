@@ -124,8 +124,8 @@ export const ImageEdit = () => {
       <Box display="flex" flexWrap="wrap">
         <Box sx={{ width: { xs: "100%", md: "80%" } }}>
           <Grid container spacing={0.5}>
-            {isImagesLoading
               ? Array.from({ length: 10 }).map((_, index) => (
+            {isImagesInitialLoading
                   <Grid item xs={6} sm={4} md={2.4} key={index}>
                     <SquareSkeleton variant="rectangular" />
                   </Grid>
