@@ -43,6 +43,7 @@ export const UserPage = () => {
   useEffect(() => {
     handleGetUser(numUserId);
     handleGetImages(numUserId);
+    setFollowOpen(false);
   }, [numUserId]);
 
   // フォロー一覧モーダルの開閉
