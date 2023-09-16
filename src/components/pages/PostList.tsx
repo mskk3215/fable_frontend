@@ -25,7 +25,7 @@ import { Post } from "../../types/posts";
 export const PostList = () => {
   const loginUser = useRecoilValue(loginUserState);
   const {
-    isInitialLoading,
+    isPostsInitialLoading,
     isPostsLoading,
     handleGetPosts,
     posts,
@@ -53,7 +53,7 @@ export const PostList = () => {
     }));
   };
   // scrollで投稿を追加取得
-  const handleScroll = () => {
+  const handlePostScroll = () => {
     if (
       window.innerHeight + document.documentElement.scrollTop !==
         document.documentElement.offsetHeight ||
@@ -64,15 +64,15 @@ export const PostList = () => {
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handlePostScroll);
+    return () => window.removeEventListener("scroll", handlePostScroll);
   }, [isPostsLoading]);
 
   return (
     <>
       {/* タブで表示切り替え */}
       <PostTab posts={posts} setFilteredPosts={setFilteredPosts} />
-      {isInitialLoading
+      {isPostsInitialLoading
         ? Array.from({ length: 3 }).map((_, index) => (
             <Box
               key={index}

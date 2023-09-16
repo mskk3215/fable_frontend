@@ -7,7 +7,8 @@ import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
 export const usePosts = () => {
   const { updateLikedImage, updatedLikedCount } = useImages();
   const [posts, setPosts] = useState<Post[]>([]);
-  const [isInitialLoading, setIsInitialLoading] = useState<boolean>(true);
+  const [isPostsInitialLoading, setIsPostsInitialLoading] =
+    useState<boolean>(true);
   const [isPostsLoading, setIsPostsLoading] = useState<boolean>(false);
   const [postPage, setPostPage] = useState(1);
   const [hasMorePosts, setHasMorePosts] = useState<boolean>(true);
@@ -48,7 +49,7 @@ export const usePosts = () => {
     setPosts,
     setPostPage,
     handleGetPosts,
-    isInitialLoading,
+    isPostsInitialLoading,
     isPostsLoading,
   };
 };
