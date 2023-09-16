@@ -58,8 +58,8 @@ export const deleteUserRelationship = (
 };
 
 //posts
-export const getPosts = (page: number) => {
-  return apiClient.get("/posts", { params: { page } });
+export const getPosts = (page: number, tabValue: number) => {
+  return apiClient.get("/posts", { params: { page, tabValue } });
 };
 export const createPosts = (
   data: FormData,

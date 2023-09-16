@@ -31,13 +31,14 @@ export const PostList = () => {
     posts,
     setPosts,
     setPostPage,
+    tabValue,
+    setTabValue,
   } = usePosts();
   const { createdTime } = useImages();
   const { isFollowed } = useUsers();
   const [displayedImages, setDisplayedImages] = useState<{
     [key: string]: number;
   }>({});
-  const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
 
   // 投稿内の画像前後切り替え
   const handleNextImage = (postId: number) => {
@@ -71,7 +72,7 @@ export const PostList = () => {
   return (
     <>
       {/* タブで表示切り替え */}
-      <PostTab posts={posts} setFilteredPosts={setFilteredPosts} />
+      <PostTab tabValue={tabValue} setTabValue={setTabValue} />
       {isPostsInitialLoading
         ? Array.from({ length: 3 }).map((_, index) => (
             <Box
@@ -104,7 +105,7 @@ export const PostList = () => {
               />
             </Box>
           ))
-        : filteredPosts.map((post: Post) => {
+        : posts.map((post: Post) => {
             const currentImageIndex = displayedImages[post.id] || 0;
             return (
               <Box key={post.id}>
