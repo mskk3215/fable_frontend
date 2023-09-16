@@ -13,7 +13,13 @@ import styled from "styled-components";
 import { Image } from "../../types/images";
 
 export const ImageEdit = () => {
-  const { images, handleGetImages, isImagesLoading, createdTime } = useImages();
+  const {
+    images,
+    setImages,
+    handleGetImages,
+    isImagesInitialLoading,
+    createdTime,
+  } = useImages();
   const { parks, parkOptions, handleGetParks } = useParks();
   const { insects, insectOptions } = useAllInsects();
   const { prefectures, prefectureOptions } = useAllPrefectures();
@@ -165,6 +171,7 @@ export const ImageEdit = () => {
           }}
         >
           <EditForm
+            setImages={setImages}
             selectedIds={selectedIds}
             setSelectedIds={setSelectedIds}
             setSelectedIndexes={setSelectedIndexes}
