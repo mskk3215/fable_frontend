@@ -18,10 +18,14 @@ export type UseImages = {
   images: Image[];
   setImages: React.Dispatch<React.SetStateAction<Image[]>>;
   handleGetImages: HandleGetImages;
+  handleGetMoreImages: HandleGetImages;
   updateLikedImage: (allImageData: Image[] | undefined) => void;
   updatedLikedCount: (allImageData: Image[] | undefined) => void;
   createdTime: (image: Image) => string | null;
   isImagesLoading: boolean;
+  isImagesInitialLoading: boolean;
+  setImagePage: React.Dispatch<React.SetStateAction<number>>;
+  totalImagesCount: number;
 };
 
 export type ImageSortOption = "likes" | "posted" | "taken";

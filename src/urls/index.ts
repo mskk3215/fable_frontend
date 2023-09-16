@@ -58,8 +58,8 @@ export const deleteUserRelationship = (
 };
 
 //posts
-export const getPosts = () => {
-  return apiClient.get("/posts");
+export const getPosts = (page: number, tabValue: number) => {
+  return apiClient.get("/posts", { params: { page, tabValue } });
 };
 export const createPosts = (
   data: FormData,
@@ -72,11 +72,11 @@ export const deletePosts = (postId: number) => {
 };
 
 //images
-export const getImages = () => {
-  return apiClient.get("/images");
+export const getImages = (page: number) => {
+  return apiClient.get("/images", { params: { page } });
 };
-export const getUserImages = (userId: number | undefined) => {
-  return apiClient.get("/images", { params: { user_id: userId } });
+export const getUserImages = (userId: number | undefined, page: number) => {
+  return apiClient.get("/images", { params: { user_id: userId, page } });
 };
 export const updateImages = (id: number[], data: FormData) => {
   return apiClient.put(`/images/${id}`, data);
