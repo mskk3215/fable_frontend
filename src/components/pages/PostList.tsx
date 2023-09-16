@@ -353,10 +353,20 @@ export const PostList = () => {
               </Box>
             );
           })}
-      {isPostsLoading && !isInitialLoading && (
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
+      {isPostsLoading && !isPostsInitialLoading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            height: "50px",
+          }}
+        >
           <CircularProgress />
         </Box>
+      ) : (
+        <Box
+          sx={{ display: "flex", justifyContent: "center", height: "50px" }}
+        ></Box>
       )}
     </>
   );
