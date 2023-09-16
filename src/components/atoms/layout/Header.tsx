@@ -21,7 +21,6 @@ export const Header = () => {
           <SLink to="/">
             <LogoutButton />
           </SLink>
-          <SLink to="/map">地図</SLink>
           <SLink to="/uploadview">投稿</SLink>
           <SLink to="/postlist">投稿一覧</SLink>
           <SLink to="/">検索</SLink>
@@ -38,6 +37,9 @@ const SHeader = styled.header`
   width: 100%;
   background-color: #5555ff;
   color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   padding: 8px 0;
   z-index: 100;

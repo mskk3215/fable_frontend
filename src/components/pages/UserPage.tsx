@@ -43,6 +43,7 @@ export const UserPage = () => {
   useEffect(() => {
     handleGetUser(numUserId);
     handleGetImages(numUserId);
+    setFollowOpen(false);
   }, [numUserId]);
 
   // フォロー一覧モーダルの開閉
@@ -200,8 +201,8 @@ export const UserPage = () => {
         )}
       </Box>
       <Grid container spacing={0.5}>
-          ? Array.from({ length: 10 }).map((_, index) => (
         {isImagesInitialLoading
+          ? Array.from({ length: 12 }).map((_, index) => (
               <Grid item xs={6} sm={4} md={2} key={index}>
                 <SquareSkeleton variant="rectangular" />
               </Grid>
