@@ -10,7 +10,13 @@ import { useImages } from "../../hooks/useImages";
 import { useParks } from "../../hooks/useParks";
 import Box from "@mui/system/Box";
 import Grid from "@mui/material/Grid";
-import { Avatar, Button, Skeleton, Typography } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  CircularProgress,
+  Skeleton,
+  Typography,
+} from "@mui/material";
 import { ImageSortSelector } from "../atoms/selector/ImageSortSelector";
 import styled from "styled-components";
 
@@ -225,6 +231,27 @@ export const UserPage = () => {
               </Grid>
             ))}
       </Grid>
+      {isImagesLoading && !isImagesInitialLoading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: 2,
+            height: "50px",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: 2,
+            height: "50px",
+          }}
+        ></Box>
+      )}
     </Box>
   );
 };
