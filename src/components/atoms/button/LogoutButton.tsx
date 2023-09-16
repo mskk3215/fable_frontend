@@ -5,9 +5,9 @@ import {
 } from "../../../store/atoms/userAtom";
 import { messageState } from "../../../store/atoms/errorAtom";
 import { useErrorAction } from "../../../hooks/error/useErrorAction";
+import { ApiError } from "../../../types/api";
 import { userLogout } from "../../../urls";
 import { Button } from "@mui/material";
-import { ApiError } from "../../../types/api";
 
 export const LogoutButton = () => {
   const { handleGeneralErrorAction } = useErrorAction();
@@ -38,6 +38,8 @@ export const LogoutButton = () => {
           color: "#fff",
           textDecoration: "underline",
           "&:hover": { textDecoration: "underline" },
+          margin: 0,
+          padding: 0,
         }}
       >
         ログアウト

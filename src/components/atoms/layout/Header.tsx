@@ -37,6 +37,9 @@ const SHeader = styled.header`
   width: 100%;
   background-color: #5555ff;
   color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   padding: 8px 0;
   z-index: 100;
