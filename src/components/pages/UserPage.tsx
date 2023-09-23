@@ -154,10 +154,12 @@ export const UserPage = () => {
                 top: 0,
               }}
             >
-              <FollowButton
-                followedUserId={numUserId}
-                isFollowed={isFollowed}
-              />
+              {numUserId && (
+                <FollowButton
+                  followedUserId={numUserId}
+                  isFollowed={isFollowed}
+                />
+              )}
             </Box>
           )}
         </Box>

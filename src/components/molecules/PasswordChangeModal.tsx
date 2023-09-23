@@ -7,10 +7,12 @@ import { UserPasswordForm } from "../../types/user";
 
 type Props = {
   setErrors: React.Dispatch<React.SetStateAction<string[]>>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setUploadProfileProgress: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export const PasswordChangeModal = (props: Props) => {
-  const { setErrors } = props;
+  const { setErrors, setIsLoading, setUploadProfileProgress } = props;
   const { handleProfileChangeAction } = useProfileChangeAction();
   const [loginUser, setLoginUser] = useRecoilState(loginUserState);
 
@@ -56,6 +58,8 @@ export const PasswordChangeModal = (props: Props) => {
         profileData: passwordData,
         setErrors,
         isPasswordChange: true,
+        setIsLoading: setIsLoading,
+        setUploadProfileProgress: setUploadProfileProgress,
       });
     }
   };

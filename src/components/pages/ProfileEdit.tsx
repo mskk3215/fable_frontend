@@ -185,7 +185,11 @@ export const ProfileEdit = () => {
         </Box>
       </form>
       <Box marginTop={3} marginBottom={3} />
-      <PasswordChangeModal setErrors={setErrors} />
+      <PasswordChangeModal
+        setErrors={setErrors}
+        setIsLoading={setIsLoading}
+        setUploadProfileProgress={setUploadProfileProgress}
+      />
     </>
   );
 };

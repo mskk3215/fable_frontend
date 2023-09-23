@@ -31,7 +31,7 @@ type Props = {
   currentImage?: Image | undefined;
   parks: Park[];
   createdTime: (image: Image) => string | null;
-  isFollowed: (followedUserId: number) => boolean;
+  isFollowed?: (followedUserId: number) => boolean;
 };
 
 export const ImageItem = memo((props: Props) => {
@@ -146,7 +146,7 @@ export const ImageItem = memo((props: Props) => {
             }
             label="card"
           />
-          {currentImage && (
+          {currentImage && isFollowed && (
             <>
               <ImageItemDialog
                 numUserId={numUserId}
