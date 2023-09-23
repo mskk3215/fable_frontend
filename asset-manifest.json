@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/fable_frontend/static/js/main.95fc3dca.js",
-    "index.html": "/fable_frontend/index.html",
-    "main.95fc3dca.js.map": "/fable_frontend/static/js/main.95fc3dca.js.map"
+    "main.js": "/static/js/main.26d1b9e7.js",
+    "index.html": "/index.html",
+    "main.26d1b9e7.js.map": "/static/js/main.26d1b9e7.js.map"
   },
   "entrypoints": [
-    "static/js/main.95fc3dca.js"
+    "static/js/main.26d1b9e7.js"
   ]
 }
