@@ -22,7 +22,7 @@ type Props = {
 
 // 画像のソートオプションを選択するセレクター
 export const ImageSortSelector = (props: Props) => {
-  const { images, setImages, numUserId, handleGetImages } = props;
+  const { images, setImages } = props;
 
   // ソートオプション
   const [sortOption, setSortOption] = useState<ImageSortOption>("posted");
@@ -30,7 +30,6 @@ export const ImageSortSelector = (props: Props) => {
   // ソートオプション変更時の処理
   const handleSortSelectorChange = (e: SelectChangeEvent<ImageSortOption>) => {
     setSortOption(e.target.value as ImageSortOption);
-    handleGetImages(numUserId);
   };
 
   // ソートオプションに応じて画像をソート
