@@ -8,13 +8,16 @@ import {
   originLocationState,
   saveOriginLocation,
 } from "../../store/atoms/searchWordState";
+import { useParks } from "../../hooks/useParks";
 import { Anchor, TravelMode } from "../../types/map";
+import { Box } from "@mui/material";
 
 export const Direction = () => {
   const setMessage = useSetRecoilState(messageState);
 
   const [originLocation, setOriginLocation] =
     useRecoilState(originLocationState);
+  const { searchResults } = useParks();
   const [directions, setDirections] =
     useState<google.maps.DirectionsResult | null>(null);
   const [distance, setDistance] = useState<string | null>(null);
@@ -97,9 +100,6 @@ export const Direction = () => {
     if (originRef.current) {
       originRef.current.value = "";
     }
-    if (destinationRef.current) {
-      destinationRef.current.value = "";
-    }
   };
   //map上でクリックした地点の住所を取得する
   const handleMapClick = (e: google.maps.MapMouseEvent) => {
@@ -151,26 +151,28 @@ export const Direction = () => {
 
   return (
     <>
-      <DirectionDrawer
-        originRef={originRef}
-        destinationRef={destinationRef}
-        calculateRoute={calculateRoute}
-        clearRoute={clearRoute}
-        travelMode={travelMode}
-        setTravelMode={setTravelMode}
-        distance={distance}
-        duration={duration}
-        anchor={anchor}
-        drawerWidth={drawerWidth}
-        drawerHeight={drawerHeight}
-        isDirectionsLoading={isDirectionsLoading}
-      />
-
-      <MapView
-        directions={directions}
-        handleMapClick={handleMapClick}
-        onLoadHook={onLoadHook}
-      />
+      <Box sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" } }}>
+        <DirectionDrawer
+          originRef={originRef}
+          destinationRef={destinationRef}
+          calculateRoute={calculateRoute}
+          clearRoute={clearRoute}
+          travelMode={travelMode}
+          setTravelMode={setTravelMode}
+          distance={distance}
+          duration={duration}
+          anchor={anchor}
+          drawerWidth={drawerWidth}
+          drawerHeight={drawerHeight}
+          isDirectionsLoading={isDirectionsLoading}
+        />
+        <MapView
+          directions={directions}
+          handleMapClick={handleMapClick}
+          onLoadHook={onLoadHook}
+          searchResults={searchResults}
+        />
+      </Box>
     </>
   );
 };
