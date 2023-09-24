@@ -100,9 +100,6 @@ export const Direction = () => {
     if (originRef.current) {
       originRef.current.value = "";
     }
-    if (destinationRef.current) {
-      destinationRef.current.value = "";
-    }
   };
   //map上でクリックした地点の住所を取得する
   const handleMapClick = (e: google.maps.MapMouseEvent) => {
