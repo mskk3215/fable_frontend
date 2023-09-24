@@ -8,6 +8,7 @@ import {
   originLocationState,
   saveOriginLocation,
 } from "../../store/atoms/searchWordState";
+import { useParks } from "../../hooks/useParks";
 import { Anchor, TravelMode } from "../../types/map";
 import { Box } from "@mui/material";
 
@@ -16,6 +17,7 @@ export const Direction = () => {
 
   const [originLocation, setOriginLocation] =
     useRecoilState(originLocationState);
+  const { searchResults } = useParks();
   const [directions, setDirections] =
     useState<google.maps.DirectionsResult | null>(null);
   const [distance, setDistance] = useState<string | null>(null);
@@ -171,6 +173,7 @@ export const Direction = () => {
           directions={directions}
           handleMapClick={handleMapClick}
           onLoadHook={onLoadHook}
+          searchResults={searchResults}
         />
       </Box>
     </>

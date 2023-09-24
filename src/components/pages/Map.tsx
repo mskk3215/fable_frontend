@@ -36,7 +36,7 @@ export const Map = () => {
         handleGetParkSearchResults={handleGetParkSearchResults}
         insectOptions={insectOptions}
       />
-      <MapView searchResults={searchResults} />
+      <MapView searchResults={searchResults} isMapPage={true} />
     </>
   );
 };
