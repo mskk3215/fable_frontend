@@ -78,8 +78,13 @@ export const getImages = (page: number) => {
 export const getUserImages = (userId: number | undefined, page: number) => {
   return apiClient.get("/images", { params: { user_id: userId, page } });
 };
-export const updateImages = (id: number[], data: FormData) => {
-  return apiClient.put(`/images/${id}`, data);
+export const updateImages = (data: object) => {
+  const config = {
+    headers: {
+      "Content-type": "application/json",
+    },
+  };
+  return apiClient.put(`/images/bulk_update`, data, config);
 };
 export const deleteImages = (id: number[]) => {
   return apiClient.delete(`/images/${id}`);
