@@ -75,16 +75,19 @@ export const EditForm = memo((props: Props) => {
     e.preventDefault();
     setIsLoading(true);
 
-    const data = new FormData();
     if (buttonName === "edit") {
-      data.append("image[name]", insectName);
-      data.append("image[sex]", insectSex);
-      data.append("image[parkName]", parkName);
-      data.append("image[cityName]", cityName);
-      data.append("image[taken_at]", takenDate ? takenDate.format() : "");
-
-      await updateImages(selectedIds, data)
+      updateImages({
+        id: selectedIds,
+        image: {
+          name: insectName,
+          sex: insectSex,
+          park_name: parkName,
+          city_name: cityName,
+          taken_at: takenDate ? takenDate.format() : "",
+        },
+      })
         .then(() => {
+          handleGetImages(undefined);
           setMessage({ message: "更新しました", type: "success" });
         })
         .catch((error: ApiError) => handleGeneralErrorAction(error, setMessage))
@@ -115,7 +118,6 @@ export const EditForm = memo((props: Props) => {
     setTakenDate(null);
 
     handleGetParks();
-    handleGetImages(undefined);
     setSelectedIds([]);
     setSelectedIndexes([]);
   };
