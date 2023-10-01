@@ -20,12 +20,19 @@ export const getUser = (userId: number | undefined) => {
 export const createUser = (data: UserRegistrationForm) => {
   return apiClient.post("/users", data);
 };
-export const updateUser = (
+export const updateUserProfile = (
   id: number,
   data: FormData,
   onUploadProgress: (progressEvent: AxiosProgressEvent) => void
 ) => {
-  return apiClient.put(`/users/${id}`, data, { onUploadProgress });
+  return apiClient.put(`/users/${id}/profile`, data, { onUploadProgress });
+};
+export const updateUserPassword = (
+  id: number,
+  data: FormData,
+  onUploadProgress: (progressEvent: AxiosProgressEvent) => void
+) => {
+  return apiClient.put(`/users/${id}/password`, data, { onUploadProgress });
 };
 
 //user's login, logout
