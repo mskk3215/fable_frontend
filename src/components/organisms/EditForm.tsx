@@ -87,6 +87,7 @@ export const EditForm = memo((props: Props) => {
         },
       })
         .then(() => {
+          handleGetParks();
           handleGetImages(undefined);
           setMessage({ message: "更新しました", type: "success" });
         })
@@ -116,8 +117,6 @@ export const EditForm = memo((props: Props) => {
     setPrefectureName("");
     setCityName("");
     setTakenDate(null);
-
-    handleGetParks();
     setSelectedIds([]);
     setSelectedIndexes([]);
   };
