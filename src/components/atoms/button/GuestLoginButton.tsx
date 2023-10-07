@@ -16,7 +16,7 @@ export const GuestLoginButton = () => {
 
   const handleGuestLogin = () => {
     handleLoginAction({
-      email: "test1@test.com",
+      email: "Ares@example.com",
       password: "111111",
       setIsLoading: setIsLoading,
     });
