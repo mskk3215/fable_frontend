@@ -12,7 +12,6 @@ export const PageNavigator = memo((props: Props) => {
   const setPaginatedImages = useSetRecoilState(paginatedImagesState);
 
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(1);
 
   // 画面サイズによって表示する画像の数を変更する
   const theme = useTheme();
@@ -20,15 +19,14 @@ export const PageNavigator = memo((props: Props) => {
   const isMD = useMediaQuery(theme.breakpoints.between("md", "lg"));
   const isLG = useMediaQuery(theme.breakpoints.up("lg"));
 
-  useEffect(() => {
-    if (isSM) {
-      setPageSize(8);
-    } else if (isMD) {
-      setPageSize(12);
-    } else if (isLG) {
-      setPageSize(15);
-    }
-  }, [isSM, isMD, isLG, setPageSize]);
+  let pageSize = 20;
+  if (isSM) {
+    pageSize = 8;
+  } else if (isMD) {
+    pageSize = 12;
+  } else if (isLG) {
+    pageSize = 15;
+  }
 
   // ページネーション
   useEffect(() => {
