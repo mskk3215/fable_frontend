@@ -1,32 +1,19 @@
 import React, { useState, useEffect, memo } from "react";
 import { useSetRecoilState } from "recoil";
-import { Pagination, useMediaQuery, useTheme } from "@mui/material";
+import { Pagination } from "@mui/material";
 import { paginatedImagesState } from "../../store/atoms/paginatedImagesState";
 import { Image } from "../../types/images";
 
 type Props = {
   images: Image[];
+  pageSize: number;
 };
 export const PageNavigator = memo((props: Props) => {
   const { images } = props;
+    pageSize,
   const setPaginatedImages = useSetRecoilState(paginatedImagesState);
 
   const [page, setPage] = useState(1);
-
-  // 画面サイズによって表示する画像の数を変更する
-  const theme = useTheme();
-  const isSM = useMediaQuery(theme.breakpoints.down("md"));
-  const isMD = useMediaQuery(theme.breakpoints.between("md", "lg"));
-  const isLG = useMediaQuery(theme.breakpoints.up("lg"));
-
-  let pageSize = 20;
-  if (isSM) {
-    pageSize = 8;
-  } else if (isMD) {
-    pageSize = 12;
-  } else if (isLG) {
-    pageSize = 15;
-  }
 
   // ページネーション
   useEffect(() => {
