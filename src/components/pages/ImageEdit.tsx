@@ -17,7 +17,11 @@ export const ImageEdit = () => {
   const {
     images,
     setImages,
+    imagePage,
+    setImagePage,
+    totalImagesCount,
     handleGetImages,
+    handleGetMoreImages,
     isImagesInitialLoading,
     createdTime,
   } = useImages();
@@ -163,7 +167,14 @@ export const ImageEdit = () => {
                   </Grid>
                 ))}
           </Grid>
-          <PageNavigator images={images} />
+          <PageNavigator
+            images={images}
+            pageSize={pageSize}
+            imagePage={imagePage}
+            setImagePage={setImagePage}
+            totalImageCount={totalImagesCount}
+            handleGetMoreImages={handleGetMoreImages}
+          />
         </Box>
         <Divider orientation="vertical" flexItem />
         <Box
