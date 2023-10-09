@@ -28,7 +28,7 @@ export const useImages = (userId?: number): UseImages => {
   const setLikedImage = useSetRecoilState(likedImageState);
   const setLikedCount = useSetRecoilState(likedCountState);
 
-  // ページ初期読み込み時の画像取得
+  // UserPage初期読み込み時の画像取得
   const handleGetImages = async (pageSize: number, userId?: number) => {
     setHasMoreImages(true);
     setIsImagesLoading(true);
@@ -50,7 +50,7 @@ export const useImages = (userId?: number): UseImages => {
     updatedLikedCount(data.images);
   };
 
-  // スクロールした時の画像を取得する
+  // UserPageでスクロールした時.ImageEditでページを切り替えた時の画像を取得する
   const handleGetMoreImages: HandleGetImages = async (
     pageSize,
     userId,
