@@ -31,7 +31,6 @@ export const UserPage = () => {
   const numUserId = userId ? parseInt(userId, 10) : undefined;
   const {
     images,
-    setImages,
     totalImagesCount,
     handleGetImages,
     handleGetMoreImages,
@@ -40,6 +39,8 @@ export const UserPage = () => {
     imagePage,
     setImagePage,
     createdTime,
+    sortOption,
+    setSortOption,
   } = useImages(numUserId);
   const pageSize = usePageSize();
 
@@ -194,10 +195,11 @@ export const UserPage = () => {
         }}
       >
         <ImageSortSelector
-          images={images}
-          setImages={setImages}
-          numUserId={numUserId}
           handleGetImages={handleGetImages}
+          sortOption={sortOption}
+          setSortOption={setSortOption}
+          pageSize={pageSize}
+          userId={numUserId}
         />
         {loginUser?.id === viewedUser?.id && (
           <Button

@@ -1,70 +1,36 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   FormControl,
   MenuItem,
   Select,
   SelectChangeEvent,
 } from "@mui/material";
-import { HandleGetImages, Image, ImageSortOption } from "../../../types/images";
+import { HandleGetImages } from "../../../types/images";
 
-const Sort_Options: { value: ImageSortOption; label: string }[] = [
-  { value: "likes", label: "いいね順" },
-  { value: "posted", label: "投稿順" },
-  { value: "taken", label: "撮影日順" },
+const Sort_Options: { value: number; label: string }[] = [
+  { value: 0, label: "投稿順" },
+  { value: 1, label: "撮影日順" },
+  { value: 2, label: "いいね順" },
 ];
 
 type Props = {
-  images: Image[];
-  setImages: React.Dispatch<React.SetStateAction<Image[]>>;
-  numUserId: number | undefined;
   handleGetImages: HandleGetImages;
+  sortOption: number;
+  setSortOption: React.Dispatch<React.SetStateAction<number>>;
+  pageSize: number;
+  userId: number | undefined;
 };
 
 // 画像のソートオプションを選択するセレクター
 export const ImageSortSelector = (props: Props) => {
-  const { images, setImages } = props;
-
-  // ソートオプション
-  const [sortOption, setSortOption] = useState<ImageSortOption>("posted");
-
+  const { handleGetImages, sortOption, setSortOption, pageSize, userId } =
+    props;
   // ソートオプション変更時の処理
-  const handleSortSelectorChange = (e: SelectChangeEvent<ImageSortOption>) => {
-    setSortOption(e.target.value as ImageSortOption);
+  const handleSortSelectorChange = (e: SelectChangeEvent<number>) => {
+    setSortOption(e.target.value as number);
   };
-
-  // ソートオプションに応じて画像をソート
   useEffect(() => {
-    let sortedImages = [...images];
-
-    switch (sortOption) {
-      case "likes":
-        sortedImages.sort((a, b) => b.likes_count - a.likes_count);
-        break;
-      case "posted":
-        sortedImages.sort(
-          (a, b) =>
-            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-        );
-        break;
-      case "taken":
-        sortedImages.sort((a, b) => {
-          if (a.taken_at && b.taken_at) {
-            return (
-              new Date(b.taken_at).getTime() - new Date(a.taken_at).getTime()
-            );
-            // 撮影日がない場合は最後かつ投稿日でソート
-          } else if (a.taken_at) {
-            return -1;
-          } else if (b.taken_at) {
-            return 1;
-          }
-          return 0;
-        });
-        break;
-      default:
-        break;
-    }
-    setImages(sortedImages);
+    handleGetImages(pageSize, userId);
   }, [sortOption]);
 
   return (

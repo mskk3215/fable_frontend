@@ -18,6 +18,8 @@ export const useImages = (userId?: number): UseImages => {
   const [imagePage, setImagePage] = useState(1);
   const [hasMoreImages, setHasMoreImages] = useState<boolean>(true);
   const [totalImagesCount, setTotalImagesCount] = useState<number>(0);
+  // ソートオプション
+  const [sortOption, setSortOption] = useState<number>(0);
 
   // エラーハンドリング呼び出し
   useGetRequestErrorAction();
@@ -35,8 +37,8 @@ export const useImages = (userId?: number): UseImages => {
 
     setImagePage(1);
     const { data } = userId
-      ? await getUserImages(userId, 1, pageSize)
-      : await getImages(1, pageSize);
+      ? await getUserImages({ userId, page: 1, pageSize, sortOption })
+      : await getImages({ page: 1, pageSize, sortOption });
     setImages(data.images);
 
     setIsImagesInitialLoading(false);
@@ -60,8 +62,8 @@ export const useImages = (userId?: number): UseImages => {
     setIsImagesLoading(true);
 
     const { data } = userId
-      ? await getUserImages(userId, imagePage, pageSize)
-      : await getImages(imagePage, pageSize);
+      ? await getUserImages({ userId, page: imagePage, pageSize, sortOption })
+      : await getImages({ page: imagePage, pageSize, sortOption });
     // UserPageとImageEdtで画像取得方法を変える
     if (context === "addToImages") {
       setImages((prevImages) => {
@@ -134,5 +136,7 @@ export const useImages = (userId?: number): UseImages => {
     imagePage,
     setImagePage,
     totalImagesCount,
+    sortOption,
+    setSortOption,
   };
 };
