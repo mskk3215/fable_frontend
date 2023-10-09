@@ -8,6 +8,7 @@ import { useParks } from "../../hooks/useParks";
 import { useAllInsects } from "../../hooks/useAllInsects";
 import { useAllPrefectures } from "../../hooks/useAllPrefectures";
 import { PageNavigator } from "../organisms/PageNavigator";
+import { usePageSize } from "../../hooks/usePageSize";
 import { Box, Divider, Grid, Skeleton } from "@mui/material";
 import styled from "styled-components";
 import { Image } from "../../types/images";
@@ -28,9 +29,10 @@ export const ImageEdit = () => {
   const [isShiftDown, setIsShiftDown] = useState<boolean>(false);
 
   const paginatedImages = useRecoilValue(paginatedImagesState);
+  const pageSize = usePageSize();
 
   useEffect(() => {
-    handleGetImages(undefined);
+    handleGetImages(pageSize, undefined);
   }, []);
 
   const keydownHandler = (e: KeyboardEvent) => {
@@ -183,6 +185,7 @@ export const ImageEdit = () => {
             prefectures={prefectures}
             prefectureOptions={prefectureOptions}
             handleGetImages={handleGetImages}
+            pageSize={pageSize}
           />
         </Box>
       </Box>

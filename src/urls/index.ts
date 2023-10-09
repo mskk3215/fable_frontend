@@ -79,11 +79,17 @@ export const deletePosts = (postId: number) => {
 };
 
 //images
-export const getImages = (page: number) => {
-  return apiClient.get("/images", { params: { page } });
+export const getImages = (page: number, pageSize: number) => {
+  return apiClient.get("/images", { params: { page, page_size: pageSize } });
 };
-export const getUserImages = (userId: number | undefined, page: number) => {
-  return apiClient.get("/images", { params: { user_id: userId, page } });
+export const getUserImages = (
+  userId: number | undefined,
+  page: number,
+  pageSize: number
+) => {
+  return apiClient.get("/images", {
+    params: { user_id: userId, page, page_size: pageSize },
+  });
 };
 export const updateImages = (data: object) => {
   const config = {

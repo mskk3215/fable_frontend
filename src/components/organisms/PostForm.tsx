@@ -1,10 +1,11 @@
-import React, { useState, memo, useEffect } from "react";
+import React, { useState, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { messageState } from "../../store/atoms/errorAtom";
 import { LinearProgressBarWithLabel } from "../atoms/bar/LinearProgressBarWithLabel";
 import { createPosts } from "../../urls";
 import { useErrorAction } from "../../hooks/error/useErrorAction";
+import { usePageSize } from "../../hooks/usePageSize";
 import { Cancel, FileUpload } from "@mui/icons-material";
 import {
   Box,
@@ -34,6 +35,7 @@ export const PostForm = memo((props: Props) => {
   const [uploadPostProgress, setUploadPostProgress] = useState<number>(0);
 
   const setMessage = useSetRecoilState(messageState);
+  const pageSize = usePageSize();
 
   const navigate = useNavigate();
   const uploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,7 +75,7 @@ export const PostForm = memo((props: Props) => {
         });
 
         navigate("/imageedit");
-        handleGetImages(undefined);
+        handleGetImages(pageSize, undefined);
         setImages([]);
       })
       .catch((error: ApiError) => {

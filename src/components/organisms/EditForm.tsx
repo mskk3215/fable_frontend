@@ -41,6 +41,7 @@ type Props = {
   prefectures: Prefecture[];
   handleGetImages: HandleGetImages;
   setImages: React.Dispatch<React.SetStateAction<Image[]>>;
+  pageSize: number;
 };
 
 export const EditForm = memo((props: Props) => {
@@ -57,6 +58,7 @@ export const EditForm = memo((props: Props) => {
     prefectureOptions,
     handleGetImages,
     setImages,
+    pageSize,
   } = props;
 
   const [insectName, setInsectName] = useState("");
@@ -88,7 +90,7 @@ export const EditForm = memo((props: Props) => {
       })
         .then(() => {
           handleGetParks();
-          handleGetImages(undefined);
+          handleGetImages(pageSize, undefined);
           setMessage({ message: "更新しました", type: "success" });
         })
         .catch((error: ApiError) => handleGeneralErrorAction(error, setMessage))
