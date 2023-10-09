@@ -32,6 +32,13 @@ export type UseImages = {
   imagePage: number;
   setImagePage: React.Dispatch<React.SetStateAction<number>>;
   totalImagesCount: number;
+  sortOption: number;
+  setSortOption: React.Dispatch<React.SetStateAction<number>>;
 };
 
-export type ImageSortOption = "likes" | "posted" | "taken";
+export type GetImages = {
+  userId?: number | undefined;
+  page: number;
+  pageSize: number;
+  sortOption: number;
+};

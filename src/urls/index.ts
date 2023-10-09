@@ -1,5 +1,6 @@
 import axios, { AxiosProgressEvent } from "axios";
 import { UserLoginForm, UserRegistrationForm } from "../types/user";
+import { GetImages } from "../types/images";
 
 //default_api
 export const DEFAULT_API_LOCALHOST = "/api/v1";
@@ -79,16 +80,24 @@ export const deletePosts = (postId: number) => {
 };
 
 //images
-export const getImages = (page: number, pageSize: number) => {
-  return apiClient.get("/images", { params: { page, page_size: pageSize } });
-};
-export const getUserImages = (
-  userId: number | undefined,
-  page: number,
-  pageSize: number
-) => {
+export const getImages = ({ page, pageSize, sortOption }: GetImages) => {
   return apiClient.get("/images", {
-    params: { user_id: userId, page, page_size: pageSize },
+    params: { page, page_size: pageSize, sort_option: sortOption },
+  });
+};
+export const getUserImages = ({
+  userId,
+  page,
+  pageSize,
+  sortOption,
+}: GetImages) => {
+  return apiClient.get("/images", {
+    params: {
+      user_id: userId,
+      page,
+      page_size: pageSize,
+      sort_option: sortOption,
+    },
   });
 };
 export const updateImages = (data: object) => {
