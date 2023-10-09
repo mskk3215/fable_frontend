@@ -13,7 +13,12 @@ export type Image = {
   likes_count: number;
   liked_user_ids: number[] | null;
 };
-export type HandleGetImages = (userId: number | undefined) => Promise<void>;
+export type HandleGetImages = (
+  pageSize: number,
+  userId?: number | undefined,
+  context?: "addToImages" | undefined
+) => Promise<void>;
+
 export type UseImages = {
   images: Image[];
   setImages: React.Dispatch<React.SetStateAction<Image[]>>;
@@ -24,6 +29,7 @@ export type UseImages = {
   createdTime: (image: Image) => string | null;
   isImagesLoading: boolean;
   isImagesInitialLoading: boolean;
+  imagePage: number;
   setImagePage: React.Dispatch<React.SetStateAction<number>>;
   totalImagesCount: number;
 };

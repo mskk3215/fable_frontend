@@ -1,12 +1,12 @@
 //特定のユーザーの全画像を取得するカスタムフック
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { likedCountState, likedImageState } from "../store/atoms/imageAtom";
 import { loginUserState } from "../store/atoms/userAtom";
 import { getImages, getUserImages } from "../urls";
 import format from "date-fns/format";
 import ja from "date-fns/locale/ja";
-import { Image, UseImages } from "../types/images";
+import { HandleGetImages, Image, UseImages } from "../types/images";
 import { User } from "../types/user";
 import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
 
@@ -28,15 +28,15 @@ export const useImages = (userId?: number): UseImages => {
   const setLikedImage = useSetRecoilState(likedImageState);
   const setLikedCount = useSetRecoilState(likedCountState);
 
-  // ページ初期読み込み時の画像取得
-  const handleGetImages = async (userId?: number) => {
+  // UserPage初期読み込み時の画像取得
+  const handleGetImages = async (pageSize: number, userId?: number) => {
     setHasMoreImages(true);
     setIsImagesLoading(true);
 
     setImagePage(1);
     const { data } = userId
-      ? await getUserImages(userId, 1)
-      : await getImages(1);
+      ? await getUserImages(userId, 1, pageSize)
+      : await getImages(1, pageSize);
     setImages(data.images);
 
     setIsImagesInitialLoading(false);
@@ -50,21 +50,30 @@ export const useImages = (userId?: number): UseImages => {
     updatedLikedCount(data.images);
   };
 
-  // スクロールした時の画像を取得する
-  const handleGetMoreImages = async (userId?: number) => {
+  // UserPageでスクロールした時.ImageEditでページを切り替えた時の画像を取得する
+  const handleGetMoreImages: HandleGetImages = async (
+    pageSize,
+    userId,
+    context
+  ) => {
     if (!hasMoreImages) return;
     setIsImagesLoading(true);
 
     const { data } = userId
-      ? await getUserImages(userId, imagePage)
-      : await getImages(imagePage);
-    setImages((prevImages) => {
-      const newData = data.images.filter(
-        (image: Image) =>
-          !prevImages.some((prevItem) => prevItem.id === image.id)
-      );
-      return [...prevImages, ...newData];
-    });
+      ? await getUserImages(userId, imagePage, pageSize)
+      : await getImages(imagePage, pageSize);
+    // UserPageとImageEdtで画像取得方法を変える
+    if (context === "addToImages") {
+      setImages((prevImages) => {
+        const newData = data.images.filter(
+          (image: Image) =>
+            !prevImages.some((prevItem) => prevItem.id === image.id)
+        );
+        return [...prevImages, ...newData];
+      });
+    } else {
+      setImages(data.images);
+    }
 
     if (data.images.length === 0) setHasMoreImages(false);
     setIsImagesLoading(false);
@@ -73,10 +82,6 @@ export const useImages = (userId?: number): UseImages => {
     updateLikedImage(data.images);
     updatedLikedCount(data.images);
   };
-
-  useEffect(() => {
-    handleGetMoreImages(userId);
-  }, [imagePage]);
 
   // いいね状態がtrueの画像を取得する
   const updateLikedImage = (allImageData: Image[] | undefined) => {
@@ -126,6 +131,7 @@ export const useImages = (userId?: number): UseImages => {
     createdTime,
     isImagesLoading,
     isImagesInitialLoading,
+    imagePage,
     setImagePage,
     totalImagesCount,
   };

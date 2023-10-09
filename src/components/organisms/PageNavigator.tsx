@@ -1,52 +1,47 @@
-import React, { useState, useEffect, memo } from "react";
+import React, { useEffect, memo } from "react";
 import { useSetRecoilState } from "recoil";
-import { Pagination, useMediaQuery, useTheme } from "@mui/material";
+import { Pagination } from "@mui/material";
 import { paginatedImagesState } from "../../store/atoms/paginatedImagesState";
 import { Image } from "../../types/images";
 
 type Props = {
   images: Image[];
+  pageSize: number;
+  imagePage: number;
+  setImagePage: React.Dispatch<React.SetStateAction<number>>;
+  totalImageCount: number;
+  handleGetMoreImages: (pageSize: number) => void;
 };
 export const PageNavigator = memo((props: Props) => {
-  const { images } = props;
+  const {
+    images,
+    pageSize,
+    imagePage,
+    setImagePage,
+    totalImageCount,
+    handleGetMoreImages,
+  } = props;
   const setPaginatedImages = useSetRecoilState(paginatedImagesState);
-
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(1);
-
-  // 画面サイズによって表示する画像の数を変更する
-  const theme = useTheme();
-  const isSM = useMediaQuery(theme.breakpoints.down("md"));
-  const isMD = useMediaQuery(theme.breakpoints.between("md", "lg"));
-  const isLG = useMediaQuery(theme.breakpoints.up("lg"));
-
-  useEffect(() => {
-    if (isSM) {
-      setPageSize(8);
-    } else if (isMD) {
-      setPageSize(12);
-    } else if (isLG) {
-      setPageSize(15);
-    }
-  }, [isSM, isMD, isLG, setPageSize]);
 
   // ページネーション
   useEffect(() => {
-    const start = (page - 1) * pageSize;
-    const end = start + pageSize;
-    const paginatedImages = images.slice(start, end);
+    const paginatedImages = images.slice(0, 15);
     setPaginatedImages(paginatedImages);
-  }, [page, pageSize, images, setPaginatedImages]);
+  }, [imagePage, pageSize, images, setPaginatedImages]);
 
   const handlePageChange = (e: React.ChangeEvent<unknown>, newPage: number) => {
-    setPage(newPage);
+    setImagePage(newPage);
   };
+
+  useEffect(() => {
+    handleGetMoreImages(pageSize);
+  }, [imagePage]);
 
   return (
     <>
       <Pagination
-        count={Math.ceil(images.length / pageSize)}
-        page={page}
+        count={Math.ceil(totalImageCount / pageSize)}
+        page={imagePage}
         onChange={handlePageChange}
         sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}
       />

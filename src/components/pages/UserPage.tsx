@@ -8,6 +8,7 @@ import { FollowButton } from "../atoms/button/FollowButton";
 import { useUsers } from "../../hooks/user/useUsers";
 import { useImages } from "../../hooks/useImages";
 import { useParks } from "../../hooks/useParks";
+import { usePageSize } from "../../hooks/usePageSize";
 import Box from "@mui/system/Box";
 import Grid from "@mui/material/Grid";
 import {
@@ -33,16 +34,19 @@ export const UserPage = () => {
     setImages,
     totalImagesCount,
     handleGetImages,
+    handleGetMoreImages,
     isImagesInitialLoading,
     isImagesLoading,
+    imagePage,
     setImagePage,
     createdTime,
   } = useImages(numUserId);
+  const pageSize = usePageSize();
 
   // urlが変更されたらページに表示するユーザー、ログインユーザー情報を取得する
   useEffect(() => {
     handleGetUser(numUserId);
-    handleGetImages(numUserId);
+    handleGetImages(pageSize, numUserId);
     setFollowOpen(false);
   }, [numUserId]);
 
@@ -88,6 +92,10 @@ export const UserPage = () => {
       return;
     setImagePage((prevImagePage) => prevImagePage + 1);
   };
+
+  useEffect(() => {
+    handleGetMoreImages(pageSize, numUserId, "addToImages");
+  }, [imagePage]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleImageScroll);
