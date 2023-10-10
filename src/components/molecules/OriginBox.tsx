@@ -38,7 +38,7 @@ export const OriginBox = memo((props: Props) => {
       <TextField
         id="originBox"
         placeholder="出発地を入力 or 地図上でクリック"
-        value={originLocation === "" ? undefined : originLocation}
+        value={originLocation || ""}
         sx={{ width: 320, height: 50 }}
         inputRef={originRef}
         InputProps={{
