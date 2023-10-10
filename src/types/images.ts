@@ -1,17 +1,17 @@
 export type Image = {
   id: number;
-  user_id: number;
-  insect_id: number | null;
+  userId: number;
+  insectId: number | null;
   image: string;
-  taken_at: Date | null;
-  created_at: Date;
-  park_id: number | null;
-  park_name: string | null;
-  insect_name: string | null;
-  insect_sex: string | null;
-  city_name: string | null;
-  likes_count: number;
-  liked_user_ids: number[] | null;
+  takenAt: Date | null;
+  createdAt: Date;
+  parkId: number | null;
+  parkName: string | null;
+  insectName: string | null;
+  insectSex: string | null;
+  cityName: string | null;
+  likesCount: number;
+  likedUserIds: number[] | null;
 };
 export type HandleGetImages = (
   pageSize: number,

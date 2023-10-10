@@ -19,7 +19,7 @@ export type UserRegistrationForm = {
     nickname: string;
     email: string;
     password: string;
-    password_confirmation: string;
+    passwordConfirmation: string;
   };
 };
 

@@ -131,15 +131,15 @@ export const ImageItem = memo((props: Props) => {
                   </CustomTypography>
                   {/* 昆虫名 */}
                   <CustomTypography>
-                    {image.insect_name
-                      ? `${image.insect_name}(${image.insect_sex})`
+                    {image.insectName
+                      ? `${image.insectName}(${image.insectSex})`
                       : "\u00a0"}
                   </CustomTypography>
                   {/* 公園名 or 市町村名 */}
                   <CustomTypography>
-                    {image.park_id !== null && parks[image.park_id - 1]?.name
-                      ? parks[image.park_id - 1]?.name
-                      : image.city_name}
+                    {image.parkId !== null && parks[image.parkId - 1]?.name
+                      ? parks[image.parkId - 1]?.name
+                      : image.cityName}
                   </CustomTypography>
                 </CardContent>
               </Card>

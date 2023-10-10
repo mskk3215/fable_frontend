@@ -147,8 +147,8 @@ export const ImageItemDialog = memo((props: Props) => {
               }}
             >
               昆虫名:{" "}
-              {currentImage.insect_name
-                ? `${currentImage.insect_name}(${currentImage.insect_sex})`
+              {currentImage.insectName
+                ? `${currentImage.insectName}(${currentImage.insectSex})`
                 : "\u00a0"}
             </Typography>
             <Typography
@@ -158,10 +158,10 @@ export const ImageItemDialog = memo((props: Props) => {
               }}
             >
               撮影場所:{" "}
-              {currentImage.park_id !== null &&
-              parks[currentImage.park_id - 1]?.name
-                ? parks[currentImage.park_id - 1]?.name
-                : currentImage.city_name}
+              {currentImage.parkId !== null &&
+              parks[currentImage.parkId - 1]?.name
+                ? parks[currentImage.parkId - 1]?.name
+                : currentImage.cityName}
             </Typography>
             <Typography
               variant="body1"

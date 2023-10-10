@@ -49,7 +49,7 @@ export const PasswordChangeModal = (props: Props) => {
       if (loginUser === null) return;
 
       passwordData.append("user[password]", passwordValues.password);
-      passwordData.append("user[new_password]", passwordValues.newPassword);
+      passwordData.append("user[newPassword]", passwordValues.newPassword);
 
       // パスワード変更の処理
       handleProfileChangeAction({

@@ -28,7 +28,7 @@ export const useUsers = () => {
   const checkLoginStatus = async () => {
     const response = await getUserLogin();
 
-    if (response.data.logged_in) {
+    if (response.data.loggedIn) {
       setLoggedInStatus(true);
       setLoginUser(response.data.user);
       updateFollowState(response.data.user.following);

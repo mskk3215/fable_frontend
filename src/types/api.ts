@@ -3,7 +3,7 @@ import { User } from "./user";
 export type ApiResponse = {
   data: {
     registered?: boolean;
-    logged_in?: boolean;
+    loggedIn?: boolean;
     user: User;
   };
 };
@@ -13,7 +13,7 @@ export type ApiError = {
     status: number;
     data: {
       errors: string[];
-      error_messages: string;
+      errorMessages: string;
     };
   };
 };

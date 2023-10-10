@@ -2,9 +2,9 @@ import { Image } from "./images";
 
 export type Post = {
   id: number;
-  created_at: number;
+  createdAt: number;
   avatar: string;
-  user_id: number;
+  userId: number;
   username: string;
   images: Image[];
 };

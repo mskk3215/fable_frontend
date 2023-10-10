@@ -45,7 +45,7 @@ export const useImages = (userId?: number): UseImages => {
     setIsImagesLoading(false);
 
     // 画像の総数を取得する
-    setTotalImagesCount(data.total_images_count);
+    setTotalImagesCount(data.totalImagesCount);
 
     // いいね情報を取得する
     updateLikedImage(data.images);
@@ -92,7 +92,7 @@ export const useImages = (userId?: number): UseImages => {
     setLikedImage((prevLikedImage) => {
       return allImageData.reduce<{ [key: number]: boolean }>(
         (acc, image) => {
-          acc[image.id] = !!image.liked_user_ids?.includes(loginUser?.id);
+          acc[image.id] = !!image.likedUserIds?.includes(loginUser?.id);
           return acc;
         },
         { ...prevLikedImage }
@@ -105,7 +105,7 @@ export const useImages = (userId?: number): UseImages => {
     setLikedCount((prevLikedCount) => {
       return allImageData.reduce<{ [key: number]: number }>(
         (acc, image) => {
-          acc[image.id] = image.likes_count || 0;
+          acc[image.id] = image.likesCount || 0;
           return acc;
         },
         { ...prevLikedCount }
@@ -115,8 +115,8 @@ export const useImages = (userId?: number): UseImages => {
 
   // 撮影日時をフォーマットする
   const createdTime = (image: Image) => {
-    if (image.taken_at) {
-      const date = new Date(image.taken_at);
+    if (image.takenAt) {
+      const date = new Date(image.takenAt);
       const formattedDate = format(date, "yyyy/M/d/(E)", { locale: ja });
       return formattedDate;
     }
