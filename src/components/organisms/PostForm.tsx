@@ -208,6 +208,7 @@ export const PostForm = memo((props: Props) => {
                             color: "grey",
                           }}
                           onClick={() => handleOnRemoveImage(i)}
+                          disabled={isLoading}
                         >
                           <Cancel />
                         </IconButton>
