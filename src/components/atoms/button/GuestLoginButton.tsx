@@ -6,12 +6,6 @@ import { useAuthActions } from "../../../hooks/user/useAuthActions";
 export const GuestLoginButton = () => {
   const { handleLoginAction } = useAuthActions();
 
-  const SButton = styled(Button)`
-    font-size: 1rem;
-    height: 40px;
-    width: 100%;
-    background-color: #f0f0f0;
-  `;
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleGuestLogin = () => {
@@ -28,3 +22,10 @@ export const GuestLoginButton = () => {
     </SButton>
   );
 };
+
+const SButton = styled(Button)`
+  font-size: 1rem;
+  height: 40px;
+  width: 100%;
+  background-color: #f0f0f0;
+`;

@@ -291,13 +291,13 @@ export const EditForm = memo((props: Props) => {
                 onInputChange={handleInputChangeParkName}
                 options={parkOptions}
                 renderOption={(props, option) => (
-                  <div
+                  <Box
                     {...(props as {
                       [key: string]: React.HtmlHTMLAttributes<HTMLDivElement>;
                     })}
                   >
                     {option.label} ({option.prefecture} {option.city})
-                  </div>
+                  </Box>
                 )}
                 renderInput={(params) => (
                   <TextField {...params} label="公園名" />

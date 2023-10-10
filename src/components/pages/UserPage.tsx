@@ -122,7 +122,7 @@ export const UserPage = () => {
           }}
         >
           <Avatar
-            alt="profile image"
+            alt="avatar"
             src={
               viewedUser?.avatar instanceof File
                 ? URL.createObjectURL(viewedUser.avatar)
