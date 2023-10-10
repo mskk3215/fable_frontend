@@ -39,7 +39,7 @@ export const useAuthActions = () => {
         nickname: nickname,
         email: email,
         password: password,
-        password_confirmation: passwordConfirmation,
+        passwordConfirmation: passwordConfirmation,
       },
     };
 
@@ -75,7 +75,7 @@ export const useAuthActions = () => {
     setIsLoading?.(true);
     userLogin(payload)
       .then((response: ApiResponse) => {
-        if (response.data.logged_in) {
+        if (response.data.loggedIn) {
           handleSuccessfulAuthentication(response.data);
           navigate("/");
           setMessage({ message: "ログインしました。", type: "success" });

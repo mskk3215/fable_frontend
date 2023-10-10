@@ -1,15 +1,15 @@
 export type Park = {
   id: number;
   name: string;
-  post_code: string;
+  postCode: string;
   address: string;
   latitude: number;
   longitude: number;
-  prefecture_name: string;
-  city_name: string;
+  prefectureName: string;
+  cityName: string;
   image: string;
-  image_count: number;
-  insect_count: number;
+  imageCount: number;
+  insectCount: number;
 };
 export type ParkOption = {
   label: string;

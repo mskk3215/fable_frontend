@@ -59,7 +59,7 @@ export const MapView = memo((props: Props) => {
   //Iconの設定
   const renderIcon = (id: number) => {
     const selectedIconUrl = process.env.PUBLIC_URL + "/images/selectedIcon.png";
-    const parkIconUrl = process.env.PUBLIC_URL + "/images/park_icon.png";
+    const parkIconUrl = process.env.PUBLIC_URL + "/images/parkIcon.png";
 
     return {
       url: id === selectedItemId ? selectedIconUrl : parkIconUrl,

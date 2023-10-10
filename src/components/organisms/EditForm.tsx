@@ -83,9 +83,9 @@ export const EditForm = memo((props: Props) => {
         image: {
           name: insectName,
           sex: insectSex,
-          park_name: parkName,
-          city_name: cityName,
-          taken_at: takenDate ? takenDate.format() : "",
+          parkName,
+          cityName,
+          takenAt: takenDate ? takenDate.format() : "",
         },
       })
         .then(() => {
@@ -160,11 +160,11 @@ export const EditForm = memo((props: Props) => {
       setParkName(newValue?.label);
       if (newValue === null) return;
       setPrefectureName(
-        parks.find((park: Park) => park.id === newValue.id)?.prefecture_name ||
+        parks.find((park: Park) => park.id === newValue.id)?.prefectureName ||
           ""
       );
       setCityName(
-        parks.find((park: Park) => park.id === newValue.id)?.city_name || ""
+        parks.find((park: Park) => park.id === newValue.id)?.cityName || ""
       );
     } else {
       setValue("");

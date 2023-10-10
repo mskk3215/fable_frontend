@@ -14,7 +14,7 @@ export const useErrorAction = () => {
       });
     } else {
       setMessage({
-        message: error.response.data.error_messages,
+        message: error.response.data.errorMessages,
         type: "error",
       });
     }

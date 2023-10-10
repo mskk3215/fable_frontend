@@ -135,7 +135,7 @@ export const Registration = () => {
             <TextField
               label="確認用パスワード"
               variant="outlined"
-              name="password_confirmation"
+              name="passwordConfirmation"
               type="password"
               placeholder="パスワードを再入力してください"
               value={passwordConfirmation}

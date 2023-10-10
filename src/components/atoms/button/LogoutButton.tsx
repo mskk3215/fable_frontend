@@ -18,7 +18,7 @@ export const LogoutButton = () => {
   const handleLogoutClick = () => {
     userLogout()
       .then((response) => {
-        if (response.data.logged_out) {
+        if (response.data.loggedOut) {
           setLoggedInStatus(false);
           setLoginUser(null);
           setMessage({ message: "ログアウトしました", type: "success" });

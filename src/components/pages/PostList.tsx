@@ -141,7 +141,7 @@ export const PostList = () => {
                         variant="h6"
                         style={{ padding: 16 }}
                         component={Link}
-                        to={`/userpage/${post.user_id}`}
+                        to={`/userpage/${post.userId}`}
                         sx={{
                           cursor: "pointer",
                           textDecoration: "none",
@@ -158,14 +158,14 @@ export const PostList = () => {
                       </Typography>
                     </Box>
                     {/* フォローボタン */}
-                    {loginUser?.id !== post.user_id && (
+                    {loginUser?.id !== post.userId && (
                       <FollowButton
-                        followedUserId={post.user_id}
+                        followedUserId={post.userId}
                         isFollowed={isFollowed}
                       />
                     )}
                     {/* 削除ボタン */}
-                    {loginUser?.id === post.user_id && (
+                    {loginUser?.id === post.userId && (
                       <DeletePostButton
                         postId={post.id}
                         handleGetPosts={handleGetPosts}
@@ -219,7 +219,7 @@ export const PostList = () => {
                           >
                             {/* 画像ごとのタイトルと投稿日時 */}
                             <Box sx={{ padding: "5px" }}>
-                              {imageData.insect_name && (
+                              {imageData.insectName && (
                                 <Typography
                                   sx={{
                                     fontSize: {
@@ -228,7 +228,7 @@ export const PostList = () => {
                                     },
                                   }}
                                 >
-                                  {imageData.insect_name}の写真
+                                  {imageData.insectName}の写真
                                 </Typography>
                               )}
                               <Box
@@ -245,7 +245,7 @@ export const PostList = () => {
                                     },
                                   }}
                                 >
-                                  {imageData.park_name}
+                                  {imageData.parkName}
                                 </Typography>
                                 <Typography
                                   sx={{

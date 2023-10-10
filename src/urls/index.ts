@@ -1,22 +1,25 @@
 import axios, { AxiosProgressEvent } from "axios";
+import applyCaseMiddleware from "axios-case-converter";
 import { UserLoginForm, UserRegistrationForm } from "../types/user";
 import { GetImages } from "../types/images";
 
-//default_api
+//defaultApi
 export const DEFAULT_API_LOCALHOST = "/api/v1";
 
-export const apiClient = axios.create({
-  baseURL: DEFAULT_API_LOCALHOST,
-  withCredentials: true,
-  headers: {
-    "Content-type": "multipart/form-data",
-  },
-});
+export const apiClient = applyCaseMiddleware(
+  axios.create({
+    baseURL: DEFAULT_API_LOCALHOST,
+    withCredentials: true,
+    headers: {
+      "Content-type": "multipart/form-data",
+    },
+  })
+);
 
 //users
 //user's get, post, put
 export const getUser = (userId: number | undefined) => {
-  return apiClient.get("/users", { params: { user_id: userId } });
+  return apiClient.get("/users", { params: { userId } });
 };
 export const createUser = (data: UserRegistrationForm) => {
   return apiClient.post("/users", data);
@@ -82,7 +85,7 @@ export const deletePosts = (postId: number) => {
 //images
 export const getImages = ({ page, pageSize, sortOption }: GetImages) => {
   return apiClient.get("/images", {
-    params: { page, page_size: pageSize, sort_option: sortOption },
+    params: { page, pageSize, sortOption },
   });
 };
 export const getUserImages = ({
@@ -93,10 +96,10 @@ export const getUserImages = ({
 }: GetImages) => {
   return apiClient.get("/images", {
     params: {
-      user_id: userId,
+      userId,
       page,
-      page_size: pageSize,
-      sort_option: sortOption,
+      pageSize,
+      sortOption,
     },
   });
 };
@@ -136,6 +139,6 @@ export const getPrefectures = () => {
 };
 
 //search parks
-export const getSearchParkResults = (word: string) => {
-  return apiClient.get("/parks", { params: { search_word: word } });
+export const getSearchParkResults = (searchWord: string) => {
+  return apiClient.get("/parks", { params: { searchWord } });
 };

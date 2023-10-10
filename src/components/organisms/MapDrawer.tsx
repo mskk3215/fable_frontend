@@ -144,10 +144,10 @@ export const MapDrawer = memo((props: Props) => {
                             {result.address}
                           </Typography>
                           <Typography variant="body2" color="textSecondary">
-                            投稿写真数：{result.image_count}枚
+                            投稿写真数：{result.imageCount}枚
                           </Typography>
                           <Typography variant="body2" color="textSecondary">
-                            昆虫種類数：{result.insect_count}種類
+                            昆虫種類数：{result.insectCount}種類
                           </Typography>
                         </>
                       }
