@@ -1,8 +1,5 @@
 import { useSetRecoilState } from "recoil";
-import {
-  loggedInStatusState,
-  loginUserState,
-} from "../../../store/atoms/userAtom";
+import { loginUserState } from "../../../store/atoms/userAtom";
 import { messageState } from "../../../store/atoms/errorAtom";
 import { useErrorAction } from "../../../hooks/error/useErrorAction";
 import { ApiError } from "../../../types/api";
@@ -11,7 +8,6 @@ import { Button } from "@mui/material";
 
 export const LogoutButton = () => {
   const { handleGeneralErrorAction } = useErrorAction();
-  const setLoggedInStatus = useSetRecoilState(loggedInStatusState);
   const setLoginUser = useSetRecoilState(loginUserState);
   const setMessage = useSetRecoilState(messageState);
 
@@ -19,8 +15,7 @@ export const LogoutButton = () => {
     userLogout()
       .then((response) => {
         if (response.data.loggedOut) {
-          setLoggedInStatus(false);
-          setLoginUser(null);
+          setLoginUser(undefined);
           setMessage({ message: "ログアウトしました", type: "success" });
         }
       })

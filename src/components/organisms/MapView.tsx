@@ -11,12 +11,12 @@ import {
   selectedCenterState,
   selectedItemState,
 } from "../../store/atoms/MapDirectionState";
+import { destinationLocationState } from "../../store/atoms/searchWordState";
 import { Location } from "../../types/map";
 import { Park } from "../../types/parks";
-import { destinationLocationState } from "../../store/atoms/searchWordState";
 
 type Props = {
-  directions?: google.maps.DirectionsResult | null;
+  directions?: google.maps.DirectionsResult;
   handleMapClick?: (e: google.maps.MapMouseEvent) => void;
   onLoadHook?: (line: google.maps.DirectionsRenderer) => void;
   searchResults: Park[];
@@ -46,7 +46,7 @@ export const MapView = memo((props: Props) => {
 
   //Google Maps APIの読み込み状態を管理する
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: String(process.env.REACT_APP_API_KEY),
+    googleMapsApiKey: String(process.env.REACT_APP_GOOGLE_MAP_API_KEY),
     libraries: ["places"],
   });
   useEffect(() => {

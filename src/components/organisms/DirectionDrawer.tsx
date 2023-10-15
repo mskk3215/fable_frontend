@@ -29,8 +29,8 @@ type Props = {
   clearRoute: () => void;
   travelMode: string;
   setTravelMode: (mode: TravelMode) => void;
-  distance: string | null;
-  duration: string | null;
+  distance?: string;
+  duration?: string;
   anchor: Anchor;
   drawerWidth: string | number;
   drawerHeight: string | number;

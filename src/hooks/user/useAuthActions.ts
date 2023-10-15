@@ -1,26 +1,22 @@
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import {
-  loggedInStatusState,
-  loginUserState,
-} from "../../store/atoms/userAtom";
+import { loginUserState } from "../../store/atoms/userAtom";
 import { messageState } from "../../store/atoms/errorAtom";
 import { createUser, userLogin } from "../../urls";
 import { useUsers } from "./useUsers";
+import { useErrorAction } from "../error/useErrorAction";
 import {
   LoginAuthAction,
   RegistrationAuthAction,
   User,
 } from "../../types/user";
-import { ApiError, ApiResponse } from "../../types/api";
-import { useErrorAction } from "../error/useErrorAction";
+import { ApiError, AuthResponse } from "../../types/api";
 
 export const useAuthActions = () => {
   const { updateFollowState } = useUsers();
   const { handleAuthErrorAction } = useErrorAction();
 
-  const setLoginUser = useSetRecoilState<User | null>(loginUserState);
-  const setLoggedInStatus = useSetRecoilState<boolean>(loggedInStatusState);
+  const setLoginUser = useSetRecoilState<User | undefined>(loginUserState);
   const setMessage = useSetRecoilState(messageState);
 
   const navigate = useNavigate();
@@ -45,7 +41,7 @@ export const useAuthActions = () => {
 
     setIsLoading?.(true);
     createUser(payload)
-      .then((response: ApiResponse) => {
+      .then((response: AuthResponse) => {
         if (response.data.registered) {
           handleSuccessfulAuthentication(response.data);
           navigate("/");
@@ -74,7 +70,7 @@ export const useAuthActions = () => {
 
     setIsLoading?.(true);
     userLogin(payload)
-      .then((response: ApiResponse) => {
+      .then((response: AuthResponse) => {
         if (response.data.loggedIn) {
           handleSuccessfulAuthentication(response.data);
           navigate("/");
@@ -91,7 +87,6 @@ export const useAuthActions = () => {
 
   // 成功時の処理
   const handleSuccessfulAuthentication = (data: { user: User }) => {
-    setLoggedInStatus(true);
     setLoginUser(data.user);
     updateFollowState(data.user.following);
   };

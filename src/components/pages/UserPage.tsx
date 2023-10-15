@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { loginUserState, viewedUserState } from "../../store/atoms/userAtom";
+import { loginUserState } from "../../store/atoms/userAtom";
 import { ImageItem } from "../organisms/ImageItem";
 import { FollowModal } from "../molecules/FollowModal";
 import { FollowButton } from "../atoms/button/FollowButton";
+import { ImageSortSelector } from "../atoms/selector/ImageSortSelector";
 import { useUsers } from "../../hooks/user/useUsers";
 import { useImages } from "../../hooks/useImages";
 import { useParks } from "../../hooks/useParks";
@@ -18,13 +19,11 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
-import { ImageSortSelector } from "../atoms/selector/ImageSortSelector";
 import styled from "styled-components";
 
 export const UserPage = () => {
   const loginUser = useRecoilValue(loginUserState);
-  const viewedUser = useRecoilValue(viewedUserState);
-  const { handleGetUser, isFollowed } = useUsers();
+  const { handleGetUser, isFollowed, viewedUser } = useUsers();
   const { parks } = useParks();
 
   const { userId } = useParams();
@@ -240,6 +239,7 @@ export const UserPage = () => {
                   parks={parks}
                   createdTime={createdTime}
                   isFollowed={isFollowed}
+                  viewedUser={viewedUser}
                 />
               </Grid>
             ))}

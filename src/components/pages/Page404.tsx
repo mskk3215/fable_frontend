@@ -1,6 +1,6 @@
 import React from "react";
-import { Typography, Button, Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { Typography, Button, Container } from "@mui/material";
 
 export const Page404 = () => {
   const navigate = useNavigate();

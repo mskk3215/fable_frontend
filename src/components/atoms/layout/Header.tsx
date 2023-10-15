@@ -1,16 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { loggedInStatusState } from "../../../store/atoms/userAtom";
+import { loginUserState } from "../../../store/atoms/userAtom";
 import { LogoutButton } from "../button/LogoutButton";
 import styled from "styled-components";
 
 export const Header = () => {
-  const loggedInStatus = useRecoilValue(loggedInStatusState);
+  const loginUser = useRecoilValue(loginUserState);
 
   return (
     <SHeader>
-      {!loggedInStatus ? (
+      {loginUser === undefined ? (
         <>
           <SLink to="/registration">新規登録</SLink>
           <SLink to="/login">ログイン</SLink>

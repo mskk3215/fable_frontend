@@ -1,6 +1,6 @@
 import { User } from "./user";
 
-export type ApiResponse = {
+export type AuthResponse = {
   data: {
     registered?: boolean;
     loggedIn?: boolean;

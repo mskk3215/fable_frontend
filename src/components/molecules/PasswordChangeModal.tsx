@@ -46,7 +46,7 @@ export const PasswordChangeModal = (props: Props) => {
     if (handleValidation()) {
       handleModalClose();
       const passwordData = new FormData();
-      if (loginUser === null) return;
+      if (loginUser === undefined) return;
 
       passwordData.append("user[password]", passwordValues.password);
       passwordData.append("user[newPassword]", passwordValues.newPassword);

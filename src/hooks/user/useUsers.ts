@@ -1,23 +1,17 @@
-import { useRecoilState, useSetRecoilState } from "recoil";
-import {
-  loginUserState,
-  viewedUserState,
-  loggedInStatusState,
-  followUserState,
-} from "../../store/atoms/userAtom";
+import { useState } from "react";
+import { useRecoilState } from "recoil";
+import { loginUserState, followUserState } from "../../store/atoms/userAtom";
 import { getUser, getUserLogin } from "../../urls";
 import { useGetRequestErrorAction } from "../error/useGetRequestErrorAction";
 import { User } from "../../types/user";
 
 export const useUsers = () => {
   // ログインユーザー情報
-  const [loginUser, setLoginUser] = useRecoilState<User | null>(loginUserState);
-  // ログイン状態
-  const setLoggedInStatus = useSetRecoilState<boolean>(loggedInStatusState);
-  // 表示ユーザー情報
-  const [viewedUser, setViewedUser] = useRecoilState<User | null>(
-    viewedUserState
+  const [loginUser, setLoginUser] = useRecoilState<User | undefined>(
+    loginUserState
   );
+  // 表示ユーザー情報
+  const [viewedUser, setViewedUser] = useState<User | undefined>(undefined);
   // フォローユーザー情報
   const [followUser, setFollowUser] = useRecoilState(followUserState);
 
@@ -29,12 +23,10 @@ export const useUsers = () => {
     const response = await getUserLogin();
 
     if (response.data.loggedIn) {
-      setLoggedInStatus(true);
       setLoginUser(response.data.user);
       updateFollowState(response.data.user.following);
     } else {
-      setLoggedInStatus(false);
-      setLoginUser(null);
+      setLoginUser(undefined);
       // フォロー状態をfalseに初期化する
       if (response.data.user && response.data.user.following) {
         let newFollowState: { [key: number]: boolean } = { ...followUser };
@@ -88,5 +80,6 @@ export const useUsers = () => {
     handleGetUser,
     isFollowed,
     updateFollowState,
+    viewedUser,
   };
 };

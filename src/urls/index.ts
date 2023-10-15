@@ -4,11 +4,11 @@ import { UserLoginForm, UserRegistrationForm } from "../types/user";
 import { GetImages } from "../types/images";
 
 //defaultApi
-export const DEFAULT_API_LOCALHOST = "/api/v1";
+export const DEFAULT_API_ENDPOINT = "/api/v1";
 
 export const apiClient = applyCaseMiddleware(
   axios.create({
-    baseURL: DEFAULT_API_LOCALHOST,
+    baseURL: DEFAULT_API_ENDPOINT,
     withCredentials: true,
     headers: {
       "Content-type": "multipart/form-data",

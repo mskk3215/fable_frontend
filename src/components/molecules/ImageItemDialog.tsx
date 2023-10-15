@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { useRecoilValue } from "recoil";
-import { loginUserState, viewedUserState } from "../../store/atoms/userAtom";
+import { loginUserState } from "../../store/atoms/userAtom";
 import { FollowButton } from "../atoms/button/FollowButton";
 import { LikeButton } from "../atoms/button/LikeButton";
 import {
@@ -14,13 +14,14 @@ import {
 import { ArrowBackIos, ArrowForwardIos, Cancel } from "@mui/icons-material";
 import { Image } from "../../types/images";
 import { Park } from "../../types/parks";
+import { User } from "../../types/user";
 
 type Props = {
-  numUserId?: number | undefined;
+  numUserId?: number;
   currentImage: Image;
-  currentImageIndex: number | undefined;
+  currentImageIndex?: number;
   maxIndex?: number;
-  createdTime: (image: Image) => string | null;
+  createdTime?: (image: Image) => string;
   isDialogVisible: boolean;
   imageOpen: boolean;
   imageSize: { height: string; width: string };
@@ -29,6 +30,7 @@ type Props = {
   handleNextImageClick: () => void;
   parks: Park[];
   isFollowed: (followedUserId: number) => boolean;
+  viewedUser?: User;
 };
 
 export const ImageItemDialog = memo((props: Props) => {
@@ -46,10 +48,11 @@ export const ImageItemDialog = memo((props: Props) => {
     handleNextImageClick,
     parks,
     isFollowed,
+    viewedUser,
   } = props;
 
   const loginUser = useRecoilValue(loginUserState);
-  const viewedUser = useRecoilValue(viewedUserState);
+
   return (
     <>
       <Dialog
@@ -157,11 +160,9 @@ export const ImageItemDialog = memo((props: Props) => {
                 fontSize: { xs: "0.8rem", md: "1rem" },
               }}
             >
-              撮影場所:{" "}
-              {currentImage.parkId !== null &&
-              parks[currentImage.parkId - 1]?.name
-                ? parks[currentImage.parkId - 1]?.name
-                : currentImage.cityName}
+              撮影場所:
+              {currentImage.parkId &&
+                (parks[currentImage.parkId - 1].name || currentImage.cityName)}
             </Typography>
             <Typography
               variant="body1"
@@ -170,7 +171,9 @@ export const ImageItemDialog = memo((props: Props) => {
               }}
             >
               撮影日時:{" "}
-              {createdTime(currentImage) ? createdTime(currentImage) : "\u00a0"}
+              {createdTime && createdTime(currentImage)
+                ? createdTime(currentImage)
+                : "\u00a0"}
             </Typography>
             <LikeButton image={currentImage} />
           </Box>

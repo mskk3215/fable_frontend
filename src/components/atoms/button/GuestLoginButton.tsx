@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
-import { Button } from "@mui/material";
 import { useAuthActions } from "../../../hooks/user/useAuthActions";
+import { Button } from "@mui/material";
 
 export const GuestLoginButton = () => {
   const { handleLoginAction } = useAuthActions();

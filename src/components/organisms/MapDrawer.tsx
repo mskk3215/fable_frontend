@@ -27,8 +27,8 @@ import { InsectOption } from "../../types/insects";
 
 type Props = {
   anchor: Anchor;
-  drawerWidth: string | number;
-  drawerHeight: string | number;
+  drawerWidth?: string | number;
+  drawerHeight?: string | number;
   searchResults: Park[];
   isParksLoading: boolean;
   handleGetParkSearchResults: (searchWord: string) => void;
