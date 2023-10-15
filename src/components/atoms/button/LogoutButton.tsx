@@ -20,7 +20,7 @@ export const LogoutButton = () => {
       .then((response) => {
         if (response.data.loggedOut) {
           setLoggedInStatus(false);
-          setLoginUser(null);
+          setLoginUser(undefined);
           setMessage({ message: "ログアウトしました", type: "success" });
         }
       })

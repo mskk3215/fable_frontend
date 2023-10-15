@@ -16,11 +16,11 @@ import { Image } from "../../types/images";
 import { Park } from "../../types/parks";
 
 type Props = {
-  numUserId?: number | undefined;
+  numUserId?: number;
   currentImage: Image;
-  currentImageIndex: number | undefined;
+  currentImageIndex?: number;
   maxIndex?: number;
-  createdTime: (image: Image) => string | null;
+  createdTime?: (image: Image) => string;
   isDialogVisible: boolean;
   imageOpen: boolean;
   imageSize: { height: string; width: string };
@@ -157,11 +157,9 @@ export const ImageItemDialog = memo((props: Props) => {
                 fontSize: { xs: "0.8rem", md: "1rem" },
               }}
             >
-              撮影場所:{" "}
-              {currentImage.parkId !== null &&
-              parks[currentImage.parkId - 1]?.name
-                ? parks[currentImage.parkId - 1]?.name
-                : currentImage.cityName}
+              撮影場所:
+              {currentImage.parkId &&
+                (parks[currentImage.parkId - 1].name || currentImage.cityName)}
             </Typography>
             <Typography
               variant="body1"
@@ -170,7 +168,9 @@ export const ImageItemDialog = memo((props: Props) => {
               }}
             >
               撮影日時:{" "}
-              {createdTime(currentImage) ? createdTime(currentImage) : "\u00a0"}
+              {createdTime && createdTime(currentImage)
+                ? createdTime(currentImage)
+                : "\u00a0"}
             </Typography>
             <LikeButton image={currentImage} />
           </Box>

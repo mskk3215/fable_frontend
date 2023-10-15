@@ -11,11 +11,13 @@ import { User } from "../../types/user";
 
 export const useUsers = () => {
   // ログインユーザー情報
-  const [loginUser, setLoginUser] = useRecoilState<User | null>(loginUserState);
+  const [loginUser, setLoginUser] = useRecoilState<User | undefined>(
+    loginUserState
+  );
   // ログイン状態
   const setLoggedInStatus = useSetRecoilState<boolean>(loggedInStatusState);
   // 表示ユーザー情報
-  const [viewedUser, setViewedUser] = useRecoilState<User | null>(
+  const [viewedUser, setViewedUser] = useRecoilState<User | undefined>(
     viewedUserState
   );
   // フォローユーザー情報
@@ -34,7 +36,7 @@ export const useUsers = () => {
       updateFollowState(response.data.user.following);
     } else {
       setLoggedInStatus(false);
-      setLoginUser(null);
+      setLoginUser(undefined);
       // フォロー状態をfalseに初期化する
       if (response.data.user && response.data.user.following) {
         let newFollowState: { [key: number]: boolean } = { ...followUser };

@@ -20,8 +20,8 @@ import { InsectOption } from "../../types/insects";
 
 type Props = {
   setOpen: (open: boolean) => void;
-  selectedItemId: number | null;
-  setSelectedItemId: (id: number | null) => void;
+  selectedItemId?: number;
+  setSelectedItemId: (id?: number) => void;
   handleGetParkSearchResults: (searchWord: string) => void;
   insectOptions: InsectOption[];
 };
@@ -48,7 +48,7 @@ export const InsectSearchBox = memo((props: Props) => {
 
   const handleCancelButtonClick = () => {
     setOpen(false);
-    setSelectedItemId(null);
+    setSelectedItemId(undefined);
   };
 
   const navigate = useNavigate();
@@ -113,7 +113,7 @@ export const InsectSearchBox = memo((props: Props) => {
                   ) : (
                     ""
                   )}
-                  {selectedItemId !== null && selectedItemId >= 1 ? (
+                  {selectedItemId !== undefined && selectedItemId >= 1 ? (
                     <Tooltip title="ルートを検索する">
                       <IconButton onClick={handleDirectionButtonClick}>
                         <DirectionsIcon color="primary" />

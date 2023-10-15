@@ -15,22 +15,22 @@ import { Park } from "../../types/parks";
 type Props = {
   image: Image;
   index?: number;
-  currentImageIndex?: number | undefined;
+  currentImageIndex?: number;
   maxIndex?: number;
   handleSelect?: () => void;
   handleRemove?: () => void;
   checked?: boolean;
   isCheckboxVisible: boolean;
   isDialogVisible: boolean;
-  numUserId?: number | undefined;
+  numUserId?: number;
   setCurrentImageIndex: React.Dispatch<
     React.SetStateAction<number | undefined>
   >;
   handlePrevImageClick: () => void;
   handleNextImageClick: () => void;
-  currentImage?: Image | undefined;
+  currentImage?: Image;
   parks: Park[];
-  createdTime: (image: Image) => string | null;
+  createdTime?: (image: Image) => string;
   isFollowed?: (followedUserId: number) => boolean;
 };
 
@@ -127,7 +127,9 @@ export const ImageItem = memo((props: Props) => {
                 >
                   {/* 撮影日 */}
                   <CustomTypography variant="body2">
-                    {createdTime(image) ? createdTime(image) : "\u00a0"}
+                    {createdTime && createdTime(image)
+                      ? createdTime(image)
+                      : "\u00a0"}
                   </CustomTypography>
                   {/* 昆虫名 */}
                   <CustomTypography>
@@ -137,7 +139,7 @@ export const ImageItem = memo((props: Props) => {
                   </CustomTypography>
                   {/* 公園名 or 市町村名 */}
                   <CustomTypography>
-                    {image.parkId !== null && parks[image.parkId - 1]?.name
+                    {image.parkId !== undefined && parks[image.parkId - 1]?.name
                       ? parks[image.parkId - 1]?.name
                       : image.cityName}
                   </CustomTypography>

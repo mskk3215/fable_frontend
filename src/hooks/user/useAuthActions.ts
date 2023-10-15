@@ -19,7 +19,7 @@ export const useAuthActions = () => {
   const { updateFollowState } = useUsers();
   const { handleAuthErrorAction } = useErrorAction();
 
-  const setLoginUser = useSetRecoilState<User | null>(loginUserState);
+  const setLoginUser = useSetRecoilState<User | undefined>(loginUserState);
   const setLoggedInStatus = useSetRecoilState<boolean>(loggedInStatusState);
   const setMessage = useSetRecoilState(messageState);
 

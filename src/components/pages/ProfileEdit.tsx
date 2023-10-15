@@ -21,7 +21,7 @@ export const ProfileEdit = () => {
   const [profileValues, setProfileValues] = useState<UserProfileForm>({
     nickname: loginUser ? loginUser.nickname : "",
     email: loginUser ? loginUser.email : "",
-    avatar: loginUser ? loginUser.avatar : null,
+    avatar: loginUser?.avatar ? loginUser.avatar : undefined,
   });
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [blobUrl, setBlobUrl] = useState<string | undefined>(undefined);
@@ -66,7 +66,7 @@ export const ProfileEdit = () => {
     setIsLoading(true);
     if (handelValidation()) {
       const profileData = new FormData();
-      if (loginUser === null) return;
+      if (loginUser === undefined) return;
 
       profileData.append("user[nickname]", profileValues.nickname);
       profileData.append("user[email]", profileValues.email);

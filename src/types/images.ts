@@ -1,22 +1,22 @@
 export type Image = {
   id: number;
   userId: number;
-  insectId: number | null;
+  insectId?: number;
   image: string;
-  takenAt: Date | null;
+  takenAt?: Date;
   createdAt: Date;
-  parkId: number | null;
-  parkName: string | null;
-  insectName: string | null;
-  insectSex: string | null;
-  cityName: string | null;
+  parkId?: number;
+  parkName?: string;
+  insectName?: string;
+  insectSex?: string;
+  cityName?: string;
   likesCount: number;
-  likedUserIds: number[] | null;
+  likedUserIds?: number[];
 };
 export type HandleGetImages = (
   pageSize: number,
-  userId?: number | undefined,
-  context?: "addToImages" | undefined
+  userId?: number,
+  context?: "addToImages"
 ) => Promise<void>;
 
 export type UseImages = {
@@ -24,9 +24,9 @@ export type UseImages = {
   setImages: React.Dispatch<React.SetStateAction<Image[]>>;
   handleGetImages: HandleGetImages;
   handleGetMoreImages: HandleGetImages;
-  updateLikedImage: (allImageData: Image[] | undefined) => void;
-  updatedLikedCount: (allImageData: Image[] | undefined) => void;
-  createdTime: (image: Image) => string | null;
+  updateLikedImage: (allImageData?: Image[]) => void;
+  updatedLikedCount: (allImageData?: Image[]) => void;
+  createdTime?: (image: Image) => string;
   isImagesLoading: boolean;
   isImagesInitialLoading: boolean;
   imagePage: number;
@@ -37,7 +37,7 @@ export type UseImages = {
 };
 
 export type GetImages = {
-  userId?: number | undefined;
+  userId?: number;
   page: number;
   pageSize: number;
   sortOption: number;

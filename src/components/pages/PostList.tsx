@@ -256,7 +256,7 @@ export const PostList = () => {
                                     },
                                   }}
                                 >
-                                  {createdTime(imageData)
+                                  {createdTime && createdTime(imageData)
                                     ? createdTime(imageData)
                                     : "\u00a0"}
                                 </Typography>

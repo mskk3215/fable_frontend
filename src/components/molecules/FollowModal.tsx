@@ -14,7 +14,7 @@ import { Cancel } from "@mui/icons-material";
 import { User } from "../../types/user";
 
 type Props = {
-  viewedUser: User | null;
+  viewedUser?: User;
   followOpen: boolean;
   handleFollowModalOpen: () => void;
   handleFollowModalClose: () => void;

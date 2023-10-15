@@ -18,7 +18,7 @@ type Props = {
   sortOption: number;
   setSortOption: React.Dispatch<React.SetStateAction<number>>;
   pageSize: number;
-  userId: number | undefined;
+  userId?: number;
 };
 
 // 画像のソートオプションを選択するセレクター

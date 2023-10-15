@@ -16,7 +16,7 @@ import { Park } from "../../types/parks";
 import { destinationLocationState } from "../../store/atoms/searchWordState";
 
 type Props = {
-  directions?: google.maps.DirectionsResult | null;
+  directions?: google.maps.DirectionsResult;
   handleMapClick?: (e: google.maps.MapMouseEvent) => void;
   onLoadHook?: (line: google.maps.DirectionsRenderer) => void;
   searchResults: Park[];

@@ -18,10 +18,11 @@ export const Direction = () => {
   const [originLocation, setOriginLocation] =
     useRecoilState(originLocationState);
   const { searchResults } = useParks();
-  const [directions, setDirections] =
-    useState<google.maps.DirectionsResult | null>(null);
-  const [distance, setDistance] = useState<string | null>(null);
-  const [duration, setDuration] = useState<string | null>(null);
+  const [directions, setDirections] = useState<
+    google.maps.DirectionsResult | undefined
+  >(undefined);
+  const [distance, setDistance] = useState<string | undefined>(undefined);
+  const [duration, setDuration] = useState<string | undefined>(undefined);
   const [anchor, setAnchor] = useState<Anchor>("left");
   const destinationLocation = useRecoilValue(destinationLocationState);
   const originRef = useRef<HTMLInputElement>(null);
@@ -43,7 +44,7 @@ export const Direction = () => {
       });
       return;
     }
-    setDirections(null);
+    setDirections(undefined);
     setOriginLocation(originRef.current?.value || "");
     const directionsService = new window.google.maps.DirectionsService();
     directionsService
@@ -56,7 +57,7 @@ export const Direction = () => {
         },
         (result, status) => {
           if (status === "OK") {
-            setDirections(result);
+            setDirections(result || undefined);
             const distanceText = result?.routes[0]?.legs[0]?.distance?.text;
             const durationText = result?.routes[0]?.legs[0]?.duration?.text;
             if (distanceText && durationText) {
@@ -94,9 +95,9 @@ export const Direction = () => {
 
   //directionsの削除
   const clearRoute = () => {
-    setDirections(null);
-    setDistance(null);
-    setDuration(null);
+    setDirections(undefined);
+    setDistance(undefined);
+    setDuration(undefined);
     if (originRef.current) {
       originRef.current.value = "";
     }

@@ -1,14 +1,14 @@
 import { atom } from "recoil";
 import { User } from "../../types/user";
 
-export const loginUserState = atom<User | null>({
+export const loginUserState = atom<User | undefined>({
   key: "loginUserState",
-  default: null,
+  default: undefined,
 });
 
-export const viewedUserState = atom<User | null>({
+export const viewedUserState = atom<User | undefined>({
   key: "viewedUserState",
-  default: null,
+  default: undefined,
 });
 
 export const loggedInStatusState = atom<boolean>({
