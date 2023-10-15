@@ -3,7 +3,6 @@ import { useRecoilState } from "recoil";
 import { loginUserState } from "../../store/atoms/userAtom";
 import { PasswordChangeModal } from "../molecules/PasswordChangeModal";
 import { useProfileChangeAction } from "../../hooks/user/useProfileChangeAction";
-import { UserProfileForm } from "../../types/user";
 import {
   Box,
   Button,
@@ -13,6 +12,7 @@ import {
   Typography,
   LinearProgress,
 } from "@mui/material";
+import { UserProfileForm } from "../../types/user";
 
 export const ProfileEdit = () => {
   const { handleProfileChangeAction } = useProfileChangeAction();

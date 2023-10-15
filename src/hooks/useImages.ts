@@ -6,9 +6,9 @@ import { loginUserState } from "../store/atoms/userAtom";
 import { getImages, getUserImages } from "../urls";
 import format from "date-fns/format";
 import ja from "date-fns/locale/ja";
+import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
 import { HandleGetImages, Image, UseImages } from "../types/images";
 import { User } from "../types/user";
-import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
 
 export const useImages = (userId?: number): UseImages => {
   const loginUser = useRecoilValue<User | undefined>(loginUserState);

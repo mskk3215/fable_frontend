@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { MapDrawer } from "../organisms/MapDrawer";
 import { MapView } from "../organisms/MapView";
-import { Anchor } from "../../types/map";
 import { useParks } from "../../hooks/useParks";
 import { useAllInsects } from "../../hooks/useAllInsects";
+import { Anchor } from "../../types/map";
 
 export const Map = () => {
   const { searchResults, isParksLoading, handleGetParkSearchResults } =

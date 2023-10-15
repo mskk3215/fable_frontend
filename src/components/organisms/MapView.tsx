@@ -11,9 +11,9 @@ import {
   selectedCenterState,
   selectedItemState,
 } from "../../store/atoms/MapDirectionState";
+import { destinationLocationState } from "../../store/atoms/searchWordState";
 import { Location } from "../../types/map";
 import { Park } from "../../types/parks";
-import { destinationLocationState } from "../../store/atoms/searchWordState";
 
 type Props = {
   directions?: google.maps.DirectionsResult;

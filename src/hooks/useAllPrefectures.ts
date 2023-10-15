@@ -1,12 +1,12 @@
 //全昆虫データを取得するカスタムフック
 import { useEffect, useState } from "react";
 import { getPrefectures } from "../urls";
+import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
 import {
   Prefecture,
   PrefectureOption,
   UseAllPrefectures,
 } from "../types/prefectures";
-import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
 
 export const useAllPrefectures = (): UseAllPrefectures => {
   const [prefectures, setPrefectures] = useState<Prefecture[]>([]);

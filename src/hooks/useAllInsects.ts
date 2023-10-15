@@ -1,8 +1,8 @@
 //全昆虫データを取得するカスタムフック
 import { useEffect, useState } from "react";
 import { getInsects } from "../urls";
-import { Insect, InsectOption, UseAllInsects } from "../types/insects";
 import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
+import { Insect, InsectOption, UseAllInsects } from "../types/insects";
 
 export const useAllInsects = (): UseAllInsects => {
   const [insects, setInsects] = useState<Insect[]>([]);

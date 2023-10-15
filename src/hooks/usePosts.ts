@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { getPosts } from "../urls";
 import { useImages } from "./useImages";
-import { Post } from "../types/posts";
 import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
+import { Post } from "../types/posts";
 
 export const usePosts = () => {
   const { updateLikedImage, updatedLikedCount } = useImages();

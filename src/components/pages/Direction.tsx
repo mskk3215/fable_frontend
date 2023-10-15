@@ -9,8 +9,8 @@ import {
   saveOriginLocation,
 } from "../../store/atoms/searchWordState";
 import { useParks } from "../../hooks/useParks";
-import { Anchor, TravelMode } from "../../types/map";
 import { Box } from "@mui/material";
+import { Anchor, TravelMode } from "../../types/map";
 
 export const Direction = () => {
   const setMessage = useSetRecoilState(messageState);

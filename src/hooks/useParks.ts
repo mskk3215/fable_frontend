@@ -2,9 +2,9 @@
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { searchWordState } from "../store/atoms/searchWordState";
+import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
 import { getParks, getSearchParkResults } from "../urls";
 import { ParkOption, Park, UseParks } from "../types/parks";
-import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
 
 export const useParks = (): UseParks => {
   const [parks, setParks] = useState<Park[]>([]);

@@ -4,13 +4,13 @@ import { loginUserState } from "../../store/atoms/userAtom";
 import { messageState } from "../../store/atoms/errorAtom";
 import { createUser, userLogin } from "../../urls";
 import { useUsers } from "./useUsers";
+import { useErrorAction } from "../error/useErrorAction";
 import {
   LoginAuthAction,
   RegistrationAuthAction,
   User,
 } from "../../types/user";
 import { ApiError, AuthResponse } from "../../types/api";
-import { useErrorAction } from "../error/useErrorAction";
 
 export const useAuthActions = () => {
   const { updateFollowState } = useUsers();
