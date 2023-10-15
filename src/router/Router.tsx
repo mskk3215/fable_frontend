@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { authCheckedState, loggedInStatusState } from "../store/atoms/userAtom";
+import { authCheckedState, loginUserState } from "../store/atoms/userAtom";
 import { useUsers } from "../hooks/user/useUsers";
 import { Login } from "../components/pages/auth/Login";
 import { Registration } from "../components/pages/auth/Registration";
@@ -23,11 +23,11 @@ type RouteAuthGuardProps = {
 
 // ログインしていなければログイン画面へ遷移
 const RouteAuthGuard: React.FC<RouteAuthGuardProps> = ({ children }) => {
-  const loggedInStatus = useRecoilValue(loggedInStatusState);
+  const loginUser = useRecoilValue(loginUserState);
   const authChecked = useRecoilValue(authCheckedState);
 
   if (authChecked) {
-    return loggedInStatus ? (
+    return loginUser !== undefined ? (
       <>{children}</>
     ) : (
       <HeaderOnly>

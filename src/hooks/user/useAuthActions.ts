@@ -1,9 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import {
-  loggedInStatusState,
-  loginUserState,
-} from "../../store/atoms/userAtom";
+import { loginUserState } from "../../store/atoms/userAtom";
 import { messageState } from "../../store/atoms/errorAtom";
 import { createUser, userLogin } from "../../urls";
 import { useUsers } from "./useUsers";
@@ -20,7 +17,6 @@ export const useAuthActions = () => {
   const { handleAuthErrorAction } = useErrorAction();
 
   const setLoginUser = useSetRecoilState<User | undefined>(loginUserState);
-  const setLoggedInStatus = useSetRecoilState<boolean>(loggedInStatusState);
   const setMessage = useSetRecoilState(messageState);
 
   const navigate = useNavigate();
@@ -91,7 +87,6 @@ export const useAuthActions = () => {
 
   // 成功時の処理
   const handleSuccessfulAuthentication = (data: { user: User }) => {
-    setLoggedInStatus(true);
     setLoginUser(data.user);
     updateFollowState(data.user.following);
   };

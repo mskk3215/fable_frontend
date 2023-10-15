@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { Image } from "../../types/images";
 import { Park } from "../../types/parks";
+import { User } from "../../types/user";
 
 type Props = {
   image: Image;
@@ -32,6 +33,7 @@ type Props = {
   parks: Park[];
   createdTime?: (image: Image) => string;
   isFollowed?: (followedUserId: number) => boolean;
+  viewedUser?: User;
 };
 
 export const ImageItem = memo((props: Props) => {
@@ -53,6 +55,7 @@ export const ImageItem = memo((props: Props) => {
     parks,
     createdTime,
     isFollowed,
+    viewedUser,
   } = props;
   // checkboxの切り替え
   const handleCheckBoxChange = useCallback(
@@ -164,6 +167,7 @@ export const ImageItem = memo((props: Props) => {
                 handleNextImageClick={handleNextImageClick}
                 parks={parks}
                 isFollowed={isFollowed}
+                viewedUser={viewedUser}
               />
             </>
           )}

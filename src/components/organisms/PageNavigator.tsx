@@ -1,7 +1,5 @@
 import React, { useEffect, memo } from "react";
-import { useSetRecoilState } from "recoil";
 import { Pagination } from "@mui/material";
-import { paginatedImagesState } from "../../store/atoms/paginatedImagesState";
 import { Image } from "../../types/images";
 
 type Props = {
@@ -11,6 +9,7 @@ type Props = {
   setImagePage: React.Dispatch<React.SetStateAction<number>>;
   totalImageCount: number;
   handleGetMoreImages: (pageSize: number) => void;
+  setPaginatedImages: React.Dispatch<React.SetStateAction<Image[]>>;
 };
 export const PageNavigator = memo((props: Props) => {
   const {
@@ -20,8 +19,8 @@ export const PageNavigator = memo((props: Props) => {
     setImagePage,
     totalImageCount,
     handleGetMoreImages,
+    setPaginatedImages,
   } = props;
-  const setPaginatedImages = useSetRecoilState(paginatedImagesState);
 
   // ページネーション
   useEffect(() => {

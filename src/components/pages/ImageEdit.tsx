@@ -1,6 +1,4 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useRecoilValue } from "recoil";
-import { paginatedImagesState } from "../../store/atoms/paginatedImagesState";
 import { EditForm } from "../organisms/EditForm";
 import { ImageItem } from "../organisms/ImageItem";
 import { useImages } from "../../hooks/useImages";
@@ -32,7 +30,7 @@ export const ImageEdit = () => {
   const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
   const [isShiftDown, setIsShiftDown] = useState<boolean>(false);
 
-  const paginatedImages = useRecoilValue(paginatedImagesState);
+  const [paginatedImages, setPaginatedImages] = useState<Image[]>([]);
   const pageSize = usePageSize();
 
   useEffect(() => {
@@ -174,6 +172,7 @@ export const ImageEdit = () => {
             setImagePage={setImagePage}
             totalImageCount={totalImagesCount}
             handleGetMoreImages={handleGetMoreImages}
+            setPaginatedImages={setPaginatedImages}
           />
         </Box>
         <Divider orientation="vertical" flexItem />
