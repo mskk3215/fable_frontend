@@ -1,7 +1,6 @@
-import React, { memo, useEffect } from "react";
+import React, { memo } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { Autocomplete } from "@react-google-maps/api";
-import { useLocation } from "react-router-dom";
 import { originLocationState } from "../../store/atoms/searchWordState";
 import { mapApiLoadState } from "../../store/atoms/MapDirectionState";
 import { IconButton, TextField } from "@mui/material";
@@ -17,17 +16,11 @@ export const OriginBox = memo((props: Props) => {
   const [originLocation, setOriginLocation] =
     useRecoilState(originLocationState);
   const mapLoadState = useRecoilValue(mapApiLoadState);
-  const location = useLocation();
 
   const handleDeleteClick = () => {
     setOriginLocation("");
     clearRoute();
   };
-
-  // ページ遷移時にsearchWordの値を初期化する
-  useEffect(() => {
-    setOriginLocation("");
-  }, [location.pathname]);
 
   //Google Maps APIの読み込み状態を管理する
   if (mapLoadState.loadError) return "Error loading maps";
