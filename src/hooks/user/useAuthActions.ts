@@ -12,7 +12,7 @@ import {
   RegistrationAuthAction,
   User,
 } from "../../types/user";
-import { ApiError, ApiResponse } from "../../types/api";
+import { ApiError, AuthResponse } from "../../types/api";
 import { useErrorAction } from "../error/useErrorAction";
 
 export const useAuthActions = () => {
@@ -45,7 +45,7 @@ export const useAuthActions = () => {
 
     setIsLoading?.(true);
     createUser(payload)
-      .then((response: ApiResponse) => {
+      .then((response: AuthResponse) => {
         if (response.data.registered) {
           handleSuccessfulAuthentication(response.data);
           navigate("/");
@@ -74,7 +74,7 @@ export const useAuthActions = () => {
 
     setIsLoading?.(true);
     userLogin(payload)
-      .then((response: ApiResponse) => {
+      .then((response: AuthResponse) => {
         if (response.data.loggedIn) {
           handleSuccessfulAuthentication(response.data);
           navigate("/");
