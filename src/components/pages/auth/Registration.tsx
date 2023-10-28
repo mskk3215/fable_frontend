@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { GuestLoginButton } from "../../atoms/button/GuestLoginButton";
 import { useAuthActions } from "../../../hooks/user/useAuthActions";
 import { Box, Button, TextField, Typography } from "@mui/material";
 
@@ -170,9 +169,6 @@ export const Registration = () => {
                   width: "100%",
                 }}
               >
-                <Box sx={{ flexGrow: 1, flexBasis: 0, marginRight: 1 }}>
-                  <GuestLoginButton />
-                </Box>
                 <Box sx={{ flexGrow: 1, flexBasis: 0 }}>
                   <Button
                     onClick={() => navigate("/login")}

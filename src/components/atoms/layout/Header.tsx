@@ -4,6 +4,7 @@ import { useRecoilValue } from "recoil";
 import { loginUserState } from "../../../store/atoms/userAtom";
 import { LogoutButton } from "../button/LogoutButton";
 import styled from "styled-components";
+import { GuestLoginButton } from "../button/GuestLoginButton";
 
 export const Header = () => {
   const loginUser = useRecoilValue(loginUserState);
@@ -12,6 +13,7 @@ export const Header = () => {
     <SHeader>
       {loginUser === undefined ? (
         <>
+          <GuestLoginButton />
           <SLink to="/registration">新規登録</SLink>
           <SLink to="/login">ログイン</SLink>
         </>

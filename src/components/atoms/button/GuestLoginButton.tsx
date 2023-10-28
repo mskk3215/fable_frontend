@@ -13,6 +13,7 @@ export const GuestLoginButton = () => {
       email: "Ares@example.com",
       password: "111111",
       setIsLoading: setIsLoading,
+      isGuest: true,
     });
   };
 

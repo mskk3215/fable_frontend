@@ -65,6 +65,7 @@ export const useAuthActions = () => {
     password,
     setErrors,
     setIsLoading,
+    isGuest,
   }: LoginAuthAction) => {
     const payload = { session: { email: email, password: password } };
 
@@ -73,7 +74,9 @@ export const useAuthActions = () => {
       .then((response: AuthResponse) => {
         if (response.data.loggedIn) {
           handleSuccessfulAuthentication(response.data);
-          navigate("/");
+          if (!isGuest) {
+            navigate("/");
+          }
           setMessage({ message: "ログインしました。", type: "success" });
         }
       })
