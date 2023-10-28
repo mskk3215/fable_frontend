@@ -2,11 +2,11 @@ import React from "react";
 import styled from "styled-components";
 
 export const Footer = () => {
-  return <SFooter>&copy; 2022 fable inc.</SFooter>;
+  return <SFooter>&copy; fabre, inc.</SFooter>;
 };
 
 const SFooter = styled.footer`
-  background-color: #5555ff;
+  background-color: #2b3d51;
   color: #fff;
   text-align: center;
   padding: 8px 0;
