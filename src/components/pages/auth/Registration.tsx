@@ -157,10 +157,11 @@ export const Registration = () => {
                 onClick={handleRegistrationAction}
                 disabled={isLoading}
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  mt: 2,
-                  width: "100%",
+                  backgroundColor: "#2b3d51",
+                  color: "#ffffff",
+                  "&:hover": {
+                    backgroundColor: "#d48a16",
+                  },
                 }}
               >
                 登録
