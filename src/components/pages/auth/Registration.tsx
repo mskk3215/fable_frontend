@@ -13,8 +13,6 @@ export const Registration = () => {
   const [errors, setErrors] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const navigate = useNavigate();
-
   const handleRegistrationAction = async (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
@@ -158,10 +156,6 @@ export const Registration = () => {
                 variant="contained"
                 onClick={handleRegistrationAction}
                 disabled={isLoading}
-              >
-                登録
-              </Button>
-              <Box
                 sx={{
                   display: "flex",
                   alignItems: "center",
@@ -169,17 +163,8 @@ export const Registration = () => {
                   width: "100%",
                 }}
               >
-                <Box sx={{ flexGrow: 1, flexBasis: 0 }}>
-                  <Button
-                    onClick={() => navigate("/login")}
-                    color="secondary"
-                    fullWidth
-                    sx={{ width: "100%" }}
-                  >
-                    ログイン
-                  </Button>
-                </Box>
-              </Box>
+                登録
+              </Button>
             </Box>
           </Box>
         </Box>
