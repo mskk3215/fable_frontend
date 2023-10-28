@@ -10,8 +10,8 @@ import {
 import styled from "styled-components";
 import {
   Autocomplete,
+  Box,
   Button,
-  Container,
   Grid,
   InputAdornment,
   TextField,
@@ -46,8 +46,13 @@ export const Top = () => {
   return (
     <>
       <SConteiner>
-        <h1>Top</h1>
-        <Container maxWidth="md" sx={{ mt: 20 }}>
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          height="100%"
+        >
           <Autocomplete
             data-testid="autocomplete"
             value={selectedInsectOption || null}
@@ -55,6 +60,7 @@ export const Top = () => {
               setSearchWord(newValue?.label || "");
             }}
             options={insectOptions}
+            sx={{ width: { xs: "80vw", md: "50vw" }, backgroundColor: "white" }}
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -84,6 +90,9 @@ export const Top = () => {
                   bgcolor: "grey.200",
                   color: "black",
                   borderColor: "grey.400",
+                  "&:hover": {
+                    backgroundColor: "grey.300",
+                  },
                 }}
                 disabled={searchWord == null || searchWord === ""}
               >
@@ -91,13 +100,22 @@ export const Top = () => {
               </Button>
             </Link>
           </Grid>
-        </Container>
+        </Box>
       </SConteiner>
     </>
   );
 };
 
+const toppage = process.env.PUBLIC_URL + "/images/toppage.png";
+
 const SConteiner = styled.div`
   text-align: center;
-  margin-top: 100px;
+  width: 100%;
+  height: 100vh;
+  background-image: url(${toppage});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 0;
+  margin: 0;
 `;
