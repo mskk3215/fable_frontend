@@ -25,8 +25,16 @@ export const GuestLoginButton = () => {
 };
 
 const SButton = styled(Button)`
-  font-size: 1rem;
-  height: 40px;
-  width: 100%;
-  background-color: #f0f0f0;
+  border-radius: 0px;
+  background-color: #42a878;
+  color: #ffffff;
+  text-decoration: none;
+  padding: 0px 12px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover {
+    background-color: #388e6a;
+  }
 `;

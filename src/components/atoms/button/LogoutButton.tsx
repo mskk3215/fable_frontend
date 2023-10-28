@@ -31,8 +31,6 @@ export const LogoutButton = () => {
         sx={{
           fontSize: "1rem",
           color: "#fff",
-          textDecoration: "underline",
-          "&:hover": { textDecoration: "underline" },
           margin: 0,
           padding: 0,
         }}
