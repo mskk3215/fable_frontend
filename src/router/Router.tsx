@@ -16,6 +16,7 @@ import { Map } from "../components/pages/Map";
 import { Direction } from "../components/pages/Direction";
 import { ProfileEdit } from "../components/pages/ProfileEdit";
 import { PostList } from "../components/pages/PostList";
+import { Statistics } from "../components/pages/Statistics";
 
 type RouteAuthGuardProps = {
   children: React.ReactNode;
@@ -136,6 +137,16 @@ export const Router = () => {
               <RouteAuthGuard>
                 <HeaderOnly>
                   <ImageEdit />
+                </HeaderOnly>
+              </RouteAuthGuard>
+            }
+          />
+          <Route
+            path="statistics"
+            element={
+              <RouteAuthGuard>
+                <HeaderOnly>
+                  <Statistics />
                 </HeaderOnly>
               </RouteAuthGuard>
             }
