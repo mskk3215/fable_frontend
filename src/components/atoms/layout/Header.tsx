@@ -24,7 +24,7 @@ export const Header = () => {
           <SLink to="/uploadview">投稿</SLink>
           <SLink to="/postlist">投稿一覧</SLink>
           <SLink to="/">検索</SLink>
-          <SLink to="statistics">分析</SLink>
+          <SLink to="/statistics">分析</SLink>
         </>
       )}
     </SHeader>
