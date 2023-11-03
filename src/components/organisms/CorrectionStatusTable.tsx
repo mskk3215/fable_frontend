@@ -1,3 +1,4 @@
+@@ -1,264 +0,0 @@
 import * as React from "react";
 import { useState, useMemo } from "react";
 import Box from "@mui/material/Box";
@@ -179,7 +180,7 @@ export const EnhancedTableToolbar = () => {
   );
 };
 
-export const CorrectionTable = () => {
+export const CorrectionStatusTable = () => {
   const [order, setOrder] = useState<Order>("asc");
   const [orderBy, setOrderBy] = useState<keyof TableData>("name");
   const [page, setPage] = useState(0);
