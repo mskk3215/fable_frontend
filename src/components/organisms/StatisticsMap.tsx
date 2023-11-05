@@ -1,8 +1,13 @@
 import "../../../src/App.css";
 import React, { useEffect, useMemo, useState } from "react";
+import { useRecoilState } from "recoil";
 import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { center, area } from "@turf/turf";
+import {
+  selectedCityState,
+  selectedPrefectureState,
+} from "../../store/atoms/statisticsState";
 import { useStatisticMap } from "../../hooks/useStatisticsMap";
 import { Box, Autocomplete, TextField } from "@mui/material";
 import { GeoJSONFeature } from "../../types/statistics";
@@ -17,15 +22,14 @@ export const StatisticsMap = () => {
     prefectureCoordinates,
   } = useStatisticMap();
 
+  const [selectedPref, setSelectedPref] = useRecoilState(
+    selectedPrefectureState
+  );
+  const [selectedCity, setSelectedCity] = useRecoilState(selectedCityState);
+
   const defaultCenter = [35.3628, 138.7307];
   const DEFAULT_ZOOM = 3;
 
-  const [selectedPref, setSelectedPref] = useState<string | undefined>(
-    undefined
-  );
-  const [selectedCity, setSelectedCity] = useState<string | undefined>(
-    undefined
-  );
   const [inputValue, setInputValue] = useState("");
   const [mapCenter, setMapCenter] = useState<number[]>(defaultCenter);
   const [zoomSize, setZoomSize] = useState(DEFAULT_ZOOM);
