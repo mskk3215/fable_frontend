@@ -9,7 +9,7 @@ import {
   selectedPrefectureState,
 } from "../../store/atoms/statisticsState";
 import { useStatisticMap } from "../../hooks/useStatisticsMap";
-import { Box, Autocomplete, TextField } from "@mui/material";
+import { Box, Autocomplete, TextField, Paper, Typography } from "@mui/material";
 import { GeoJSONFeature } from "../../types/statistics";
 
 export const StatisticsMap = () => {
@@ -134,72 +134,84 @@ export const StatisticsMap = () => {
   }, [selectedCity]);
 
   return (
-    <Box
-      sx={{
-        marginTop: "20px",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      <Box
-        sx={{
-          marginTop: "20px",
-          display: "flex",
-          flexDirection: "row",
-        }}
-      >
-        <Autocomplete
-          sx={{ width: 200, pl: 1 }}
-          options={allPrefectures}
-          onChange={handlePrefectureChange}
-          renderInput={(params) => (
-            <TextField {...params} label="都道府県を選択" variant="standard" />
-          )}
-        />
-        <Autocomplete
-          sx={{ width: 200, pl: 1 }}
-          options={allCities}
-          onChange={handleCityChange}
-          value={inputValue}
-          onInputChange={(e, newInputValue) => {
-            setInputValue(newInputValue);
+    <Box sx={{ marginTop: "40px", width: "100%" }}>
+      <Paper sx={{ border: "1px solid lightgray" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
           }}
-          renderInput={(params) => (
-            <TextField {...params} label="市町村を選択" variant="standard" />
-          )}
-        />
-      </Box>
-      <Box
-        sx={{
-          width: "30vw",
-          height: "20vw",
-        }}
-      >
-        <MapContainer
-          key={mapCenter.toString()}
-          center={mapCenter}
-          zoom={zoomSize}
-          zoomControl={false}
-          id="map"
         >
-          <TileLayer
-            attribution='© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          {displayData && (
-            <GeoJSON
-              key={selectedCity || selectedPref || "alls"}
-              data={displayData}
-              style={() => ({
-                color: "red",
-                weight: 3,
-                fillColor: "#ffcccc",
-                fillOpacity: 0.5,
-              })}
+          <Typography variant="h6" style={{ color: "gray" }}>
+            都道府県・市町村別の状況
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+            }}
+          >
+            <Autocomplete
+              sx={{ minWidth: 150 }}
+              options={allPrefectures}
+              onChange={handlePrefectureChange}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="都道府県を選択"
+                  variant="standard"
+                />
+              )}
             />
-          )}
-        </MapContainer>
-      </Box>
+            <Autocomplete
+              sx={{ minWidth: 200, marginLeft: "10px" }}
+              options={allCities}
+              onChange={handleCityChange}
+              value={inputValue}
+              onInputChange={(e, newInputValue) => {
+                setInputValue(newInputValue);
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="市町村を選択"
+                  variant="standard"
+                />
+              )}
+            />
+          </Box>
+          <Box
+            sx={{
+              height: "40vh",
+            }}
+          >
+            <MapContainer
+              key={mapCenter.toString()}
+              center={mapCenter}
+              zoom={zoomSize}
+              zoomControl={false}
+              id="map"
+            >
+              <TileLayer
+                attribution='© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              {displayData && (
+                <GeoJSON
+                  key={selectedCity || selectedPref || "alls"}
+                  data={displayData}
+                  style={() => ({
+                    color: "red",
+                    weight: 3,
+                    fillColor: "#ffcccc",
+                    fillOpacity: 0.5,
+                  })}
+                />
+              )}
+            </MapContainer>
+          </Box>
+        </Box>
+      </Paper>
     </Box>
   );
 };
