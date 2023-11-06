@@ -2,8 +2,8 @@
 import React from "react";
 import { StatisticsMap } from "../organisms/StatisticsMap";
 import { CorrectionStatusTable } from "../organisms/CorrectionStatusTable";
-import { CorrectionRankingChart } from "../organisms/CorrectionRankingChart";
 import { CollectionDoughnutChart } from "../organisms/CollectionDoughnutChart";
+import { CollectionRankingChart } from "../organisms/CollectionRankingChart";
 import { Container } from "@mui/material";
 import { useUserInsectCollectionStats } from "../../hooks/statistics/useUserInsectCollectionStats";
 
@@ -22,7 +22,6 @@ export const Statistics = () => {
       }}
     >
       <StatisticsMap />
-      <CorrectionRankingChart />
       <CorrectionStatusTable isCorrected={false} />
       <CorrectionStatusTable isCorrected={true} />
       <CollectionDoughnutChart
@@ -30,6 +29,7 @@ export const Statistics = () => {
         collectionCount={collectionCount}
         unCollectedCount={unCollectedCount}
       />
+      <CollectionRankingChart />
     </Container>
   );
 };

@@ -19,3 +19,9 @@ export type GeoJSONFeatureCollection = {
 export type PrefectureCoordinates = {
   [key: string]: number[];
 };
+
+export type Ranking = {
+  userName: string;
+  collectionRate: number;
+};
+

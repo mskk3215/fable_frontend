@@ -153,3 +153,7 @@ export const getUserStatistics = (
   });
 };
 
+export const getUserRankings = (prefectureName?: string, cityName?: string) => {
+  return apiClient.get("/rankings", { params: { prefectureName, cityName } });
+};
+
