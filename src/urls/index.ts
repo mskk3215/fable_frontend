@@ -157,3 +157,20 @@ export const getUserRankings = (prefectureName?: string, cityName?: string) => {
   return apiClient.get("/rankings", { params: { prefectureName, cityName } });
 };
 
+export const getInsectsAndParksInfo = (
+  collectionStatus: string,
+  prefectureName?: string,
+  cityName?: string,
+  lat?: number,
+  lng?: number
+) => {
+  return apiClient.get("/insects", {
+    params: {
+      status: collectionStatus,
+      prefecture: prefectureName,
+      city: cityName,
+      lat: lat,
+      lng: lng,
+    },
+  });
+};

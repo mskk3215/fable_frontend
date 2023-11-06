@@ -1,6 +1,14 @@
-@@ -1,264 +0,0 @@
 import * as React from "react";
 import { useState, useMemo } from "react";
+import { Link } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { useCollectedInsectsAndParksInfo } from "../../hooks/statistics/useCollectedInsectsAndParksInfo";
+import { useUncollectedInsectsAndParksInfo } from "../../hooks/statistics/useUncollectedInsectsAndParksInfo";
+import { CurrentLocationBox } from "../molecules/CurrentLocationBox";
+import {
+  destinationLocationState,
+  searchWordState,
+} from "../../store/atoms/searchWordState";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -14,12 +22,13 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import { visuallyHidden } from "@mui/utils";
+import styled from "styled-components";
 
 export type TableData = {
   id: number;
-  name: string;
+  insectName: string;
   biologicalFamily: string;
-  park: string;
+  parkName: string;
 };
 
 export type Order = "asc" | "desc";
@@ -30,31 +39,6 @@ export type HeadCell = {
   label: string;
   numeric: boolean;
 };
-
-function createData(
-  id: number,
-  name: string,
-  biologicalFamily: string,
-  park: string
-): TableData {
-  return {
-    id,
-    name,
-    biologicalFamily,
-    park,
-  };
-}
-
-const rows = [
-  createData(1, "カブトムシ", "コガネムシ科", "等々力渓谷"),
-  createData(2, "カナブン", "コガネムシ科", "石神井公園"),
-  createData(3, "オオクワガタ", "クワガタムシ科", "高尾山"),
-  createData(4, "アオスジアゲハ", "アゲハチョウ科", "小金井公園"),
-  createData(5, "ハンミョウ", "ハンミョウ科", "光ヶ丘公園"),
-  createData(6, "アオマツムシ", "マツムシ科", "長沼公園"),
-  createData(7, "アキアカネ", "トンボ科", "井の頭恩寵公園"),
-  createData(8, "アオハダトンボ", "トンボ科", "高尾山"),
-];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -93,39 +77,19 @@ function stableSort<T>(
   return stabilizedThis.map((el) => el[0]);
 }
 
-const headCells: readonly HeadCell[] = [
-  {
-    id: "name",
-    numeric: false,
-    disablePadding: true,
-    label: "昆虫名",
-  },
-  {
-    id: "biologicalFamily",
-    numeric: true,
-    disablePadding: false,
-    label: "科目",
-  },
-  {
-    id: "park",
-    numeric: true,
-    disablePadding: false,
-    label: "近くの公園",
-  },
-];
-
 interface EnhancedTableProps {
   onRequestSort: (
     e: React.MouseEvent<unknown>,
     property: keyof TableData
   ) => void;
+  headCells: readonly HeadCell[];
   order: Order;
   orderBy: string;
   rowCount: number;
 }
 
 export const EnhancedTableHead = (props: EnhancedTableProps) => {
-  const { order, orderBy, onRequestSort } = props;
+  const { headCells, order, orderBy, onRequestSort } = props;
   const createSortHandler =
     (property: keyof TableData) => (e: React.MouseEvent<unknown>) => {
       onRequestSort(e, property);
@@ -133,11 +97,11 @@ export const EnhancedTableHead = (props: EnhancedTableProps) => {
 
   return (
     <TableHead>
-      <TableRow>
+      <TableRow sx={{ backgroundColor: "#f2f2f2" }}>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
+            align={"left"}
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -160,31 +124,48 @@ export const EnhancedTableHead = (props: EnhancedTableProps) => {
   );
 };
 
-export const EnhancedTableToolbar = () => {
-  return (
-    <Toolbar
-      sx={{
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
-      }}
-    >
-      <Typography
-        sx={{ flex: "1 1 100%" }}
-        variant="h6"
-        id="tableTitle"
-        component="div"
-      >
-        採集済み昆虫一覧
-      </Typography>
-    </Toolbar>
-  );
+type CollectionStatusTableProps = {
+  isCollected: boolean;
+  setCurrentLat?: React.Dispatch<React.SetStateAction<number | undefined>>;
+  setCurrentLng?: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 
-export const CorrectionStatusTable = () => {
+export const CollectionStatusTable = (props: CollectionStatusTableProps) => {
+  const { isCollected, setCurrentLat, setCurrentLng } = props;
+  const { collectedInsectParkItems } = useCollectedInsectsAndParksInfo();
+  const { uncollectedInsectParkItems } = useUncollectedInsectsAndParksInfo();
+  const setSearchWord = useSetRecoilState(searchWordState);
+  const setDestinationLocation = useSetRecoilState(destinationLocationState);
+
   const [order, setOrder] = useState<Order>("asc");
-  const [orderBy, setOrderBy] = useState<keyof TableData>("name");
+  const [orderBy, setOrderBy] = useState<keyof TableData>("insectName");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const dataToDisplay = isCollected
+    ? collectedInsectParkItems
+    : uncollectedInsectParkItems;
+
+  const headCells: readonly HeadCell[] = [
+    {
+      id: "insectName",
+      numeric: false,
+      disablePadding: true,
+      label: "昆虫名",
+    },
+    {
+      id: "biologicalFamily",
+      numeric: true,
+      disablePadding: false,
+      label: "科目",
+    },
+    {
+      id: "parkName",
+      numeric: true,
+      disablePadding: false,
+      label: isCollected ? "主な採集場所" : "近くの公園",
+    },
+  ];
 
   const handleRequestSort = (
     e: React.MouseEvent<unknown>,
@@ -205,55 +186,114 @@ export const CorrectionStatusTable = () => {
   };
 
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - dataToDisplay.length) : 0;
 
   const visibleRows = useMemo(
     () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
+      stableSort(dataToDisplay, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
-    [order, orderBy, page, rowsPerPage]
+    [order, orderBy, page, rowsPerPage, dataToDisplay]
   );
 
   return (
-    <Box sx={{ width: "30vw" }}>
-      <Paper sx={{ width: "100%", mb: 2 }}>
-        <EnhancedTableToolbar />
+    <Box
+      sx={{
+        width: "100%",
+        marginTop: "10px",
+      }}
+    >
+      <Paper sx={{ border: "1px solid lightgray" }}>
+        {isCollected ? (
+          <Toolbar disableGutters>
+            <Typography
+              variant="h6"
+              id="tableTitle"
+              component="div"
+              style={{ color: "gray" }}
+            >
+              採集済み昆虫一覧
+            </Typography>
+          </Toolbar>
+        ) : (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              pt: 1,
+              pb: 1,
+            }}
+          >
+            <Box>
+              <Typography
+                variant="h6"
+                id="tableTitle"
+                component="div"
+                style={{ color: "gray" }}
+              >
+                未採集昆虫一覧
+              </Typography>
+            </Box>
+            <CurrentLocationBox
+              setCurrentLat={setCurrentLat}
+              setCurrentLng={setCurrentLng}
+            />
+          </Box>
+        )}
         <TableContainer>
           <Table sx={{ minWidth: 350 }} aria-labelledby="tableTitle">
             <EnhancedTableHead
+              headCells={headCells}
               order={order}
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={dataToDisplay.length}
             />
             <TableBody>
               {visibleRows.map((row, index) => {
                 const labelId = `enhanced-table-checkbox-${index}`;
                 return (
-                  <TableRow key={row.id} sx={{ cursor: "pointer" }}>
+                  <TableRow key={index} sx={{ cursor: "pointer" }}>
                     <TableCell
                       component="th"
                       id={labelId}
                       scope="row"
                       padding="none"
                     >
-                      {row.name}
+                      <SLink
+                        to="/map"
+                        onClick={() => setSearchWord(row.insectName)}
+                      >
+                        {`${row.insectName}(${row.insectSex})`}
+                      </SLink>
                     </TableCell>
-                    <TableCell align="right">{row.biologicalFamily}</TableCell>
-                    <TableCell align="right">{row.park}</TableCell>
+                    <TableCell align="left">{row.biologicalFamily}</TableCell>
+                    <TableCell align="left">
+                      <SLink
+                        to="/direction"
+                        onClick={() => setDestinationLocation(row.parkName)}
+                      >
+                        {row.parkName}
+                      </SLink>
+                    </TableCell>
                   </TableRow>
                 );
               })}
-              {emptyRows > 0 && <TableCell colSpan={6} />}
+              {emptyRows > 0 && (
+                <TableRow>
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
+          sx={{ backgroundColor: "#f2f2f2" }}
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={dataToDisplay.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
@@ -263,3 +303,12 @@ export const CorrectionStatusTable = () => {
     </Box>
   );
 };
+
+const SLink = styled(Link)({
+  cursor: "pointer",
+  textDecoration: "none",
+  color: "inherit",
+  "&:hover": {
+    textDecoration: "underline",
+  },
+});

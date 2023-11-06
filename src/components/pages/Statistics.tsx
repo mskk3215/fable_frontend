@@ -1,15 +1,18 @@
 // Statistics.tsx
 import React from "react";
 import { StatisticsMap } from "../organisms/StatisticsMap";
-import { CorrectionStatusTable } from "../organisms/CorrectionStatusTable";
+import { CollectionStatusTable } from "../organisms/CollectionStatusTable";
 import { CollectionDoughnutChart } from "../organisms/CollectionDoughnutChart";
 import { CollectionRankingChart } from "../organisms/CollectionRankingChart";
 import { Container } from "@mui/material";
 import { useUserInsectCollectionStats } from "../../hooks/statistics/useUserInsectCollectionStats";
+import { useUncollectedInsectsAndParksInfo } from "../../hooks/statistics/useUncollectedInsectsAndParksInfo";
 
 export const Statistics = () => {
   const { collectionRate, collectionCount, unCollectedCount } =
     useUserInsectCollectionStats();
+  const { setCurrentLat, setCurrentLng } = useUncollectedInsectsAndParksInfo();
+
   return (
     <Container
       disableGutters
@@ -22,14 +25,18 @@ export const Statistics = () => {
       }}
     >
       <StatisticsMap />
-      <CorrectionStatusTable isCorrected={false} />
-      <CorrectionStatusTable isCorrected={true} />
       <CollectionDoughnutChart
         collectionRate={collectionRate}
         collectionCount={collectionCount}
         unCollectedCount={unCollectedCount}
       />
       <CollectionRankingChart />
+      <CollectionStatusTable
+        isCollected={false}
+        setCurrentLat={setCurrentLat}
+        setCurrentLng={setCurrentLng}
+      />
+      <CollectionStatusTable isCollected={true} />
     </Container>
   );
 };

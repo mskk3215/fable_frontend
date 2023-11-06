@@ -25,3 +25,10 @@ export type Ranking = {
   collectionRate: number;
 };
 
+export type InsectAndParks = {
+  id: number;
+  insectName: string;
+  insectSex: string;
+  biologicalFamily: string;
+  parkName: string;
+};
