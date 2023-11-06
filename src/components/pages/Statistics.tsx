@@ -2,11 +2,14 @@
 import React from "react";
 import { StatisticsMap } from "../organisms/StatisticsMap";
 import { CorrectionStatusTable } from "../organisms/CorrectionStatusTable";
-import { CorrectionDoughnutChart } from "../organisms/CorrectionDoughnutChart";
 import { CorrectionRankingChart } from "../organisms/CorrectionRankingChart";
+import { CollectionDoughnutChart } from "../organisms/CollectionDoughnutChart";
 import { Container } from "@mui/material";
+import { useUserInsectCollectionStats } from "../../hooks/statistics/useUserInsectCollectionStats";
 
 export const Statistics = () => {
+  const { collectionRate, collectionCount, unCollectedCount } =
+    useUserInsectCollectionStats();
   return (
     <Container
       disableGutters
@@ -19,10 +22,14 @@ export const Statistics = () => {
       }}
     >
       <StatisticsMap />
-      <CorrectionDoughnutChart />
       <CorrectionRankingChart />
       <CorrectionStatusTable isCorrected={false} />
       <CorrectionStatusTable isCorrected={true} />
+      <CollectionDoughnutChart
+        collectionRate={collectionRate}
+        collectionCount={collectionCount}
+        unCollectedCount={unCollectedCount}
+      />
     </Container>
   );
 };

@@ -142,3 +142,14 @@ export const getPrefectures = () => {
 export const getSearchParkResults = (searchWord: string) => {
   return apiClient.get("/parks", { params: { searchWord } });
 };
+
+//statistics
+export const getUserStatistics = (
+  prefectureName?: string,
+  cityName?: string
+) => {
+  return apiClient.get("/users/1/statistics", {
+    params: { prefectureName, cityName },
+  });
+};
+
