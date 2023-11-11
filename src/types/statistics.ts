@@ -5,6 +5,7 @@ export type GeoJSONFeature = {
     N03_001: string;
     N03_003: string | null;
     N03_004: string | null;
+    N03_010: number[] | null;
   };
   geometry: {
     type: string;

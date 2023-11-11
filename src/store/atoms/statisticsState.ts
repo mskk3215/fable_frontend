@@ -1,11 +1,11 @@
 import { atom } from "recoil";
 
-export const selectedPrefectureState = atom<string | undefined>({
+export const selectedPrefectureState = atom<string | null>({
   key: "selectedPrefectureState",
-  default: undefined,
+  default: "",
 });
 
-export const selectedCityState = atom<string | undefined>({
+export const selectedCityState = atom<string | null>({
   key: "selectedCityState",
-  default: undefined,
+  default: "",
 });

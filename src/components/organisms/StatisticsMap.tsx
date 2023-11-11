@@ -1,16 +1,19 @@
-import "../../../src/App.css";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
+import "../../../src/App.css";
 import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { center, area } from "@turf/turf";
+import { area } from "@turf/turf";
 import {
   selectedCityState,
   selectedPrefectureState,
 } from "../../store/atoms/statisticsState";
 import { useStatisticMap } from "../../hooks/useStatisticsMap";
 import { Box, Autocomplete, TextField, Paper, Typography } from "@mui/material";
-import { GeoJSONFeature } from "../../types/statistics";
+import {
+  GeoJSONFeature,
+  GeoJSONFeatureCollection,
+} from "../../types/statistics";
 
 export const StatisticsMap = () => {
   const {
@@ -22,65 +25,37 @@ export const StatisticsMap = () => {
     prefectureCoordinates,
   } = useStatisticMap();
 
+  const defaultCenter = [35.3628, 138.7307];
+  const DEFAULT_ZOOM = 3;
+
   const [selectedPref, setSelectedPref] = useRecoilState(
     selectedPrefectureState
   );
   const [selectedCity, setSelectedCity] = useRecoilState(selectedCityState);
-
-  const defaultCenter = [35.3628, 138.7307];
-  const DEFAULT_ZOOM = 3;
-
-  const [inputValue, setInputValue] = useState("");
   const [mapCenter, setMapCenter] = useState<number[]>(defaultCenter);
   const [zoomSize, setZoomSize] = useState(DEFAULT_ZOOM);
-
+  const [key, setKey] = useState("initial-key");
+  const [displayData, setDisplayData] = useState<
+    GeoJSONFeatureCollection | undefined
+  >(undefined);
   const calculateZoomSize = (prefectureName: string) =>
     ["北海道", "沖縄", "東京都"].includes(prefectureName) ? 5 : 7;
 
-  // 都道府県入力欄の変更時の処理
-  const handlePrefectureChange = (
-    e: React.SyntheticEvent,
-    newValue: string | null
-  ) => {
-    setSelectedPref(newValue || undefined);
-    setInputValue("");
-    setAllCities([]);
-    setSelectedCity(undefined);
-
-    if (newValue) {
-      const newCenter = prefectureCoordinates[newValue] || defaultCenter;
-      setMapCenter(newCenter);
-      setZoomSize(calculateZoomSize(newValue));
-
-      if (!cityData) return;
-      const cityNamesForSelectedPref = cityData.features
-        .filter(
-          (feature: GeoJSONFeature) => feature.properties.N03_001 === newValue
-        )
-        .map((feature: GeoJSONFeature) => {
-          const city = feature.properties.N03_003 || "";
-          const district = feature.properties.N03_004 || "";
-          return `${city}${district}`.trim();
-        });
-      setAllCities(cityNamesForSelectedPref);
-    } else {
-      setMapCenter(defaultCenter);
-      setZoomSize(3);
-    }
+  const handlePrefectureChange = (newSelectedPref: string | null) => {
+    setSelectedCity("");
+    setSelectedPref(newSelectedPref || "");
+  };
+  const handleCityChange = (newSelectedCity: string | null) => {
+    setSelectedCity(newSelectedCity || "");
   };
 
-  // 市町村入力欄の変更時の処理
-  const handleCityChange = (
-    e: React.SyntheticEvent,
-    newValue: string | null
-  ) => {
-    setSelectedCity(newValue || undefined);
-  };
-
-  // 境界線データを取得
-  const displayData = useMemo(() => {
-    if (selectedCity) {
-      return {
+  // 都道府県・市町村選択時の処理
+  useEffect(() => {
+    if (!prefectureData || !cityData) return;
+    if (selectedPref && selectedCity) {
+      // 都道府県と市町村の両方が選択された場合
+      setKey(`${selectedPref}-${selectedCity}`);
+      const filteredData = {
         features: cityData
           ? cityData.features.filter(
               (feature) =>
@@ -90,48 +65,63 @@ export const StatisticsMap = () => {
             )
           : [],
       };
-    } else if (selectedPref) {
-      return {
-        ...prefectureData,
+      const feature = filteredData.features[0];
+      const cityCoordinates = feature.properties.N03_010;
+      if (cityCoordinates) {
+        setMapCenter(cityCoordinates);
+      }
+      const squareMeters = area(feature.geometry);
+      let zoomSize;
+      if (squareMeters < 100000000) {
+        zoomSize = 11;
+      } else if (squareMeters < 300000000) {
+        zoomSize = 10;
+      } else {
+        zoomSize = 7;
+      }
+      setZoomSize(zoomSize);
+      setDisplayData(filteredData);
+    } else if (selectedPref && !selectedCity) {
+      // 都道府県のみが選択された場合
+      setKey(`${selectedPref}-${selectedCity}`);
+      setMapCenter(prefectureCoordinates[selectedPref]);
+      setZoomSize(calculateZoomSize(selectedPref));
+      const filteredData = {
         features: prefectureData
           ? prefectureData.features.filter(
               (feature) => feature.properties.name === selectedPref
             )
           : [],
       };
-    } else {
-      return prefectureData;
-    }
-  }, [selectedCity, selectedPref, prefectureData]);
+      setDisplayData(filteredData);
 
-  // 市町村の中心座標、ズームサイズを計算
+      if (!cityData) return;
+      const cityNamesForSelectedPref = cityData.features
+        .filter(
+          (feature: GeoJSONFeature) =>
+            feature.properties.N03_001 === selectedPref
+        )
+        .map((feature: GeoJSONFeature) => {
+          const city = feature.properties.N03_003 || "";
+          const district = feature.properties.N03_004 || "";
+          return `${city}${district}`.trim();
+        });
+      setAllCities(cityNamesForSelectedPref);
+    } else {
+      // 都道府県も市町村も選択されていない場合
+      setKey(`${selectedPref}-${selectedCity}`);
+      setMapCenter(defaultCenter);
+      setZoomSize(DEFAULT_ZOOM);
+      setDisplayData({
+        features: prefectureData.features,
+      });
+    }
+  }, [selectedPref, selectedCity, prefectureData, cityData]);
+
+  // pf用
   useEffect(() => {
-    if (!selectedPref) return;
-    const feature = displayData.features[0];
-    // 中心座標を計算
-    const centroid = center(feature.geometry);
-    const [averageLng, averageLat] = centroid.geometry.coordinates;
-    if (averageLng && averageLat) {
-      setMapCenter([averageLat, averageLng]);
-    }
-    // zoomサイズを計算
-    if (selectedCity === undefined) {
-      setZoomSize(calculateZoomSize(selectedPref));
-      setMapCenter(prefectureCoordinates[selectedPref]);
-      return;
-    }
-    const squareMeters = area(feature.geometry);
-    let zoomSize;
-    if (squareMeters < 100000000) {
-      zoomSize = 11;
-    } else if (squareMeters < 300000000) {
-      zoomSize = 10;
-    } else {
-      zoomSize = 7;
-    }
-
-    setZoomSize(zoomSize);
-  }, [selectedCity]);
+    setSelectedPref("東京都");
+  }, []);
 
   return (
     <Box sx={{ marginTop: "40px", width: "100%" }}>
@@ -143,7 +133,7 @@ export const StatisticsMap = () => {
           }}
         >
           <Typography variant="h6" style={{ color: "gray" }}>
-            都道府県・市町村別の状況
+            地域選択
           </Typography>
           <Box
             sx={{
@@ -154,7 +144,10 @@ export const StatisticsMap = () => {
             <Autocomplete
               sx={{ minWidth: 150 }}
               options={allPrefectures}
-              onChange={handlePrefectureChange}
+              value={selectedPref ?? ""}
+              onChange={(e, newSelectedPref) => {
+                handlePrefectureChange(newSelectedPref);
+              }}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -166,11 +159,14 @@ export const StatisticsMap = () => {
             <Autocomplete
               sx={{ minWidth: 200, marginLeft: "10px" }}
               options={allCities}
-              onChange={handleCityChange}
-              value={inputValue}
-              onInputChange={(e, newInputValue) => {
-                setInputValue(newInputValue);
+              value={selectedCity ?? ""}
+              onChange={(e, newInputCityValue) => {
+                handleCityChange(newInputCityValue);
               }}
+              onInputChange={(e, newInputCityValue) => {
+                setSelectedCity(newInputCityValue);
+              }}
+              disabled={!selectedPref}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -186,7 +182,7 @@ export const StatisticsMap = () => {
             }}
           >
             <MapContainer
-              key={mapCenter.toString()}
+              key={key}
               center={mapCenter}
               zoom={zoomSize}
               zoomControl={false}
