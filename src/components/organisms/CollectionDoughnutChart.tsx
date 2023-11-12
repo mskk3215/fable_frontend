@@ -18,7 +18,7 @@ const centerTextPlugin = {
     const centerText = `${chart.config.data.datasets[0].data[0]}%`;
     ctx.save();
     ctx.font = "20px Arial";
-    ctx.fillStyle = "lightblue";
+    ctx.fillStyle = "#8dca89";
     ctx.textBaseline = "middle";
     const textWidth = ctx.measureText(centerText).width;
     const textX = Math.round((width - textWidth) / 2);
@@ -46,7 +46,7 @@ export const CollectionDoughnutChart = (props: Props) => {
     datasets: [
       {
         data: [collectionRate, 100 - collectionRate],
-        backgroundColor: ["#ADD8E6", "#D3D3D3"],
+        backgroundColor: ["#8dca89", "#D3D3D3"],
       },
     ],
   };
@@ -71,7 +71,7 @@ export const CollectionDoughnutChart = (props: Props) => {
       <Paper sx={{ border: "1px solid lightgray" }}>
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <Typography variant="h6" style={{ color: "gray" }}>
-            あなたの採集率:
+            採集率
           </Typography>
           <Box
             sx={{
@@ -89,10 +89,13 @@ export const CollectionDoughnutChart = (props: Props) => {
               />
             </Box>
             <Box sx={{ pt: 2, pl: 2 }}>
-              <Typography variant="h6">採集済:{collectionCount}</Typography>
-              <Typography variant="h6">採集残:{unCollectedCount}</Typography>
               <Typography variant="h6">
-                全種類:{collectionCount + unCollectedCount}
+                <span style={barStyle("#8dca89")}></span> 採集済:
+                {collectionCount}
+              </Typography>
+              <Typography variant="h6">
+                <span style={barStyle("#D3D3D3")}></span> 採集残:
+                {unCollectedCount}
               </Typography>
             </Box>
           </Box>
@@ -101,3 +104,11 @@ export const CollectionDoughnutChart = (props: Props) => {
     </Box>
   );
 };
+
+const barStyle = (color: string) => ({
+  display: "inline-block",
+  width: "32px",
+  height: "16px",
+  backgroundColor: color,
+  marginRight: "8px",
+});

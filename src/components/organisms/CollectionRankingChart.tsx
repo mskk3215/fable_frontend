@@ -27,9 +27,7 @@ export const CollectionRankingChart = () => {
   const rankingLabels = rankingItems.map((item) => `${item.userName}`);
   const rankingScore = rankingItems.map((item) => item.collectionRate);
   const backgroundColor = rankingItems.map((item) =>
-    item.userName === loginUser?.nickname
-      ? "rgba(255, 99, 132, 0.2)"
-      : "rgba(75, 192, 192, 0.2)"
+    item.userName === loginUser?.nickname ? "red" : "#8dca89"
   );
 
   const data = {
@@ -70,12 +68,50 @@ export const CollectionRankingChart = () => {
 
   return (
     <Box sx={{ width: "100%", marginTop: "10px" }}>
-      <Paper sx={{ border: "1px solid lightgray" }}>
+      <Paper sx={{ border: "1px solid lightgray", position: "relative" }}>
         <Typography variant="h6" style={{ color: "gray" }}>
           ランキング
         </Typography>
         <Bar ref={chartRef} data={data} options={options} />
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            right: 0,
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            padding: "10px",
+          }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <span style={barStyle("red")}></span>
+            <Typography
+              variant="caption"
+              style={{ marginLeft: "5px", color: "red" }}
+            >
+              あなた
+            </Typography>
+          </Box>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <span style={barStyle("#8dca89")}></span>
+            <Typography
+              variant="caption"
+              style={{ marginLeft: "5px", color: "#060706" }}
+            >
+              他のユーザー
+            </Typography>
+          </Box>
+        </Box>
       </Paper>
     </Box>
   );
 };
+
+const barStyle = (color: string) => ({
+  display: "inline-block",
+  width: "32px",
+  height: "16px",
+  backgroundColor: color,
+  marginRight: "5px",
+});
