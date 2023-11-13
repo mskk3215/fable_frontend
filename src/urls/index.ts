@@ -145,10 +145,11 @@ export const getSearchParkResults = (searchWord: string) => {
 
 //statistics
 export const getUserStatistics = (
-  prefectureName?: string,
-  cityName?: string
+  prefectureName: string | null,
+  cityName: string | null,
+  userId?: number
 ) => {
-  return apiClient.get("/users/1/statistics", {
+  return apiClient.get(`/users/${userId}/statistics`, {
     params: { prefectureName, cityName },
   });
 };
