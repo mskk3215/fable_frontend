@@ -66,6 +66,7 @@ export const StatisticsMap = () => {
           : [],
       };
       const feature = filteredData.features[0];
+      if (!feature) return;
       const cityCoordinates = feature.properties.N03_010;
       if (cityCoordinates) {
         setMapCenter(cityCoordinates);
