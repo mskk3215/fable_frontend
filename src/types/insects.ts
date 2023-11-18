@@ -1,5 +1,5 @@
 export type Insect = {
-  name: string;
+  insectName: string;
   availableSexes: string[];
 };
 export type InsectOption = {
