@@ -1,27 +1,40 @@
 import * as React from "react";
+import { memo, useRef, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { Autocomplete, LoadScriptNext } from "@react-google-maps/api";
-import { originLocationState } from "../../store/atoms/searchWordState";
+import {
+  originLocationState,
+  saveOriginLocation,
+} from "../../store/atoms/searchWordState";
 import TextField from "@mui/material/TextField";
 import { Box, IconButton } from "@mui/material";
 import { Close } from "@mui/icons-material";
+import { isGeocoderLoadedState } from "../../store/atoms/statisticsState";
 
 type Props = {
   setCurrentLat?: React.Dispatch<React.SetStateAction<number | undefined>>;
   setCurrentLng?: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 
-export const CurrentLocationBox = (props: Props) => {
+export const CurrentLocationBox = memo((props: Props) => {
   const { setCurrentLat, setCurrentLng } = props;
   const [originLocation, setOriginLocation] =
     useRecoilState(originLocationState);
+  const [isGeocoderLoaded, setIsGeocoderLoaded] = useRecoilState(
+    isGeocoderLoadedState
+  );
 
-  // 現在の住所が入力されたら、緯度経度を取得する
-  const handleChangeCurrentLocation = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setOriginLocation(e.target.value);
-    getLatLng(e.target.value);
+  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+
+  const handlePlaceSelected = () => {
+    if (autocompleteRef.current) {
+      const place = autocompleteRef.current.getPlace();
+      if (place && typeof place.formatted_address === "string") {
+        setOriginLocation(place.formatted_address);
+        saveOriginLocation(originLocation);
+        getLatLng(place.formatted_address);
+      }
+    }
   };
 
   // Geocoding APIを使用して、住所から緯度経度を取得する
@@ -36,42 +49,49 @@ export const CurrentLocationBox = (props: Props) => {
           setCurrentLng?.(lng);
           resolve({ lat, lng });
         } else {
-          reject(new Error("Geocoding failed with status: " + status));
+          console.log("Geocode was not successful for the following reason: ");
         }
       });
     });
   };
 
+  useEffect(() => {
+    if (!isGeocoderLoaded || originLocation === "") {
+      return;
+    }
+    getLatLng(originLocation);
+  }, [isGeocoderLoaded]);
+
   const handleDeleteClick = () => {
     setOriginLocation("");
+    setCurrentLat?.(undefined);
+    setCurrentLng?.(undefined);
+    localStorage.removeItem("originLocation");
   };
 
   return (
     <LoadScriptNext
       googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY as string}
       libraries={["places"]}
+      onLoad={() => setIsGeocoderLoaded(true)}
     >
-      <Box sx={{ minWidth: 300 }}>
-        <Autocomplete>
+      <Box sx={{ minWidth: 300, display: "flex", justifyContent: "flex-end" }}>
+        <Autocomplete
+          onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
+          onPlaceChanged={handlePlaceSelected}
+        >
           <TextField
             id="currentLocationBox"
-            placeholder="現在位置"
-            value={originLocation ?? undefined}
-            onChange={(e) => handleChangeCurrentLocation(e)}
+            placeholder="現在位置を入力"
+            value={originLocation}
             variant="standard"
-            label="現在位置を入力"
+            onChange={(event) => setOriginLocation(event.target.value)}
             InputProps={{
               endAdornment: (
                 <React.Fragment>
-                  {originLocation && (
-                    <IconButton
-                      onClick={() => {
-                        handleDeleteClick();
-                      }}
-                    >
-                      <Close />
-                    </IconButton>
-                  )}
+                  <IconButton onClick={handleDeleteClick}>
+                    <Close />
+                  </IconButton>
                 </React.Fragment>
               ),
             }}
@@ -80,4 +100,4 @@ export const CurrentLocationBox = (props: Props) => {
       </Box>
     </LoadScriptNext>
   );
-};
+});
