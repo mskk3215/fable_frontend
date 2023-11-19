@@ -12,11 +12,11 @@ import { InsectAndParks } from "../../types/statistics";
 export const useUncollectedInsectsAndParksInfo = () => {
   const selectedPrefecture = useRecoilValue(selectedPrefectureState);
   const selectedCity = useRecoilValue(selectedCityState);
+  const isGeocoderLoaded = useRecoilValue(isGeocoderLoadedState);
   const originLocation = useRecoilValue(originLocationState);
+
   const [currentLat, setCurrentLat] = useState<number | undefined>(undefined);
   const [currentLng, setCurrentLng] = useState<number | undefined>(undefined);
-  const isGeocoderLoaded = useRecoilValue(isGeocoderLoadedState);
-
   const [uncollectedInsectParkItems, setUncollectedInsectParkItems] = useState<
     InsectAndParks[]
   >([]);

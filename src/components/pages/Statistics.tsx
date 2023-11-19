@@ -1,4 +1,3 @@
-// Statistics.tsx
 import React from "react";
 import { StatisticsMap } from "../organisms/StatisticsMap";
 import { CollectionStatusTable } from "../organisms/CollectionStatusTable";
