@@ -1,13 +1,14 @@
 import * as React from "react";
 import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
 import { useCollectedInsectsAndParksInfo } from "../../hooks/statistics/useCollectedInsectsAndParksInfo";
 import { useUncollectedInsectsAndParksInfo } from "../../hooks/statistics/useUncollectedInsectsAndParksInfo";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { CurrentLocationBox } from "../molecules/CurrentLocationBox";
 import { SortableTableHead } from "../molecules/SortableTableHead";
 import {
   destinationLocationState,
+  originLocationState,
   searchWordState,
 } from "../../store/atoms/searchWordState";
 import Box from "@mui/material/Box";
@@ -72,6 +73,7 @@ export const CollectionStatusTable = (props: CollectionStatusTableProps) => {
   const { uncollectedInsectParkItems } = useUncollectedInsectsAndParksInfo();
   const setSearchWord = useSetRecoilState(searchWordState);
   const setDestinationLocation = useSetRecoilState(destinationLocationState);
+  const originLocation = useRecoilValue(originLocationState);
 
   const [order, setOrder] = useState<Order>("asc");
   const [orderBy, setOrderBy] = useState<keyof TableData>("insectName");
@@ -99,7 +101,11 @@ export const CollectionStatusTable = (props: CollectionStatusTableProps) => {
       id: "parkName",
       numeric: true,
       disablePadding: false,
-      label: isCollected ? "主な採集場所" : "近くの公園",
+      label: isCollected
+        ? "主な採集場所"
+        : originLocation
+        ? "近くの公園"
+        : "採集できる公園",
     },
   ];
 
