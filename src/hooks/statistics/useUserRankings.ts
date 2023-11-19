@@ -14,8 +14,8 @@ export const useUserRankings = () => {
   const [rankingItems, setRankingItems] = useState<Ranking[]>([]);
 
   const handleGetUserRankings = async (
-    selectedPrefecture?: string,
-    selectedCity?: string
+    selectedPrefecture: string | null,
+    selectedCity: string | null
   ) => {
     const { data } = await getUserRankings(selectedPrefecture, selectedCity);
 

@@ -7,7 +7,7 @@ import {
 } from "../../store/atoms/statisticsState";
 import { originLocationState } from "../../store/atoms/searchWordState";
 import { getInsectsAndParksInfo } from "../../urls";
-import { InsectAndParks } from "../../types/statistics";
+import { InsectAndParks, TableData } from "../../types/statistics";
 
 export const useUncollectedInsectsAndParksInfo = () => {
   const selectedPrefecture = useRecoilValue(selectedPrefectureState);
@@ -18,7 +18,7 @@ export const useUncollectedInsectsAndParksInfo = () => {
   const [currentLat, setCurrentLat] = useState<number | undefined>(undefined);
   const [currentLng, setCurrentLng] = useState<number | undefined>(undefined);
   const [uncollectedInsectParkItems, setUncollectedInsectParkItems] = useState<
-    InsectAndParks[]
+    TableData[]
   >([]);
 
   const handleGetUncollectedInsectsAndParksInfo = async (

@@ -3,6 +3,8 @@ import { useRecoilState } from "recoil";
 import "../../../src/App.css";
 import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import { LatLngExpression } from "leaflet";
+import { GeoJsonObject } from "geojson";
 import { area } from "@turf/turf";
 import {
   selectedCityState,
@@ -25,14 +27,14 @@ export const StatisticsMap = () => {
     prefectureCoordinates,
   } = useStatisticMap();
 
-  const defaultCenter = [35.3628, 138.7307];
+  const defaultCenter: LatLngExpression = [35.3628, 138.7307];
   const DEFAULT_ZOOM = 3;
 
   const [selectedPref, setSelectedPref] = useRecoilState(
     selectedPrefectureState
   );
   const [selectedCity, setSelectedCity] = useRecoilState(selectedCityState);
-  const [mapCenter, setMapCenter] = useState<number[]>(defaultCenter);
+  const [mapCenter, setMapCenter] = useState<LatLngExpression>(defaultCenter);
   const [zoomSize, setZoomSize] = useState(DEFAULT_ZOOM);
   const [key, setKey] = useState("initial-key");
   const [displayData, setDisplayData] = useState<
@@ -56,6 +58,7 @@ export const StatisticsMap = () => {
       // 都道府県と市町村の両方が選択された場合
       setKey(`${selectedPref}-${selectedCity}`);
       const filteredData = {
+        type: "FeatureCollection",
         features: cityData
           ? cityData.features.filter(
               (feature) =>
@@ -69,7 +72,7 @@ export const StatisticsMap = () => {
       if (!feature) return;
       const cityCoordinates = feature.properties.N03_010;
       if (cityCoordinates) {
-        setMapCenter(cityCoordinates);
+        setMapCenter(cityCoordinates as LatLngExpression);
       }
       const squareMeters = area(feature.geometry);
       let zoomSize;
@@ -81,20 +84,21 @@ export const StatisticsMap = () => {
         zoomSize = 7;
       }
       setZoomSize(zoomSize);
-      setDisplayData(filteredData);
+      setDisplayData(filteredData as GeoJSONFeatureCollection);
     } else if (selectedPref && !selectedCity) {
       // 都道府県のみが選択された場合
       setKey(`${selectedPref}-${selectedCity}`);
-      setMapCenter(prefectureCoordinates[selectedPref]);
+      setMapCenter(prefectureCoordinates[selectedPref] as LatLngExpression);
       setZoomSize(calculateZoomSize(selectedPref));
       const filteredData = {
+        type: "FeatureCollection",
         features: prefectureData
           ? prefectureData.features.filter(
               (feature) => feature.properties.name === selectedPref
             )
           : [],
       };
-      setDisplayData(filteredData);
+      setDisplayData(filteredData as GeoJSONFeatureCollection);
 
       if (!cityData) return;
       const cityNamesForSelectedPref = cityData.features
@@ -114,6 +118,7 @@ export const StatisticsMap = () => {
       setMapCenter(defaultCenter);
       setZoomSize(DEFAULT_ZOOM);
       setDisplayData({
+        type: "FeatureCollection",
         features: prefectureData.features,
       });
     }
@@ -196,7 +201,7 @@ export const StatisticsMap = () => {
               {displayData && (
                 <GeoJSON
                   key={selectedCity || selectedPref || "alls"}
-                  data={displayData}
+                  data={displayData as GeoJsonObject}
                   style={() => ({
                     color: "red",
                     weight: 3,

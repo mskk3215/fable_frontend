@@ -5,14 +5,14 @@ import {
   selectedPrefectureState,
 } from "../../store/atoms/statisticsState";
 import { getInsectsAndParksInfo } from "../../urls";
-import { InsectAndParks } from "../../types/statistics";
+import { InsectAndParks, TableData } from "../../types/statistics";
 
 export const useCollectedInsectsAndParksInfo = () => {
   const selectedPrefecture = useRecoilValue(selectedPrefectureState);
   const selectedCity = useRecoilValue(selectedCityState);
 
   const [collectedInsectParkItems, setCollectedInsectParkItems] = useState<
-    InsectAndParks[]
+    TableData[]
   >([]);
 
   const handleGetCollectedInsectsAndParksInfo = async (

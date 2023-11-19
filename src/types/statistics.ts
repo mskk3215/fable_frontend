@@ -14,6 +14,7 @@ export type GeoJSONFeature = {
 };
 
 export type GeoJSONFeatureCollection = {
+  type: "FeatureCollection";
   features: GeoJSONFeature[];
 };
 

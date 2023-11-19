@@ -12,7 +12,7 @@ type Props = {
 
 const centerTextPlugin = {
   id: "centerText",
-  afterDraw: (chart) => {
+  afterDraw: (chart: Chart) => {
     const ctx = chart.ctx;
     const { width, height } = chart;
     const centerText = `${chart.config.data.datasets[0].data[0]}%`;

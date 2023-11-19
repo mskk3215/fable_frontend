@@ -154,7 +154,10 @@ export const getUserStatistics = (
   });
 };
 
-export const getUserRankings = (prefectureName?: string, cityName?: string) => {
+export const getUserRankings = (
+  prefectureName: string | null,
+  cityName: string | null
+) => {
   return apiClient.get("/rankings", { params: { prefectureName, cityName } });
 };
 
