@@ -7,11 +7,14 @@ import { CollectionRankingChart } from "../organisms/CollectionRankingChart";
 import { Container } from "@mui/material";
 import { useUserInsectCollectionStats } from "../../hooks/statistics/useUserInsectCollectionStats";
 import { useUncollectedInsectsAndParksInfo } from "../../hooks/statistics/useUncollectedInsectsAndParksInfo";
+import { useCollectedInsectsAndParksInfo } from "../../hooks/statistics/useCollectedInsectsAndParksInfo";
 
 export const Statistics = () => {
   const { collectionRate, collectionCount, unCollectedCount } =
     useUserInsectCollectionStats();
-  const { setCurrentLat, setCurrentLng } = useUncollectedInsectsAndParksInfo();
+  const { collectedInsectParkItems } = useCollectedInsectsAndParksInfo();
+  const { setCurrentLat, setCurrentLng, uncollectedInsectParkItems } =
+    useUncollectedInsectsAndParksInfo();
 
   return (
     <Container
@@ -35,8 +38,12 @@ export const Statistics = () => {
         isCollected={false}
         setCurrentLat={setCurrentLat}
         setCurrentLng={setCurrentLng}
+        uncollectedInsectParkItems={uncollectedInsectParkItems}
       />
-      <CollectionStatusTable isCollected={true} />
+      <CollectionStatusTable
+        isCollected={true}
+        collectedInsectParkItems={collectedInsectParkItems}
+      />
     </Container>
   );
 };
