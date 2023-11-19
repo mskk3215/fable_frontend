@@ -9,3 +9,8 @@ export const selectedCityState = atom<string | null>({
   key: "selectedCityState",
   default: "",
 });
+
+export const isGeocoderLoadedState = atom({
+  key: "isGeocoderLoadedState",
+  default: false,
+});

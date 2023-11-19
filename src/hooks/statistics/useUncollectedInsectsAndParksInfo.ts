@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import {
+  isGeocoderLoadedState,
   selectedCityState,
   selectedPrefectureState,
 } from "../../store/atoms/statisticsState";
@@ -14,6 +15,7 @@ export const useUncollectedInsectsAndParksInfo = () => {
   const originLocation = useRecoilValue(originLocationState);
   const [currentLat, setCurrentLat] = useState<number | undefined>(undefined);
   const [currentLng, setCurrentLng] = useState<number | undefined>(undefined);
+  const isGeocoderLoaded = useRecoilValue(isGeocoderLoadedState);
 
   const [uncollectedInsectParkItems, setUncollectedInsectParkItems] = useState<
     InsectAndParks[]
@@ -49,13 +51,14 @@ export const useUncollectedInsectsAndParksInfo = () => {
   };
 
   useEffect(() => {
+    if (originLocation && !isGeocoderLoaded) return;
     handleGetUncollectedInsectsAndParksInfo(
       selectedPrefecture,
       selectedCity,
       currentLat,
       currentLng
     );
-  }, [selectedPrefecture, selectedCity, originLocation]);
+  }, [selectedPrefecture, selectedCity, currentLat, currentLng]);
 
   return { uncollectedInsectParkItems, setCurrentLat, setCurrentLng };
 };
