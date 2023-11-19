@@ -23,22 +23,7 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import { visuallyHidden } from "@mui/utils";
 import styled from "styled-components";
-
-export type TableData = {
-  id: number;
-  insectName: string;
-  biologicalFamily: string;
-  parkName: string;
-};
-
-export type Order = "asc" | "desc";
-
-export type HeadCell = {
-  disablePadding: boolean;
-  id: keyof TableData;
-  label: string;
-  numeric: boolean;
-};
+import { HeadCell, Order, TableData } from "../../types/statistics";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {

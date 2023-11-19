@@ -27,9 +27,19 @@ export type Ranking = {
 };
 
 export type InsectAndParks = {
+export type TableData = {
   id: number;
   insectName: string;
   insectSex: string;
   biologicalFamily: string;
   parkName: string;
+};
+
+export type Order = "asc" | "desc";
+
+export type HeadCell = {
+  disablePadding: boolean;
+  id: keyof TableData;
+  label: string;
+  numeric: boolean;
 };
