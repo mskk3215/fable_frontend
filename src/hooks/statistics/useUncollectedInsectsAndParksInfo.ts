@@ -22,8 +22,8 @@ export const useUncollectedInsectsAndParksInfo = () => {
   >([]);
 
   const handleGetUncollectedInsectsAndParksInfo = async (
-    selectedPrefecture?: string,
-    selectedCity?: string,
+    selectedPrefecture: string | null,
+    selectedCity: string | null,
     currentLat?: number,
     currentLng?: number
   ) => {

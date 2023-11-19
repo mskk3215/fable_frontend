@@ -16,8 +16,8 @@ export const useCollectedInsectsAndParksInfo = () => {
   >([]);
 
   const handleGetCollectedInsectsAndParksInfo = async (
-    selectedPrefecture?: string,
-    selectedCity?: string
+    selectedPrefecture: string | null,
+    selectedCity: string | null
   ) => {
     const { data } = await getInsectsAndParksInfo(
       "collected",

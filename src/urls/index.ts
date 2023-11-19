@@ -160,8 +160,8 @@ export const getUserRankings = (prefectureName?: string, cityName?: string) => {
 
 export const getInsectsAndParksInfo = (
   collectionStatus: string,
-  prefectureName?: string,
-  cityName?: string,
+  prefectureName: string | null,
+  cityName: string | null,
   lat?: number,
   lng?: number
 ) => {
