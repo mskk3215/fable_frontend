@@ -27,6 +27,12 @@ export type Ranking = {
 };
 
 export type InsectAndParks = {
+  insectName: string;
+  sex: string;
+  biologicalFamily: string;
+  parkName: string;
+};
+
 export type TableData = {
   id: number;
   insectName: string;
