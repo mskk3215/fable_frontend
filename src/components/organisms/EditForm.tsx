@@ -125,7 +125,7 @@ export const EditForm = memo((props: Props) => {
 
   const getSexes = () => {
     const insectNameValue = insects.find(
-      (insect: Insect) => insect.name === insectName
+      (insect: Insect) => insect.insectName === insectName
     );
     return insectNameValue ? insectNameValue.availableSexes : [];
   };
