@@ -24,7 +24,7 @@ export const ImageEdit = () => {
     createdTime,
   } = useImages();
   const { parks, parkOptions, handleGetParks } = useParks();
-  const { insects, insectOptions } = useAllInsects();
+  const { insects, insectOptions, setQueryWord } = useAllInsects();
   const { prefectures, prefectureOptions } = useAllPrefectures();
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
@@ -196,6 +196,7 @@ export const ImageEdit = () => {
             prefectureOptions={prefectureOptions}
             handleGetImages={handleGetImages}
             pageSize={pageSize}
+            setQueryWord={setQueryWord}
           />
         </Box>
       </Box>

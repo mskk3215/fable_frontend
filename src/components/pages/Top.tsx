@@ -7,6 +7,7 @@ import {
   saveSearchWord,
   searchWordState,
 } from "../../store/atoms/searchWordState";
+import { convertHiraganaToKatakana } from "../../hooks/useConvertHiraganaToKatakana";
 import styled from "styled-components";
 import {
   Autocomplete,
@@ -19,7 +20,7 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 
 export const Top = () => {
-  const { insectOptions } = useAllInsects();
+  const { insectOptions, setQueryWord } = useAllInsects();
   const { handleGetParkSearchResults } = useParks();
   const [searchWord, setSearchWord] = useRecoilState(searchWordState);
   const location = useLocation();
@@ -27,11 +28,6 @@ export const Top = () => {
   const handleSearch = () => {
     handleGetParkSearchResults(searchWord);
   };
-
-  // searchWordの値が更新されたらinsectOptionsから一致する値を取得する
-  const selectedInsectOption = insectOptions.find(
-    (option) => option.label === searchWord
-  );
 
   // searchWordの値が更新されたらローカルストレージに保存する
   useEffect(() => {
@@ -50,11 +46,23 @@ export const Top = () => {
         <Container maxWidth="md" sx={{ mt: 20 }}>
           <Autocomplete
             data-testid="autocomplete"
-            value={selectedInsectOption || null}
             onChange={(e, newValue) => {
-              setSearchWord(newValue?.label || "");
+              setSearchWord(newValue || "");
+            }}
+            onInputChange={(e, newInputValue) => {
+              let convertedInputValue =
+                convertHiraganaToKatakana(newInputValue);
+              setQueryWord(convertedInputValue);
             }}
             options={insectOptions}
+            noOptionsText="昆虫名を入力してください"
+            filterOptions={(options, params) => {
+              const filtered = options.filter((option) => {
+                let inputValue = convertHiraganaToKatakana(params.inputValue);
+                return option.includes(inputValue);
+              });
+              return filtered;
+            }}
             renderInput={(params) => (
               <TextField
                 {...params}

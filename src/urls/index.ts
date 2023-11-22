@@ -124,8 +124,8 @@ export const deleteImageLike = (imageId: number) => {
 };
 
 //insects
-export const getInsects = () => {
-  return apiClient.get("/insects");
+export const getInsects = (queryWord: string) => {
+  return apiClient.get("/insects", { params: { queryWord } });
 };
 
 //parks

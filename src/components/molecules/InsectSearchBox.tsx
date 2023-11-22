@@ -5,6 +5,7 @@ import {
   saveSearchWord,
   searchWordState,
 } from "../../store/atoms/searchWordState";
+import { convertHiraganaToKatakana } from "../../hooks/useConvertHiraganaToKatakana";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
@@ -16,14 +17,15 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { InsectOption } from "../../types/insects";
 
 type Props = {
   setOpen: (open: boolean) => void;
   selectedItemId?: number;
   setSelectedItemId: (id?: number) => void;
   handleGetParkSearchResults: (searchWord: string) => void;
-  insectOptions: InsectOption[];
+  insectOptions: string[];
+  queryWord: string;
+  setQueryWord: (queryWord: string) => void;
 };
 
 export const InsectSearchBox = memo((props: Props) => {
@@ -33,17 +35,14 @@ export const InsectSearchBox = memo((props: Props) => {
     setSelectedItemId,
     handleGetParkSearchResults,
     insectOptions,
+    setQueryWord,
   } = props;
 
   const [searchWord, setSearchWord] = useRecoilState(searchWordState);
 
   const handleSearch = () => {
-    handleGetParkSearchResults(searchWord);
-  };
-
-  const handleSearchButtonClick = () => {
     setOpen(true);
-    handleSearch();
+    handleGetParkSearchResults(searchWord);
   };
 
   const handleCancelButtonClick = () => {
@@ -70,13 +69,23 @@ export const InsectSearchBox = memo((props: Props) => {
         marginLeft: 1,
       }}
       id="searchbox in map"
-      value={
-        insectOptions.find((option) => option.label === searchWord) || null
-      }
+      value={searchWord}
       onChange={(e, newValue) => {
-        setSearchWord(newValue?.label || "");
+        setSearchWord(newValue || "");
+      }}
+      onInputChange={(e, newInputValue) => {
+        let convertedInputValue = convertHiraganaToKatakana(newInputValue);
+        setQueryWord(convertedInputValue);
       }}
       options={insectOptions}
+      noOptionsText="昆虫名を入力してください"
+      filterOptions={(options, params) => {
+        const filtered = options.filter((option) => {
+          let inputValue = convertHiraganaToKatakana(params.inputValue);
+          return option.includes(inputValue);
+        });
+        return filtered;
+      }}
       renderInput={(params) => (
         <TextField
           {...params}
@@ -92,7 +101,7 @@ export const InsectSearchBox = memo((props: Props) => {
                       <IconButton
                         type="button"
                         aria-label="search"
-                        onClick={handleSearchButtonClick}
+                        onClick={handleSearch}
                         disabled={!searchWord}
                       >
                         <SearchIcon />
