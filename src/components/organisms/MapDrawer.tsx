@@ -23,7 +23,6 @@ import ListItemText from "@mui/material/ListItemText";
 import { CircularProgress, ListItemAvatar, Typography } from "@mui/material";
 import { Anchor } from "../../types/map";
 import { Park } from "../../types/parks";
-import { InsectOption } from "../../types/insects";
 
 type Props = {
   anchor: Anchor;
@@ -32,7 +31,7 @@ type Props = {
   searchResults: Park[];
   isParksLoading: boolean;
   handleGetParkSearchResults: (searchWord: string) => void;
-  insectOptions: InsectOption[];
+  insectOptions: string[];
 };
 
 export const MapDrawer = memo((props: Props) => {

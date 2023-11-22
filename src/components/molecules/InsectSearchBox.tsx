@@ -16,14 +16,13 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { InsectOption } from "../../types/insects";
 
 type Props = {
   setOpen: (open: boolean) => void;
   selectedItemId?: number;
   setSelectedItemId: (id?: number) => void;
   handleGetParkSearchResults: (searchWord: string) => void;
-  insectOptions: InsectOption[];
+  insectOptions: string[];
 };
 
 export const InsectSearchBox = memo((props: Props) => {
@@ -70,11 +69,9 @@ export const InsectSearchBox = memo((props: Props) => {
         marginLeft: 1,
       }}
       id="searchbox in map"
-      value={
-        insectOptions.find((option) => option.label === searchWord) || null
-      }
+      value={searchWord}
       onChange={(e, newValue) => {
-        setSearchWord(newValue?.label || "");
+        setSearchWord(newValue || "");
       }}
       options={insectOptions}
       renderInput={(params) => (

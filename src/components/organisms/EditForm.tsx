@@ -21,7 +21,7 @@ import {
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { Insect, InsectOption } from "../../types/insects";
+import { Insect } from "../../types/insects";
 import { Park, ParkOption } from "../../types/parks";
 import { Prefecture, PrefectureOption } from "../../types/prefectures";
 import dayjs, { Dayjs } from "dayjs";
@@ -35,7 +35,7 @@ type Props = {
   handleGetParks: () => void;
   parkOptions: ParkOption[];
   parks: Park[];
-  insectOptions: InsectOption[];
+  insectOptions: string[];
   insects: Insect[];
   prefectureOptions: PrefectureOption[];
   prefectures: Prefecture[];
@@ -238,12 +238,10 @@ export const EditForm = memo((props: Props) => {
               昆虫名
             </Typography>
             <Autocomplete
-              value={
-                insectName ? { label: insectName, value: insectName } : null
-              }
+              value={insectName ? insectName : null}
               onChange={(e, value) => {
-                setInsectName(value?.label || "");
-                setInsectSex(value?.label ? "" : "");
+                setInsectName(value || "");
+                setInsectSex(value ? "" : "");
               }}
               id="insectName"
               size={handleFormSize()}

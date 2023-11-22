@@ -2,11 +2,11 @@
 import { useEffect, useState } from "react";
 import { getInsects } from "../urls";
 import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
-import { Insect, InsectOption, UseAllInsects } from "../types/insects";
+import { Insect, UseAllInsects } from "../types/insects";
 
 export const useAllInsects = (): UseAllInsects => {
   const [insects, setInsects] = useState<Insect[]>([]);
-  const [insectOptions, setInsectOptions] = useState<InsectOption[]>([]);
+  const [insectOptions, setInsectOptions] = useState<string[]>([]);
 
   // エラーハンドリング呼び出し
   useGetRequestErrorAction();
@@ -15,11 +15,7 @@ export const useAllInsects = (): UseAllInsects => {
     const { data } = await getInsects();
     setInsects(data);
 
-    //EditFormの選択肢用
-    const insectData = data.map((insect: Insect) => ({
-      label: insect.insectName,
-      value: insect.insectName,
-    }));
+    const insectData = data.map((insect: Insect) => insect.insectName);
     setInsectOptions(insectData);
   };
 
@@ -27,5 +23,5 @@ export const useAllInsects = (): UseAllInsects => {
     handleGetInsects();
   }, []);
 
-  return { insects, insectOptions };
+  return { insects, insectOptions, setInsectOptions };
 };

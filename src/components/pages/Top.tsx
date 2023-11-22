@@ -28,11 +28,6 @@ export const Top = () => {
     handleGetParkSearchResults(searchWord);
   };
 
-  // searchWordの値が更新されたらinsectOptionsから一致する値を取得する
-  const selectedInsectOption = insectOptions.find(
-    (option) => option.label === searchWord
-  );
-
   // searchWordの値が更新されたらローカルストレージに保存する
   useEffect(() => {
     saveSearchWord(searchWord);
@@ -52,7 +47,7 @@ export const Top = () => {
             data-testid="autocomplete"
             value={selectedInsectOption || null}
             onChange={(e, newValue) => {
-              setSearchWord(newValue?.label || "");
+              setSearchWord(newValue || "");
             }}
             options={insectOptions}
             renderInput={(params) => (
