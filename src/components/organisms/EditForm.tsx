@@ -8,6 +8,7 @@ import React, {
 import { useSetRecoilState } from "recoil";
 import { messageState } from "../../store/atoms/errorAtom";
 import { useErrorAction } from "../../hooks/error/useErrorAction";
+import { convertHiraganaToKatakana } from "../../hooks/useConvertHiraganaToKatakana";
 import { updateImages, deleteImages } from "../../urls";
 import {
   Autocomplete,
@@ -42,6 +43,7 @@ type Props = {
   handleGetImages: HandleGetImages;
   setImages: React.Dispatch<React.SetStateAction<Image[]>>;
   pageSize: number;
+  setQueryWord: (queryWord: string) => void;
 };
 
 export const EditForm = memo((props: Props) => {
@@ -59,6 +61,7 @@ export const EditForm = memo((props: Props) => {
     handleGetImages,
     setImages,
     pageSize,
+    setQueryWord,
   } = props;
 
   const [insectName, setInsectName] = useState("");
@@ -243,10 +246,23 @@ export const EditForm = memo((props: Props) => {
                 setInsectName(value || "");
                 setInsectSex(value ? "" : "");
               }}
+              onInputChange={(e, newInputValue) => {
+                let convertedInputValue =
+                  convertHiraganaToKatakana(newInputValue);
+                setQueryWord(convertedInputValue);
+              }}
               id="insectName"
               size={handleFormSize()}
               sx={{ maxWidth: 400 }}
               options={insectOptions}
+              noOptionsText="昆虫名を入力してください"
+              filterOptions={(options, params) => {
+                const filtered = options.filter((option) => {
+                  let inputValue = convertHiraganaToKatakana(params.inputValue);
+                  return option.includes(inputValue);
+                });
+                return filtered;
+              }}
               renderInput={(params) => (
                 <TextField {...params} label="例)カブトムシ" />
               )}

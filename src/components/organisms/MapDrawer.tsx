@@ -32,6 +32,8 @@ type Props = {
   isParksLoading: boolean;
   handleGetParkSearchResults: (searchWord: string) => void;
   insectOptions: string[];
+  queryWord: string;
+  setQueryWord: (queryWord: string) => void;
 };
 
 export const MapDrawer = memo((props: Props) => {
@@ -43,6 +45,8 @@ export const MapDrawer = memo((props: Props) => {
     isParksLoading,
     handleGetParkSearchResults,
     insectOptions,
+    queryWord,
+    setQueryWord,
   } = props;
   const setSelectedCenter = useSetRecoilState(selectedCenterState);
   const [destinationLocation, setDestinationLocation] = useRecoilState(
@@ -85,6 +89,8 @@ export const MapDrawer = memo((props: Props) => {
           setSelectedItemId={setSelectedItemId}
           handleGetParkSearchResults={handleGetParkSearchResults}
           insectOptions={insectOptions}
+          queryWord={queryWord}
+          setQueryWord={setQueryWord}
         />
       </SearchBoxStyled>
       <Drawer

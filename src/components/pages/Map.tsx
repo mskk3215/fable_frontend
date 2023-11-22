@@ -8,7 +8,7 @@ import { Anchor } from "../../types/map";
 export const Map = () => {
   const { searchResults, isParksLoading, handleGetParkSearchResults } =
     useParks();
-  const { insectOptions } = useAllInsects();
+  const { insectOptions, queryWord, setQueryWord } = useAllInsects();
   const [anchor, setAnchor] = useState<Anchor>("left");
 
   const drawerWidth = anchor === "bottom" ? "100%" : 400;
@@ -35,6 +35,8 @@ export const Map = () => {
         isParksLoading={isParksLoading}
         handleGetParkSearchResults={handleGetParkSearchResults}
         insectOptions={insectOptions}
+        queryWord={queryWord}
+        setQueryWord={setQueryWord}
       />
       <MapView searchResults={searchResults} isMapPage={true} />
     </>

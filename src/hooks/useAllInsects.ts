@@ -7,12 +7,18 @@ import { Insect, UseAllInsects } from "../types/insects";
 export const useAllInsects = (): UseAllInsects => {
   const [insects, setInsects] = useState<Insect[]>([]);
   const [insectOptions, setInsectOptions] = useState<string[]>([]);
+  const [queryWord, setQueryWord] = useState<string>("");
 
   // エラーハンドリング呼び出し
   useGetRequestErrorAction();
 
   const handleGetInsects = async () => {
-    const { data } = await getInsects();
+    if (
+      queryWord === "" ||
+      !/^[\p{Script=Hiragana}\p{Script=Katakana}ー]*$/u.test(queryWord)
+    )
+      return;
+    const { data } = await getInsects(queryWord);
     setInsects(data);
 
     const insectData = data.map((insect: Insect) => insect.insectName);
@@ -21,7 +27,7 @@ export const useAllInsects = (): UseAllInsects => {
 
   useEffect(() => {
     handleGetInsects();
-  }, []);
+  }, [queryWord]);
 
-  return { insects, insectOptions, setInsectOptions };
+  return { insects, insectOptions, setInsectOptions, queryWord, setQueryWord };
 };

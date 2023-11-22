@@ -5,6 +5,7 @@ import {
   saveSearchWord,
   searchWordState,
 } from "../../store/atoms/searchWordState";
+import { convertHiraganaToKatakana } from "../../hooks/useConvertHiraganaToKatakana";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
@@ -23,6 +24,8 @@ type Props = {
   setSelectedItemId: (id?: number) => void;
   handleGetParkSearchResults: (searchWord: string) => void;
   insectOptions: string[];
+  queryWord: string;
+  setQueryWord: (queryWord: string) => void;
 };
 
 export const InsectSearchBox = memo((props: Props) => {
@@ -32,6 +35,7 @@ export const InsectSearchBox = memo((props: Props) => {
     setSelectedItemId,
     handleGetParkSearchResults,
     insectOptions,
+    setQueryWord,
   } = props;
 
   const [searchWord, setSearchWord] = useRecoilState(searchWordState);
@@ -69,7 +73,19 @@ export const InsectSearchBox = memo((props: Props) => {
       onChange={(e, newValue) => {
         setSearchWord(newValue || "");
       }}
+      onInputChange={(e, newInputValue) => {
+        let convertedInputValue = convertHiraganaToKatakana(newInputValue);
+        setQueryWord(convertedInputValue);
+      }}
       options={insectOptions}
+      noOptionsText="昆虫名を入力してください"
+      filterOptions={(options, params) => {
+        const filtered = options.filter((option) => {
+          let inputValue = convertHiraganaToKatakana(params.inputValue);
+          return option.includes(inputValue);
+        });
+        return filtered;
+      }}
       renderInput={(params) => (
         <TextField
           {...params}
