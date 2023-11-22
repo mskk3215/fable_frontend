@@ -37,12 +37,8 @@ export const InsectSearchBox = memo((props: Props) => {
   const [searchWord, setSearchWord] = useRecoilState(searchWordState);
 
   const handleSearch = () => {
-    handleGetParkSearchResults(searchWord);
-  };
-
-  const handleSearchButtonClick = () => {
     setOpen(true);
-    handleSearch();
+    handleGetParkSearchResults(searchWord);
   };
 
   const handleCancelButtonClick = () => {
@@ -89,7 +85,7 @@ export const InsectSearchBox = memo((props: Props) => {
                       <IconButton
                         type="button"
                         aria-label="search"
-                        onClick={handleSearchButtonClick}
+                        onClick={handleSearch}
                         disabled={!searchWord}
                       >
                         <SearchIcon />
