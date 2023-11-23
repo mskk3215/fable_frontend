@@ -91,7 +91,7 @@ export const CurrentLocationBox = memo((props: Props) => {
             placeholder="現在位置を入力"
             value={originLocation}
             variant="standard"
-            onChange={(event) => setOriginLocation(event.target.value)}
+            onChange={(e) => setOriginLocation(e.target.value)}
             InputProps={{
               endAdornment: (
                 <React.Fragment>
