@@ -43,6 +43,8 @@ type Props = {
   drawerWidth: string | number;
   drawerHeight: string | number;
   isDirectionsLoading: boolean;
+  handleMouseOver: (step: any) => void;
+  handleMouseOut: (step: any) => void;
   isCalculateRouteClicked: boolean;
   setInfoWindowLocationZoomSize: (size: number) => void;
   mapRef?: React.MutableRefObject<google.maps.Map | null>;
@@ -63,6 +65,8 @@ export const DirectionDrawer = memo((props: Props) => {
     drawerWidth,
     drawerHeight,
     isDirectionsLoading,
+    handleMouseOver,
+    handleMouseOut,
     isCalculateRouteClicked,
     mapRef,
   } = props;
@@ -207,6 +211,12 @@ export const DirectionDrawer = memo((props: Props) => {
                   <ListItem
                     key={index}
                     ref={index === 0 ? topListItemRef : null}
+                    onMouseOver={() => {
+                      handleMouseOver(step);
+                    }}
+                    onMouseOut={() => {
+                      handleMouseOut(step);
+                    }}
                     onClick={() => {
                       handleDirectionItemClick(step);
                     }}

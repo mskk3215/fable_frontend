@@ -32,6 +32,9 @@ export const Direction = () => {
   const mapRef = useRef<google.maps.Map | null>(null);
   const [travelMode, setTravelMode] = useState<TravelMode>("BICYCLING");
   const [isDirectionsLoading, setIsDirectionsLoading] = useState(false);
+  const [infoWindowLocation, setInfoWindowLocation] = useState<
+    { instruction: string; latLng: { lat: number; lng: number } } | undefined
+  >(undefined);
   const [infoWindowLocationZoomSize, setInfoWindowLocationZoomSize] =
     useState<number>(10);
   const [isCalculateRouteClicked, setIsCalculateRouteClicked] = useState(false);
@@ -50,6 +53,7 @@ export const Direction = () => {
         message: "出発地を入力してください。",
         type: "error",
       });
+      setIsDirectionsLoading(false);
       return;
     }
     setShouldCleanup(true);
@@ -145,6 +149,18 @@ export const Direction = () => {
       });
     }
   };
+  // マウスオーバー時にInfoWindowを表示する
+  const handleMouseOver = (step: Steps) => {
+    const position = {
+      instruction: step.instruction,
+      latLng: { lat: step.latLng.lat, lng: step.latLng.lng },
+    };
+    setInfoWindowLocation(position);
+  };
+  const handleMouseOut = () => {
+    setInfoWindowLocation(undefined);
+  };
+
   useEffect(() => {
     saveOriginLocation(originLocation);
   }, [originLocation]);
@@ -189,6 +205,8 @@ export const Direction = () => {
           drawerWidth={drawerWidth}
           drawerHeight={drawerHeight}
           isDirectionsLoading={isDirectionsLoading}
+          handleMouseOver={handleMouseOver}
+          handleMouseOut={handleMouseOut}
           isCalculateRouteClicked={isCalculateRouteClicked}
           setInfoWindowLocationZoomSize={setInfoWindowLocationZoomSize}
           mapRef={mapRef}
@@ -198,6 +216,8 @@ export const Direction = () => {
           handleMapClick={handleMapClick}
           onLoadHook={onLoadHook}
           searchResults={searchResults}
+          isDirectionLoading={isDirectionsLoading}
+          infoWindowLocation={infoWindowLocation}
           infoWindowLocationZoomSize={infoWindowLocationZoomSize}
           setInfoWindowLocationZoomSize={setInfoWindowLocationZoomSize}
           mapRef={mapRef}

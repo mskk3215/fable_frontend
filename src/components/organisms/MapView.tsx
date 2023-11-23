@@ -3,6 +3,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import {
   DirectionsRenderer,
   GoogleMap,
+  InfoWindowF,
   MarkerF,
   useLoadScript,
 } from "@react-google-maps/api";
@@ -22,6 +23,11 @@ type Props = {
   onLoadHook?: (line: google.maps.DirectionsRenderer) => void;
   searchResults: Park[];
   isMapPage?: boolean;
+  infoWindowLocation?: {
+    instruction: string;
+    latLng: { lat: number; lng: number };
+  };
+  isDirectionLoading: boolean;
   infoWindowLocationZoomSize?: number;
   mapRef?: React.MutableRefObject<google.maps.Map | null>;
 };
@@ -29,6 +35,9 @@ type Props = {
 export const MapView = memo((props: Props) => {
   const { directions, handleMapClick, onLoadHook, searchResults, isMapPage } =
     props;
+    infoWindowLocation,
+    isDirectionLoading,
+    infoWindowLocationZoomSize,
     mapRef,
   const [selectedCenter, setSelectedCenter] =
     useRecoilState(selectedCenterState);
@@ -139,6 +148,14 @@ export const MapView = memo((props: Props) => {
           position={directions.routes[0].legs[0].start_location}
           title="出発地点"
         ></MarkerF>
+      )}
+      {!isDirectionLoading && infoWindowLocation && (
+        <InfoWindowF
+          position={infoWindowLocation.latLng}
+          options={{ pixelOffset: new window.google.maps.Size(0, 0) }}
+        >
+          <>{ReactHtmlParser(infoWindowLocation.instruction)}</>
+        </InfoWindowF>
       )}
     </GoogleMap>
   );
