@@ -1,15 +1,16 @@
 import * as React from "react";
 import { memo, useRef, useEffect } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { Autocomplete, LoadScriptNext } from "@react-google-maps/api";
 import {
   originLocationState,
   saveOriginLocation,
 } from "../../store/atoms/searchWordState";
+import { isGeocoderLoadedState } from "../../store/atoms/statisticsState";
+import { messageState } from "../../store/atoms/errorAtom";
 import TextField from "@mui/material/TextField";
 import { Box, IconButton } from "@mui/material";
 import { Close } from "@mui/icons-material";
-import { isGeocoderLoadedState } from "../../store/atoms/statisticsState";
 
 type Props = {
   setCurrentLat?: React.Dispatch<React.SetStateAction<number | undefined>>;
@@ -23,8 +24,8 @@ export const CurrentLocationBox = memo((props: Props) => {
   const [isGeocoderLoaded, setIsGeocoderLoaded] = useRecoilState(
     isGeocoderLoadedState
   );
-
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+  const setMessage = useSetRecoilState(messageState);
 
   const handlePlaceSelected = () => {
     if (autocompleteRef.current) {
@@ -49,7 +50,11 @@ export const CurrentLocationBox = memo((props: Props) => {
           setCurrentLng?.(lng);
           resolve({ lat, lng });
         } else {
-          console.log("Geocode was not successful for the following reason: ");
+          setMessage({
+            message:
+              "Geocode was not successful for the following reason: " + status,
+            type: "error",
+          });
         }
       });
     });
@@ -85,7 +90,7 @@ export const CurrentLocationBox = memo((props: Props) => {
             placeholder="現在位置を入力"
             value={originLocation}
             variant="standard"
-            onChange={(event) => setOriginLocation(event.target.value)}
+            onChange={(e) => setOriginLocation(e.target.value)}
             InputProps={{
               endAdornment: (
                 <React.Fragment>
