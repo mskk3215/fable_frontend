@@ -6,6 +6,7 @@ import {
   MarkerF,
   useLoadScript,
 } from "@react-google-maps/api";
+import ReactHtmlParser from "react-html-parser";
 import {
   mapApiLoadState,
   selectedCenterState,
@@ -21,11 +22,14 @@ type Props = {
   onLoadHook?: (line: google.maps.DirectionsRenderer) => void;
   searchResults: Park[];
   isMapPage?: boolean;
+  infoWindowLocationZoomSize?: number;
+  mapRef?: React.MutableRefObject<google.maps.Map | null>;
 };
 
 export const MapView = memo((props: Props) => {
   const { directions, handleMapClick, onLoadHook, searchResults, isMapPage } =
     props;
+    mapRef,
   const [selectedCenter, setSelectedCenter] =
     useRecoilState(selectedCenterState);
   const [selectedItemId, setSelectedItemId] = useRecoilState(selectedItemState);
@@ -85,10 +89,15 @@ export const MapView = memo((props: Props) => {
         width: window.innerWidth + "px",
         height: window.innerHeight + "px",
       }}
-      zoom={10}
+      zoom={infoWindowLocationZoomSize || 10}
       center={selectedCenter}
       options={mapOptions}
       onClick={(e) => handleMapClick?.(e)}
+      onLoad={(map) => {
+        if (mapRef) {
+          mapRef.current = map;
+        }
+      }}
     >
       {locations?.map(
         ({ id, title, latLng }: Location) =>
