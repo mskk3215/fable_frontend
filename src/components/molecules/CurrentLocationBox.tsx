@@ -6,11 +6,11 @@ import {
   originLocationState,
   saveOriginLocation,
 } from "../../store/atoms/searchWordState";
+import { isGeocoderLoadedState } from "../../store/atoms/statisticsState";
 import { messageState } from "../../store/atoms/errorAtom";
 import TextField from "@mui/material/TextField";
 import { Box, IconButton } from "@mui/material";
 import { Close } from "@mui/icons-material";
-import { isGeocoderLoadedState } from "../../store/atoms/statisticsState";
 
 type Props = {
   setCurrentLat?: React.Dispatch<React.SetStateAction<number | undefined>>;
@@ -24,7 +24,6 @@ export const CurrentLocationBox = memo((props: Props) => {
   const [isGeocoderLoaded, setIsGeocoderLoaded] = useRecoilState(
     isGeocoderLoadedState
   );
-
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const setMessage = useSetRecoilState(messageState);
 
