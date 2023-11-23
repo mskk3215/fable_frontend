@@ -3,9 +3,11 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import {
   DirectionsRenderer,
   GoogleMap,
+  InfoWindowF,
   MarkerF,
   useLoadScript,
 } from "@react-google-maps/api";
+import ReactHtmlParser from "react-html-parser";
 import {
   mapApiLoadState,
   selectedCenterState,
@@ -21,11 +23,22 @@ type Props = {
   onLoadHook?: (line: google.maps.DirectionsRenderer) => void;
   searchResults: Park[];
   isMapPage?: boolean;
+  infoWindowLocation?: {
+    instruction: string;
+    latLng: { lat: number; lng: number };
+  };
+  isDirectionLoading: boolean;
+  infoWindowLocationZoomSize?: number;
+  mapRef?: React.MutableRefObject<google.maps.Map | null>;
 };
 
 export const MapView = memo((props: Props) => {
   const { directions, handleMapClick, onLoadHook, searchResults, isMapPage } =
     props;
+    infoWindowLocation,
+    isDirectionLoading,
+    infoWindowLocationZoomSize,
+    mapRef,
   const [selectedCenter, setSelectedCenter] =
     useRecoilState(selectedCenterState);
   const [selectedItemId, setSelectedItemId] = useRecoilState(selectedItemState);
@@ -85,10 +98,15 @@ export const MapView = memo((props: Props) => {
         width: window.innerWidth + "px",
         height: window.innerHeight + "px",
       }}
-      zoom={10}
+      zoom={infoWindowLocationZoomSize || 10}
       center={selectedCenter}
       options={mapOptions}
       onClick={(e) => handleMapClick?.(e)}
+      onLoad={(map) => {
+        if (mapRef) {
+          mapRef.current = map;
+        }
+      }}
     >
       {locations?.map(
         ({ id, title, latLng }: Location) =>
@@ -130,6 +148,14 @@ export const MapView = memo((props: Props) => {
           position={directions.routes[0].legs[0].start_location}
           title="出発地点"
         ></MarkerF>
+      )}
+      {!isDirectionLoading && infoWindowLocation && (
+        <InfoWindowF
+          position={infoWindowLocation.latLng}
+          options={{ pixelOffset: new window.google.maps.Size(0, 0) }}
+        >
+          <>{ReactHtmlParser(infoWindowLocation.instruction)}</>
+        </InfoWindowF>
       )}
     </GoogleMap>
   );

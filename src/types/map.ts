@@ -8,3 +8,13 @@ export type Location = {
     lng: number;
   };
 };
+
+export type Steps = {
+  instruction: string;
+  distance: string;
+  duration: string;
+  latLng: {
+    lat: number;
+    lng: number;
+  };
+};
