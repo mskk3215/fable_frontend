@@ -21,6 +21,7 @@ export const Direction = () => {
   const [directions, setDirections] = useState<
     google.maps.DirectionsResult | undefined
   >(undefined);
+  const [lines, setLines] = useState<google.maps.DirectionsRenderer[]>([]);
   const [distance, setDistance] = useState<string | undefined>(undefined);
   const [duration, setDuration] = useState<string | undefined>(undefined);
   const [anchor, setAnchor] = useState<Anchor>("left");
@@ -29,6 +30,7 @@ export const Direction = () => {
   const destinationRef = useRef<HTMLInputElement>(null);
   const [travelMode, setTravelMode] = useState<TravelMode>("BICYCLING");
   const [isDirectionsLoading, setIsDirectionsLoading] = useState(false);
+  const [shouldCleanup, setShouldCleanup] = useState(false);
 
   const drawerWidth = anchor === "bottom" || anchor === "top" ? "100%" : 400;
   const drawerHeight =
@@ -44,6 +46,7 @@ export const Direction = () => {
       });
       return;
     }
+    setShouldCleanup(true);
     setDirections(undefined);
     setOriginLocation(originRef.current?.value || "");
     const directionsService = new window.google.maps.DirectionsService();
@@ -95,6 +98,7 @@ export const Direction = () => {
 
   //directionsの削除
   const clearRoute = () => {
+    setShouldCleanup(true);
     setDirections(undefined);
     setDistance(undefined);
     setDuration(undefined);
@@ -125,20 +129,18 @@ export const Direction = () => {
     saveOriginLocation(originLocation);
   }, [originLocation]);
 
-  //初期load時二重呼び出しを防ぐ
+  //開発環境で発生する初期load時二重呼び出しを防ぐ
   // https://tagomoris.hatenablog.com/entry/2022/06/10/144540s
-  const lines: google.maps.DirectionsRenderer[] = [];
   const onLoadHook = (line: google.maps.DirectionsRenderer) => {
-    lines.push(line);
+    setLines((prev) => [...prev, line]);
   };
-  //クリーンアップ関数
   useEffect(() => {
-    return () => {
-      lines.forEach((line) => {
-        line.setMap(null);
-      });
-    };
-  });
+    lines.forEach((line) => {
+      line.setMap(null);
+    });
+    setLines([]);
+    setShouldCleanup(false);
+  }, [shouldCleanup]);
 
   //画面サイズによってdrawerの位置を変更する
   useEffect(() => {
