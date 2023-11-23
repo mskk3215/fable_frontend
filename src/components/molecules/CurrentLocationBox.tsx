@@ -1,11 +1,12 @@
 import * as React from "react";
 import { memo, useRef, useEffect } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { Autocomplete, LoadScriptNext } from "@react-google-maps/api";
 import {
   originLocationState,
   saveOriginLocation,
 } from "../../store/atoms/searchWordState";
+import { messageState } from "../../store/atoms/errorAtom";
 import TextField from "@mui/material/TextField";
 import { Box, IconButton } from "@mui/material";
 import { Close } from "@mui/icons-material";
@@ -25,6 +26,7 @@ export const CurrentLocationBox = memo((props: Props) => {
   );
 
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+  const setMessage = useSetRecoilState(messageState);
 
   const handlePlaceSelected = () => {
     if (autocompleteRef.current) {
@@ -49,7 +51,11 @@ export const CurrentLocationBox = memo((props: Props) => {
           setCurrentLng?.(lng);
           resolve({ lat, lng });
         } else {
-          console.log("Geocode was not successful for the following reason: ");
+          setMessage({
+            message:
+              "Geocode was not successful for the following reason: " + status,
+            type: "error",
+          });
         }
       });
     });
