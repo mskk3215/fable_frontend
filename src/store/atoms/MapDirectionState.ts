@@ -5,7 +5,7 @@ type SelectedCenter = {
   lat: number;
   lng: number;
 };
-type MapApiLoad = {
+export type MapApiLoad = {
   isLoaded: boolean;
   loadError: boolean;
 };
