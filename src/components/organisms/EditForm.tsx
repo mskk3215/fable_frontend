@@ -8,6 +8,7 @@ import React, {
 import { useSetRecoilState } from "recoil";
 import { messageState } from "../../store/atoms/errorAtom";
 import { useErrorAction } from "../../hooks/error/useErrorAction";
+import { convertHiraganaToKatakana } from "../../hooks/useConvertHiraganaToKatakana";
 import { updateImages, deleteImages } from "../../urls";
 import {
   Autocomplete,
@@ -21,7 +22,7 @@ import {
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { Insect, InsectOption } from "../../types/insects";
+import { Insect } from "../../types/insects";
 import { Park, ParkOption } from "../../types/parks";
 import { Prefecture, PrefectureOption } from "../../types/prefectures";
 import dayjs, { Dayjs } from "dayjs";
@@ -35,13 +36,14 @@ type Props = {
   handleGetParks: () => void;
   parkOptions: ParkOption[];
   parks: Park[];
-  insectOptions: InsectOption[];
+  insectOptions: string[];
   insects: Insect[];
   prefectureOptions: PrefectureOption[];
   prefectures: Prefecture[];
   handleGetImages: HandleGetImages;
   setImages: React.Dispatch<React.SetStateAction<Image[]>>;
   pageSize: number;
+  setQueryWord: (queryWord: string) => void;
 };
 
 export const EditForm = memo((props: Props) => {
@@ -59,6 +61,7 @@ export const EditForm = memo((props: Props) => {
     handleGetImages,
     setImages,
     pageSize,
+    setQueryWord,
   } = props;
 
   const [insectName, setInsectName] = useState("");
@@ -125,7 +128,7 @@ export const EditForm = memo((props: Props) => {
 
   const getSexes = () => {
     const insectNameValue = insects.find(
-      (insect: Insect) => insect.name === insectName
+      (insect: Insect) => insect.insectName === insectName
     );
     return insectNameValue ? insectNameValue.availableSexes : [];
   };
@@ -238,17 +241,28 @@ export const EditForm = memo((props: Props) => {
               昆虫名
             </Typography>
             <Autocomplete
-              value={
-                insectName ? { label: insectName, value: insectName } : null
-              }
+              value={insectName ? insectName : null}
               onChange={(e, value) => {
-                setInsectName(value?.label || "");
-                setInsectSex(value?.label ? "" : "");
+                setInsectName(value || "");
+                setInsectSex(value ? "" : "");
+              }}
+              onInputChange={(e, newInputValue) => {
+                let convertedInputValue =
+                  convertHiraganaToKatakana(newInputValue);
+                setQueryWord(convertedInputValue);
               }}
               id="insectName"
               size={handleFormSize()}
               sx={{ maxWidth: 400 }}
               options={insectOptions}
+              noOptionsText="昆虫名を入力してください"
+              filterOptions={(options, params) => {
+                const filtered = options.filter((option) => {
+                  let inputValue = convertHiraganaToKatakana(params.inputValue);
+                  return option.includes(inputValue);
+                });
+                return filtered;
+              }}
               renderInput={(params) => (
                 <TextField {...params} label="例)カブトムシ" />
               )}

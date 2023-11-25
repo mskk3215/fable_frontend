@@ -1,7 +1,10 @@
-import React, { memo } from "react";
+import React, { memo, useRef } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { Autocomplete } from "@react-google-maps/api";
-import { originLocationState } from "../../store/atoms/searchWordState";
+import {
+  originLocationState,
+  saveOriginLocation,
+} from "../../store/atoms/searchWordState";
 import { mapApiLoadState } from "../../store/atoms/MapDirectionState";
 import { IconButton, TextField } from "@mui/material";
 import Close from "@mui/icons-material/Close";
@@ -16,6 +19,17 @@ export const OriginBox = memo((props: Props) => {
   const [originLocation, setOriginLocation] =
     useRecoilState(originLocationState);
   const mapLoadState = useRecoilValue(mapApiLoadState);
+  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+
+  const handlePlaceSelected = () => {
+    if (autocompleteRef.current) {
+      const place = autocompleteRef.current.getPlace();
+      if (place && typeof place.formatted_address === "string") {
+        setOriginLocation(place.formatted_address);
+        saveOriginLocation(originLocation);
+      }
+    }
+  };
 
   const handleDeleteClick = () => {
     setOriginLocation("");
@@ -27,13 +41,17 @@ export const OriginBox = memo((props: Props) => {
   if (!mapLoadState.isLoaded) return "Loading Maps";
 
   return (
-    <Autocomplete>
+    <Autocomplete
+      onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
+      onPlaceChanged={handlePlaceSelected}
+    >
       <TextField
         id="originBox"
         placeholder="出発地を入力 or 地図上でクリック"
-        value={originLocation || ""}
+        value={originLocation}
         sx={{ width: 320, height: 50 }}
         inputRef={originRef}
+        onChange={(e) => setOriginLocation(e.target.value)}
         InputProps={{
           endAdornment: (
             <React.Fragment>

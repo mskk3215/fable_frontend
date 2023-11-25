@@ -3,15 +3,21 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import {
   DirectionsRenderer,
   GoogleMap,
+  InfoWindowF,
   MarkerF,
   useLoadScript,
 } from "@react-google-maps/api";
+import ReactHtmlParser from "react-html-parser";
 import {
   mapApiLoadState,
   selectedCenterState,
   selectedItemState,
 } from "../../store/atoms/MapDirectionState";
-import { destinationLocationState } from "../../store/atoms/searchWordState";
+import {
+  destinationLocationState,
+  originLocationState,
+} from "../../store/atoms/searchWordState";
+import { useGeocodeLatLng } from "../../hooks/useGeocoddeLatLng";
 import { Location } from "../../types/map";
 import { Park } from "../../types/parks";
 
@@ -21,21 +27,73 @@ type Props = {
   onLoadHook?: (line: google.maps.DirectionsRenderer) => void;
   searchResults: Park[];
   isMapPage?: boolean;
+  isDirectionPage?: boolean;
+  infoWindowLocation?: {
+    instruction: string;
+    latLng: { lat: number; lng: number };
+  };
+  isDirectionLoading: boolean;
+  infoWindowLocationZoomSize?: number;
+  mapRef?: React.MutableRefObject<google.maps.Map | null>;
 };
 
+const mapOptions = {
+  fullscreenControl: false,
+  mapTypeControl: false,
+};
+
+//Iconの設定
+const renderIcon = (id?: number, selectedItemId?: number, place?: string) => {
+  const destinationIconUrl =
+    process.env.PUBLIC_URL + "/images/destinationIcon.png";
+  const parkIconUrl = process.env.PUBLIC_URL + "/images/parkIcon.png";
+  const currentLocationIconUrl =
+    process.env.PUBLIC_URL + "/images/currentLocationIcon.png";
+  return {
+    url:
+      id !== undefined
+        ? id === selectedItemId
+          ? destinationIconUrl
+          : parkIconUrl
+        : place === "start"
+        ? currentLocationIconUrl
+        : destinationIconUrl,
+    size: new window.google.maps.Size(50, 50),
+    origin: new window.google.maps.Point(0, 0),
+    anchor: new window.google.maps.Point(25, 25),
+  };
+};
+
+//label option
+const markerLabel = (title: string) => ({
+  text: title,
+  color: "blue",
+  fontFamily: "sans-serif",
+  fontSize: "15px",
+  fontWeight: "bold",
+  labelOrigin: new window.google.maps.Point(0, -30),
+});
+
 export const MapView = memo((props: Props) => {
-  const { directions, handleMapClick, onLoadHook, searchResults, isMapPage } =
-    props;
+  const {
+    directions,
+    handleMapClick,
+    onLoadHook,
+    searchResults,
+    isMapPage,
+    isDirectionPage,
+    infoWindowLocation,
+    isDirectionLoading,
+    infoWindowLocationZoomSize,
+    mapRef,
+  } = props;
+
   const [selectedCenter, setSelectedCenter] =
     useRecoilState(selectedCenterState);
   const [selectedItemId, setSelectedItemId] = useRecoilState(selectedItemState);
   const [mapLoadState, setMapLoadState] = useRecoilState(mapApiLoadState);
+  const originLocation = useRecoilValue(originLocationState);
   const destinationLocation = useRecoilValue(destinationLocationState);
-
-  const mapOptions = {
-    fullscreenControl: false,
-    mapTypeControl: false,
-  };
 
   const locations = searchResults.map((result) => {
     const id = result.id;
@@ -43,6 +101,10 @@ export const MapView = memo((props: Props) => {
     const latLng = { lat: result.latitude, lng: result.longitude };
     return { id, title, latLng };
   });
+
+  //出発地、目的地の緯度経度を取得する
+  const startLatLng = useGeocodeLatLng(originLocation, mapLoadState);
+  const endLatLng = useGeocodeLatLng(destinationLocation, mapLoadState);
 
   //Google Maps APIの読み込み状態を管理する
   const { isLoaded, loadError } = useLoadScript({
@@ -56,53 +118,36 @@ export const MapView = memo((props: Props) => {
   if (mapLoadState.loadError) return "Error loading maps";
   if (!mapLoadState.isLoaded) return "Loading Maps";
 
-  //Iconの設定
-  const renderIcon = (id: number) => {
-    const selectedIconUrl = process.env.PUBLIC_URL + "/images/selectedIcon.png";
-    const parkIconUrl = process.env.PUBLIC_URL + "/images/parkIcon.png";
-
-    return {
-      url: id === selectedItemId ? selectedIconUrl : parkIconUrl,
-      size: new window.google.maps.Size(50, 50),
-      origin: new window.google.maps.Point(0, 0),
-      anchor: new window.google.maps.Point(25, 25),
-    };
-  };
-
-  //label option
-  const markerLabel = (title: string) => ({
-    text: title,
-    color: "blue",
-    fontFamily: "sans-serif",
-    fontSize: "15px",
-    fontWeight: "bold",
-    labelOrigin: new window.google.maps.Point(0, -30),
-  });
-
   return (
     <GoogleMap
       mapContainerStyle={{
         width: window.innerWidth + "px",
         height: window.innerHeight + "px",
       }}
-      zoom={10}
+      zoom={infoWindowLocationZoomSize || 10}
       center={selectedCenter}
       options={mapOptions}
       onClick={(e) => handleMapClick?.(e)}
+      onLoad={(map) => {
+        if (mapRef) {
+          mapRef.current = map;
+        }
+      }}
     >
       {locations?.map(
         ({ id, title, latLng }: Location) =>
-          (isMapPage || title === destinationLocation) && (
+          isMapPage && (
             <MarkerF
               key={id}
               position={latLng}
               options={{
-                icon: renderIcon(id),
+                icon: renderIcon(id, selectedItemId, undefined),
                 animation:
                   id === selectedItemId
                     ? window.google.maps.Animation.BOUNCE
                     : undefined,
               }}
+              title="公園検索結果"
               label={markerLabel(title)}
               onClick={() => {
                 setSelectedItemId(id);
@@ -110,6 +155,26 @@ export const MapView = memo((props: Props) => {
               }}
             />
           )
+      )}
+      {originLocation && startLatLng.lat && startLatLng.lng && (
+        <MarkerF
+          position={startLatLng}
+          options={{
+            icon: renderIcon(undefined, undefined, "start"),
+            animation: window.google.maps.Animation.DROP,
+          }}
+          title="出発地点"
+        ></MarkerF>
+      )}
+      {isDirectionPage && endLatLng.lat && endLatLng.lng && (
+        <MarkerF
+          position={endLatLng}
+          options={{
+            icon: renderIcon(undefined, undefined, "end"),
+            animation: window.google.maps.Animation.BOUNCE,
+          }}
+          title="目的地点"
+        />
       )}
       {directions && (
         <DirectionsRenderer
@@ -125,11 +190,13 @@ export const MapView = memo((props: Props) => {
           onLoad={onLoadHook}
         />
       )}
-      {directions?.routes[0]?.legs[0]?.start_location && (
-        <MarkerF
-          position={directions.routes[0].legs[0].start_location}
-          title="出発地点"
-        ></MarkerF>
+      {!isDirectionLoading && infoWindowLocation && (
+        <InfoWindowF
+          position={infoWindowLocation.latLng}
+          options={{ pixelOffset: new window.google.maps.Size(0, 0) }}
+        >
+          <>{ReactHtmlParser(infoWindowLocation.instruction)}</>
+        </InfoWindowF>
       )}
     </GoogleMap>
   );

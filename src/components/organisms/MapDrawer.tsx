@@ -23,7 +23,6 @@ import ListItemText from "@mui/material/ListItemText";
 import { CircularProgress, ListItemAvatar, Typography } from "@mui/material";
 import { Anchor } from "../../types/map";
 import { Park } from "../../types/parks";
-import { InsectOption } from "../../types/insects";
 
 type Props = {
   anchor: Anchor;
@@ -32,7 +31,9 @@ type Props = {
   searchResults: Park[];
   isParksLoading: boolean;
   handleGetParkSearchResults: (searchWord: string) => void;
-  insectOptions: InsectOption[];
+  insectOptions: string[];
+  queryWord: string;
+  setQueryWord: (queryWord: string) => void;
 };
 
 export const MapDrawer = memo((props: Props) => {
@@ -44,6 +45,8 @@ export const MapDrawer = memo((props: Props) => {
     isParksLoading,
     handleGetParkSearchResults,
     insectOptions,
+    queryWord,
+    setQueryWord,
   } = props;
   const setSelectedCenter = useSetRecoilState(selectedCenterState);
   const [destinationLocation, setDestinationLocation] = useRecoilState(
@@ -86,6 +89,8 @@ export const MapDrawer = memo((props: Props) => {
           setSelectedItemId={setSelectedItemId}
           handleGetParkSearchResults={handleGetParkSearchResults}
           insectOptions={insectOptions}
+          queryWord={queryWord}
+          setQueryWord={setQueryWord}
         />
       </SearchBoxStyled>
       <Drawer

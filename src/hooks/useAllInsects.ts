@@ -2,30 +2,32 @@
 import { useEffect, useState } from "react";
 import { getInsects } from "../urls";
 import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
-import { Insect, InsectOption, UseAllInsects } from "../types/insects";
+import { Insect, UseAllInsects } from "../types/insects";
 
 export const useAllInsects = (): UseAllInsects => {
   const [insects, setInsects] = useState<Insect[]>([]);
-  const [insectOptions, setInsectOptions] = useState<InsectOption[]>([]);
+  const [insectOptions, setInsectOptions] = useState<string[]>([]);
+  const [queryWord, setQueryWord] = useState<string>("");
 
   // エラーハンドリング呼び出し
   useGetRequestErrorAction();
 
   const handleGetInsects = async () => {
-    const { data } = await getInsects();
+    if (
+      queryWord === "" ||
+      !/^[\p{Script=Hiragana}\p{Script=Katakana}ー]*$/u.test(queryWord)
+    )
+      return;
+    const { data } = await getInsects(queryWord);
     setInsects(data);
 
-    //EditFormの選択肢用
-    const insectData = data.map((insect: Insect) => ({
-      label: insect.name,
-      value: insect.name,
-    }));
+    const insectData = data.map((insect: Insect) => insect.insectName);
     setInsectOptions(insectData);
   };
 
   useEffect(() => {
     handleGetInsects();
-  }, []);
+  }, [queryWord]);
 
-  return { insects, insectOptions };
+  return { insects, insectOptions, setInsectOptions, queryWord, setQueryWord };
 };

@@ -124,8 +124,8 @@ export const deleteImageLike = (imageId: number) => {
 };
 
 //insects
-export const getInsects = () => {
-  return apiClient.get("/insects");
+export const getInsects = (queryWord: string) => {
+  return apiClient.get("/insects", { params: { queryWord } });
 };
 
 //parks
@@ -141,4 +141,40 @@ export const getPrefectures = () => {
 //search parks
 export const getSearchParkResults = (searchWord: string) => {
   return apiClient.get("/parks", { params: { searchWord } });
+};
+
+//statistics
+export const getUserStatistics = (
+  prefectureName: string | null,
+  cityName: string | null,
+  userId?: number
+) => {
+  return apiClient.get(`/users/${userId}/statistics`, {
+    params: { prefectureName, cityName },
+  });
+};
+
+export const getUserRankings = (
+  prefectureName: string | null,
+  cityName: string | null
+) => {
+  return apiClient.get("/rankings", { params: { prefectureName, cityName } });
+};
+
+export const getInsectsAndParksInfo = (
+  collectionStatus: string,
+  prefectureName: string | null,
+  cityName: string | null,
+  lat?: number,
+  lng?: number
+) => {
+  return apiClient.get("/insects", {
+    params: {
+      status: collectionStatus,
+      prefecture: prefectureName,
+      city: cityName,
+      lat: lat,
+      lng: lng,
+    },
+  });
 };

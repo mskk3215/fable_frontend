@@ -1,5 +1,8 @@
-import React, { memo } from "react";
+import React, { memo, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import ReactHtmlParser from "react-html-parser";
+import { selectedCenterState } from "../../store/atoms/MapDirectionState";
 import { Header } from "../atoms/layout/Header";
 import { DestinationBox } from "../molecules/DestinationBox";
 import { OriginBox } from "../molecules/OriginBox";
@@ -10,8 +13,12 @@ import {
   Button,
   CircularProgress,
   CssBaseline,
+  Divider,
   Drawer,
   IconButton,
+  List,
+  ListItem,
+  ListItemText,
   Typography,
 } from "@mui/material";
 import Close from "@mui/icons-material/Close";
@@ -20,7 +27,7 @@ import DirectionsTransitIcon from "@mui/icons-material/DirectionsTransit";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
 import Tooltip from "@mui/material/Tooltip";
-import { Anchor, TravelMode } from "../../types/map";
+import { Anchor, Steps, TravelMode } from "../../types/map";
 
 type Props = {
   originRef: React.RefObject<HTMLInputElement>;
@@ -31,10 +38,16 @@ type Props = {
   setTravelMode: (mode: TravelMode) => void;
   distance?: string;
   duration?: string;
+  steps: Steps[];
   anchor: Anchor;
   drawerWidth: string | number;
   drawerHeight: string | number;
   isDirectionsLoading: boolean;
+  handleMouseOver: (step: any) => void;
+  handleMouseOut: (step: any) => void;
+  isCalculateRouteClicked: boolean;
+  setInfoWindowLocationZoomSize: (size: number) => void;
+  mapRef?: React.MutableRefObject<google.maps.Map | null>;
 };
 
 export const DirectionDrawer = memo((props: Props) => {
@@ -47,13 +60,35 @@ export const DirectionDrawer = memo((props: Props) => {
     setTravelMode,
     distance,
     duration,
+    steps,
     anchor,
     drawerWidth,
     drawerHeight,
     isDirectionsLoading,
+    handleMouseOver,
+    handleMouseOut,
+    isCalculateRouteClicked,
+    mapRef,
   } = props;
 
+  const setSelectedCenter = useSetRecoilState(selectedCenterState);
   const navigate = useNavigate();
+
+  // リストをスクロールする
+  const topListItemRef = useRef<HTMLLIElement | null>(null);
+  useEffect(() => {
+    if (steps && steps.length > 0 && topListItemRef.current) {
+      topListItemRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [steps]);
+
+  const handleDirectionItemClick = (step: Steps) => {
+    mapRef?.current?.setZoom(15);
+    setSelectedCenter({
+      lat: step.latLng.lat,
+      lng: step.latLng.lng,
+    });
+  };
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -131,6 +166,7 @@ export const DirectionDrawer = memo((props: Props) => {
             {isDirectionsLoading ? <CircularProgress size={20} /> : distance}
           </span>
         </Typography>
+        <Typography>道順:</Typography>
       </DirectionBoxStyled>
       <Drawer
         variant="persistent"
@@ -147,8 +183,79 @@ export const DirectionDrawer = memo((props: Props) => {
         open={true}
         anchor={anchor}
       >
-        <Box sx={{ overflow: "auto" }}></Box>
+        <Box
+          sx={{
+            overflow: "auto",
+            marginTop: "330px",
+            height: drawerHeight,
+          }}
+        >
+          <List>
+            {isDirectionsLoading ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  width: "100%",
+                  mt: 2,
+                }}
+              >
+                <CircularProgress />
+              </Box>
+            ) : isCalculateRouteClicked && steps.length === 0 && !originRef ? (
+              <ListItem>
+                <SListItemText primary="検索したルートは見つかりません。" />
+              </ListItem>
+            ) : (
+              steps.map((step, index) => (
+                <React.Fragment key={index}>
+                  <ListItem
+                    key={index}
+                    ref={index === 0 ? topListItemRef : null}
+                    onMouseOver={() => {
+                      handleMouseOver(step);
+                    }}
+                    onMouseOut={() => {
+                      handleMouseOut(step);
+                    }}
+                    onClick={() => {
+                      handleDirectionItemClick(step);
+                    }}
+                    sx={{
+                      "&:hover": {
+                        backgroundColor: "#f5f5f5",
+                      },
+                    }}
+                  >
+                    <ListItemText
+                      primary={
+                        <>
+                          <Typography
+                            component="div"
+                            variant="body2"
+                            color="textPrimary"
+                          >
+                            {ReactHtmlParser(step.instruction)}
+                          </Typography>
+                          <Typography variant="body2" color="textPrimary">
+                            {step.duration} ({step.distance})
+                          </Typography>
+                        </>
+                      }
+                      sx={{
+                        wordWrap: "break-word",
+                        overflowWrap: "break-word",
+                      }}
+                    />
+                  </ListItem>
+                  {index !== steps.length - 1 && <Divider />}
+                </React.Fragment>
+              ))
+            )}
+          </List>
+        </Box>
       </Drawer>
+      <Box sx={{ overflow: "auto" }}></Box>
     </Box>
   );
 });
@@ -174,4 +281,7 @@ const SIconButton = styled(IconButton)`
   &:hover {
     color: gray;
   }
+`;
+const SListItemText = styled(ListItemText)`
+  color: red;
 `;
