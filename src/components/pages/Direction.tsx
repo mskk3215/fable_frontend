@@ -220,7 +220,6 @@ export const Direction = () => {
           isDirectionLoading={isDirectionsLoading}
           infoWindowLocation={infoWindowLocation}
           infoWindowLocationZoomSize={infoWindowLocationZoomSize}
-          setInfoWindowLocationZoomSize={setInfoWindowLocationZoomSize}
           mapRef={mapRef}
         />
       </Box>
