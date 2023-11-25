@@ -48,6 +48,7 @@ export const Direction = () => {
   const calculateRoute = async () => {
     setIsDirectionsLoading(true);
     setIsCalculateRouteClicked(true);
+    setSteps([]);
     if (originRef.current?.value === "") {
       setMessage({
         message: "出発地を入力してください。",
