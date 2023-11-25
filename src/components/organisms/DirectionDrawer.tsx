@@ -166,6 +166,7 @@ export const DirectionDrawer = memo((props: Props) => {
             {isDirectionsLoading ? <CircularProgress size={20} /> : distance}
           </span>
         </Typography>
+        <Typography>道順:</Typography>
       </DirectionBoxStyled>
       <Drawer
         variant="persistent"
@@ -185,7 +186,7 @@ export const DirectionDrawer = memo((props: Props) => {
         <Box
           sx={{
             overflow: "auto",
-            marginTop: "300px",
+            marginTop: "330px",
             height: drawerHeight,
           }}
         >
