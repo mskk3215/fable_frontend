@@ -90,7 +90,8 @@ export const MapView = memo((props: Props) => {
 
   //Iconの設定
   const renderIcon = (id?: number) => {
-    const selectedIconUrl = process.env.PUBLIC_URL + "/images/selectedIcon.png";
+    const destinationIconUrl =
+      process.env.PUBLIC_URL + "/images/destinationIcon.png";
     const parkIconUrl = process.env.PUBLIC_URL + "/images/parkIcon.png";
     const currentLocationIconUrl =
       process.env.PUBLIC_URL + "/images/currentLocationIcon.png";
@@ -98,7 +99,7 @@ export const MapView = memo((props: Props) => {
       url:
         id !== undefined
           ? id === selectedItemId
-            ? selectedIconUrl
+            ? destinationIconUrl
             : parkIconUrl
           : currentLocationIconUrl,
       size: new window.google.maps.Size(50, 50),
