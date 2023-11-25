@@ -27,6 +27,7 @@ type Props = {
   onLoadHook?: (line: google.maps.DirectionsRenderer) => void;
   searchResults: Park[];
   isMapPage?: boolean;
+  isDirectionPage?: boolean;
   infoWindowLocation?: {
     instruction: string;
     latLng: { lat: number; lng: number };
@@ -37,12 +38,18 @@ type Props = {
 };
 
 export const MapView = memo((props: Props) => {
-  const { directions, handleMapClick, onLoadHook, searchResults, isMapPage } =
-    props;
+  const {
+    directions,
+    handleMapClick,
+    onLoadHook,
+    searchResults,
+    isMapPage,
+    isDirectionPage,
     infoWindowLocation,
     isDirectionLoading,
     infoWindowLocationZoomSize,
     mapRef,
+  } = props;
   const [selectedCenter, setSelectedCenter] =
     useRecoilState(selectedCenterState);
   const [selectedItemId, setSelectedItemId] = useRecoilState(selectedItemState);
@@ -51,6 +58,10 @@ export const MapView = memo((props: Props) => {
   const destinationLocation = useRecoilValue(destinationLocationState);
 
   const [startLatLng, setStartLatLng] = useState<LatLng>({
+    lat: 0,
+    lng: 0,
+  });
+  const [endLatLng, setEndLatLng] = useState<LatLng>({
     lat: 0,
     lng: 0,
   });
@@ -76,6 +87,19 @@ export const MapView = memo((props: Props) => {
       .catch((error) => console.error("Error: ", error));
   }, [originLocation, mapLoadState]);
 
+  useEffect(() => {
+    if (
+      !mapLoadState.isLoaded ||
+      mapLoadState.loadError ||
+      !destinationLocation
+    )
+      return;
+    getGeocode({ address: destinationLocation })
+      .then((results) => getLatLng(results[0]))
+      .then((latLng) => setEndLatLng(latLng))
+      .catch((error) => console.error("Error: ", error));
+  }, [destinationLocation, mapLoadState]);
+
   //Google Maps APIの読み込み状態を管理する
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: String(process.env.REACT_APP_GOOGLE_MAP_API_KEY),
@@ -89,7 +113,7 @@ export const MapView = memo((props: Props) => {
   if (!mapLoadState.isLoaded) return "Loading Maps";
 
   //Iconの設定
-  const renderIcon = (id?: number) => {
+  const renderIcon = (id?: number, place?: string) => {
     const destinationIconUrl =
       process.env.PUBLIC_URL + "/images/destinationIcon.png";
     const parkIconUrl = process.env.PUBLIC_URL + "/images/parkIcon.png";
@@ -101,7 +125,9 @@ export const MapView = memo((props: Props) => {
           ? id === selectedItemId
             ? destinationIconUrl
             : parkIconUrl
-          : currentLocationIconUrl,
+          : place === "start"
+          ? currentLocationIconUrl
+          : destinationIconUrl,
       size: new window.google.maps.Size(50, 50),
       origin: new window.google.maps.Point(0, 0),
       anchor: new window.google.maps.Point(25, 25),
@@ -136,7 +162,7 @@ export const MapView = memo((props: Props) => {
     >
       {locations?.map(
         ({ id, title, latLng }: Location) =>
-          (isMapPage || title === destinationLocation) && (
+          isMapPage && (
             <MarkerF
               key={id}
               position={latLng}
@@ -155,19 +181,26 @@ export const MapView = memo((props: Props) => {
             />
           )
       )}
-      {isDirectionPage &&
-        originLocation &&
-        startLatLng.lat &&
-        startLatLng.lng && (
-          <MarkerF
-            position={startLatLng}
-            options={{
-              icon: renderIcon(),
-              animation: window.google.maps.Animation.DROP,
-            }}
-            title="出発地点"
-          ></MarkerF>
-        )}
+      {originLocation && startLatLng.lat && startLatLng.lng && (
+        <MarkerF
+          position={startLatLng}
+          options={{
+            icon: renderIcon(undefined, "start"),
+            animation: window.google.maps.Animation.DROP,
+          }}
+          title="出発地点"
+        ></MarkerF>
+      )}
+      {isDirectionPage && endLatLng.lat && endLatLng.lng && (
+        <MarkerF
+          position={endLatLng}
+          options={{
+            icon: renderIcon(undefined, "end"),
+            animation: window.google.maps.Animation.BOUNCE,
+          }}
+          title="目的地点"
+        />
+      )}
       {directions && (
         <DirectionsRenderer
           directions={directions}

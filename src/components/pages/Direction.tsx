@@ -216,6 +216,7 @@ export const Direction = () => {
           handleMapClick={handleMapClick}
           onLoadHook={onLoadHook}
           searchResults={searchResults}
+          isDirectionPage={true}
           isDirectionLoading={isDirectionsLoading}
           infoWindowLocation={infoWindowLocation}
           infoWindowLocationZoomSize={infoWindowLocationZoomSize}
