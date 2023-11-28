@@ -7,6 +7,7 @@ import { Login } from "../components/pages/auth/Login";
 import { Registration } from "../components/pages/auth/Registration";
 import { UserPage } from "../components/pages/UserPage";
 import { Top } from "../components/pages/Top";
+import { Help } from "../components/pages/Help";
 import { Page404 } from "../components/pages/Page404";
 import { DefaultLayout } from "../components/templates/DefaultLayout";
 import { HeaderOnly } from "../components/templates/HeaderOnly";
@@ -61,7 +62,7 @@ export const Router = () => {
             path="/"
             element={
               <DefaultLayout>
-                <Top />
+                <Help />
               </DefaultLayout>
             }
           />
