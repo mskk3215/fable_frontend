@@ -1,71 +1,169 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { loginUserState } from "../../../store/atoms/userAtom";
 import { LogoutButton } from "../button/LogoutButton";
 import styled from "styled-components";
 import { GuestLoginButton } from "../button/GuestLoginButton";
+import { AppBar, Box, IconButton, Toolbar } from "@mui/material";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import MenuIcon from "@mui/icons-material/Menu";
+import { usePageSize } from "../../../hooks/usePageSize";
 
 export const Header = () => {
+  const pageSize = usePageSize();
   const loginUser = useRecoilValue(loginUserState);
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null);
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(e.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
-    <SHeader>
-      <SiteNameText>
-        <TopSLink to="/">fabre</TopSLink>
-      </SiteNameText>
-      {loginUser === undefined ? (
-        <ButtonContainer>
-          <GuestLoginButton />
-          <SLink to="/registration">新規登録</SLink>
-          <SLink to="/login">ログイン</SLink>
-        </ButtonContainer>
-      ) : (
-        <>
-          <SLink to="/userpage">マイページ</SLink>
-          <SLink to="/">
-            <LogoutButton />
-          </SLink>
-          <SLink to="/uploadview">投稿</SLink>
-          <SLink to="/postlist">投稿一覧</SLink>
-          <SLink to="/">検索</SLink>
-          <SLink to="/statistics">分析</SLink>
-          <ButtonContainer>
-            <SLink to="/userpage">マイページ</SLink>
-            <SLink to="/">
-              <LogoutButton />
-            </SLink>
-            <SLink to="/uploadview">投稿</SLink>
-            <SLink to="/postlist">投稿一覧</SLink>
-            <SLink to="/">検索</SLink>
-            <SLink to="/statistics">分析</SLink>
-          </ButtonContainer>
-        </>
-      )}
-    </SHeader>
+    <AppBar
+      position="static"
+      sx={{
+        width: "100%",
+        backgroundColor: "#2b3d51",
+        color: "#fff",
+        zIndex: 100,
+        height: "48px",
+      }}
+    >
+      <Toolbar variant="dense">
+        {pageSize > 8 ? (
+          // 画面サイズが大きい場合
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "100%",
+            }}
+          >
+            <Box sx={{ display: "flex" }}>
+              <SiteNameText>
+                <TopSLink to={loginUser === undefined ? "/" : "/postlist"}>
+                  fabre
+                </TopSLink>
+              </SiteNameText>
+              <Box sx={{ display: "flex" }}>
+                <SLink to="/map">検索</SLink>
+                {loginUser && (
+                  <>
+                    <SLink to="/uploadview">投稿</SLink>
+                    <SLink to="/postlist">投稿一覧</SLink>
+                    <SLink to="/statistics">分析</SLink>
+                  </>
+                )}
+              </Box>
+            </Box>
+            <Box sx={{ display: "flex" }}>
+              {loginUser === undefined ? (
+                <>
+                  <GuestLoginButton />
+                  <SLink to="/registration">新規登録</SLink>
+                  <SLink to="/login">ログイン</SLink>
+                </>
+              ) : (
+                <>
+                  <SLink to="/userpage">マイページ</SLink>
+                  <LogoutButton />
+                </>
+              )}
+            </Box>
+          </Box>
+        ) : (
+          // 画面サイズが小さい場合、menuボタンを表示
+          <>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                width: "100%",
+              }}
+            >
+              <Box sx={{ display: "flex" }}>
+                <SiteNameText>
+                  <TopSLink to={loginUser === undefined ? "/" : "/postlist"}>
+                    fabre
+                  </TopSLink>
+                </SiteNameText>
+              </Box>
+              <Box sx={{ display: "flex" }}>
+                <IconButton onClick={handleClick}>
+                  <MenuIcon sx={{ color: "white" }} />
+                </IconButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                  sx={{
+                    "& .MuiPaper-root": {
+                      backgroundColor: "#2b3d51",
+                    },
+                  }}
+                >
+                  <MenuItem onClick={handleClose}>
+                    <SLink to="/map">検索</SLink>
+                  </MenuItem>
+                  {loginUser && (
+                    <Box>
+                      <MenuItem onClick={handleClose}>
+                        <SLink to="/uploadview">投稿</SLink>
+                      </MenuItem>
+                      <MenuItem onClick={handleClose}>
+                        <SLink to="/postlist">投稿一覧</SLink>
+                      </MenuItem>
+                      <MenuItem onClick={handleClose}>
+                        <SLink to="/statistics">分析</SLink>
+                      </MenuItem>
+                    </Box>
+                  )}
+                  {loginUser === undefined ? (
+                    <Box>
+                      <MenuItem onClick={handleClose}>
+                        <GuestLoginButton />
+                      </MenuItem>
+                      <MenuItem onClick={handleClose}>
+                        <SLink to="/registration">新規登録</SLink>
+                      </MenuItem>
+                      <MenuItem onClick={handleClose}>
+                        <SLink to="/login">ログイン</SLink>
+                      </MenuItem>
+                    </Box>
+                  ) : (
+                    <>
+                      <MenuItem onClick={handleClose}>
+                        <SLink to="/userpage">マイページ</SLink>
+                      </MenuItem>
+                      <MenuItem onClick={handleClose}>
+                        <LogoutButton />
+                      </MenuItem>
+                    </>
+                  )}
+                </Menu>
+              </Box>
+            </Box>
+          </>
+        )}
+      </Toolbar>
+    </AppBar>
   );
 };
 
-const SHeader = styled.header`
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background-color: #2b3d51;
-  color: #fff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  text-align: center;
-  padding: 0px 16px;
-  z-index: 100;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  height: 48px;
-`;
-
 const TopSLink = styled(Link)`
-  margin: 0 8px;
   color: #ffffff;
   text-decoration: none;
+  padding: 0px 12px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 const SLink = styled(Link)`
   color: #ffffff;
@@ -81,15 +179,8 @@ const SLink = styled(Link)`
 `;
 
 const SiteNameText = styled.div`
-  margin-left: 16px;
   font-size: 25px;
   font-weight: bold;
-  letter-spacing: 2px;
   font-family: "Noto Serif", serif;
   font-style: italic;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  margin-right: 16px;
 `;
