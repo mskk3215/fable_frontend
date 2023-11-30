@@ -35,6 +35,6 @@ const SButton = styled(Button)`
   align-items: center;
   justify-content: center;
   &:hover {
-    background-color: #388e6a;
+    background-color: rgba(255, 255, 255, 0.1);
   }
 `;

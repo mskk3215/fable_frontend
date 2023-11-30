@@ -78,7 +78,9 @@ export const MapDrawer = memo((props: Props) => {
       <CssBaseline />
       <AppBar
         position="fixed"
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
       >
         <Header />
       </AppBar>
@@ -107,7 +109,7 @@ export const MapDrawer = memo((props: Props) => {
         open={open}
         anchor={anchor}
       >
-        {anchor === "left" ? <Toolbar style={{ height: "110px" }} /> : <></>}
+        {anchor === "left" ? <Toolbar style={{ height: "125px" }} /> : <></>}
         <Box sx={{ overflow: "auto", height: drawerHeight }}>
           <List>
             {isParksLoading ? (

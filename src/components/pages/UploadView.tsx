@@ -8,12 +8,7 @@ export const UploadView = () => {
 
   return (
     <>
-      <Grid
-        container
-        direction="row"
-        justifyContent={"center"}
-        style={{ marginTop: "50px" }}
-      >
+      <Grid container direction="row" justifyContent={"center"}>
         <PostForm handleGetImages={handleGetImages} />
       </Grid>
     </>

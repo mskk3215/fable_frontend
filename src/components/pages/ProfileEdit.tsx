@@ -113,7 +113,7 @@ export const ProfileEdit = () => {
   return (
     <>
       <form onSubmit={handleProfileSubmit}>
-        <Box sx={{ width: "100%", maxWidth: 400, m: "auto", marginTop: 10 }}>
+        <Box sx={{ width: "100%", maxWidth: 400, m: "auto", marginTop: 5 }}>
           <Stack spacing={3}>
             <Box
               sx={{

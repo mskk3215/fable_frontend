@@ -112,8 +112,8 @@ export const ImageItemDialog = memo((props: Props) => {
             alignItems="flex-start"
             gap={1.5}
             p={2}
+            mt={2}
             overflow="hidden"
-            m={0}
           >
             <Box display="flex" flexDirection="row" alignItems="center">
               <Avatar

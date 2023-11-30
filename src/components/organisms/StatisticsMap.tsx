@@ -130,7 +130,7 @@ export const StatisticsMap = () => {
   }, []);
 
   return (
-    <Box sx={{ marginTop: "40px", width: "100%" }}>
+    <Box sx={{ marginTop: "2px", width: "100%", zIndex: 10 }}>
       <Paper sx={{ border: "1px solid lightgray" }}>
         <Box
           sx={{

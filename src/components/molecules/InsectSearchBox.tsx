@@ -65,7 +65,6 @@ export const InsectSearchBox = memo((props: Props) => {
       sx={{
         height: 100,
         width: 350,
-        marginTop: -1,
         marginLeft: 1,
       }}
       id="searchbox in map"

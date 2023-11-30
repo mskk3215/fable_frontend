@@ -32,7 +32,6 @@ export const Statistics = () => {
         collectionCount={collectionCount}
         unCollectedCount={unCollectedCount}
       />
-      <CollectionRankingChart />
       <CollectionStatusTable
         isCollected={false}
         setCurrentLat={setCurrentLat}
@@ -43,6 +42,7 @@ export const Statistics = () => {
         isCollected={true}
         collectedInsectParkItems={collectedInsectParkItems}
       />
+      <CollectionRankingChart />
     </Container>
   );
 };

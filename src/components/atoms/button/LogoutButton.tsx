@@ -30,9 +30,8 @@ export const LogoutButton = () => {
         onClick={handleLogoutClick}
         sx={{
           fontSize: "1rem",
-          color: "#fff",
-          margin: 0,
-          padding: 0,
+          color: "#ffffff",
+          padding: "0px 12px",
         }}
       >
         ログアウト

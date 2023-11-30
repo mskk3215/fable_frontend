@@ -49,7 +49,7 @@ export const OriginBox = memo((props: Props) => {
         id="originBox"
         placeholder="出発地を入力 or 地図上でクリック"
         value={originLocation}
-        sx={{ width: 320, height: 50 }}
+        sx={{ width: 350, height: 50 }}
         inputRef={originRef}
         onChange={(e) => setOriginLocation(e.target.value)}
         InputProps={{
