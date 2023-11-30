@@ -18,6 +18,7 @@ import {
   originLocationState,
 } from "../../store/atoms/searchWordState";
 import { useGeocodeLatLng } from "../../hooks/useGeocoddeLatLng";
+import { mapStyles } from "../../styles/mapStyles";
 import { Location } from "../../types/map";
 import { Park } from "../../types/parks";
 
@@ -40,6 +41,7 @@ type Props = {
 const mapOptions = {
   fullscreenControl: false,
   mapTypeControl: false,
+  styles: mapStyles,
 };
 
 //Iconの設定
