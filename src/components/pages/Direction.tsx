@@ -11,6 +11,7 @@ import {
 import { useParks } from "../../hooks/useParks";
 import { Box } from "@mui/material";
 import { Anchor, Steps, TravelMode } from "../../types/map";
+import { usePageSize } from "../../hooks/usePageSize";
 
 export const Direction = () => {
   const setMessage = useSetRecoilState(messageState);
@@ -39,6 +40,7 @@ export const Direction = () => {
     useState<number>(10);
   const [isCalculateRouteClicked, setIsCalculateRouteClicked] = useState(false);
   const [shouldCleanup, setShouldCleanup] = useState(false);
+  const pageSize = usePageSize();
 
   const drawerWidth = anchor === "bottom" || anchor === "top" ? "100%" : 400;
   const drawerHeight =
@@ -211,6 +213,7 @@ export const Direction = () => {
           isCalculateRouteClicked={isCalculateRouteClicked}
           setInfoWindowLocationZoomSize={setInfoWindowLocationZoomSize}
           mapRef={mapRef}
+          pageSize={pageSize}
         />
         <MapView
           directions={directions}
