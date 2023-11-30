@@ -137,14 +137,14 @@ export const Header = () => {
                       </MenuItem>
                     </Box>
                   ) : (
-                    <>
+                    <Box>
                       <MenuItem onClick={handleClose}>
                         <SLink to="/userpage">マイページ</SLink>
                       </MenuItem>
                       <MenuItem onClick={handleClose}>
                         <LogoutButton />
                       </MenuItem>
-                    </>
+                    </Box>
                   )}
                 </Menu>
               </Box>
