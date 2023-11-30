@@ -8,12 +8,11 @@ export const GuestLoginButton = () => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleGuestLogin = () => {
-    handleLoginAction({
+  const handleGuestLogin = async () => {
+    await handleLoginAction({
       email: "Ares@example.com",
       password: "111111",
       setIsLoading: setIsLoading,
-      isGuest: true,
     });
   };
 
