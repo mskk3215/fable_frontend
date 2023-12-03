@@ -1,4 +1,5 @@
 import React from "react";
+import { usePageSize } from "../../hooks/usePageSize";
 import {
   Container,
   Grid,
@@ -7,9 +8,8 @@ import {
   ImageListItem,
   Box,
 } from "@mui/material";
-import { usePageSize } from "../../hooks/usePageSize";
 
-export const Help = () => {
+export const Top = () => {
   const pageSize = usePageSize();
 
   return (
