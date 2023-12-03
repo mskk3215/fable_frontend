@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { Chart, LinearScale, BarElement, CategoryScale } from "chart.js";
+import { ActiveElement } from "chart.js/dist/plugins/plugin.tooltip";
 import { Bar } from "react-chartjs-2";
 import { useUserRankings } from "../../hooks/statistics/useUserRankings";
 import { loginUserState } from "../../store/atoms/userAtom";
@@ -84,6 +85,14 @@ export const CollectionRankingChart = (props: Props) => {
           text: "採集率[%]",
         },
       },
+    },
+    onClick: function (_, array: ActiveElement[] | BarElement[]) {
+      if (array.length > 0) {
+        const chartElement = array[0] as ActiveElement;
+        const index = chartElement.index;
+        const userId = rankingItems[index].userId;
+        window.location.href = `/userpage/${userId}`;
+      }
     },
   };
 

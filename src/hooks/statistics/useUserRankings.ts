@@ -20,6 +20,7 @@ export const useUserRankings = () => {
     const { data } = await getUserRankings(selectedPrefecture, selectedCity);
 
     const rankingData = data.rankings.map((rankings: Ranking) => ({
+      userId: rankings.userId,
       userName: rankings.userName,
       collectionRate: rankings.collectionRate,
     }));
