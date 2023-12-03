@@ -26,7 +26,7 @@ export const Help = () => {
           style={{
             position: "absolute",
             top: "50%",
-            right: pageSize > 8 ? "20%" : "5%",
+            right: pageSize > 15 ? "20%" : "5%",
             transform: "translateY(-50%)",
             color: "white",
             textAlign: "center",
@@ -34,7 +34,7 @@ export const Help = () => {
             maxWidth: "40%",
             whiteSpace: "normal",
             wordWrap: "break-word",
-            fontSize: pageSize > 8 ? "2rem" : "1rem",
+            fontSize: pageSize > 6 ? "2rem" : "1rem",
           }}
         >
           新たな昆虫採集の地を見つけ、 <br />
