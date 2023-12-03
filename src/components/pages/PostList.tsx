@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { loginUserState } from "../../store/atoms/userAtom";
 import { useImages } from "../../hooks/useImages";
 import { usePosts } from "../../hooks/usePosts";
@@ -9,6 +9,11 @@ import { LikeButton } from "../atoms/button/LikeButton";
 import { FollowButton } from "../atoms/button/FollowButton";
 import { DeletePostButton } from "../atoms/button/DeletePostButton";
 import { PostTab } from "../atoms/tab/PostTab";
+import {
+  destinationLocationState,
+  searchWordState,
+} from "../../store/atoms/searchWordState";
+import styled from "styled-components";
 import {
   Card,
   CardMedia,
@@ -39,6 +44,8 @@ export const PostList = () => {
   const [displayedImages, setDisplayedImages] = useState<{
     [key: string]: number;
   }>({});
+  const setSearchWord = useSetRecoilState(searchWordState);
+  const setDestinationLocation = useSetRecoilState(destinationLocationState);
 
   // 投稿内の画像前後切り替え
   const handleNextImage = (postId: number) => {
@@ -220,7 +227,7 @@ export const PostList = () => {
                             {/* 画像ごとのタイトルと投稿日時 */}
                             <Box sx={{ padding: "5px" }}>
                               {imageData.insectName && (
-                                <Typography
+                                <Box
                                   sx={{
                                     fontSize: {
                                       xs: "12px",
@@ -228,8 +235,18 @@ export const PostList = () => {
                                     },
                                   }}
                                 >
-                                  {imageData.insectName}の写真
-                                </Typography>
+                                  <SLink
+                                    to={`/map`}
+                                    onClick={() => {
+                                      if (imageData.insectName) {
+                                        setSearchWord(imageData.insectName);
+                                      }
+                                    }}
+                                  >
+                                    {imageData.insectName}
+                                  </SLink>
+                                  の写真
+                                </Box>
                               )}
                               <Box
                                 sx={{
@@ -237,7 +254,7 @@ export const PostList = () => {
                                   justifyContent: "flex-start",
                                 }}
                               >
-                                <Typography
+                                <Box
                                   sx={{
                                     fontSize: {
                                       xs: "12px",
@@ -245,8 +262,19 @@ export const PostList = () => {
                                     },
                                   }}
                                 >
-                                  {imageData.parkName}
-                                </Typography>
+                                  <SLink
+                                    to={`/direction`}
+                                    onClick={() => {
+                                      if (imageData.parkName) {
+                                        setDestinationLocation(
+                                          imageData.parkName
+                                        );
+                                      }
+                                    }}
+                                  >
+                                    {imageData.parkName}
+                                  </SLink>
+                                </Box>
                                 <Typography
                                   sx={{
                                     paddingLeft: "5px",
@@ -371,3 +399,12 @@ export const PostList = () => {
     </>
   );
 };
+
+const SLink = styled(Link)({
+  cursor: "pointer",
+  textDecoration: "none",
+  color: "inherit",
+  "&:hover": {
+    textDecoration: "underline",
+  },
+});

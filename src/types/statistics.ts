@@ -23,6 +23,7 @@ export type PrefectureCoordinates = {
 };
 
 export type Ranking = {
+  userId: number;
   userName: string;
   collectionRate: number;
 };

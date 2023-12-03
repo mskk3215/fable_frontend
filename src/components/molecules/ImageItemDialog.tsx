@@ -1,8 +1,14 @@
 import React, { memo } from "react";
-import { useRecoilValue } from "recoil";
+import { Link } from "react-router-dom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { loginUserState } from "../../store/atoms/userAtom";
 import { FollowButton } from "../atoms/button/FollowButton";
 import { LikeButton } from "../atoms/button/LikeButton";
+import {
+  destinationLocationState,
+  searchWordState,
+} from "../../store/atoms/searchWordState";
+import styled from "styled-components";
 import {
   Avatar,
   Box,
@@ -52,6 +58,8 @@ export const ImageItemDialog = memo((props: Props) => {
   } = props;
 
   const loginUser = useRecoilValue(loginUserState);
+  const setSearchWord = useSetRecoilState(searchWordState);
+  const setDestinationLocation = useSetRecoilState(destinationLocationState);
 
   return (
     <>
@@ -143,27 +151,51 @@ export const ImageItemDialog = memo((props: Props) => {
                   />
                 )}
             </Box>
-            <Typography
-              variant="body1"
+            <Box
               sx={{
-                fontSize: { xs: "0.8rem", md: "1rem" },
+                fontSize: {
+                  xs: "12px",
+                  md: "16px",
+                },
               }}
             >
               昆虫名:{" "}
-              {currentImage.insectName
-                ? `${currentImage.insectName}(${currentImage.insectSex})`
-                : "\u00a0"}
-            </Typography>
-            <Typography
-              variant="body1"
+              <SLink
+                to={`/map`}
+                onClick={() => {
+                  if (currentImage.insectName) {
+                    setSearchWord(currentImage.insectName);
+                  }
+                }}
+              >
+                {currentImage.insectName
+                  ? `${currentImage.insectName}(${currentImage.insectSex})`
+                  : "\u00a0"}
+              </SLink>
+            </Box>
+
+            <Box
               sx={{
-                fontSize: { xs: "0.8rem", md: "1rem" },
+                fontSize: {
+                  xs: "12px",
+                  md: "16px",
+                },
               }}
             >
-              撮影場所:
-              {currentImage.parkId &&
-                (parks[currentImage.parkId - 1].name || currentImage.cityName)}
-            </Typography>
+              撮影場所:{" "}
+              <SLink
+                to={`/direction`}
+                onClick={() => {
+                  if (currentImage.parkId) {
+                    setDestinationLocation(parks[currentImage.parkId - 1].name);
+                  }
+                }}
+              >
+                {currentImage.parkId &&
+                  (parks[currentImage.parkId - 1].name ||
+                    currentImage.cityName)}
+              </SLink>
+            </Box>
             <Typography
               variant="body1"
               sx={{
@@ -235,4 +267,13 @@ export const ImageItemDialog = memo((props: Props) => {
       </Dialog>
     </>
   );
+});
+
+const SLink = styled(Link)({
+  cursor: "pointer",
+  textDecoration: "none",
+  color: "inherit",
+  "&:hover": {
+    textDecoration: "underline",
+  },
 });
