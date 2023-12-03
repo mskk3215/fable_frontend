@@ -9,7 +9,6 @@ import {
   originLocationState,
   searchWordState,
 } from "../../store/atoms/searchWordState";
-import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -17,8 +16,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
+import { Typography, Box, Paper } from "@mui/material";
 import styled from "styled-components";
 import { HeadCell, Order, TableData } from "../../types/statistics";
 
@@ -28,6 +26,7 @@ type Props = {
   setCurrentLng?: React.Dispatch<React.SetStateAction<number | undefined>>;
   collectedInsectParkItems?: TableData[];
   uncollectedInsectParkItems?: TableData[];
+  pageSize: number;
 };
 
 export const CollectionStatusTable = (props: Props) => {
@@ -37,6 +36,7 @@ export const CollectionStatusTable = (props: Props) => {
     setCurrentLng,
     collectedInsectParkItems,
     uncollectedInsectParkItems,
+    pageSize,
   } = props;
 
   const setSearchWord = useSetRecoilState(searchWordState);
@@ -56,14 +56,16 @@ export const CollectionStatusTable = (props: Props) => {
     {
       id: "insectName",
       numeric: false,
-      disablePadding: true,
+      disablePadding: false,
       label: "昆虫名",
+      width: "35",
     },
     {
       id: "biologicalFamily",
       numeric: true,
       disablePadding: false,
       label: "科目",
+      width: "25%",
     },
     {
       id: "parkName",
@@ -74,6 +76,7 @@ export const CollectionStatusTable = (props: Props) => {
         : originLocation
         ? "近くの公園"
         : "採集できる公園",
+      width: "40%",
     },
   ];
 
@@ -155,10 +158,11 @@ export const CollectionStatusTable = (props: Props) => {
         {isCollected ? (
           <Toolbar disableGutters>
             <Typography
-              variant="h6"
+              variant={pageSize > 8 ? "h5" : "subtitle1"}
               id="tableTitle"
               component="div"
               style={{ color: "gray" }}
+              sx={{ pl: 2 }}
             >
               採集済み昆虫一覧
             </Typography>
@@ -175,10 +179,11 @@ export const CollectionStatusTable = (props: Props) => {
           >
             <Box>
               <Typography
-                variant="h6"
+                variant={pageSize > 8 ? "h5" : "subtitle1"}
                 id="tableTitle"
                 component="div"
                 style={{ color: "gray" }}
+                sx={{ pl: 2 }}
               >
                 未採集昆虫一覧
               </Typography>
@@ -197,6 +202,7 @@ export const CollectionStatusTable = (props: Props) => {
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
               rowCount={dataToDisplay.length}
+              pageSize={pageSize}
             />
             <TableBody>
               {visibleRows.map((row, index) => {
@@ -207,17 +213,39 @@ export const CollectionStatusTable = (props: Props) => {
                       component="th"
                       id={labelId}
                       scope="row"
-                      padding="none"
+                      padding="normal"
+                      sx={{
+                        fontSize: pageSize > 8 ? "16px" : "12px",
+                      }}
                     >
                       <SLink
                         to="/map"
                         onClick={() => setSearchWord(row.insectName)}
                       >
-                        {`${row.insectName}(${row.insectSex})`}
+                        {pageSize > 8 ? (
+                          `${row.insectName}(${row.insectSex})`
+                        ) : (
+                          <>
+                            {row.insectName}
+                            <br />({row.insectSex})
+                          </>
+                        )}
                       </SLink>
                     </TableCell>
-                    <TableCell align="left">{row.biologicalFamily}</TableCell>
-                    <TableCell align="left">
+                    <TableCell
+                      align="left"
+                      sx={{
+                        fontSize: pageSize > 8 ? "16px" : "12px",
+                      }}
+                    >
+                      {row.biologicalFamily}
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{
+                        fontSize: pageSize > 8 ? "16px" : "12px",
+                      }}
+                    >
                       <SLink
                         to="/direction"
                         onClick={() => setDestinationLocation(row.parkName)}

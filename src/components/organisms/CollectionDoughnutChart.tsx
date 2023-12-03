@@ -1,36 +1,21 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useMemo } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart, DoughnutController, ArcElement } from "chart.js";
-import { Typography, Box, Paper } from "@mui/material";
+import { Typography, Box, Paper, useTheme } from "@mui/material";
 
 Chart.register(DoughnutController, ArcElement);
+
 type Props = {
   collectionRate: number;
   collectionCount: number;
   unCollectedCount: number;
-};
-
-const centerTextPlugin = {
-  id: "centerText",
-  afterDraw: (chart: Chart) => {
-    const ctx = chart.ctx;
-    const { width, height } = chart;
-    const centerText = `${chart.config.data.datasets[0].data[0]}%`;
-    ctx.save();
-    ctx.font = "20px Arial";
-    ctx.fillStyle = "#8dca89";
-    ctx.textBaseline = "middle";
-    const textWidth = ctx.measureText(centerText).width;
-    const textX = Math.round((width - textWidth) / 2);
-    const textY = height / 2;
-    ctx.fillText(centerText, textX, textY);
-    ctx.restore();
-  },
+  pageSize: number;
 };
 
 export const CollectionDoughnutChart = (props: Props) => {
-  const { collectionRate, collectionCount, unCollectedCount } = props;
+  const { collectionRate, collectionCount, unCollectedCount, pageSize } = props;
   const chartRef = useRef<any>(null);
+  const theme = useTheme();
 
   useEffect(() => {
     const currentChartRef = chartRef.current;
@@ -41,12 +26,34 @@ export const CollectionDoughnutChart = (props: Props) => {
     };
   }, []);
 
+  const centerTextPlugin = useMemo(
+    () => ({
+      id: "centerText",
+      afterDraw: (chart: Chart) => {
+        const ctx = chart.ctx;
+        const { width, height } = chart;
+        const centerText = `${chart.config.data.datasets[0].data[0]}%`;
+        const fontSize = pageSize > 8 ? "24px" : "16px";
+        ctx.save();
+        ctx.font = `bold ${fontSize} Roboto`;
+        ctx.fillStyle = "#8dca89";
+        ctx.textBaseline = "middle";
+        const textWidth = ctx.measureText(centerText).width;
+        const textX = Math.round((width - textWidth) / 2);
+        const textY = height / 2;
+        ctx.fillText(centerText, textX, textY);
+        ctx.restore();
+      },
+    }),
+    [pageSize]
+  );
+
   const data = {
-    labels: ["採集済み", "残り"],
+    labels: ["採集済", "採集残"],
     datasets: [
       {
         data: [collectionRate, 100 - collectionRate],
-        backgroundColor: ["#8dca89", "#D3D3D3"],
+        backgroundColor: [theme.palette.success.main, theme.palette.grey[300]],
       },
     ],
   };
@@ -56,9 +63,10 @@ export const CollectionDoughnutChart = (props: Props) => {
       legend: {
         display: false,
       },
-      centerText: centerTextPlugin,
     },
-    cutout: "30%",
+    cutout: "40%",
+    responsive: true,
+    maintainAspectRatio: false,
   };
 
   return (
@@ -69,8 +77,17 @@ export const CollectionDoughnutChart = (props: Props) => {
       }}
     >
       <Paper sx={{ border: "1px solid lightgray" }}>
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
-          <Typography variant="h6" style={{ color: "gray" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            padding: theme.spacing(2),
+          }}
+        >
+          <Typography
+            variant={pageSize > 8 ? "h5" : "subtitle1"}
+            color="textSecondary"
+          >
             採集率
           </Typography>
           <Box
@@ -78,9 +95,15 @@ export const CollectionDoughnutChart = (props: Props) => {
               display: "flex",
               flexDirection: "row",
               justifyContent: "center",
+              alignItems: "flex-start",
             }}
           >
-            <Box sx={{ maxWidth: "250px", maxHeight: "250px" }}>
+            <Box
+              sx={{
+                minWidth: pageSize > 8 ? "250px" : "150px",
+                minHeight: pageSize > 8 ? "250px" : "150px",
+              }}
+            >
               <Doughnut
                 ref={chartRef}
                 data={data}
@@ -89,12 +112,13 @@ export const CollectionDoughnutChart = (props: Props) => {
               />
             </Box>
             <Box sx={{ pt: 2, pl: 2 }}>
-              <Typography variant="h6">
-                <span style={barStyle("#8dca89")}></span> 採集済:
+              <Typography variant={pageSize > 8 ? "h5" : "subtitle1"}>
+                <span style={barStyle(theme.palette.success.main)}></span>
+                採集済:
                 {collectionCount}
               </Typography>
-              <Typography variant="h6">
-                <span style={barStyle("#D3D3D3")}></span> 採集残:
+              <Typography variant={pageSize > 8 ? "h5" : "subtitle1"}>
+                <span style={barStyle(theme.palette.grey[300])}></span> 採集残:
                 {unCollectedCount}
               </Typography>
             </Box>

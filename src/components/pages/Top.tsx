@@ -1,111 +1,173 @@
-import React, { useEffect } from "react";
-import { useRecoilState } from "recoil";
-import { Link, useLocation } from "react-router-dom";
-import { useAllInsects } from "../../hooks/useAllInsects";
-import { useParks } from "../../hooks/useParks";
+import React from "react";
+import { usePageSize } from "../../hooks/usePageSize";
 import {
-  saveSearchWord,
-  searchWordState,
-} from "../../store/atoms/searchWordState";
-import { convertHiraganaToKatakana } from "../../hooks/useConvertHiraganaToKatakana";
-import styled from "styled-components";
-import {
-  Autocomplete,
-  Button,
   Container,
   Grid,
-  InputAdornment,
-  TextField,
+  Typography,
+  Paper,
+  ImageListItem,
+  Box,
 } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
 
 export const Top = () => {
-  const { insectOptions, setQueryWord } = useAllInsects();
-  const { handleGetParkSearchResults } = useParks();
-  const [searchWord, setSearchWord] = useRecoilState(searchWordState);
-  const location = useLocation();
-
-  const handleSearch = () => {
-    handleGetParkSearchResults(searchWord);
-  };
-
-  // searchWordの値が更新されたらローカルストレージに保存する
-  useEffect(() => {
-    saveSearchWord(searchWord);
-  }, [searchWord]);
-
-  // ページ遷移時にsearchWordの値を初期化する
-  useEffect(() => {
-    setSearchWord("");
-  }, [location.pathname]);
+  const pageSize = usePageSize();
 
   return (
     <>
-      <SConteiner>
-        <h1>Top</h1>
-        <Container maxWidth="md" sx={{ mt: 20 }}>
-          <Autocomplete
-            data-testid="autocomplete"
-            onChange={(e, newValue) => {
-              setSearchWord(newValue || "");
-            }}
-            onInputChange={(e, newInputValue) => {
-              let convertedInputValue =
-                convertHiraganaToKatakana(newInputValue);
-              setQueryWord(convertedInputValue);
-            }}
-            options={insectOptions}
-            noOptionsText="昆虫名を入力してください"
-            filterOptions={(options, params) => {
-              const filtered = options.filter((option) => {
-                let inputValue = convertHiraganaToKatakana(params.inputValue);
-                return option.includes(inputValue);
-              });
-              return filtered;
-            }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                placeholder="昆虫名を入力して下さい"
-                InputProps={{
-                  ...params.InputProps,
-                  startAdornment: (
-                    <>
-                      {params.InputProps.startAdornment}
-                      <InputAdornment position="start">
-                        <SearchIcon />
-                      </InputAdornment>
-                    </>
-                  ),
-                }}
-              />
-            )}
-          ></Autocomplete>
-          <Grid container justifyContent="center" sx={{ mt: 2 }}>
-            <Link to={searchWord !== null && searchWord !== "" ? "map" : ""}>
-              <Button
+      <Box sx={{ width: "100%", overflow: "hidden" }}>
+        <img
+          src="/images/top0.png"
+          alt="トップ画像"
+          style={{ width: "100%", height: "75vh", objectFit: "cover" }}
+        />
+        <Typography
+          variant="h4"
+          color="primary"
+          style={{
+            position: "absolute",
+            top: "50%",
+            right: pageSize > 15 ? "20%" : "5%",
+            transform: "translateY(-50%)",
+            color: "white",
+            textAlign: "center",
+            padding: "15px",
+            maxWidth: "40%",
+            whiteSpace: "normal",
+            wordWrap: "break-word",
+            fontSize: pageSize > 6 ? "2rem" : "1rem",
+          }}
+        >
+          新たな昆虫採集の地を見つけ、 <br />
+          冒険の一歩を踏み出そう
+        </Typography>
+      </Box>
+      <Container sx={{ my: 5, py: 2 }}>
+        <Typography variant="h3" color="#2b3d51" gutterBottom>
+          fabreの使い方
+        </Typography>
+        <Grid container spacing={2}>
+          {/* 検索に関して */}
+          <Grid container>
+            <Grid
+              item
+              xs={12}
+              md={6}
+              sx={{ mt: { xs: 0, md: 10 }, px: { xs: 1 } }}
+              order={{ xs: 2 }}
+            >
+              <Paper
+                component="div"
                 variant="outlined"
-                onClick={handleSearch}
-                sx={{
-                  height: 40,
-                  width: 100,
-                  bgcolor: "grey.200",
-                  color: "black",
-                  borderColor: "grey.400",
-                }}
-                disabled={searchWord == null || searchWord === ""}
+                sx={{ maxHeight: "300px", overflow: "hidden" }}
               >
-                検索
-              </Button>
-            </Link>
+                <ImageListItem>
+                  <img src="/images/top1.png" alt="公園検索の画像" />
+                </ImageListItem>
+              </Paper>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={6}
+              sx={{ mt: { xs: 5, md: 10 }, px: { xs: 1 } }}
+              order={{ xs: 1 }}
+            >
+              <Typography
+                variant="h5"
+                gutterBottom
+                sx={{ textDecoration: "underline" }}
+              >
+                昆虫がいる場所を探そう！
+              </Typography>
+              <Typography variant="body1" sx={{ whiteSpace: "pre-wrap" }}>
+                昆虫の名前を入力して検索しましょう。 <br />
+                昆虫がいる場所を地図上で確認し、道順を確認することができます。
+              </Typography>
+            </Grid>
           </Grid>
-        </Container>
-      </SConteiner>
+          {/* 投稿に関して */}
+          <Grid container>
+            <Grid
+              item
+              xs={12}
+              md={6}
+              sx={{ mt: { xs: 5, md: 10 }, px: { xs: 1 } }}
+              order={{ xs: 1, md: 2 }}
+            >
+              <Typography
+                variant="h5"
+                gutterBottom
+                sx={{ textDecoration: "underline" }}
+              >
+                見つけた昆虫を投稿しよう!
+              </Typography>
+              <Typography variant="body1" sx={{ whiteSpace: "pre-wrap" }}>
+                昆虫を見つけたら投稿しましょう。 <br />
+                投稿した画像はマイページで見ることができます。 <br />
+                また他のユーザーの投稿した画像、注目されている画像も見ることができます。
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={6}
+              sx={{ mt: { xs: 0, md: 10 }, px: { xs: 1 } }}
+              order={{ xs: 2, md: 1 }}
+            >
+              <Paper
+                component="div"
+                variant="outlined"
+                sx={{ maxHeight: "300px", overflow: "hidden" }}
+              >
+                <ImageListItem>
+                  <img src="/images/top2.png" alt="画像投稿の画像" />
+                </ImageListItem>
+              </Paper>
+            </Grid>
+          </Grid>
+          {/* 分析に関して */}
+          <Grid container>
+            <Grid
+              item
+              xs={12}
+              md={6}
+              sx={{ mt: { xs: 0, md: 10 }, px: { xs: 1 } }}
+              order={{ xs: 2 }}
+            >
+              <Paper
+                component="div"
+                variant="outlined"
+                sx={{ maxHeight: "300px", overflow: "hidden" }}
+              >
+                <ImageListItem>
+                  <img src="/images/top3.png" alt="分析の画像" />
+                </ImageListItem>
+              </Paper>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={6}
+              sx={{ mt: { xs: 5, md: 10 }, px: { xs: 1 } }}
+              order={{ xs: 1 }}
+            >
+              <Typography
+                variant="h5"
+                gutterBottom
+                sx={{ textDecoration: "underline" }}
+              >
+                採集状況を確認しよう！
+              </Typography>
+              <Typography variant="body1" sx={{ whiteSpace: "pre-wrap" }}>
+                昆虫採集の状況を確認してみましょう。 <br />
+                地域ごとの採集状況を確認することができます。
+                <br />
+                また他のユーザーと比較してどのくらい昆虫を見つけているかも確認することができます。
+              </Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Container>
     </>
   );
 };
-
-const SConteiner = styled.div`
-  text-align: center;
-  margin-top: 100px;
-`;

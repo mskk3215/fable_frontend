@@ -18,7 +18,7 @@ export const DestinationBox = memo((props: Props) => {
     <TextField
       id="DestinationBox in map"
       value={destinationLocation}
-      sx={{ width: 320, height: 50 }}
+      sx={{ width: 350, height: 50 }}
       inputRef={destinationRef}
     />
   );

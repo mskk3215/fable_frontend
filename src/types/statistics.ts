@@ -49,4 +49,5 @@ export type HeadCell = {
   id: keyof TableData;
   label: string;
   numeric: boolean;
+  width: string;
 };

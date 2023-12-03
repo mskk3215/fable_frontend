@@ -109,6 +109,14 @@ export const Login = () => {
                 variant="contained"
                 onClick={handleLogin}
                 disabled={isLoading}
+                sx={{
+                  backgroundColor: "#2b3d51",
+                  color: "#ffffff",
+                  "&:hover": {
+                    backgroundColor: "#2b3d51",
+                    opacity: 0.7,
+                  },
+                }}
               >
                 ログイン
               </Button>

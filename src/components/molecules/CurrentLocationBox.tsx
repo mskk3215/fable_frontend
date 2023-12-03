@@ -80,7 +80,7 @@ export const CurrentLocationBox = memo((props: Props) => {
       libraries={["places"]}
       onLoad={() => setIsGeocoderLoaded(true)}
     >
-      <Box sx={{ minWidth: 300, display: "flex", justifyContent: "flex-end" }}>
+      <Box sx={{ minWidth: 200, display: "flex", justifyContent: "flex-end" }}>
         <Autocomplete
           onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
           onPlaceChanged={handlePlaceSelected}

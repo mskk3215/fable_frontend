@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { GuestLoginButton } from "../../atoms/button/GuestLoginButton";
 import { useAuthActions } from "../../../hooks/user/useAuthActions";
 import { Box, Button, TextField, Typography } from "@mui/material";
 
@@ -13,8 +11,6 @@ export const Registration = () => {
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [errors, setErrors] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const navigate = useNavigate();
 
   const handleRegistrationAction = async (
     e: React.MouseEvent<HTMLButtonElement>
@@ -159,31 +155,17 @@ export const Registration = () => {
                 variant="contained"
                 onClick={handleRegistrationAction}
                 disabled={isLoading}
+                sx={{
+                  backgroundColor: "#2b3d51",
+                  color: "#ffffff",
+                  "&:hover": {
+                    backgroundColor: "#2b3d51",
+                    opacity: 0.7,
+                  },
+                }}
               >
                 登録
               </Button>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  mt: 2,
-                  width: "100%",
-                }}
-              >
-                <Box sx={{ flexGrow: 1, flexBasis: 0, marginRight: 1 }}>
-                  <GuestLoginButton />
-                </Box>
-                <Box sx={{ flexGrow: 1, flexBasis: 0 }}>
-                  <Button
-                    onClick={() => navigate("/login")}
-                    color="secondary"
-                    fullWidth
-                    sx={{ width: "100%" }}
-                  >
-                    ログイン
-                  </Button>
-                </Box>
-              </Box>
             </Box>
           </Box>
         </Box>

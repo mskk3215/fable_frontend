@@ -73,7 +73,7 @@ export const useAuthActions = () => {
       .then((response: AuthResponse) => {
         if (response.data.loggedIn) {
           handleSuccessfulAuthentication(response.data);
-          navigate("/");
+          navigate("/postlist");
           setMessage({ message: "ログインしました。", type: "success" });
         }
       })

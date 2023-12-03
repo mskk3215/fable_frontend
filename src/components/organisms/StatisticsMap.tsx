@@ -11,13 +11,24 @@ import {
   selectedPrefectureState,
 } from "../../store/atoms/statisticsState";
 import { useStatisticMap } from "../../hooks/useStatisticsMap";
-import { Box, Autocomplete, TextField, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Autocomplete,
+  TextField,
+  Paper,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import {
   GeoJSONFeature,
   GeoJSONFeatureCollection,
 } from "../../types/statistics";
 
-export const StatisticsMap = () => {
+type Props = {
+  pageSize: number;
+};
+export const StatisticsMap = (props: Props) => {
+  const { pageSize } = props;
   const {
     prefectureData,
     cityData,
@@ -42,6 +53,7 @@ export const StatisticsMap = () => {
   >(undefined);
   const calculateZoomSize = (prefectureName: string) =>
     ["北海道", "沖縄", "東京都"].includes(prefectureName) ? 5 : 7;
+  const theme = useTheme();
 
   const handlePrefectureChange = (newSelectedPref: string | null) => {
     setSelectedCity("");
@@ -130,15 +142,20 @@ export const StatisticsMap = () => {
   }, []);
 
   return (
-    <Box sx={{ marginTop: "40px", width: "100%" }}>
+    <Box sx={{ marginTop: "2px", width: "100%", zIndex: 10 }}>
       <Paper sx={{ border: "1px solid lightgray" }}>
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
+            pt: 2,
           }}
         >
-          <Typography variant="h6" style={{ color: "gray" }}>
+          <Typography
+            variant={pageSize > 8 ? "h5" : "subtitle1"}
+            style={{ color: "gray" }}
+            sx={{ pl: 2 }}
+          >
             地域選択
           </Typography>
           <Box
@@ -148,7 +165,7 @@ export const StatisticsMap = () => {
             }}
           >
             <Autocomplete
-              sx={{ minWidth: 150 }}
+              sx={{ minWidth: 150, pl: 2 }}
               options={allPrefectures}
               value={selectedPref ?? ""}
               onChange={(e, newSelectedPref) => {

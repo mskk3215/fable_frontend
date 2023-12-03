@@ -44,6 +44,7 @@ export type LoginAuthAction = {
   password: string;
   setErrors?: (errors: string[]) => void;
   setIsLoading: (isLoading: boolean) => void;
+  isGuest?: boolean;
 };
 
 export type userProfile = {
