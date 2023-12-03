@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { loginUserState } from "../../../store/atoms/userAtom";
 import { LogoutButton } from "../button/LogoutButton";
 import styled from "styled-components";
 import { GuestLoginButton } from "../button/GuestLoginButton";
+import { SearchBarInHeader } from "../bar/SearchBarInHeader";
 import { AppBar, Box, IconButton, Toolbar } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -12,10 +13,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { usePageSize } from "../../../hooks/usePageSize";
 
 export const Header = () => {
+  const location = useLocation();
   const pageSize = usePageSize();
   const loginUser = useRecoilValue(loginUserState);
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
 
+  const shouldNotShowSearchBar =
+    location.pathname !== "/map" && location.pathname !== "/direction";
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(e.currentTarget);
   };
@@ -51,8 +55,8 @@ export const Header = () => {
                   fabre
                 </TopSLink>
               </SiteNameText>
-              <Box sx={{ display: "flex" }}>
-                <SLink to="/map">検索</SLink>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                {shouldNotShowSearchBar && <SearchBarInHeader />}
                 {loginUser && (
                   <>
                     <SLink to="/uploadview">投稿</SLink>
