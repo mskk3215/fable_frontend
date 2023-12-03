@@ -35,6 +35,9 @@ export const LogoutButton = () => {
           fontSize: "1rem",
           color: "#ffffff",
           padding: "0px 12px",
+          "&:hover": {
+            backgroundColor: "rgba(255, 255, 255, 0.1)",
+          },
         }}
       >
         ログアウト
