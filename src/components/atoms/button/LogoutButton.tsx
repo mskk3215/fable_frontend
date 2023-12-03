@@ -1,11 +1,11 @@
 import { useSetRecoilState } from "recoil";
+import { useNavigate } from "react-router-dom";
 import { loginUserState } from "../../../store/atoms/userAtom";
 import { messageState } from "../../../store/atoms/errorAtom";
 import { useErrorAction } from "../../../hooks/error/useErrorAction";
 import { ApiError } from "../../../types/api";
 import { userLogout } from "../../../urls";
 import { Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 
 export const LogoutButton = () => {
   const { handleGeneralErrorAction } = useErrorAction();

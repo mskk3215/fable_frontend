@@ -5,12 +5,12 @@ import { loginUserState } from "../../../store/atoms/userAtom";
 import { LogoutButton } from "../button/LogoutButton";
 import styled from "styled-components";
 import { GuestLoginButton } from "../button/GuestLoginButton";
+import { usePageSize } from "../../../hooks/usePageSize";
 import { SearchBarInHeader } from "../bar/SearchBarInHeader";
 import { AppBar, Box, IconButton, Toolbar } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
-import { usePageSize } from "../../../hooks/usePageSize";
 
 export const Header = () => {
   const location = useLocation();
