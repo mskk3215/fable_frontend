@@ -19,7 +19,6 @@ export const useParks = (): UseParks => {
     setIsParksLoading(true);
     const { data } = await getParks();
     setParks(data);
-    setIsParksLoading(false);
     //EditFormの選択肢用
     const parkData = data.map((park: Park) => ({
       label: park.name,
@@ -28,6 +27,7 @@ export const useParks = (): UseParks => {
       id: park.id,
     }));
     setParkOptions(parkData);
+    setIsParksLoading(false);
   };
   useEffect(() => {
     handleGetParks();

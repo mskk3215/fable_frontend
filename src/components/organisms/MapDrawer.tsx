@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, memo } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   selectedCenterState,
   selectedItemState,
@@ -8,6 +8,7 @@ import { Header } from "../atoms/layout/Header";
 import {
   destinationLocationState,
   saveDestinationLocation,
+  searchWordState,
 } from "../../store/atoms/searchWordState";
 import { InsectSearchBox } from "../molecules/InsectSearchBox";
 import styled from "styled-components";
@@ -53,6 +54,7 @@ export const MapDrawer = memo((props: Props) => {
     destinationLocationState
   );
   const [selectedItemId, setSelectedItemId] = useRecoilState(selectedItemState);
+  const searchWord = useRecoilValue(searchWordState);
   const [open, setOpen] = useState(true);
 
   const handleListItem = (result: Park) => {
@@ -123,7 +125,7 @@ export const MapDrawer = memo((props: Props) => {
               >
                 <CircularProgress />
               </Box>
-            ) : searchResults.length === 0 ? (
+            ) : searchWord && searchResults.length === 0 ? (
               <ListItem>
                 <SListItemText primary="検索した昆虫は見つかりません。" />
               </ListItem>
