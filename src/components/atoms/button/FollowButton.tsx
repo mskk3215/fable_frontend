@@ -38,9 +38,17 @@ export const FollowButton = memo((props: Props) => {
       <Button
         onClick={() => handleFollowButtonClick(followedUserId)}
         variant={isFollowed(followedUserId) ? "outlined" : "contained"}
-        color="primary"
         size="small"
-        sx={{ maxWidth: { xs: "75%", md: "100%" } }}
+        sx={{
+          maxWidth: { xs: "75%", md: "100%" },
+          backgroundColor: isFollowed(followedUserId) ? "#ffffff" : "#2b3d51",
+          color: isFollowed(followedUserId) ? "#2b3d51" : "#ffffff",
+          borderColor: isFollowed(followedUserId) ? "#2b3d51" : undefined,
+          "&:hover": {
+            backgroundColor: isFollowed(followedUserId) ? "#ffffff" : "#2b3d51",
+            opacity: 0.7,
+          },
+        }}
       >
         {isFollowed(followedUserId) ? "フォロー中" : "フォローする"}
       </Button>

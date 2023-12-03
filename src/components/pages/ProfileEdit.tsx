@@ -134,7 +134,15 @@ export const ProfileEdit = () => {
                   height: { xs: 100, sm: 125 },
                 }}
               />
-              <Button component="label">
+              <Button
+                component="label"
+                sx={{
+                  color: "#2b3d51",
+                  "&:hover": {
+                    opacity: 0.7,
+                  },
+                }}
+              >
                 画像を変更
                 <input type="file" hidden onChange={handleImageChange} />
               </Button>
@@ -175,9 +183,16 @@ export const ProfileEdit = () => {
             <Button
               variant="contained"
               type="submit"
-              color="primary"
               fullWidth
               disabled={isLoading}
+              sx={{
+                backgroundColor: "#2b3d51",
+                color: "#ffffff",
+                "&:hover": {
+                  backgroundColor: "#2b3d51",
+                  opacity: 0.7,
+                },
+              }}
             >
               更新する
             </Button>

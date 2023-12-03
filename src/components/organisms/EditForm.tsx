@@ -407,6 +407,14 @@ export const EditForm = memo((props: Props) => {
                 type="submit"
                 onClick={() => setButtonName("delete")}
                 variant="contained"
+                sx={{
+                  backgroundColor: "#2b3d51",
+                  color: "#ffffff",
+                  "&:hover": {
+                    backgroundColor: "#2b3d51",
+                    opacity: 0.7,
+                  },
+                }}
               >
                 削除
               </Button>

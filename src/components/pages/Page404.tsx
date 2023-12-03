@@ -35,7 +35,17 @@ export const Page404 = () => {
       >
         お探しのページは見つかりませんでした。
       </Typography>
-      <Button variant="contained" color="primary" onClick={handleBackHome}>
+      <Button
+        onClick={handleBackHome}
+        sx={{
+          backgroundColor: "#2b3d51",
+          color: "#ffffff",
+          "&:hover": {
+            backgroundColor: "#2b3d51",
+            opacity: 0.7,
+          },
+        }}
+      >
         Topページへ戻る
       </Button>
     </Container>

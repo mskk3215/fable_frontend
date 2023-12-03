@@ -139,7 +139,6 @@ export const UserPage = () => {
               component={Link}
               to="/profileedit"
               variant="body1"
-              color="primary"
               sx={{
                 position: "absolute",
                 top: 0,
@@ -190,7 +189,8 @@ export const UserPage = () => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          marginBottom: 2,
+          mb: 2,
+          ml: 1,
         }}
       >
         <ImageSortSelector
@@ -205,7 +205,15 @@ export const UserPage = () => {
             component={Link}
             to="/imageedit"
             variant="contained"
-            color="primary"
+            sx={{
+              backgroundColor: "#2b3d51",
+              color: "#ffffff",
+              "&:hover": {
+                backgroundColor: "#2b3d51",
+                opacity: 0.7,
+              },
+              mr: 1,
+            }}
           >
             投稿編集
           </Button>

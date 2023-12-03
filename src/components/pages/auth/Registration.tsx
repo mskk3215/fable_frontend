@@ -160,7 +160,8 @@ export const Registration = () => {
                   backgroundColor: "#2b3d51",
                   color: "#ffffff",
                   "&:hover": {
-                    backgroundColor: "#d48a16",
+                    backgroundColor: "#2b3d51",
+                    opacity: 0.7,
                   },
                 }}
               >

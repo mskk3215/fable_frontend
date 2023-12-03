@@ -103,7 +103,15 @@ export const PasswordChangeModal = (props: Props) => {
             flexDirection: "column",
           }}
         >
-          <Button variant="outlined" onClick={handleModalOpen} fullWidth>
+          <Button
+            variant="outlined"
+            onClick={handleModalOpen}
+            fullWidth
+            sx={{
+              borderColor: "#2b3d51",
+              color: "#2b3d51",
+            }}
+          >
             パスワード変更
           </Button>
           <Modal open={open} onClose={handleModalClose}>
@@ -155,8 +163,15 @@ export const PasswordChangeModal = (props: Props) => {
                   <Button
                     variant="contained"
                     type="submit"
-                    color="primary"
                     fullWidth
+                    sx={{
+                      backgroundColor: "#2b3d51",
+                      color: "#ffffff",
+                      "&:hover": {
+                        backgroundColor: "#2b3d51",
+                        opacity: 0.7,
+                      },
+                    }}
                   >
                     変更する
                   </Button>
