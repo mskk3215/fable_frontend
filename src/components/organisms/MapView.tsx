@@ -7,7 +7,7 @@ import {
   MarkerF,
   useLoadScript,
 } from "@react-google-maps/api";
-import ReactHtmlParser from "react-html-parser";
+import parser from "html-react-parser";
 import {
   mapApiLoadState,
   selectedCenterState,
@@ -197,7 +197,7 @@ export const MapView = memo((props: Props) => {
           position={infoWindowLocation.latLng}
           options={{ pixelOffset: new window.google.maps.Size(0, 0) }}
         >
-          <>{ReactHtmlParser(infoWindowLocation.instruction)}</>
+          <>{parser(infoWindowLocation.instruction)}</>
         </InfoWindowF>
       )}
     </GoogleMap>

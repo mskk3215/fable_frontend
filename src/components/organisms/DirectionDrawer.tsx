@@ -1,7 +1,7 @@
 import React, { memo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import ReactHtmlParser from "react-html-parser";
+import parser from "html-react-parser";
 import { selectedCenterState } from "../../store/atoms/MapDirectionState";
 import { Header } from "../atoms/layout/Header";
 import { DestinationBox } from "../molecules/DestinationBox";
@@ -318,7 +318,7 @@ export const DirectionDrawer = memo((props: Props) => {
                                   variant="body2"
                                   color="textPrimary"
                                 >
-                                  {ReactHtmlParser(step.instruction)}
+                                  {parser(step.instruction)}
                                 </Typography>
                                 <Typography variant="body2" color="textPrimary">
                                   {step.duration} ({step.distance})
