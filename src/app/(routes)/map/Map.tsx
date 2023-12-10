@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { MapDrawer } from "../../_components/map/MapDrawer";
 import { MapView } from "../../_components/map/MapView";

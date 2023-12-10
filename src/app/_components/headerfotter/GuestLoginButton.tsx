@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { useAuthActions } from "../../../hooks/user/useAuthActions";

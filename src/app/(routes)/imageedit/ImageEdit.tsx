@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState, useCallback } from "react";
 import { EditForm } from "../../_components/imageedit/EditForm";
 import { ImageItem } from "../../_components/userpage/ImageItem";

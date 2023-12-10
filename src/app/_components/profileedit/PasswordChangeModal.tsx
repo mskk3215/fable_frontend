@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import { loginUserState } from "../../../store/atoms/userAtom";

@@ -1,3 +1,5 @@
+"use client";
+
 import React, { memo, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { messageState } from "../../../store/atoms/errorAtom";

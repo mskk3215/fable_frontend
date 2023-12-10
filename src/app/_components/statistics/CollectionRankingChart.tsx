@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { Chart, LinearScale, BarElement, CategoryScale } from "chart.js";

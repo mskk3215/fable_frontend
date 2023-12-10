@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { PostForm } from "../../_components/uploadview/PostForm";
 import { useImages } from "../../../hooks/useImages";

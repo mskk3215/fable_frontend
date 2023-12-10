@@ -1,3 +1,5 @@
+"use client";
+
 import { Box, Tab, Tabs } from "@mui/material";
 
 type Props = {

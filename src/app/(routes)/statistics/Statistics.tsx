@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { StatisticsMap } from "../../_components/statistics/StatisticsMap";
 import { CollectionStatusTable } from "../../_components/statistics/CollectionStatusTable";

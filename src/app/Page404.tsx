@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Typography, Button, Container } from "@mui/material";

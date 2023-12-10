@@ -1,3 +1,5 @@
+"use client";
+
 import { useRecoilState } from "recoil";
 import { messageState } from "../../store/atoms/errorAtom";
 import { Close } from "@mui/icons-material";

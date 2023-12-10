@@ -1,3 +1,5 @@
+"use client";
+
 import React, { memo } from "react";
 import { useRecoilValue } from "recoil";
 import { destinationLocationState } from "../../../store/atoms/searchWordState";

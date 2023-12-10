@@ -1,3 +1,5 @@
+"use client";
+
 import React, { memo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";

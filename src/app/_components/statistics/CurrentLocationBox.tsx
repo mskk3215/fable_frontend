@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { memo, useRef, useEffect } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";

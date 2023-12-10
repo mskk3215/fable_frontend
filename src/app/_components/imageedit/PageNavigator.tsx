@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, memo } from "react";
 import { Pagination } from "@mui/material";
 import { Image } from "../../../types/images";

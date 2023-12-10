@@ -1,3 +1,5 @@
+"use client";
+
 import { useSetRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { loginUserState } from "../../../store/atoms/userAtom";

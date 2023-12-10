@@ -1,3 +1,5 @@
+"use client";
+
 import React, { memo, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {

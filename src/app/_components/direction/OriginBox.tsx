@@ -1,3 +1,5 @@
+"use client";
+
 import React, { memo, useRef } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { Autocomplete } from "@react-google-maps/api";
