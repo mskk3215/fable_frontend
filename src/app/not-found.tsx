@@ -1,14 +1,15 @@
 "use client";
 
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { Typography, Button, Container } from "@mui/material";
 
-export const Page404 = () => {
-  const navigate = useNavigate();
+import { Typography, Button, Container } from "@mui/material";
+import { useRouter } from "next/navigation";
+
+export default function NotFound() {
+  const router = useRouter();
 
   const handleBackHome = () => {
-    navigate("/");
+    router.push("/");
   };
 
   return (
@@ -52,4 +53,4 @@ export const Page404 = () => {
       </Button>
     </Container>
   );
-};
+}
