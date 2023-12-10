@@ -6,8 +6,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { useAllInsects } from "../../../hooks/useAllInsects";
 import { useParks } from "../../../hooks/useParks";
 import {
-  saveSearchWord,
   searchWordState,
+  useSearchWord,
 } from "../../../store/atoms/searchWordState";
 import { convertHiraganaToKatakana } from "../../../hooks/useConvertHiraganaToKatakana";
 import { Autocomplete, InputBase } from "@mui/material";
@@ -18,6 +18,7 @@ export const SearchBarInHeader = () => {
   const { insectOptions, setQueryWord } = useAllInsects();
   const { handleGetParkSearchResults } = useParks();
   const [searchWord, setSearchWord] = useRecoilState(searchWordState);
+  const { saveSearchWord } = useSearchWord();
   const pathname = usePathname();
 
   const router = useRouter();

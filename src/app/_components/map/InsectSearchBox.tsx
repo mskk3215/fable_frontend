@@ -4,8 +4,8 @@ import React, { useEffect, memo } from "react";
 import { useRecoilState } from "recoil";
 import { useRouter } from "next/navigation";
 import {
-  saveSearchWord,
   searchWordState,
+  useSearchWord,
 } from "../../../store/atoms/searchWordState";
 import { convertHiraganaToKatakana } from "../../../hooks/useConvertHiraganaToKatakana";
 import Divider from "@mui/material/Divider";
@@ -41,6 +41,7 @@ export const InsectSearchBox = memo((props: Props) => {
   } = props;
 
   const [searchWord, setSearchWord] = useRecoilState(searchWordState);
+  const { saveSearchWord } = useSearchWord();
 
   const handleSearch = () => {
     setOpen(true);
