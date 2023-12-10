@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { FollowButton } from "../FollowButton";
 import {
   Avatar,
@@ -101,7 +101,10 @@ export const FollowModal = memo((props: Props) => {
                           marginRight: 2,
                         }}
                       />
-                      <ButtonBase component={Link} to={`/userpage/${user.id}`}>
+                      <ButtonBase
+                        component={Link}
+                        href={`/userpage/${user.id}`}
+                      >
                         <Typography
                           sx={{
                             cursor: "pointer",

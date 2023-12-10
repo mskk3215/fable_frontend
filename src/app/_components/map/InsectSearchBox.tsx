@@ -2,7 +2,7 @@
 
 import React, { useEffect, memo } from "react";
 import { useRecoilState } from "recoil";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import {
   saveSearchWord,
   searchWordState,
@@ -52,9 +52,9 @@ export const InsectSearchBox = memo((props: Props) => {
     setSelectedItemId(undefined);
   };
 
-  const navigate = useNavigate();
+  const router = useRouter();
   const handleDirectionButtonClick = () => {
-    navigate("/direction");
+    router.push("/direction");
   };
 
   // searchWordの値が更新されたらローカルストレージに保存する

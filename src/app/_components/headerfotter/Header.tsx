@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { loginUserState } from "../../../store/atoms/userAtom";
 import { LogoutButton } from "./LogoutButton";
 import styled from "styled-components";
@@ -15,17 +16,16 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
 
 export const Header = () => {
-  const location = useLocation();
+  const pathname = usePathname();
   const pageSize = usePageSize();
   const loginUser = useRecoilValue(loginUserState);
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
 
   const shouldNotShowSearchBar =
-    location.pathname !== "/map" && location.pathname !== "/direction";
+    pathname !== "/map" && pathname !== "/direction";
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(e.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -53,7 +53,7 @@ export const Header = () => {
           >
             <Box sx={{ display: "flex" }}>
               <SiteNameText>
-                <TopSLink to={loginUser === undefined ? "/" : "/postlist"}>
+                <TopSLink href={loginUser === undefined ? "/" : "/postlist"}>
                   fabre
                 </TopSLink>
               </SiteNameText>
@@ -61,9 +61,9 @@ export const Header = () => {
                 {shouldNotShowSearchBar && <SearchBarInHeader />}
                 {loginUser && (
                   <>
-                    <SLink to="/uploadview">投稿</SLink>
-                    <SLink to="/postlist">投稿一覧</SLink>
-                    <SLink to="/statistics">分析</SLink>
+                    <SLink href="/uploadview">投稿</SLink>
+                    <SLink href="/postlist">投稿一覧</SLink>
+                    <SLink href="/statistics">分析</SLink>
                   </>
                 )}
               </Box>
@@ -72,12 +72,12 @@ export const Header = () => {
               {loginUser === undefined ? (
                 <>
                   <GuestLoginButton />
-                  <SLink to="/registration">新規登録</SLink>
-                  <SLink to="/login">ログイン</SLink>
+                  <SLink href="/registration">新規登録</SLink>
+                  <SLink href="/login">ログイン</SLink>
                 </>
               ) : (
                 <>
-                  <SLink to="/userpage">マイページ</SLink>
+                  <SLink href="/userpage">マイページ</SLink>
                   <LogoutButton />
                 </>
               )}
@@ -95,7 +95,7 @@ export const Header = () => {
             >
               <Box sx={{ display: "flex" }}>
                 <SiteNameText>
-                  <TopSLink to={loginUser === undefined ? "/" : "/postlist"}>
+                  <TopSLink href={loginUser === undefined ? "/" : "/postlist"}>
                     fabre
                   </TopSLink>
                 </SiteNameText>
@@ -115,18 +115,18 @@ export const Header = () => {
                   }}
                 >
                   <MenuItem onClick={handleClose}>
-                    <SLink to="/map">検索</SLink>
+                    <SLink href="/map">検索</SLink>
                   </MenuItem>
                   {loginUser && (
                     <Box>
                       <MenuItem onClick={handleClose}>
-                        <SLink to="/uploadview">投稿</SLink>
+                        <SLink href="/uploadview">投稿</SLink>
                       </MenuItem>
                       <MenuItem onClick={handleClose}>
-                        <SLink to="/postlist">投稿一覧</SLink>
+                        <SLink href="/postlist">投稿一覧</SLink>
                       </MenuItem>
                       <MenuItem onClick={handleClose}>
-                        <SLink to="/statistics">分析</SLink>
+                        <SLink href="/statistics">分析</SLink>
                       </MenuItem>
                     </Box>
                   )}
@@ -136,16 +136,16 @@ export const Header = () => {
                         <GuestLoginButton />
                       </MenuItem>
                       <MenuItem onClick={handleClose}>
-                        <SLink to="/registration">新規登録</SLink>
+                        <SLink href="/registration">新規登録</SLink>
                       </MenuItem>
                       <MenuItem onClick={handleClose}>
-                        <SLink to="/login">ログイン</SLink>
+                        <SLink href="/login">ログイン</SLink>
                       </MenuItem>
                     </Box>
                   ) : (
                     <Box>
                       <MenuItem onClick={handleClose}>
-                        <SLink to="/userpage">マイページ</SLink>
+                        <SLink href="/userpage">マイページ</SLink>
                       </MenuItem>
                       <MenuItem onClick={handleClose}>
                         <LogoutButton />

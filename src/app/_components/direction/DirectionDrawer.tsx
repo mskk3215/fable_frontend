@@ -1,8 +1,8 @@
 "use client";
 
 import React, { memo, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRouter } from "next/router";
 import parser from "html-react-parser";
 import { selectedCenterState } from "../../../store/atoms/MapDirectionState";
 import { Header } from "../headerfotter/Header";
@@ -80,7 +80,7 @@ export const DirectionDrawer = memo((props: Props) => {
   } = props;
 
   const setSelectedCenter = useSetRecoilState(selectedCenterState);
-  const navigate = useNavigate();
+  const router = useRouter();
   const originLocation = useRecoilValue(originLocationState);
   const destinationLocation = useRecoilValue(destinationLocationState);
   const [isRouteVisible, setIsRouteVisible] = useState<boolean>(false);
@@ -155,7 +155,7 @@ export const DirectionDrawer = memo((props: Props) => {
             <Tooltip title="ルートを閉じる">
               <IconButton
                 onClick={() => {
-                  navigate("/map");
+                  router.push("/map");
                 }}
               >
                 <Close sx={{ color: "gray" }} />

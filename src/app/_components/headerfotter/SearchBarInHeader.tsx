@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
+import { usePathname, useRouter } from "next/navigation";
 import { useAllInsects } from "../../../hooks/useAllInsects";
 import { useParks } from "../../../hooks/useParks";
 import {
@@ -18,13 +18,13 @@ export const SearchBarInHeader = () => {
   const { insectOptions, setQueryWord } = useAllInsects();
   const { handleGetParkSearchResults } = useParks();
   const [searchWord, setSearchWord] = useRecoilState(searchWordState);
-  const location = useLocation();
+  const pathname = usePathname();
 
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleSearch = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && searchWord) {
-      navigate("/map");
+      router.push("/map");
       handleGetParkSearchResults(searchWord);
     }
   };
@@ -37,7 +37,7 @@ export const SearchBarInHeader = () => {
   // ページ遷移時にsearchWordの値を初期化する
   useEffect(() => {
     setSearchWord("");
-  }, [location.pathname]);
+  }, [pathname]);
 
   return (
     <>

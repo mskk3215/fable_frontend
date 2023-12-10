@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import { loginUserState } from "../../../store/atoms/userAtom";
 import { ImageItem } from "../../_components/userpage/ImageItem";
 import { FollowModal } from "../../_components/userpage/FollowModal";
@@ -28,8 +29,10 @@ export const UserPage = () => {
   const { handleGetUser, isFollowed, viewedUser } = useUsers();
   const { parks } = useParks();
 
-  const { userId } = useParams();
-  const numUserId = userId ? parseInt(userId, 10) : undefined;
+  const params = useParams();
+  const numUserId = params
+    ? parseInt(Array.isArray(params) ? params[0] : params, 10)
+    : undefined;
   const {
     images,
     totalImagesCount,
@@ -138,8 +141,6 @@ export const UserPage = () => {
           />
           {loginUser?.id === viewedUser?.id && (
             <Typography
-              component={Link}
-              to="/profileedit"
               variant="body1"
               sx={{
                 position: "absolute",
@@ -152,7 +153,7 @@ export const UserPage = () => {
                 },
               }}
             >
-              編集
+              <Link href={"/profileedit"}>編集</Link>
             </Typography>
           )}
           {loginUser?.id !== viewedUser?.id && (
@@ -204,8 +205,6 @@ export const UserPage = () => {
         />
         {loginUser?.id === viewedUser?.id && (
           <Button
-            component={Link}
-            to="/imageedit"
             variant="contained"
             sx={{
               backgroundColor: "#2b3d51",
@@ -217,7 +216,7 @@ export const UserPage = () => {
               mr: 1,
             }}
           >
-            投稿編集
+            <Link href={"/imageedit"}>投稿編集</Link>
           </Button>
         )}
       </Box>

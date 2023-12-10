@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import Link from "next/link";
 import { loginUserState } from "../../../store/atoms/userAtom";
 import { useImages } from "../../../hooks/useImages";
 import { usePosts } from "../../../hooks/usePosts";
@@ -149,8 +149,6 @@ export const PostList = () => {
                       <Typography
                         variant="h6"
                         style={{ padding: 16 }}
-                        component={Link}
-                        to={`/userpage/${post.userId}`}
                         sx={{
                           cursor: "pointer",
                           textDecoration: "none",
@@ -163,7 +161,9 @@ export const PostList = () => {
                           },
                         }}
                       >
-                        {post.username}
+                        <Link href={`/userpage/${post.userId}`}>
+                          {post.username}
+                        </Link>
                       </Typography>
                     </Box>
                     {/* フォローボタン */}
@@ -238,7 +238,7 @@ export const PostList = () => {
                                   }}
                                 >
                                   <SLink
-                                    to={`/map`}
+                                    href={`/map`}
                                     onClick={() => {
                                       if (imageData.insectName) {
                                         setSearchWord(imageData.insectName);
@@ -265,7 +265,7 @@ export const PostList = () => {
                                   }}
                                 >
                                   <SLink
-                                    to={`/direction`}
+                                    href={`/direction`}
                                     onClick={() => {
                                       if (imageData.parkName) {
                                         setDestinationLocation(

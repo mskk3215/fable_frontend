@@ -1,6 +1,6 @@
 import React, { memo } from "react";
-import { Link } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import Link from "next/link";
 import { loginUserState } from "../../../store/atoms/userAtom";
 import { FollowButton } from "../FollowButton";
 import { LikeButton } from "../LikeButton";
@@ -161,7 +161,7 @@ export const ImageItemDialog = memo((props: Props) => {
             >
               昆虫名:{" "}
               <SLink
-                to={`/map`}
+                href={`/map`}
                 onClick={() => {
                   if (currentImage.insectName) {
                     setSearchWord(currentImage.insectName);
@@ -184,7 +184,7 @@ export const ImageItemDialog = memo((props: Props) => {
             >
               撮影場所:{" "}
               <SLink
-                to={`/direction`}
+                href={`/direction`}
                 onClick={() => {
                   if (currentImage.parkId) {
                     setDestinationLocation(parks[currentImage.parkId - 1].name);

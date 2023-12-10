@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import { useState, useMemo } from "react";
-import { Link } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import Link from "next/link";
 import { CurrentLocationBox } from "./CurrentLocationBox";
 import { SortableTableHead } from "./SortableTableHead";
 import {
@@ -221,7 +221,7 @@ export const CollectionStatusTable = (props: Props) => {
                       }}
                     >
                       <SLink
-                        to="/map"
+                        href={`/map`}
                         onClick={() => setSearchWord(row.insectName)}
                       >
                         {pageSize > 8 ? (
@@ -249,7 +249,7 @@ export const CollectionStatusTable = (props: Props) => {
                       }}
                     >
                       <SLink
-                        to="/direction"
+                        href={`/direction`}
                         onClick={() => setDestinationLocation(row.parkName)}
                       >
                         {row.parkName}

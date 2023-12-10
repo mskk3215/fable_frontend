@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, memo } from "react";
-import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
+import { useRouter } from "next/navigation";
 import { messageState } from "../../../store/atoms/errorAtom";
 import { LinearProgressBarWithLabel } from "../profileedit/LinearProgressBarWithLabel";
 import { createPosts } from "../../../urls";
@@ -39,7 +39,7 @@ export const PostForm = memo((props: Props) => {
   const setMessage = useSetRecoilState(messageState);
   const pageSize = usePageSize();
 
-  const navigate = useNavigate();
+  const router = useRouter();
   const uploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       if (
@@ -76,7 +76,7 @@ export const PostForm = memo((props: Props) => {
           type: "success",
         });
 
-        navigate("/imageedit");
+        router.push("/imageedit");
         handleGetImages(pageSize, undefined);
         setImages([]);
       })
