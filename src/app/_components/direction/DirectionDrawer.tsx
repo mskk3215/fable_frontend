@@ -2,7 +2,7 @@
 
 import React, { memo, useRef, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import parser from "html-react-parser";
 import { selectedCenterState } from "../../../store/atoms/MapDirectionState";
 import { Header } from "../headerfotter/Header";
