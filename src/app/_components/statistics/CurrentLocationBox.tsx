@@ -78,7 +78,7 @@ export const CurrentLocationBox = memo((props: Props) => {
 
   return (
     <LoadScriptNext
-      googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY as string}
+      googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API as string}
       libraries={["places"]}
       onLoad={() => setIsGeocoderLoaded(true)}
     >

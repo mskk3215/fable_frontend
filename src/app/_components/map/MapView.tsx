@@ -112,7 +112,7 @@ export const MapView = memo((props: Props) => {
 
   //Google Maps APIの読み込み状態を管理する
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: String(process.env.REACT_APP_GOOGLE_MAP_API_KEY),
+    googleMapsApiKey: String(process.env.NEXT_PUBLIC_GOOGLE_MAP_API),
     libraries: ["places"],
   });
   useEffect(() => {
