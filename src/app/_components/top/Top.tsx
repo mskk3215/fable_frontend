@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { usePageSize } from "../hooks/usePageSize";
+import { usePageSize } from "../../../hooks/usePageSize";
 import {
   Container,
   Grid,

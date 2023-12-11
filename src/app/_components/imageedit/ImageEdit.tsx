@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useEffect, useState, useCallback } from "react";
-import { EditForm } from "../../_components/imageedit/EditForm";
-import { ImageItem } from "../../_components/userpage/ImageItem";
+import { EditForm } from "./EditForm";
+import { ImageItem } from "../userpage/ImageItem";
 import { useImages } from "../../../hooks/useImages";
 import { useParks } from "../../../hooks/useParks";
 import { useAllInsects } from "../../../hooks/useAllInsects";
 import { useAllPrefectures } from "../../../hooks/useAllPrefectures";
-import { PageNavigator } from "../../_components/imageedit/PageNavigator";
+import { PageNavigator } from "./PageNavigator";
 import { usePageSize } from "../../../hooks/usePageSize";
 import { Box, Divider, Grid, Skeleton } from "@mui/material";
 import styled from "styled-components";

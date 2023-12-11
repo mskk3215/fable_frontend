@@ -7,10 +7,10 @@ import { loginUserState } from "../../../store/atoms/userAtom";
 import { useImages } from "../../../hooks/useImages";
 import { usePosts } from "../../../hooks/usePosts";
 import { useUsers } from "../../../hooks/user/useUsers";
-import { LikeButton } from "../../_components/LikeButton";
-import { FollowButton } from "../../_components/FollowButton";
-import { DeletePostButton } from "../../_components/postlist/DeletePostButton";
-import { PostTab } from "../../_components/postlist/PostTab";
+import { LikeButton } from "../LikeButton";
+import { FollowButton } from "../FollowButton";
+import { DeletePostButton } from "./DeletePostButton";
+import { PostTab } from "./PostTab";
 import {
   destinationLocationState,
   searchWordState,

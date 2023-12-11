@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useAuthActions } from "../../../../hooks/user/useAuthActions";
+import { useAuthActions } from "../../../hooks/user/useAuthActions";
 import { Box, Button, TextField, Typography } from "@mui/material";
 
 export const Registration = () => {

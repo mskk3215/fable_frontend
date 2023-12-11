@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { MapDrawer } from "../../_components/map/MapDrawer";
-import { MapView } from "../../_components/map/MapView";
+import { MapDrawer } from "./MapDrawer";
+import { MapView } from "./MapView";
 import { useParks } from "../../../hooks/useParks";
 import { useAllInsects } from "../../../hooks/useAllInsects";
 import { Anchor } from "../../../types/map";

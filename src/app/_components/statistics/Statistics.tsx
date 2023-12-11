@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import { StatisticsMap } from "../../_components/statistics/StatisticsMap";
-import { CollectionStatusTable } from "../../_components/statistics/CollectionStatusTable";
-import { CollectionDoughnutChart } from "../../_components/statistics/CollectionDoughnutChart";
-import { CollectionRankingChart } from "../../_components/statistics/CollectionRankingChart";
+import { StatisticsMap } from "./StatisticsMap";
+import { CollectionStatusTable } from "./CollectionStatusTable";
+import { CollectionDoughnutChart } from "./CollectionDoughnutChart";
+import { CollectionRankingChart } from "./CollectionRankingChart";
 import { useUserInsectCollectionStats } from "../../../hooks/statistics/useUserInsectCollectionStats";
 import { useUncollectedInsectsAndParksInfo } from "../../../hooks/statistics/useUncollectedInsectsAndParksInfo";
 import { useCollectedInsectsAndParksInfo } from "../../../hooks/statistics/useCollectedInsectsAndParksInfo";

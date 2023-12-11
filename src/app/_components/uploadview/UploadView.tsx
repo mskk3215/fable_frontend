@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { PostForm } from "../../_components/uploadview/PostForm";
+import { PostForm } from "./PostForm";
 import { useImages } from "../../../hooks/useImages";
 import { Grid } from "@mui/material";
 

@@ -3,12 +3,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { messageState } from "../../../store/atoms/errorAtom";
-import { DirectionDrawer } from "../../_components/direction/DirectionDrawer";
-import { MapView } from "../../_components/map/MapView";
+import { DirectionDrawer } from "./DirectionDrawer";
+import { MapView } from "../map/MapView";
 import {
   destinationLocationState,
   originLocationState,
-  saveOriginLocation,
+  useOriginLocation,
 } from "../../../store/atoms/searchWordState";
 import { useParks } from "../../../hooks/useParks";
 import { Box } from "@mui/material";
@@ -20,6 +20,7 @@ export const Direction = () => {
 
   const [originLocation, setOriginLocation] =
     useRecoilState(originLocationState);
+  const { saveOriginLocation } = useOriginLocation();
   const { searchResults } = useParks();
   const [directions, setDirections] = useState<
     google.maps.DirectionsResult | undefined
