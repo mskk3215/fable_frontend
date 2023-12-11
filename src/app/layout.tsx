@@ -1,5 +1,7 @@
 import "./global.css";
-import AppProvider from "./provider";
+import RecoilProvider from "./provider";
+import { MessageToast } from "./_components/MessageToast";
+import { Header } from "./_components/headerfotter/Header";
 
 export const metadata = {
   title: "fabre insect search",
@@ -17,11 +19,11 @@ export default function RootLayout({
         <link rel="icon" type="image/x-icon" href="/icon.ico" />
       </head>
       <body>
-        <div>
-          <AppProvider>
-            <main>{children}</main>
-          </AppProvider>
-        </div>
+        <RecoilProvider>
+          <Header />
+          <main>{children}</main>
+          <MessageToast />
+        </RecoilProvider>
       </body>
     </html>
   );
