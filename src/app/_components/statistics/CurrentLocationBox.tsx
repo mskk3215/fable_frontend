@@ -6,7 +6,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { Autocomplete, LoadScriptNext } from "@react-google-maps/api";
 import {
   originLocationState,
-  saveOriginLocation,
+  useOriginLocation,
 } from "../../../store/atoms/searchWordState";
 import { isGeocoderLoadedState } from "../../../store/atoms/statisticsState";
 import { messageState } from "../../../store/atoms/errorAtom";
@@ -23,6 +23,7 @@ export const CurrentLocationBox = memo((props: Props) => {
   const { setCurrentLat, setCurrentLng } = props;
   const [originLocation, setOriginLocation] =
     useRecoilState(originLocationState);
+  const { saveOriginLocation } = useOriginLocation();
   const [isGeocoderLoaded, setIsGeocoderLoaded] = useRecoilState(
     isGeocoderLoadedState
   );

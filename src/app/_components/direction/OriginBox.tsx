@@ -5,7 +5,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { Autocomplete } from "@react-google-maps/api";
 import {
   originLocationState,
-  saveOriginLocation,
+  useOriginLocation,
 } from "../../../store/atoms/searchWordState";
 import { mapApiLoadState } from "../../../store/atoms/MapDirectionState";
 import { IconButton, TextField } from "@mui/material";
@@ -20,6 +20,7 @@ export const OriginBox = memo((props: Props) => {
   const { originRef, clearRoute } = props;
   const [originLocation, setOriginLocation] =
     useRecoilState(originLocationState);
+  const { saveOriginLocation } = useOriginLocation();
   const mapLoadState = useRecoilValue(mapApiLoadState);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
 

@@ -9,8 +9,8 @@ import {
 import { Header } from "../headerfotter/Header";
 import {
   destinationLocationState,
-  saveDestinationLocation,
   searchWordState,
+  useDestinationLocation,
 } from "../../../store/atoms/searchWordState";
 import { InsectSearchBox } from "./InsectSearchBox";
 import styled from "styled-components";
@@ -55,6 +55,7 @@ export const MapDrawer = memo((props: Props) => {
   const [destinationLocation, setDestinationLocation] = useRecoilState(
     destinationLocationState
   );
+  const { saveDestinationLocation } = useDestinationLocation();
   const [selectedItemId, setSelectedItemId] = useRecoilState(selectedItemState);
   const searchWord = useRecoilValue(searchWordState);
   const [open, setOpen] = useState(true);
