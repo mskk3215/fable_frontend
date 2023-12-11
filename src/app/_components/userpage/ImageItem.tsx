@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useCallback, memo, ChangeEvent, useState } from "react";
 import { ImageItemDialog } from "./ImageItemDialog";
 import {

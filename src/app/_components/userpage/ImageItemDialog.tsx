@@ -1,3 +1,5 @@
+"use client";
+
 import React, { memo } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import Link from "next/link";
