@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES6",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -30,11 +26,9 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.js",
-    ".next/types/**/*.ts"
-  ]
+    ".next/types/**/*.ts",
+    "server.js"
+  ],
   // "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "jest.config.js"]
-  ,
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }
