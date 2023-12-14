@@ -10,6 +10,7 @@ import { useUncollectedInsectsAndParksInfo } from "../../../hooks/statistics/use
 import { useCollectedInsectsAndParksInfo } from "../../../hooks/statistics/useCollectedInsectsAndParksInfo";
 import { usePageSize } from "../../../hooks/usePageSize";
 import { Container } from "@mui/material";
+import "leaflet/dist/leaflet.css";
 
 export const Statistics = () => {
   const { collectionRate, collectionCount, unCollectedCount } =

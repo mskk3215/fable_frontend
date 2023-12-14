@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import "../../../src/App.css";
+import "../../_styles/leaflet.css";
 import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { LatLngExpression } from "leaflet";
