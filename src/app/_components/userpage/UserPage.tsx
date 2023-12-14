@@ -18,6 +18,7 @@ import Grid from "@mui/material/Grid";
 import {
   Avatar,
   Button,
+  ButtonBase,
   CircularProgress,
   Skeleton,
   Typography,
@@ -140,21 +141,23 @@ export const UserPage = () => {
             }}
           />
           {loginUser?.id === viewedUser?.id && (
-            <Typography
-              variant="body1"
-              sx={{
-                position: "absolute",
-                top: 0,
-                right: -30,
-                cursor: "pointer",
-                textDecoration: "none",
-                "&:hover": {
-                  textDecoration: "underline",
-                },
-              }}
-            >
-              <Link href={"/profileedit"}>編集</Link>
-            </Typography>
+            <ButtonBase component={Link} href={`/profileedit`}>
+              <Typography
+                variant="body1"
+                sx={{
+                  position: "absolute",
+                  top: -50,
+                  right: -40,
+                  cursor: "pointer",
+                  textDecoration: "none",
+                  "&:hover": {
+                    textDecoration: "underline",
+                  },
+                }}
+              >
+                編集
+              </Typography>
+            </ButtonBase>
           )}
           {loginUser?.id !== viewedUser?.id && (
             <Box
@@ -204,20 +207,22 @@ export const UserPage = () => {
           userId={numUserId}
         />
         {loginUser?.id === viewedUser?.id && (
-          <Button
-            variant="contained"
-            sx={{
-              backgroundColor: "#2b3d51",
-              color: "#ffffff",
-              "&:hover": {
+          <Link href={"/imageedit"}>
+            <Button
+              variant="contained"
+              sx={{
                 backgroundColor: "#2b3d51",
-                opacity: 0.7,
-              },
-              mr: 1,
-            }}
-          >
-            <Link href={"/imageedit"}>投稿編集</Link>
-          </Button>
+                color: "#ffffff",
+                "&:hover": {
+                  backgroundColor: "#2b3d51",
+                  opacity: 0.7,
+                },
+                mr: 1,
+              }}
+            >
+              投稿編集
+            </Button>
+          </Link>
         )}
       </Box>
       <Grid container spacing={0.5}>

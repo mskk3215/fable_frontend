@@ -25,6 +25,7 @@ import {
   Box,
   Skeleton,
   CircularProgress,
+  ButtonBase,
 } from "@mui/material";
 import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 import { Post } from "../../../types/posts";
@@ -146,25 +147,28 @@ export const PostList = () => {
                       {/* Avatar */}
                       <Avatar alt="avatar" src={post.avatar} />
                       {/* ユーザー名 */}
-                      <Typography
-                        variant="h6"
-                        style={{ padding: 16 }}
-                        sx={{
-                          cursor: "pointer",
-                          textDecoration: "none",
-                          color: "inherit",
-                          "&:visited": {
-                            color: "inherit",
-                          },
-                          "&:hover": {
-                            textDecoration: "underline",
-                          },
-                        }}
+                      <ButtonBase
+                        component={Link}
+                        href={`/userpage/${post.userId}`}
                       >
-                        <Link href={`/userpage/${post.userId}`}>
+                        <Typography
+                          variant="h6"
+                          style={{ padding: 16 }}
+                          sx={{
+                            cursor: "pointer",
+                            textDecoration: "none",
+                            color: "inherit",
+                            "&:visited": {
+                              color: "inherit",
+                            },
+                            "&:hover": {
+                              textDecoration: "underline",
+                            },
+                          }}
+                        >
                           {post.username}
-                        </Link>
-                      </Typography>
+                        </Typography>
+                      </ButtonBase>
                     </Box>
                     {/* フォローボタン */}
                     {loginUser?.id !== post.userId && (
