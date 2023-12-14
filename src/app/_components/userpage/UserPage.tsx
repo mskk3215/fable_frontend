@@ -31,9 +31,8 @@ export const UserPage = () => {
   const { parks } = useParks();
 
   const params = useParams();
-  const numUserId = params
-    ? parseInt(Array.isArray(params) ? params[0] : params, 10)
-    : undefined;
+  const numUserId =
+    typeof params.id === "string" ? parseInt(params.id, 10) : undefined;
   const {
     images,
     totalImagesCount,
