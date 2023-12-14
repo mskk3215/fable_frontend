@@ -48,11 +48,9 @@ const mapOptions = {
 
 //Iconの設定
 const renderIcon = (id?: number, selectedItemId?: number, place?: string) => {
-  const destinationIconUrl =
-    process.env.PUBLIC_URL + "/images/destinationIcon.png";
-  const parkIconUrl = process.env.PUBLIC_URL + "/images/parkIcon.png";
-  const currentLocationIconUrl =
-    process.env.PUBLIC_URL + "/images/currentLocationIcon.png";
+  const destinationIconUrl = "/images/destinationIcon.png";
+  const parkIconUrl = "/images/parkIcon.png";
+  const currentLocationIconUrl = "/images/currentLocationIcon.png";
   return {
     url:
       id !== undefined
