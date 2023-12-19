@@ -1,13 +1,14 @@
 "use client";
 
-import { useAuthCheck } from "../../../hooks/user/useAuthCheck";
+import RouteAuthGuard from "../../_components/auth/RouteAuthGurad";
 import { ProfileEdit } from "../../_components/profileedit/ProfileEdit";
 
 export default function ProfileEditPage() {
-  useAuthCheck();
   return (
     <>
-      <ProfileEdit />
+      <RouteAuthGuard>
+        <ProfileEdit />
+      </RouteAuthGuard>
     </>
   );
 }

@@ -1,12 +1,18 @@
-import { useRecoilValue } from "recoil";
-import { useRouter } from "next/navigation";
-import { loginUserState } from "../../store/atoms/userAtom";
+import { useEffect } from "react";
+import { useSetRecoilState } from "recoil";
+import { authCheckedState } from "../../store/atoms/userAtom";
+import { useUsers } from "./useUsers";
 
-// ログインしていなければログイン画面へ遷移
 export const useAuthCheck = () => {
-  const router = useRouter();
-  const loginUser = useRecoilValue(loginUserState);
-  if (!loginUser) {
-    return router.replace("/login");
-  }
+  const setAuthChecked = useSetRecoilState(authCheckedState);
+  const { checkLoginStatus } = useUsers();
+
+  // ログイン状態をチェック
+  useEffect(() => {
+    const init = async () => {
+      await checkLoginStatus();
+      setAuthChecked(true);
+    };
+    init();
+  }, []);
 };

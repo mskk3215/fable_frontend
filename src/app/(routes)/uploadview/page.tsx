@@ -1,13 +1,14 @@
 "use client";
 
-import { useAuthCheck } from "../../../hooks/user/useAuthCheck";
+import RouteAuthGuard from "../../_components/auth/RouteAuthGurad";
 import { UploadView } from "../../_components/uploadview/UploadView";
 
 export default function UploadViewPage() {
-  useAuthCheck();
   return (
     <>
-      <UploadView />
+      <RouteAuthGuard>
+        <UploadView />
+      </RouteAuthGuard>
     </>
   );
 }
