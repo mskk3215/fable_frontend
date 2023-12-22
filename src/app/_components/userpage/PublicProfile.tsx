@@ -7,8 +7,6 @@ import { Avatar, Box, ButtonBase, Typography } from "@mui/material";
 import { FollowButton } from "../FollowButton";
 import { FollowModal } from "./FollowModal";
 import { useUsers } from "../../../hooks/user/useUsers";
-import { useImages } from "../../../hooks/useImages";
-import { usePageSize } from "../../../hooks/usePageSize";
 import { User } from "../../../types/user";
 
 type Props = {
@@ -21,12 +19,9 @@ export default function PublicProfile(props: Props) {
   const { profileInfo, numUserId, totalImagesCount } = props;
   const loginUser = useRecoilValue(loginUserState);
   const { handleGetUser, isFollowed, viewedUser } = useUsers();
-  const { handleGetImages } = useImages(numUserId);
-  const pageSize = usePageSize();
-  // urlが変更されたらページに表示するユーザー、ログインユーザー情報を取得する
+
   useEffect(() => {
     handleGetUser(numUserId);
-    handleGetImages(pageSize, numUserId);
     setFollowOpen(false);
   }, [numUserId]);
 
