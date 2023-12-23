@@ -41,6 +41,7 @@ export default async function UserPagePage({ params }: Props) {
         numUserId={numUserId}
         totalImagesCount={totalImagesCount}
       />
+      <PublicImages latestImages={latestImages} numUserId={numUserId} />
     </main>
   );
 }

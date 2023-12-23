@@ -13,6 +13,15 @@ export type Image = {
   likesCount: number;
   likedUserIds?: number[];
 };
+export type SSRImage = {
+  id: number;
+  image: string;
+  insect_name: string;
+  insect_sex: string;
+  city_name: string;
+  taken_at: Date;
+};
+
 export type HandleGetImages = (
   pageSize: number,
   userId?: number,
