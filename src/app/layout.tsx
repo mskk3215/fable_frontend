@@ -1,4 +1,5 @@
 import "./global.css";
+import StyledComponentsRegistry from "./_lib/registry";
 import RecoilProvider from "./provider";
 import { MessageToast } from "./_components/MessageToast";
 import { Header } from "./_components/headerfotter/Header";
@@ -19,11 +20,13 @@ export default function RootLayout({
         <link rel="icon" type="image/x-icon" href="/icon.ico" />
       </head>
       <body>
-        <RecoilProvider>
-          <Header />
-          <main>{children}</main>
-          <MessageToast />
-        </RecoilProvider>
+        <StyledComponentsRegistry>
+          <RecoilProvider>
+            <Header />
+            <main>{children}</main>
+            <MessageToast />
+          </RecoilProvider>
+        </StyledComponentsRegistry>
       </body>
     </html>
   );
