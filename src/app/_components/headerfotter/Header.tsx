@@ -4,10 +4,7 @@ import React, { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import {
-  authCheckedState,
-  loginUserState,
-} from "../../../store/atoms/userAtom";
+import { loginUserState } from "../../../store/atoms/userAtom";
 import { LogoutButton } from "./LogoutButton";
 import { useAuthCheck } from "../../../hooks/user/useAuthCheck";
 import styled from "styled-components";
@@ -20,7 +17,6 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
 
 export const Header = () => {
-  const authChecked = useRecoilValue(authCheckedState);
   useAuthCheck();
   const pathname = usePathname();
   const pageSize = usePageSize();
@@ -36,20 +32,6 @@ export const Header = () => {
     setAnchorEl(null);
   };
 
-  if (!authChecked) {
-    return (
-      <AppBar
-        position="static"
-        sx={{
-          width: "100%",
-          backgroundColor: "#2b3d51",
-          color: "#fff",
-          zIndex: 100,
-          height: "48px",
-        }}
-      ></AppBar>
-    );
-  }
   return (
     <AppBar
       position="static"
