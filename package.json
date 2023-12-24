@@ -81,7 +81,6 @@
     "@types/path-browserify": "^1.0.0",
     "@types/react-leaflet": "^3.0.0",
     "@types/styled-components": "^5.1.26",
-    "babel-plugin-styled-components": "^2.1.4",
     "ts-migrate": "^0.1.35",
     "typesync": "^0.11.1"
   }
