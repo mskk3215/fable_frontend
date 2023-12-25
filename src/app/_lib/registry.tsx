@@ -15,9 +15,8 @@ export default function StyledComponentsRegistry({
 
   useServerInsertedHTML(() => {
     const styles = styledComponentsStyleSheet.getStyleElement();
-    // ts: Property 'clearTag' does not exist on type 'ServerStyleSheet'
-    // @ts-ignore
-    styledComponentsStyleSheet.instance.clearTag();
+
+    (styledComponentsStyleSheet.instance as any).clearTag();
     return <>{styles}</>;
   });
 
