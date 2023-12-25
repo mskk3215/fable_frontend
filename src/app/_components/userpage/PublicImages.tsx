@@ -289,6 +289,13 @@ export default function PublicImages(props: Props) {
           viewedUser={viewedUser}
         />
       )}
+      {/* ログインアラート */}
+      {loginAlertOpen && (
+        <LoginAlertModal
+          loginAlertOpen={loginAlertOpen}
+          handleLoginAlertModalClose={handleLoginAlertModalClose}
+        />
+      )}
       {/* スクロールスピナー */}
       {isImagesLoading && !isImagesInitialLoading ? (
         <Box
