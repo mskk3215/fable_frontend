@@ -103,6 +103,7 @@ export const PostForm = memo((props: Props) => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          paddingTop: "48px",
         }}
       >
         <form noValidate onSubmit={handleCreateImage}>

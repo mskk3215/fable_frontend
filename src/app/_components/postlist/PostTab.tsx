@@ -20,7 +20,7 @@ export const PostTab = (props: Props) => {
         display: "flex",
         justifyContent: "center",
         width: "100%",
-        marginTop: "2px",
+        marginTop: "48px",
       }}
     >
       <Tabs

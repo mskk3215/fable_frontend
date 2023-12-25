@@ -29,6 +29,7 @@ export const Statistics = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
+        paddingTop: "48px",
       }}
     >
       <StatisticsMap pageSize={pageSize} />

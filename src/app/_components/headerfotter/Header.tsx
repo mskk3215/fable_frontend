@@ -34,7 +34,7 @@ export const Header = () => {
 
   return (
     <AppBar
-      position="static"
+      position="fixed"
       sx={{
         width: "100%",
         backgroundColor: "#2b3d51",

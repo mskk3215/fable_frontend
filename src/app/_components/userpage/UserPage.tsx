@@ -108,7 +108,7 @@ export const UserPage = () => {
   }, [isImagesLoading]);
 
   return (
-    <Box sx={{ width: "100%", marginTop: 5 }}>
+    <Box sx={{ width: "100%", marginTop: "70px" }}>
       <Box
         sx={{
           display: "flex",

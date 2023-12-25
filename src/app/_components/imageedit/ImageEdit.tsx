@@ -132,7 +132,7 @@ export const ImageEdit = () => {
   }, [selectedIndexes, images]);
 
   return (
-    <Box style={{ marginTop: "1px" }}>
+    <Box style={{ marginTop: "48px" }}>
       <Box display="flex" flexWrap="wrap">
         <Box sx={{ width: { xs: "100%", md: "80%" } }}>
           <Grid container spacing={0.5}>
