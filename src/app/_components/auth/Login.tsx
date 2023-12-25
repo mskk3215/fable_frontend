@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useAuthActions } from "../../../hooks/user/useAuthActions";
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { handleLogin } from "../../_utils/auth";
 
 export const Login = () => {
   const { handleLoginAction } = useAuthActions();
@@ -12,33 +13,8 @@ export const Login = () => {
   const [errors, setErrors] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleLogin = async () => {
-    // バリデーション
-    const inputFields = [
-      {
-        value: email,
-        name: "メールアドレス",
-      },
-      {
-        value: password,
-        name: "パスワード",
-      },
-    ];
-    const errorMessages = inputFields
-      .filter((field) => !field.value)
-      .map((field) => `${field.name}を入力してください`);
-    if (errorMessages.length > 0) {
-      setErrors(errorMessages);
-      return;
-    }
-
-    // ログイン認証
-    handleLoginAction({
-      email: email,
-      password: password,
-      setErrors: setErrors,
-      setIsLoading: setIsLoading,
-    });
+  const onLoginClick = () => {
+    handleLogin(email, password, setErrors, setIsLoading, handleLoginAction);
   };
 
   return (
@@ -109,7 +85,7 @@ export const Login = () => {
                 type="submit"
                 fullWidth
                 variant="contained"
-                onClick={handleLogin}
+                onClick={onLoginClick}
                 disabled={isLoading}
                 sx={{
                   backgroundColor: "#2b3d51",
