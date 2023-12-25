@@ -113,12 +113,11 @@ export const useImages = (): UseImages => {
     });
   };
 
-  // 撮影日時をフォーマットする
-  const createdTime = (image: Image) => {
-    if (image.takenAt) {
-      const date = new Date(image.takenAt);
-      const formattedDate = format(date, "yyyy/M/d/(E)", { locale: ja });
-      return formattedDate;
+  // 撮影日時をフォーマットする関数
+  const createdTime = (takenAt: string | Date): string => {
+    if (takenAt) {
+      const date = new Date(takenAt);
+      return format(date, "yyyy/M/d/(E)", { locale: ja });
     }
     return "";
   };

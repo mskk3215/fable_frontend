@@ -35,7 +35,7 @@ export type UseImages = {
   handleGetMoreImages: HandleGetImages;
   updateLikedImage: (allImageData?: Image[]) => void;
   updatedLikedCount: (allImageData?: Image[]) => void;
-  createdTime?: (image: Image) => string;
+  createdTime: (takenAt: string | Date) => string;
   isImagesLoading: boolean;
   isImagesInitialLoading: boolean;
   imagePage: number;

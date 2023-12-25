@@ -290,8 +290,10 @@ export const PostList = () => {
                                     },
                                   }}
                                 >
-                                  {createdTime && createdTime(imageData)
-                                    ? createdTime(imageData)
+                                  {createdTime &&
+                                  imageData.takenAt &&
+                                  createdTime(imageData.takenAt)
+                                    ? createdTime(imageData.takenAt)
                                     : "\u00a0"}
                                 </Typography>
                               </Box>

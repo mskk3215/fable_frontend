@@ -29,7 +29,7 @@ type Props = {
   currentImage: Image;
   currentImageIndex?: number;
   maxIndex?: number;
-  createdTime?: (image: Image) => string;
+  createdTime: (takenAt: string | Date) => string;
   imageOpen: boolean;
   imageSize: { height: string; width: string };
   handleClickImageClose: (e: React.MouseEvent) => void;
@@ -203,8 +203,10 @@ export const ImageItemDialog = memo((props: Props) => {
               }}
             >
               撮影日時:{" "}
-              {createdTime && createdTime(currentImage)
-                ? createdTime(currentImage)
+              {createdTime &&
+              currentImage.takenAt &&
+              createdTime(currentImage.takenAt)
+                ? createdTime(currentImage.takenAt)
                 : "\u00a0"}
             </Typography>
             <LikeButton image={currentImage} />

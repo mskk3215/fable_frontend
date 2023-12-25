@@ -32,7 +32,7 @@ type Props = {
   handleNextImageClick?: () => void;
   currentImage?: Image;
   parks: Park[];
-  createdTime?: (image: Image) => string;
+  createdTime: (takenAt: string | Date) => string;
   isFollowed?: (followedUserId: number) => boolean;
   viewedUser?: User;
 };
@@ -126,10 +126,10 @@ export const ImageItem = memo((props: Props) => {
                 >
                   {/* 撮影日 */}
                   <CustomTypography variant="body2">
-                    {createdTime && createdTime(image)
-                      ? createdTime(image)
-                      : "\u00a0"}
                   </CustomTypography>
+                  {createdTime && image.takenAt && createdTime(image.takenAt)
+                    ? createdTime(image.takenAt)
+                    : "\u00a0"}
                   {/* 昆虫名 */}
                   <CustomTypography>
                     {image.insectName
