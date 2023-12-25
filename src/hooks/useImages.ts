@@ -10,7 +10,7 @@ import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
 import { HandleGetImages, Image, UseImages } from "../types/images";
 import { User } from "../types/user";
 
-export const useImages = (userId?: number): UseImages => {
+export const useImages = (): UseImages => {
   const loginUser = useRecoilValue<User | undefined>(loginUserState);
   const [isImagesInitialLoading, setIsImagesInitialLoading] =
     useState<boolean>(true);

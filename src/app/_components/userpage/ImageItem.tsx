@@ -24,7 +24,6 @@ type Props = {
   handleRemove?: () => void;
   checked?: boolean;
   isCheckboxVisible: boolean;
-  isDialogVisible: boolean;
   numUserId?: number;
   setCurrentImageIndex?: React.Dispatch<
     React.SetStateAction<number | undefined>
@@ -48,7 +47,6 @@ export const ImageItem = memo((props: Props) => {
     handleRemove,
     checked,
     isCheckboxVisible,
-    isDialogVisible,
     numUserId,
     setCurrentImageIndex,
     handlePrevImageClick,
@@ -74,13 +72,12 @@ export const ImageItem = memo((props: Props) => {
 
   const handleClickImageOpen = useCallback(
     (e: React.MouseEvent) => {
-      if (isDialogVisible === false) return;
       e.stopPropagation();
       setCurrentImageIndex?.(index);
       setImageOpen(true);
       setImageSize({ height: "70vh", width: "auto" });
     },
-    [setCurrentImageIndex, index, isDialogVisible]
+    [setCurrentImageIndex, index]
   );
 
   const handleClickImageClose = useCallback(

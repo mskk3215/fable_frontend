@@ -67,7 +67,7 @@ export const SearchBarInHeader = () => {
             return filtered;
           }}
           renderInput={(params) => {
-            const { InputLabelProps, InputProps, ...rest } = params;
+            const { ...rest } = params;
             return (
               <StyledInputBase
                 {...params.InputProps}

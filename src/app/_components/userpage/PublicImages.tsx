@@ -53,7 +53,7 @@ export default function PublicImages(props: Props) {
     createdTime,
     sortOption,
     setSortOption,
-  } = useImages(numUserId);
+  } = useImages();
   const pageSize = usePageSize();
 
   useEffect(() => {
@@ -112,7 +112,6 @@ export default function PublicImages(props: Props) {
 
   const handleClickImageOpen = useCallback(
     (index: number) => {
-      console.log(loginUser);
       if (loginUser) {
         setImageOpen(true);
         setCurrentImageIndex(index);
@@ -221,7 +220,7 @@ export default function PublicImages(props: Props) {
             }}
           >
             <Box
-              style={{ zIndex: 2 }}
+              style={{ zIndex: 1 }}
               sx={{
                 "&:hover::after": {
                   content: '""',
@@ -231,7 +230,6 @@ export default function PublicImages(props: Props) {
                   right: 0,
                   bottom: 0,
                   backgroundColor: "rgba(255, 255, 255, 0.2)",
-                  zIndex: 1,
                 },
                 paddingTop: "100%",
               }}

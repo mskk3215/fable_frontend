@@ -202,10 +202,10 @@ export const ImageEdit = () => {
   );
 };
 
-const SquareSkeleton = styled(Skeleton)(() => ({
+const SquareSkeleton = styled(Skeleton)({
   backgroundColor: "#eee",
   borderRadius: "4px",
   paddingTop: "100%",
-  position: "relative" as "relative",
+  position: "relative",
   width: "100%",
-}));
+});

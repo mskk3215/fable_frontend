@@ -45,7 +45,7 @@ export const UserPage = () => {
     createdTime,
     sortOption,
     setSortOption,
-  } = useImages(numUserId);
+  } = useImages();
   const pageSize = usePageSize();
 
   // urlが変更されたらページに表示するユーザー、ログインユーザー情報を取得する
@@ -239,7 +239,6 @@ export const UserPage = () => {
                   currentImageIndex={currentImageIndex}
                   maxIndex={images.length - 1}
                   isCheckboxVisible={false}
-                  isDialogVisible={true}
                   numUserId={numUserId}
                   setCurrentImageIndex={setCurrentImageIndex}
                   handlePrevImageClick={handlePrevImageClick}
@@ -282,10 +281,10 @@ export const UserPage = () => {
   );
 };
 
-const SquareSkeleton = styled(Skeleton)(() => ({
+const SquareSkeleton = styled(Skeleton)({
   backgroundColor: "#eee",
   borderRadius: "4px",
   paddingTop: "100%",
-  position: "relative" as "relative",
+  position: "relative",
   width: "100%",
-}));
+});

@@ -30,7 +30,6 @@ type Props = {
   currentImageIndex?: number;
   maxIndex?: number;
   createdTime?: (image: Image) => string;
-  isDialogVisible: boolean;
   imageOpen: boolean;
   imageSize: { height: string; width: string };
   handleClickImageClose: (e: React.MouseEvent) => void;
@@ -48,7 +47,6 @@ export const ImageItemDialog = memo((props: Props) => {
     currentImageIndex,
     maxIndex,
     createdTime,
-    isDialogVisible,
     imageOpen,
     imageSize,
     handleClickImageClose,
@@ -66,7 +64,6 @@ export const ImageItemDialog = memo((props: Props) => {
   return (
     <>
       <Dialog
-        open={isDialogVisible && imageOpen}
         onClose={handleClickImageClose}
         fullWidth={true}
         maxWidth={"xl"}
