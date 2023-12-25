@@ -59,3 +59,4 @@ export const DeletePostButton = memo((props: Props) => {
     </>
   );
 });
+DeletePostButton.displayName = "DeletePostButton";

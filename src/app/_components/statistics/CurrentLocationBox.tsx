@@ -109,3 +109,4 @@ export const CurrentLocationBox = memo((props: Props) => {
     </LoadScriptNext>
   );
 });
+CurrentLocationBox.displayName = "CurrentLocationBox";

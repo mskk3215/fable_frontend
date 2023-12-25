@@ -70,3 +70,4 @@ export const OriginBox = memo((props: Props) => {
     </Autocomplete>
   );
 });
+OriginBox.displayName = "OriginBox";

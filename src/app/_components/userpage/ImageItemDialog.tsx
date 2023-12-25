@@ -270,6 +270,7 @@ export const ImageItemDialog = memo((props: Props) => {
     </>
   );
 });
+ImageItemDialog.displayName = "ImageItemDialog";
 
 const SLink = styled(Link)({
   cursor: "pointer",

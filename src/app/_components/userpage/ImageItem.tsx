@@ -178,6 +178,7 @@ export const ImageItem = memo((props: Props) => {
     </>
   );
 });
+ImageItem.displayName = "ImageItem";
 
 const SquareCard = styled(Card)(() => ({
   backgroundColor: "black",

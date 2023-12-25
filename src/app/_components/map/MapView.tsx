@@ -203,3 +203,4 @@ export const MapView = memo((props: Props) => {
     </GoogleMap>
   );
 });
+MapView.displayName = "MapView";

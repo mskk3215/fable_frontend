@@ -238,3 +238,4 @@ export const PostForm = memo((props: Props) => {
     </>
   );
 });
+PostForm.displayName = "PostForm";

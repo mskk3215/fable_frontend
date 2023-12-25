@@ -427,3 +427,4 @@ export const EditForm = memo((props: Props) => {
     </>
   );
 });
+EditForm.displayName = "EditForm";

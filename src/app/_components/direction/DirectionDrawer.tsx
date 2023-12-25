@@ -346,6 +346,7 @@ export const DirectionDrawer = memo((props: Props) => {
     </Box>
   );
 });
+DirectionDrawer.displayName = "DirectionDrawer";
 
 const IconButtonStyled = styled.div`
   padding: 0 20px;

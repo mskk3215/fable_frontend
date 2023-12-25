@@ -142,3 +142,4 @@ export const InsectSearchBox = memo((props: Props) => {
     />
   );
 });
+InsectSearchBox.displayName = "InsectSearchBox";

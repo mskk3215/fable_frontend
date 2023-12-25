@@ -25,3 +25,4 @@ export const DestinationBox = memo((props: Props) => {
     />
   );
 });
+DestinationBox.displayName = "DestinationBox";

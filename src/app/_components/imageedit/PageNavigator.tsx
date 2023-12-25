@@ -49,3 +49,4 @@ export const PageNavigator = memo((props: Props) => {
     </>
   );
 });
+PageNavigator.displayName = "PageNavigator";

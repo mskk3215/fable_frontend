@@ -57,3 +57,4 @@ export const FollowButton = memo((props: Props) => {
     </>
   );
 });
+FollowButton.displayName = "FollowButton";

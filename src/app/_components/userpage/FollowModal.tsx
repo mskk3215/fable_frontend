@@ -135,3 +135,4 @@ export const FollowModal = memo((props: Props) => {
     </>
   );
 });
+FollowModal.displayName = "FollowModal";

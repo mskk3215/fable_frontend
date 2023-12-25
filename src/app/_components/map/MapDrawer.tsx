@@ -187,6 +187,7 @@ export const MapDrawer = memo((props: Props) => {
     </Box>
   );
 });
+MapDrawer.displayName = "MapDrawer";
 
 const SListItemText = styled(ListItemText)`
   color: red;
