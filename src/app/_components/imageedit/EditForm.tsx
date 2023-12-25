@@ -156,7 +156,7 @@ export const EditForm = memo((props: Props) => {
   //handleInputChangeParkNameでoptionsから選択した公園名とfreeSoloで入力した公園名両方取得できるが
   //optionsから公園名を選択する場合disableとしたいので、handleChangeParkNameとhandleInputChangeParkNameで分けている
   const handleChangeParkName = (
-    e: ChangeEvent<{}>,
+    e: React.SyntheticEvent<Element, Event>,
     newValue: string | ParkOption | null
   ) => {
     if (typeof newValue === "string") return;
@@ -180,7 +180,7 @@ export const EditForm = memo((props: Props) => {
   };
   // 公園名をテキスト入力した時に都道府県名と市町村名をセットする
   const handleInputChangeParkName = (
-    e: ChangeEvent<{}>,
+    e: React.SyntheticEvent<Element, Event>,
     newInputValue: string
   ) => {
     setInputValue(newInputValue);

@@ -71,7 +71,9 @@ export const ProfileEdit = () => {
       if (loginUser === undefined) return;
 
       profileData.append("user[nickname]", profileValues.nickname);
-      profileData.append("user[email]", profileValues.email);
+      if (profileValues.email) {
+        profileData.append("user[email]", profileValues.email);
+      }
       if (selectedImage) {
         profileData.append("user[avatar]", selectedImage);
       }
@@ -96,7 +98,7 @@ export const ProfileEdit = () => {
       setErrors((prev) => [...prev, "アカウント名を入力してください"]);
       return;
     }
-    if (profileValues.email.length < 1) {
+    if (profileValues.email && profileValues.email.length < 1) {
       setErrors((prev) => [...prev, "メールアドレスを入力してください"]);
       return;
     }

@@ -157,10 +157,6 @@ export const ImageEdit = () => {
                         idToIndex(image.id) !== -1
                       }
                       isCheckboxVisible={true}
-                      isDialogVisible={false}
-                      setCurrentImageIndex={() => {}}
-                      handlePrevImageClick={() => {}}
-                      handleNextImageClick={() => {}}
                       parks={parks}
                       createdTime={createdTime}
                     />

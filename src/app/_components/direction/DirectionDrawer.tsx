@@ -49,8 +49,8 @@ type Props = {
   drawerWidth: string | number;
   drawerHeight: string | number;
   isDirectionsLoading: boolean;
-  handleMouseOver: (step: any) => void;
-  handleMouseOut: (step: any) => void;
+  handleMouseOver: (step: Steps) => void;
+  handleMouseOut: (step: Steps) => void;
   isCalculateRouteClicked: boolean;
   setInfoWindowLocationZoomSize: (size: number) => void;
   mapRef?: React.MutableRefObject<google.maps.Map | null>;

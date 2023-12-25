@@ -34,8 +34,8 @@ type Props = {
   imageOpen: boolean;
   imageSize: { height: string; width: string };
   handleClickImageClose: (e: React.MouseEvent) => void;
-  handlePrevImageClick: () => void;
-  handleNextImageClick: () => void;
+  handlePrevImageClick?: () => void;
+  handleNextImageClick?: () => void;
   parks: Park[];
   isFollowed: (followedUserId: number) => boolean;
   viewedUser?: User;
@@ -217,7 +217,7 @@ export const ImageItemDialog = memo((props: Props) => {
           <Button
             onClick={(e) => {
               e.stopPropagation();
-              handlePrevImageClick();
+              handlePrevImageClick?.();
             }}
             sx={{
               position: "fixed",
@@ -239,7 +239,7 @@ export const ImageItemDialog = memo((props: Props) => {
           <Button
             onClick={(e) => {
               e.stopPropagation();
-              handleNextImageClick();
+              handleNextImageClick?.();
             }}
             sx={{
               position: "fixed",

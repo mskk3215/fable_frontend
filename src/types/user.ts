@@ -1,12 +1,12 @@
 export type User = {
   id: number;
   nickname: string;
-  email: string;
+  email?: string;
   avatar?: File;
   following: User[];
 };
 
-export type UserProfileForm = Omit<User, "id" | "following"> & {};
+export type UserProfileForm = Omit<User, "id" | "following">;
 
 export type UserPasswordForm = {
   password: string;

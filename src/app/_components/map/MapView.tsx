@@ -35,7 +35,7 @@ type Props = {
     instruction: string;
     latLng: { lat: number; lng: number };
   };
-  isDirectionLoading: boolean;
+  isDirectionLoading?: boolean;
   infoWindowLocationZoomSize?: number;
   mapRef?: React.MutableRefObject<google.maps.Map | null>;
 };

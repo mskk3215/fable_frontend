@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, memo, ChangeEvent, useState } from "react";
+import React, { useCallback, memo, useState } from "react";
 import { ImageItemDialog } from "./ImageItemDialog";
 import {
   Card,
@@ -26,11 +26,11 @@ type Props = {
   isCheckboxVisible: boolean;
   isDialogVisible: boolean;
   numUserId?: number;
-  setCurrentImageIndex: React.Dispatch<
+  setCurrentImageIndex?: React.Dispatch<
     React.SetStateAction<number | undefined>
   >;
-  handlePrevImageClick: () => void;
-  handleNextImageClick: () => void;
+  handlePrevImageClick?: () => void;
+  handleNextImageClick?: () => void;
   currentImage?: Image;
   parks: Park[];
   createdTime?: (image: Image) => string;
@@ -60,16 +60,13 @@ export const ImageItem = memo((props: Props) => {
     viewedUser,
   } = props;
   // checkboxの切り替え
-  const handleCheckBoxChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      if (checked) {
-        handleRemove?.();
-      } else {
-        handleSelect?.();
-      }
-    },
-    [checked, handleSelect, handleRemove]
-  );
+  const handleCheckBoxChange = useCallback(() => {
+    if (checked) {
+      handleRemove?.();
+    } else {
+      handleSelect?.();
+    }
+  }, [checked, handleSelect, handleRemove]);
 
   // DialogのOpen/Close
   const [imageOpen, setImageOpen] = useState<boolean>(false);
@@ -79,7 +76,7 @@ export const ImageItem = memo((props: Props) => {
     (e: React.MouseEvent) => {
       if (isDialogVisible === false) return;
       e.stopPropagation();
-      setCurrentImageIndex(index);
+      setCurrentImageIndex?.(index);
       setImageOpen(true);
       setImageSize({ height: "70vh", width: "auto" });
     },
@@ -89,7 +86,7 @@ export const ImageItem = memo((props: Props) => {
   const handleClickImageClose = useCallback(
     (e: React.MouseEvent) => {
       e.stopPropagation();
-      setCurrentImageIndex(undefined);
+      setCurrentImageIndex?.(undefined);
       setImageOpen(false);
     },
     [setCurrentImageIndex]

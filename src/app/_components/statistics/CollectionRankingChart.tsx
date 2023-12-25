@@ -88,7 +88,7 @@ export const CollectionRankingChart = (props: Props) => {
         },
       },
     },
-    onClick: function (_, array: ActiveElement[] | BarElement[]) {
+    onClick: function (_: unknown, array: ActiveElement[] | BarElement[]) {
       if (array.length > 0) {
         const chartElement = array[0] as ActiveElement;
         const index = chartElement.index;

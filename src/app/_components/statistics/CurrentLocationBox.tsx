@@ -43,7 +43,7 @@ export const CurrentLocationBox = memo((props: Props) => {
 
   // Geocoding APIを使用して、住所から緯度経度を取得する
   const getLatLng = (address: string) => {
-    return new Promise<{ lat: number; lng: number }>((resolve, reject) => {
+    return new Promise<{ lat: number; lng: number }>((resolve) => {
       const geocoder = new google.maps.Geocoder();
       geocoder.geocode({ address }, (results, status) => {
         if (status === google.maps.GeocoderStatus.OK && results) {

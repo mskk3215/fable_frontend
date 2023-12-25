@@ -122,7 +122,7 @@ export const CollectionStatusTable = (props: Props) => {
     return 0;
   }
 
-  function getComparator<Key extends keyof any>(
+  function getComparator<Key extends keyof TableData>(
     order: Order,
     orderBy: Key
   ): (
