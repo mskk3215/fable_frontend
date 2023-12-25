@@ -64,6 +64,7 @@ export const ImageItemDialog = memo((props: Props) => {
   return (
     <>
       <Dialog
+        open={imageOpen}
         onClose={handleClickImageClose}
         fullWidth={true}
         maxWidth={"xl"}
