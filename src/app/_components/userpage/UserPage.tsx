@@ -175,7 +175,11 @@ export const UserPage = () => {
             </Box>
           )}
         </Box>
-        <Typography>{viewedUser?.nickname}</Typography>
+        {isImagesInitialLoading ? (
+          <Typography>Loading...</Typography>
+        ) : (
+          <Typography>{viewedUser?.nickname}</Typography>
+        )}
         <Typography>投稿枚数：{totalImagesCount}枚</Typography>
         {loginUser?.id === viewedUser?.id ? (
           <FollowModal
