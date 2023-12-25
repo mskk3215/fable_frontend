@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef, memo } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import Image from "next/image";
 import {
   selectedCenterState,
   selectedItemState,
@@ -165,12 +166,12 @@ export const MapDrawer = memo((props: Props) => {
                       }
                     />
                     <ListItemAvatar>
-                      <img
+                      <Image
                         src={result.image[0]}
                         alt="avatar"
+                        width={100}
+                        height={100}
                         style={{
-                          width: "100px",
-                          height: "100px",
                           borderRadius: "10%",
                         }}
                       />

@@ -102,6 +102,7 @@ export const ImageItemDialog = memo((props: Props) => {
               maxHeight: "60vh",
             }}
           >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={currentImage.image}
               alt="currentImageImage"

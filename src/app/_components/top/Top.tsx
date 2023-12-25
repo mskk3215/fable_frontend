@@ -2,25 +2,19 @@
 
 import React from "react";
 import { usePageSize } from "../../../hooks/usePageSize";
-import {
-  Container,
-  Grid,
-  Typography,
-  Paper,
-  ImageListItem,
-  Box,
-} from "@mui/material";
-
 export const Top = () => {
   const pageSize = usePageSize();
+import Image from "next/image";
+import { Container, Grid, Typography, Paper, Box } from "@mui/material";
 
   return (
     <>
-      <Box sx={{ width: "100%", overflow: "hidden" }}>
-        <img
+      <Box sx={{ width: "100%", height: "75vh", position: "relative" }}>
+        <Image
           src="/images/top0.png"
-          alt="トップ画像"
-          style={{ width: "100%", height: "75vh", objectFit: "cover" }}
+          alt="fablre insect searchのトップページの画像"
+          layout="fill"
+          objectFit="cover"
         />
         <Typography
           variant="h4"
@@ -60,11 +54,13 @@ export const Top = () => {
               <Paper
                 component="div"
                 variant="outlined"
-                sx={{ maxHeight: "300px", overflow: "hidden" }}
+                sx={{ width: "100%", height: "35vh", position: "relative" }}
               >
-                <ImageListItem>
-                  <img src="/images/top1.png" alt="公園検索の画像" />
-                </ImageListItem>
+                <Image
+                  src="/images/top1.png"
+                  alt="公園検索の画像"
+                  layout="fill"
+                />
               </Paper>
             </Grid>
             <Grid
@@ -119,11 +115,13 @@ export const Top = () => {
               <Paper
                 component="div"
                 variant="outlined"
-                sx={{ maxHeight: "300px", overflow: "hidden" }}
+                sx={{ width: "100%", height: "35vh", position: "relative" }}
               >
-                <ImageListItem>
-                  <img src="/images/top2.png" alt="画像投稿の画像" />
-                </ImageListItem>
+                <Image
+                  src="/images/top2.png"
+                  alt="画像投稿の画像"
+                  layout="fill"
+                />
               </Paper>
             </Grid>
           </Grid>
@@ -139,11 +137,9 @@ export const Top = () => {
               <Paper
                 component="div"
                 variant="outlined"
-                sx={{ maxHeight: "300px", overflow: "hidden" }}
+                sx={{ width: "100%", height: "35vh", position: "relative" }}
               >
-                <ImageListItem>
-                  <img src="/images/top3.png" alt="分析の画像" />
-                </ImageListItem>
+                <Image src="/images/top3.png" alt="分析の画像" layout="fill" />
               </Paper>
             </Grid>
             <Grid
