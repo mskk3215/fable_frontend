@@ -76,14 +76,14 @@ export const InsectSearchBox = memo((props: Props) => {
         setSearchWord(newValue || "");
       }}
       onInputChange={(e, newInputValue) => {
-        let convertedInputValue = convertHiraganaToKatakana(newInputValue);
+        const convertedInputValue = convertHiraganaToKatakana(newInputValue);
         setQueryWord(convertedInputValue);
       }}
       options={insectOptions}
       noOptionsText="昆虫名を入力してください"
       filterOptions={(options, params) => {
         const filtered = options.filter((option) => {
-          let inputValue = convertHiraganaToKatakana(params.inputValue);
+          const inputValue = convertHiraganaToKatakana(params.inputValue);
           return option.includes(inputValue);
         });
         return filtered;

@@ -29,7 +29,7 @@ export const useUsers = () => {
       setLoginUser(undefined);
       // フォロー状態をfalseに初期化する
       if (response.data.user && response.data.user.following) {
-        let newFollowState: { [key: number]: boolean } = { ...followUser };
+        const newFollowState: { [key: number]: boolean } = { ...followUser };
         response.data.user.following.forEach((user: User) => {
           newFollowState[user.id] = false;
         });

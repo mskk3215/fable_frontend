@@ -249,7 +249,7 @@ export const EditForm = memo((props: Props) => {
                 setInsectSex(value ? "" : "");
               }}
               onInputChange={(e, newInputValue) => {
-                let convertedInputValue =
+                const convertedInputValue =
                   convertHiraganaToKatakana(newInputValue);
                 setQueryWord(convertedInputValue);
               }}
@@ -260,7 +260,9 @@ export const EditForm = memo((props: Props) => {
               noOptionsText="昆虫名を入力してください"
               filterOptions={(options, params) => {
                 const filtered = options.filter((option) => {
-                  let inputValue = convertHiraganaToKatakana(params.inputValue);
+                  const inputValue = convertHiraganaToKatakana(
+                    params.inputValue
+                  );
                   return option.includes(inputValue);
                 });
                 return filtered;
