@@ -1,12 +1,8 @@
-"use client";
-
 import React from "react";
-import { usePageSize } from "../../../hooks/usePageSize";
-export const Top = () => {
-  const pageSize = usePageSize();
 import Image from "next/image";
 import { Container, Grid, Typography, Paper, Box } from "@mui/material";
 
+export default function Top() {
   return (
     <>
       <Box sx={{ width: "100%", height: "75vh", position: "relative" }}>
@@ -19,10 +15,10 @@ import { Container, Grid, Typography, Paper, Box } from "@mui/material";
         <Typography
           variant="h4"
           color="primary"
-          style={{
+          sx={{
             position: "absolute",
             top: "50%",
-            right: pageSize > 15 ? "20%" : "5%",
+            right: { xs: "5%", md: "10%", xl: "15%" },
             transform: "translateY(-50%)",
             color: "white",
             textAlign: "center",
@@ -30,7 +26,7 @@ import { Container, Grid, Typography, Paper, Box } from "@mui/material";
             maxWidth: "40%",
             whiteSpace: "normal",
             wordWrap: "break-word",
-            fontSize: pageSize > 6 ? "2rem" : "1rem",
+            fontSize: { xs: "1rem", sm: "1.5rem", xl: "2rem" },
           }}
         >
           新たな昆虫採集の地を見つけ、 <br />
@@ -168,4 +164,4 @@ import { Container, Grid, Typography, Paper, Box } from "@mui/material";
       </Container>
     </>
   );
-};
+}
