@@ -3,12 +3,11 @@
 import React, { useCallback, memo, useState } from "react";
 import { ImageItemDialog } from "./ImageItemDialog";
 import {
+  Box,
   Card,
-  CardContent,
   CardMedia,
   Checkbox,
   FormControlLabel,
-  Typography,
   styled,
 } from "@mui/material";
 import { Image } from "../../../types/images";
@@ -57,6 +56,7 @@ export const ImageItem = memo((props: Props) => {
     isFollowed,
     viewedUser,
   } = props;
+
   // checkboxの切り替え
   const handleCheckBoxChange = useCallback(() => {
     if (checked) {
@@ -115,57 +115,52 @@ export const ImageItem = memo((props: Props) => {
                     style={{ position: "absolute", top: 5, right: 5 }}
                   />
                 )}
-                <CardContent
-                  style={{
+                <Box
+                  sx={{
                     position: "absolute",
-                    bottom: -20,
-                    left: -10,
-                    width: "100%",
                     color: "white",
+                    bottom: 0,
+                    left: 0,
+                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                    padding: "5px",
+                    fontSize: "12px",
                   }}
                 >
                   {/* 撮影日 */}
-                  <CustomTypography variant="body2">
-                  </CustomTypography>
                   {createdTime && image.takenAt && createdTime(image.takenAt)
                     ? createdTime(image.takenAt)
                     : "\u00a0"}
+                  <br />
                   {/* 昆虫名 */}
-                  <CustomTypography>
-                    {image.insectName
-                      ? `${image.insectName}(${image.insectSex})`
-                      : "\u00a0"}
-                  </CustomTypography>
+                  {image.insectName
+                    ? `${image.insectName}(${image.insectSex})`
+                    : "\u00a0"}
+                  <br />
                   {/* 公園名 or 市町村名 */}
-                  <CustomTypography>
-                    {image.parkId !== undefined && parks[image.parkId - 1]?.name
-                      ? parks[image.parkId - 1]?.name
-                      : image.cityName}
-                  </CustomTypography>
-                </CardContent>
+                  {image.parkId !== undefined && parks[image.parkId - 1]?.name
+                    ? parks[image.parkId - 1]?.name
+                    : image.cityName}
+                </Box>
               </Card>
             }
             label="card"
           />
           {currentImage && isFollowed && (
-            <>
-              <ImageItemDialog
-                numUserId={numUserId}
-                currentImage={currentImage}
-                currentImageIndex={currentImageIndex}
-                maxIndex={maxIndex}
-                createdTime={createdTime}
-                isDialogVisible={isDialogVisible}
-                imageOpen={imageOpen}
-                imageSize={imageSize}
-                handleClickImageClose={handleClickImageClose}
-                handlePrevImageClick={handlePrevImageClick}
-                handleNextImageClick={handleNextImageClick}
-                parks={parks}
-                isFollowed={isFollowed}
-                viewedUser={viewedUser}
-              />
-            </>
+            <ImageItemDialog
+              numUserId={numUserId}
+              currentImage={currentImage}
+              currentImageIndex={currentImageIndex}
+              maxIndex={maxIndex}
+              createdTime={createdTime}
+              imageOpen={imageOpen}
+              imageSize={imageSize}
+              handleClickImageClose={handleClickImageClose}
+              handlePrevImageClick={handlePrevImageClick}
+              handleNextImageClick={handleNextImageClick}
+              parks={parks}
+              isFollowed={isFollowed}
+              viewedUser={viewedUser}
+            />
           )}
         </SquareCard>
       )}
@@ -186,9 +181,3 @@ const SquareCard = styled(Card)(() => ({
   overflow: "hidden",
   "&:hover": { opacity: 0.8 },
 }));
-
-const CustomTypography = styled(Typography)`
-  && {
-    font-size: 12px;
-  }
-`;
