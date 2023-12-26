@@ -1,12 +1,25 @@
 import React from "react";
 import PublicImages from "../../../_components/userpage/PublicImages";
 import PublicProfile from "../../../_components/userpage/PublicProfile";
+import { Metadata } from "next";
 
 type Props = {
   params: {
     userId: string;
   };
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const id = params.userId;
+  const data = await fetch(
+    `${process.env.url}/api/v1/users?user_id=${id}`
+  ).then((res) => res.json());
+
+  return {
+    title: `${data.user.nickname}`,
+    description: `${data.user.nickname}の昆虫採集画像一覧のページ`,
+  };
+}
 
 async function fetchProfileInfo(id: string) {
   const res = await fetch(`${process.env.url}/api/v1/users?user_id=${id}`, {

@@ -1,11 +1,15 @@
 import "./global.css";
+import { Metadata } from "next";
 import StyledComponentsRegistry from "./_lib/registry";
 import RecoilProvider from "./provider";
 import { MessageToast } from "./_components/MessageToast";
 import { Header } from "./_components/headerfotter/Header";
 
-export const metadata = {
-  title: "fabre insect search",
+export const metadata: Metadata = {
+  title: {
+    template: "%s - fabre insect search",
+    default: "fabre",
+  },
   description: "fabre insect search",
 };
 

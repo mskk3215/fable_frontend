@@ -1,5 +1,11 @@
-import { Top } from "../app/_components/top/Top";
+import Top from "./_components/top/Top";
 import { Footer } from "./_components/headerfotter/Footer";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "トップ - fabre insect search",
+  description: "昆虫採集をする人向けのアプリ:fabre insect searchのトップページ",
+};
 
 export default function TopPage() {
   return (
