@@ -53,17 +53,12 @@ export default function PublicImages(props: Props) {
     createdTime,
     sortOption,
     setSortOption,
-  } = useImages();
+  } = useImages(convertSSRImageToImage(latestImages));
   const pageSize = usePageSize();
 
   useEffect(() => {
     handleGetUser(numUserId);
   }, [numUserId]);
-
-  // SSR input for public
-  useEffect(() => {
-    setImages(convertSSRImageToImage(latestImages));
-  }, [latestImages]);
 
   // CSR input for login user
   useEffect(() => {

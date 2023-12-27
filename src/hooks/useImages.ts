@@ -10,7 +10,7 @@ import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
 import { HandleGetImages, Image, UseImages } from "../types/images";
 import { User } from "../types/user";
 
-export const useImages = (): UseImages => {
+export const useImages = (latestImages?: Image[]): UseImages => {
   const loginUser = useRecoilValue<User | undefined>(loginUserState);
   const [isImagesInitialLoading, setIsImagesInitialLoading] =
     useState<boolean>(true);
@@ -25,7 +25,9 @@ export const useImages = (): UseImages => {
   useGetRequestErrorAction();
 
   // 画像情報
-  const [images, setImages] = useState<Image[]>([]);
+  const [images, setImages] = useState<Image[]>(
+    latestImages ? latestImages : []
+  ); // 初期値としてSSRのデータをセットする
   // いいね情報
   const setLikedImage = useSetRecoilState(likedImageState);
   const setLikedCount = useSetRecoilState(likedCountState);
