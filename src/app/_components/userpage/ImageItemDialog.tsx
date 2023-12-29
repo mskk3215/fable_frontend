@@ -174,7 +174,6 @@ export const ImageItemDialog = memo((props: Props) => {
                   : "\u00a0"}
               </SLink>
             </Box>
-
             <Box
               sx={{
                 fontSize: {
@@ -193,7 +192,7 @@ export const ImageItemDialog = memo((props: Props) => {
                 }}
               >
                 {currentImage.parkId &&
-                  (parks[currentImage.parkId - 1].name ||
+                  (parks[currentImage.parkId - 1]?.name ||
                     currentImage.cityName)}
               </SLink>
             </Box>
@@ -263,6 +262,9 @@ export const ImageItemDialog = memo((props: Props) => {
             top: "1%",
             zIndex: 1501,
             color: "darkgray",
+            "&:hover": {
+              backgroundColor: "transparent",
+            },
           }}
         >
           <Cancel />
