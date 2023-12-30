@@ -175,7 +175,7 @@ export const UserPage = () => {
             </Box>
           )}
         </Box>
-        {isImagesInitialLoading ? (
+        {isImagesInitialLoading || !viewedUser ? (
           <Typography>Loading...</Typography>
         ) : (
           <Typography>{viewedUser?.nickname}</Typography>
