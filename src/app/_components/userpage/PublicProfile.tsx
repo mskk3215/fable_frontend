@@ -23,7 +23,7 @@ export default function PublicProfile(props: Props) {
   useEffect(() => {
     handleGetUser(numUserId);
     setFollowOpen(false);
-  }, [numUserId]);
+  }, [numUserId, loginUser]);
 
   // フォロー一覧モーダルの開閉
   const [followOpen, setFollowOpen] = useState(false);

@@ -58,7 +58,7 @@ export default function PublicImages(props: Props) {
 
   useEffect(() => {
     handleGetUser(numUserId);
-  }, [numUserId]);
+  }, [numUserId, loginUser]);
 
   // CSR input for login user
   useEffect(() => {
@@ -105,27 +105,21 @@ export default function PublicImages(props: Props) {
     number | undefined
   >(undefined);
 
-  const handleClickImageOpen = useCallback(
-    (index: number) => {
-      if (loginUser) {
-        setImageOpen(true);
-        setCurrentImageIndex(index);
-        setImageSize({ height: "70vh", width: "auto" });
-      } else {
-        handleLoginAlertModalOpen();
-      }
-    },
-    [setCurrentImageIndex]
-  );
+  const handleClickImageOpen = (index: number) => {
+    if (loginUser) {
+      setImageOpen(true);
+      setCurrentImageIndex(index);
+      setImageSize({ height: "70vh", width: "auto" });
+    } else {
+      handleLoginAlertModalOpen();
+    }
+  };
 
-  const handleClickImageClose = useCallback(
-    (e: React.MouseEvent) => {
-      e.stopPropagation();
-      setCurrentImageIndex(undefined);
-      setImageOpen(false);
-    },
-    [setCurrentImageIndex]
-  );
+  const handleClickImageClose = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrentImageIndex(undefined);
+    setImageOpen(false);
+  }, []);
 
   const handleNextImageClick = useCallback(() => {
     if (
@@ -145,9 +139,9 @@ export default function PublicImages(props: Props) {
   // LoginAlertModal
   const [loginAlertOpen, setLoginAlertOpen] = useState<boolean>(false);
 
-  const handleLoginAlertModalOpen = useCallback(() => {
+  const handleLoginAlertModalOpen = () => {
     setLoginAlertOpen(true);
-  }, []);
+  };
 
   const handleLoginAlertModalClose = useCallback(() => {
     setLoginAlertOpen(false);
@@ -267,7 +261,7 @@ export default function PublicImages(props: Props) {
         ))}
       </Grid>
       {/* 詳細画像ダイアログ */}
-      {imageOpen && currentImageIndex !== undefined && (
+      {imageOpen && currentImageIndex !== undefined && parks && (
         <ImageItemDialog
           numUserId={numUserId}
           currentImage={images[currentImageIndex]}
@@ -285,7 +279,7 @@ export default function PublicImages(props: Props) {
         />
       )}
       {/* ログインアラート */}
-      {loginAlertOpen && (
+      {!imageOpen && loginAlertOpen && (
         <LoginAlertModal
           loginAlertOpen={loginAlertOpen}
           handleLoginAlertModalClose={handleLoginAlertModalClose}
