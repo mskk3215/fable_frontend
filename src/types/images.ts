@@ -13,6 +13,15 @@ export type Image = {
   likesCount: number;
   likedUserIds?: number[];
 };
+export type SSRImage = {
+  id: number;
+  image: string;
+  insect_name: string;
+  insect_sex: string;
+  city_name: string;
+  taken_at: Date;
+};
+
 export type HandleGetImages = (
   pageSize: number,
   userId?: number,
@@ -26,7 +35,7 @@ export type UseImages = {
   handleGetMoreImages: HandleGetImages;
   updateLikedImage: (allImageData?: Image[]) => void;
   updatedLikedCount: (allImageData?: Image[]) => void;
-  createdTime?: (image: Image) => string;
+  createdTime: (takenAt: string | Date) => string;
   isImagesLoading: boolean;
   isImagesInitialLoading: boolean;
   imagePage: number;

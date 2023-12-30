@@ -14,8 +14,21 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.js",
+    ".next/types/**/*.ts",
+    "server.js"
+  ],
   // "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "jest.config.js"]
+  "exclude": ["node_modules"]
 }

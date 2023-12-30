@@ -29,7 +29,7 @@ export const useUsers = () => {
       setLoginUser(undefined);
       // フォロー状態をfalseに初期化する
       if (response.data.user && response.data.user.following) {
-        let newFollowState: { [key: number]: boolean } = { ...followUser };
+        const newFollowState: { [key: number]: boolean } = { ...followUser };
         response.data.user.following.forEach((user: User) => {
           newFollowState[user.id] = false;
         });
@@ -40,6 +40,7 @@ export const useUsers = () => {
 
   // ユーザー情報を取得する
   const handleGetUser = async (userId?: number) => {
+    if (loginUser === undefined) return;
     // ログインユーザー情報を更新する。
     const loginUserData = await getUser(undefined);
     // 現在のユーザー情報と取得したユーザーが異なる場合のみ更新する

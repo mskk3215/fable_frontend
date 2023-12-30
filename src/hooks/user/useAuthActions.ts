@@ -1,5 +1,5 @@
-import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
+import { useRouter } from "next/navigation";
 import { loginUserState } from "../../store/atoms/userAtom";
 import { messageState } from "../../store/atoms/errorAtom";
 import { createUser, userLogin } from "../../urls";
@@ -19,7 +19,7 @@ export const useAuthActions = () => {
   const setLoginUser = useSetRecoilState<User | undefined>(loginUserState);
   const setMessage = useSetRecoilState(messageState);
 
-  const navigate = useNavigate();
+  const router = useRouter();
 
   // 新規登録
   const handleUserRegistrationAction = ({
@@ -44,7 +44,7 @@ export const useAuthActions = () => {
       .then((response: AuthResponse) => {
         if (response.data.registered) {
           handleSuccessfulAuthentication(response.data);
-          navigate("/");
+          router.push("/");
           setMessage({
             message: "登録が完了しました。",
             type: "success",
@@ -73,7 +73,7 @@ export const useAuthActions = () => {
       .then((response: AuthResponse) => {
         if (response.data.loggedIn) {
           handleSuccessfulAuthentication(response.data);
-          navigate("/postlist");
+          router.push("/postlist");
           setMessage({ message: "ログインしました。", type: "success" });
         }
       })
