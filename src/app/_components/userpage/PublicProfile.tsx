@@ -9,6 +9,7 @@ import { FollowModal } from "./FollowModal";
 import { useUsers } from "../../../hooks/user/useUsers";
 import { CopyToTheLink } from "./CopyToTheLink";
 import { User } from "../../../types/user";
+import ShareButtons from "./ShareButton";
 
 type Props = {
   profileInfo: User;
@@ -71,6 +72,7 @@ export default function PublicProfile(props: Props) {
           }}
         />
         <CopyToTheLink />
+        <ShareButtons title={`${profileInfo?.nickname}が採集した昆虫一覧`} />
         {loginUser && (
           <>
             {loginUser?.id === profileInfo?.id && (
