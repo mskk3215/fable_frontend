@@ -13,6 +13,7 @@ import { useUsers } from "../../../hooks/user/useUsers";
 import { useImages } from "../../../hooks/useImages";
 import { useParks } from "../../../hooks/useParks";
 import { usePageSize } from "../../../hooks/usePageSize";
+import { CopyToTheLink } from "./CopyToTheLink";
 import Box from "@mui/system/Box";
 import Grid from "@mui/material/Grid";
 import {
@@ -146,7 +147,6 @@ export const UserPage = () => {
                 sx={{
                   position: "absolute",
                   top: -50,
-                  right: -40,
                   cursor: "pointer",
                   textDecoration: "none",
                   "&:hover": {
@@ -164,6 +164,7 @@ export const UserPage = () => {
                 position: "absolute",
                 right: -100,
                 top: 0,
+                right: -60,
               }}
             >
               {numUserId && (
@@ -174,6 +175,7 @@ export const UserPage = () => {
               )}
             </Box>
           )}
+          <CopyToTheLink />
         </Box>
         {isImagesInitialLoading || !viewedUser ? (
           <Typography>Loading...</Typography>

@@ -7,6 +7,7 @@ import { Avatar, Box, ButtonBase, Typography } from "@mui/material";
 import { FollowButton } from "../FollowButton";
 import { FollowModal } from "./FollowModal";
 import { useUsers } from "../../../hooks/user/useUsers";
+import { CopyToTheLink } from "./CopyToTheLink";
 import { User } from "../../../types/user";
 
 type Props = {
@@ -69,6 +70,7 @@ export default function PublicProfile(props: Props) {
             marginRight: "auto",
           }}
         />
+        <CopyToTheLink />
         {loginUser && (
           <>
             {loginUser?.id === profileInfo?.id && (
@@ -78,7 +80,7 @@ export default function PublicProfile(props: Props) {
                   sx={{
                     position: "absolute",
                     top: -50,
-                    right: -40,
+                    right: -60,
                     cursor: "pointer",
                     textDecoration: "none",
                     "&:hover": {
