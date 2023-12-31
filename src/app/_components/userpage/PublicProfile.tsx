@@ -7,9 +7,8 @@ import { Avatar, Box, ButtonBase, Typography } from "@mui/material";
 import { FollowButton } from "../FollowButton";
 import { FollowModal } from "./FollowModal";
 import { useUsers } from "../../../hooks/user/useUsers";
-import { CopyToTheLink } from "./CopyToTheLink";
 import { User } from "../../../types/user";
-import ShareButtons from "./ShareButton";
+import { ShareMenuButton } from "./ShareMenuButton";
 
 type Props = {
   profileInfo: User;
@@ -71,8 +70,7 @@ export default function PublicProfile(props: Props) {
             marginRight: "auto",
           }}
         />
-        <CopyToTheLink />
-        <ShareButtons title={`${profileInfo?.nickname}が採集した昆虫一覧`} />
+        <ShareMenuButton profileInfo={profileInfo} />
         {loginUser && (
           <>
             {loginUser?.id === profileInfo?.id && (
@@ -81,8 +79,8 @@ export default function PublicProfile(props: Props) {
                   variant="body1"
                   sx={{
                     position: "absolute",
-                    top: -50,
-                    right: -60,
+                    top: -30,
+                    right: -55,
                     cursor: "pointer",
                     textDecoration: "none",
                     "&:hover": {
@@ -99,7 +97,7 @@ export default function PublicProfile(props: Props) {
                 sx={{
                   position: "absolute",
                   right: -100,
-                  top: 0,
+                  top: 30,
                 }}
               >
                 {numUserId && (

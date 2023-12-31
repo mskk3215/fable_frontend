@@ -13,7 +13,6 @@ import { useUsers } from "../../../hooks/user/useUsers";
 import { useImages } from "../../../hooks/useImages";
 import { useParks } from "../../../hooks/useParks";
 import { usePageSize } from "../../../hooks/usePageSize";
-import { CopyToTheLink } from "./CopyToTheLink";
 import Box from "@mui/system/Box";
 import Grid from "@mui/material/Grid";
 import {
@@ -25,6 +24,7 @@ import {
   Typography,
 } from "@mui/material";
 import styled from "styled-components";
+import { ShareMenuButton } from "./ShareMenuButton";
 
 export const UserPage = () => {
   const loginUser = useRecoilValue(loginUserState);
@@ -160,6 +160,7 @@ export const UserPage = () => {
           )}
           {loginUser?.id !== viewedUser?.id && (
             <Box
+          {viewedUser && <ShareMenuButton profileInfo={viewedUser} />}
               sx={{
                 position: "absolute",
                 right: -100,
@@ -175,7 +176,6 @@ export const UserPage = () => {
               )}
             </Box>
           )}
-          <CopyToTheLink />
         </Box>
         {isImagesInitialLoading || !viewedUser ? (
           <Typography>Loading...</Typography>

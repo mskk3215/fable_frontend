@@ -2,13 +2,16 @@ import React from "react";
 import { useSetRecoilState } from "recoil";
 import { messageState } from "../../../store/atoms/errorAtom";
 import { InsertLink } from "@mui/icons-material";
-import { Button, Tooltip } from "@mui/material";
+import { IconButton, Tooltip, Typography } from "@mui/material";
 
-export const CopyToTheLink = () => {
+type Props = {
+  url: string;
+};
+export const CopyToTheLink = (props: Props) => {
+  const { url } = props;
   const setMessage = useSetRecoilState(messageState);
 
   const handleCopyToTheLink = () => {
-    const url = window.location.href;
     navigator.clipboard.writeText(url);
 
     setMessage({
@@ -20,22 +23,22 @@ export const CopyToTheLink = () => {
   return (
     <>
       <Tooltip title="リンクをコピー" placement="right">
-        <Button
+        <IconButton
           sx={{
-            position: "absolute",
-            top: 50,
-            right: -75,
+            p: 0,
+            m: 0,
+            gap: 1,
             cursor: "pointer",
-            textDecoration: "none",
             color: "black",
             "&:hover": {
-              backgroundColor: "transparent !important",
+              backgroundColor: "transparent",
             },
           }}
           onClick={handleCopyToTheLink}
         >
           <InsertLink />
-        </Button>
+          <Typography variant="body2">リンクをコピー</Typography>
+        </IconButton>
       </Tooltip>
     </>
   );
