@@ -27,7 +27,7 @@ export const ShareMenuButton = (props: Props) => {
     if (pathname === "/userpage") {
       return `${process.env.NEXT_PUBLIC_URL}/userpage/${loginUser?.id}`;
     } else {
-      return window.location.href;
+      return `${process.env.NEXT_PUBLIC_URL}${pathname}`;
     }
   };
   const sharedUrl = determineUrl();
@@ -65,6 +65,7 @@ export const ShareMenuButton = (props: Props) => {
             <TwitterShareButton
               url={sharedUrl}
               title={`${profileInfo?.nickname}が採集した昆虫一覧`}
+              hashtags={["昆虫採集", "fabre"]}
             >
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                 <TwitterIcon size={30} />
