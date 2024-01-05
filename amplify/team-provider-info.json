@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-fablefrontend-dev-184159-authRole",
+      "UnauthRoleArn": "arn:aws:iam::848717603339:role/amplify-fablefrontend-dev-184159-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::848717603339:role/amplify-fablefrontend-dev-184159-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-fablefrontend-dev-184159-deployment",
+      "UnauthRoleName": "amplify-fablefrontend-dev-184159-unauthRole",
+      "StackName": "amplify-fablefrontend-dev-184159",
+      "StackId": "arn:aws:cloudformation:us-east-1:848717603339:stack/amplify-fablefrontend-dev-184159/84521a70-aae5-11ee-b77a-0e28fdf732d9",
+      "AmplifyAppId": "d3byc9gkg4n8pd"
+    },
+    "categories": {
+      "hosting": {
+        "S3AndCloudFront": {}
+      }
+    }
+  }
+}
