@@ -1,15 +1,15 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-fablefrontend-dev-184159-authRole",
-      "UnauthRoleArn": "arn:aws:iam::848717603339:role/amplify-fablefrontend-dev-184159-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::848717603339:role/amplify-fablefrontend-dev-184159-authRole",
+      "AuthRoleName": "amplify-fabre-dev-150503-authRole",
+      "UnauthRoleArn": "arn:aws:iam::848717603339:role/amplify-fabre-dev-150503-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::848717603339:role/amplify-fabre-dev-150503-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-fablefrontend-dev-184159-deployment",
-      "UnauthRoleName": "amplify-fablefrontend-dev-184159-unauthRole",
-      "StackName": "amplify-fablefrontend-dev-184159",
-      "StackId": "arn:aws:cloudformation:us-east-1:848717603339:stack/amplify-fablefrontend-dev-184159/84521a70-aae5-11ee-b77a-0e28fdf732d9",
-      "AmplifyAppId": "d3byc9gkg4n8pd"
+      "DeploymentBucketName": "amplify-fabre-dev-150503-deployment",
+      "UnauthRoleName": "amplify-fabre-dev-150503-unauthRole",
+      "StackName": "amplify-fabre-dev-150503",
+      "StackId": "arn:aws:cloudformation:us-east-1:848717603339:stack/amplify-fabre-dev-150503/8b659060-ac59-11ee-b5c8-0ebb856fbbe1",
+      "AmplifyAppId": "d348uluamm8411"
     },
     "categories": {
       "hosting": {
