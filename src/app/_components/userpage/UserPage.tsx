@@ -1,10 +1,8 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { loginUserState } from "../../../store/atoms/userAtom";
 import { ImageItem } from "./ImageItem";
 import { FollowModal } from "./FollowModal";
 import { FollowButton } from "../FollowButton";
@@ -24,9 +22,9 @@ import {
   Typography,
 } from "@mui/material";
 import styled from "styled-components";
+import { ShareMenuButton } from "./ShareMenuButton";
 
 export const UserPage = () => {
-  const loginUser = useRecoilValue(loginUserState);
   const { handleGetUser, isFollowed, viewedUser } = useUsers();
   const { parks } = useParks();
 
@@ -108,9 +106,11 @@ export const UserPage = () => {
   }, [isImagesLoading]);
 
   return (
-    <Box sx={{ width: "100%", marginTop: "70px" }}>
+    <>
       <Box
         sx={{
+          width: "100%",
+          marginTop: "70px",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
@@ -139,41 +139,38 @@ export const UserPage = () => {
               marginRight: "auto",
             }}
           />
-          {loginUser?.id === viewedUser?.id && (
-            <ButtonBase component={Link} href={`/profileedit`}>
-              <Typography
-                variant="body1"
-                sx={{
-                  position: "absolute",
-                  top: -50,
-                  right: -40,
-                  cursor: "pointer",
-                  textDecoration: "none",
-                  "&:hover": {
-                    textDecoration: "underline",
-                  },
-                }}
-              >
-                編集
-              </Typography>
-            </ButtonBase>
-          )}
-          {loginUser?.id !== viewedUser?.id && (
-            <Box
+          {viewedUser && <ShareMenuButton profileInfo={viewedUser} />}
+          <ButtonBase component={Link} href={`/profileedit`}>
+            <Typography
+              variant="body1"
               sx={{
                 position: "absolute",
-                right: -100,
-                top: 0,
+                top: -30,
+                right: -55,
+                cursor: "pointer",
+                textDecoration: "none",
+                "&:hover": {
+                  textDecoration: "underline",
+                },
               }}
             >
-              {numUserId && (
-                <FollowButton
-                  followedUserId={numUserId}
-                  isFollowed={isFollowed}
-                />
-              )}
-            </Box>
-          )}
+              編集
+            </Typography>
+          </ButtonBase>
+          <Box
+            sx={{
+              position: "absolute",
+              right: -100,
+              top: 0,
+            }}
+          >
+            {numUserId && (
+              <FollowButton
+                followedUserId={numUserId}
+                isFollowed={isFollowed}
+              />
+            )}
+          </Box>
         </Box>
         {isImagesInitialLoading || !viewedUser ? (
           <Typography>Loading...</Typography>
@@ -181,17 +178,13 @@ export const UserPage = () => {
           <Typography>{viewedUser?.nickname}</Typography>
         )}
         <Typography>投稿枚数：{totalImagesCount}枚</Typography>
-        {loginUser?.id === viewedUser?.id ? (
-          <FollowModal
-            viewedUser={viewedUser}
-            followOpen={followOpen}
-            handleFollowModalOpen={handleFollowModalOpen}
-            handleFollowModalClose={handleFollowModalClose}
-            isFollowed={isFollowed}
-          />
-        ) : (
-          <Box mt={3} />
-        )}
+        <FollowModal
+          viewedUser={viewedUser}
+          followOpen={followOpen}
+          handleFollowModalOpen={handleFollowModalOpen}
+          handleFollowModalClose={handleFollowModalClose}
+          isFollowed={isFollowed}
+        />
       </Box>
       <Box
         sx={{
@@ -209,24 +202,22 @@ export const UserPage = () => {
           pageSize={pageSize}
           userId={numUserId}
         />
-        {loginUser?.id === viewedUser?.id && (
-          <Link href={"/imageedit"}>
-            <Button
-              variant="contained"
-              sx={{
+        <Link href={"/imageedit"}>
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "#2b3d51",
+              color: "#ffffff",
+              "&:hover": {
                 backgroundColor: "#2b3d51",
-                color: "#ffffff",
-                "&:hover": {
-                  backgroundColor: "#2b3d51",
-                  opacity: 0.7,
-                },
-                mr: 1,
-              }}
-            >
-              投稿編集
-            </Button>
-          </Link>
-        )}
+                opacity: 0.7,
+              },
+              mr: 1,
+            }}
+          >
+            投稿編集
+          </Button>
+        </Link>
       </Box>
       <Grid container spacing={0.5}>
         {isImagesInitialLoading
@@ -281,7 +272,7 @@ export const UserPage = () => {
           }}
         ></Box>
       )}
-    </Box>
+    </>
   );
 };
 

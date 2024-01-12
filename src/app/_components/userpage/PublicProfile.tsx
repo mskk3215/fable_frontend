@@ -8,6 +8,7 @@ import { FollowButton } from "../FollowButton";
 import { FollowModal } from "./FollowModal";
 import { useUsers } from "../../../hooks/user/useUsers";
 import { User } from "../../../types/user";
+import { ShareMenuButton } from "./ShareMenuButton";
 
 type Props = {
   profileInfo: User;
@@ -69,6 +70,7 @@ export default function PublicProfile(props: Props) {
             marginRight: "auto",
           }}
         />
+        <ShareMenuButton profileInfo={profileInfo} />
         {loginUser && (
           <>
             {loginUser?.id === profileInfo?.id && (
@@ -77,8 +79,8 @@ export default function PublicProfile(props: Props) {
                   variant="body1"
                   sx={{
                     position: "absolute",
-                    top: -50,
-                    right: -40,
+                    top: -30,
+                    right: -55,
                     cursor: "pointer",
                     textDecoration: "none",
                     "&:hover": {
@@ -95,7 +97,7 @@ export default function PublicProfile(props: Props) {
                 sx={{
                   position: "absolute",
                   right: -100,
-                  top: 0,
+                  top: 30,
                 }}
               >
                 {numUserId && (

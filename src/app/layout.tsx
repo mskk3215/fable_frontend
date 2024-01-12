@@ -5,12 +5,32 @@ import RecoilProvider from "./provider";
 import { MessageToast } from "./_components/MessageToast";
 import { Header } from "./_components/headerfotter/Header";
 
+const siteName = "fabre insect search";
+const description = "このサイトは昆虫採集をする人向けのアプリです。";
+const url = "https://fable-insect-search.com";
+
 export const metadata: Metadata = {
   title: {
     template: "%s - fabre insect search",
-    default: "fabre",
+    default: siteName,
   },
-  description: "fabre insect search",
+  description,
+  openGraph: {
+    title: siteName,
+    description,
+    url,
+    siteName,
+    locale: "ja_JP",
+    type: "website",
+  },
+  twitter: {
+    title: siteName,
+    description,
+    card: "summary_large_image",
+  },
+  alternates: {
+    canonical: url,
+  },
 };
 
 export default function RootLayout({
