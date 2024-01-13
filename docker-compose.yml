@@ -1,0 +1,27 @@
+services:
+  app:
+    build:
+      context: .
+    image: next-app
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.local
+    volumes:
+      - ./src:/frontend/src
+      - ./public:/frontend/public
+      - node_modules:/frontend/node_modules
+    restart: always
+    tty: true
+    stdin_open: true
+    # command: sh -c "npm run dev"
+    # networks:
+    #   - default
+    #   - snowboard_default
+# node_modulesが存在しないローカルファイルがコンテナにバイドマウントするとnode_modulesが消えるので、volumesでnode_modulesをマウントする
+volumes:
+  node_modules:
+# networks:
+#   snowboard_default:
+#     external: true
