@@ -13,7 +13,7 @@ app.prepare().then(() => {
   server.use(
     "/api/v1",
     createProxyMiddleware({
-      target: "http://localhost:3001",
+      target: "http://host.docker.internal:3001",
       changeOrigin: true,
     })
   );
