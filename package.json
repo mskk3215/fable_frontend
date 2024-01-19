@@ -51,9 +51,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "dev": "node server.js",
+    "dev": "next dev",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js",
+    "start": "next start",
     "test": "jest",
     "preinstall": "typesync || :",
     "lint": "next lint"
