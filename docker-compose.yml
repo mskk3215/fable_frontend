@@ -1,0 +1,24 @@
+services:
+  app:
+    build:
+      context: .
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.local
+    volumes:
+      - ./src:/frontend/src
+      - ./public:/frontend/public
+      - node_modules:/frontend/node_modules
+    restart: always
+    tty: true
+    stdin_open: true
+    networks:
+      - fable_backend_default
+# node_modulesが存在しないローカルファイルがコンテナにバイドマウントするとnode_modulesが消えるので、volumesでnode_modulesをマウントする
+volumes:
+  node_modules:
+networks:
+  fable_backend_default:
+    external: true

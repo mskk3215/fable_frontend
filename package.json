@@ -21,6 +21,7 @@
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@types/react-router-dom": "^5.3.3",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
     "axios": "^1.4.0",
     "axios-case-converter": "^1.1.0",
     "caniuse-lite": "^1.0.30001571",
@@ -44,6 +45,7 @@
     "react-leaflet": "^4.2.1",
     "react-share": "^5.0.3",
     "recoil": "^0.7.7",
+    "sharp": "^0.33.2",
     "styled-components": "^5.3.11",
     "typescript": "^5.1.6",
     "url-join": "^5.0.0",
@@ -51,9 +53,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "dev": "node server.js",
+    "dev": "next dev",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js",
+    "start": "next start",
     "test": "jest",
     "preinstall": "typesync || :",
     "lint": "next lint"
