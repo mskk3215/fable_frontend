@@ -1,14 +1,52 @@
-FROM node:20-alpine
+FROM node:20-alpine  AS base
 
+FROM base AS deps
+RUN apk add --no-cache libc6-compat
 WORKDIR /frontend/
 
 COPY package.json package-lock* ./
 RUN npm ci
 
-COPY src ./src
-COPY public ./public
-COPY next.config.js .
-COPY tsconfig.json .
-COPY server.js .
 
-CMD ["npm", "run","dev"]
+FROM base AS builder
+WORKDIR /frontend/
+
+COPY --from=deps /frontend/node_modules ./node_modules
+COPY . .
+
+RUN npm run build
+
+
+FROM base AS runner
+WORKDIR /frontend/
+
+ENV NODE_ENV production
+ENV NEXT_SHARP_PATH=/frontend/node_modules/sharp
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+RUN npm i sharp
+
+COPY --from=builder /frontend/public ./public
+COPY --from=builder /frontend/next.config.js ./next.config.js
+
+# Set the correct permission for prerender cache
+RUN mkdir .next && chown nextjs:nodejs .next
+
+# Automatically leverage output traces to reduce image size
+COPY --from=builder --chown=nextjs:nodejs /frontend/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /frontend/.next/static ./.next/static
+
+USER nextjs
+
+EXPOSE 3000
+
+ENV PORT 3000
+# set hostname to localhost
+ENV HOSTNAME "0.0.0.0"
+
+# server.js is created by next build from the standalone output
+# https://nextjs.org/docs/pages/api-reference/next-config-js/output
+CMD ["node", "server.js"]
+
+# https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile
