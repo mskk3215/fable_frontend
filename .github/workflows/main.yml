@@ -3,6 +3,7 @@ name: Frontend's Deploy CI/CD
 on:
   push: # Trigger the workflow on push events
     branches: ["main"]
+  pull_request: # Trigger the workflow on pull request events
 env:
   AWS_REGION: ap-northeast-1
   ECS_SERVICE: fable-production-frontend
@@ -54,6 +55,8 @@ jobs:
     name: Deploy
     runs-on: ubuntu-20.04
     needs: [frontend-test-build-image] # このjobが実行される前に実行されるjobを指定
+    # only run the deployment on push to main branch
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
