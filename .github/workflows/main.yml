@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3 # checkout the repo
       ## Build Docker Image Build
-      - name: Build an Image and Run Tests
+      - name: Build an Image
         run: |
           docker image build -t cicd-frontend:latest .
       ## Test
