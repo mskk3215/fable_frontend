@@ -3,33 +3,42 @@ name: Frontend's Deploy CI/CD
 on:
   push: # Trigger the workflow on push events
     branches: ["main"]
+  pull_request: # Trigger the workflow on pull request events
 env:
   AWS_REGION: ap-northeast-1
-  ECS_SERVICE: fable-production-frontend
+  ECS_SERVICE: fable-production-frontend-service
   ECS_CLUSTER: fable-production-cluster
   ECS_TASK_DEFINITION_FRONTEND: fable-production-frontend-task-definition
 permissions:
   contents: read
 
 jobs:
-  # frontend Container Build/Test
+  # frontend Container Test
   frontend-test-build-image: # title of the job
     name: Frontend Container - Test and Build # name of GitHub Action
     runs-on: ubuntu-20.04 # environment for job to run on
     timeout-minutes: 10
-    defaults:
-      run:
-        working-directory: frontend
     steps:
       - uses: actions/checkout@v3 # checkout the repo
-      ## Build Docker Image Build
-      - name: Build an Image and Run Tests
-        run: |
-          docker image build -t cicd-frontend:latest .
       ## Test
       # - name: Run Tests
       #   run: |
       #     npm run test
+
+  # Deploy
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-20.04
+    needs: [frontend-test-build-image] # このjobが実行される前に実行されるjobを指定
+    # only run the deployment on push to main branch
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      ## Build Docker Image Build
+      - name: Build an Image
+        run: |
+          docker build -t fable-production-frontend .
       ## Login AWS
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -46,39 +55,22 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ secrets.AWS_ECR_FRONTEND_SERVER_REPOSITORY }}
         run: |
-          docker tag cicd-frontend:latest $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker tag fable-production-frontend:latest $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-
-  # Deploy
-  deploy:
-    name: Deploy
-    runs-on: ubuntu-20.04
-    needs: [frontend-test-build-image] # このjobが実行される前に実行されるjobを指定
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      ## Login AWS
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-      # Download Task Definition
+      # Download Task Definition(ECRが更新されtask-definition変更なしでは、serviceの新しいデプロイの強制を使えないので、task-definitionを読み込む必要がある)
       - name: download task definition
         run: |
           aws ecs describe-task-definition --task-definition $ECS_TASK_DEFINITION_FRONTEND --query taskDefinition > task-definition-frontend.json
-      # Render Task Definition
+      - name: Display task definition content
+        run: cat task-definition-frontend.json
+      # ECR image exchanged and Render Task Definition
       - name: render ecs task definition for frontend container
         id: render-container-frontend
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition-frontend.json
-          container-name: frontend
-          image: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.AWS_ECR_FRONTEND_SERVER_REPOSITORY }} # task definitionのimageをこれに更新
+          container-name: fable-production-frontend-container
+          image: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.AWS_ECR_FRONTEND_SERVER_REPOSITORY }}:latest # task definitionのimageをこれに更新
       ## Push to ECS
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
