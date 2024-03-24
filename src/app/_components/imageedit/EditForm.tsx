@@ -121,6 +121,7 @@ export const EditForm = memo((props: Props) => {
     setInsectName("");
     setValue("");
     setInputValue("");
+    setParkName("");
     setPrefectureName("");
     setCityName("");
     setTakenDate(null);
