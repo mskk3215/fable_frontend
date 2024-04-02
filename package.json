@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/preset-typescript": "^7.24.1",
     "@date-io/dayjs": "^2.16.0",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
@@ -26,6 +27,7 @@
     "axios-case-converter": "^1.1.0",
     "caniuse-lite": "^1.0.30001571",
     "chart.js": "^4.4.0",
+    "cross-fetch": "^4.0.0",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.7",
     "dotenv": "^16.0.3",
@@ -51,7 +53,8 @@
     "typescript": "^5.1.6",
     "url-join": "^5.0.0",
     "use-places-autocomplete": "^4.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "zod": "^3.22.4"
   },
   "scripts": {
     "dev": "next dev",
@@ -100,6 +103,7 @@
     "eslint-config-next": "^14.0.4",
     "eslint-config-prettier": "^9.1.0",
     "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "ts-migrate": "^0.1.35",
     "typesync": "^0.11.1"
   }
