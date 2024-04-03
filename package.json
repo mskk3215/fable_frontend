@@ -82,11 +82,6 @@
       "last 1 safari version"
     ]
   },
-  "jest": {
-    "transformIgnorePatterns": [
-      "node_modules/(?!axios)/"
-    ]
-  },
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.0.4",
     "@testing-library/dom": "^9.3.4",

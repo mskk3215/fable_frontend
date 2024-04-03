@@ -27,8 +27,8 @@
     "src/**/*.tsx",
     "src/**/*.js",
     ".next/types/**/*.ts",
-    "server.js"
+    "server.js",
+    "jest.config.js"
   ],
-  // "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.js", "jest.config.js"]
   "exclude": ["node_modules"]
 }
