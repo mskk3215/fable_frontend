@@ -10,6 +10,8 @@ module.exports = {
     "plugin:react/recommended",
     "next",
     "next/core-web-vitals",
+    "plugin:testing-library/react",
+    "plugin:jest-dom/recommended",
   ],
   overrides: [
     {
@@ -27,7 +29,13 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  plugins: ["@typescript-eslint", "react", "jest"],
+  plugins: [
+    "@typescript-eslint",
+    "react",
+    "jest",
+    "testing-library",
+    "jest-dom",
+  ],
   rules: {
     "react/react-in-jsx-scope": "off",
   },
