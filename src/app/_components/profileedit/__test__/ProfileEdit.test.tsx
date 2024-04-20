@@ -5,9 +5,8 @@ import { setupMockServer } from "../../../_utils/test-helpers";
 import "@testing-library/jest-dom";
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { handleProfileEdit } from "../__mock__/msw";
+import { handleProfileEdit } from "./msw";
 import { loginUserState } from "../../../../store/atoms/userAtom";
-// import { TestComponent } from "../__test__/TestComponent";
 
 // userEventの設定
 const user = userEvent.setup();
@@ -42,7 +41,6 @@ beforeEach(() => {
   render(
     <>
       <RecoilRoot initializeState={initializeState}>
-        {/* <TestComponent /> */}
         <ProfileEdit />
       </RecoilRoot>
     </>
@@ -61,6 +59,22 @@ afterEach(() => {
 });
 
 // テスト
+// describe("成功する場合", () => {
+//   test("プロフィールが更新される", async () => {
+//     await user.clear(nameInput);
+//     await user.type(nameInput, "Blaze");
+//     await user.clear(emailInput);
+//     await user.type(emailInput, "Blaze@example.com");
+//     userEvent.click(button);
+//     const snackbar = within(await screen.findByRole("alert"));
+//     await waitFor(() => {
+//       expect(
+//         snackbar.getByText("プロフィールを更新しました")
+//       ).toBeInTheDocument();
+//     });
+//   });
+// });
+
 describe("失敗する場合", () => {
   it("名前が空白の場合、エラーメッセージが表示される", async () => {
     await user.clear(nameInput);
