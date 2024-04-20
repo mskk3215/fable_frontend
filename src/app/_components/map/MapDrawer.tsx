@@ -78,6 +78,10 @@ export const MapDrawer = memo((props: Props) => {
     }
   }, [selectedItemId]);
 
+  useEffect(() => {
+    setSearchInitiated(false);
+  }, [searchWord]);
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -98,6 +102,7 @@ export const MapDrawer = memo((props: Props) => {
           insectOptions={insectOptions}
           queryWord={queryWord}
           setQueryWord={setQueryWord}
+          setSearchInitiated={setSearchInitiated}
         />
       </SearchBoxStyled>
       <Drawer
@@ -128,7 +133,7 @@ export const MapDrawer = memo((props: Props) => {
               >
                 <CircularProgress />
               </Box>
-            ) : searchWord && searchResults.length === 0 ? (
+            ) : searchInitiated && searchWord && searchResults.length === 0 ? (
               <ListItem>
                 <SListItemText primary="検索した昆虫は見つかりません。" />
               </ListItem>
