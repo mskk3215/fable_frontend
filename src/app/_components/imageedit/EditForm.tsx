@@ -34,7 +34,6 @@ import { ApiError } from "../../../types/api";
 type Props = {
   selectedIds: number[];
   setSelectedIds: (ids: number[]) => void;
-  setSelectedIndexes: (indexes: number[]) => void;
   handleGetParks: () => void;
   parkOptions: ParkOption[];
   parks: Park[];
@@ -52,7 +51,6 @@ export const EditForm = memo((props: Props) => {
   const {
     selectedIds,
     setSelectedIds,
-    setSelectedIndexes,
     handleGetParks,
     parkOptions,
     parks,
@@ -126,7 +124,6 @@ export const EditForm = memo((props: Props) => {
     setCityName("");
     setTakenDate(null);
     setSelectedIds([]);
-    setSelectedIndexes([]);
   };
 
   const getSexes = () => {

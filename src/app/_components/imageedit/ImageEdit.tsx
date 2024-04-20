@@ -29,8 +29,8 @@ export const ImageEdit = () => {
   const { insects, insectOptions, setQueryWord } = useAllInsects();
   const { prefectures, prefectureOptions } = useAllPrefectures();
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
-  const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
   const [isShiftDown, setIsShiftDown] = useState<boolean>(false);
+  const [lastSelectedId, setLastSelectedId] = useState<number | null>(null);
 
   const [paginatedImages, setPaginatedImages] = useState<Image[]>([]);
   const pageSize = usePageSize();
@@ -59,77 +59,49 @@ export const ImageEdit = () => {
     };
   }, []);
 
-  const idToIndex = useCallback(
-    (id: number) => {
-      for (let i = 0; i < images.length; i++) {
-        if (images[i].id === id) {
-          return i;
-        }
-      }
-      return -1;
-    },
-    [images]
-  );
-
-  const fill = (a: number, b: number) => {
-    const array = [];
-    const start = Math.min(a, b);
-    const last = Math.max(a, b);
-    for (let i = start; i <= last; i++) {
-      array.push(i);
-    }
-    return array;
-  };
-
   //画像選択追加
   const handleSelect = useCallback(
     (image: Image) => {
-      const index = idToIndex(image.id);
-      if (index === undefined) return;
-
-      const lastSelectedIndex = selectedIndexes[selectedIndexes.length - 1];
-
-      if (!isShiftDown || lastSelectedIndex === undefined) {
-        setSelectedIndexes((indexes) => [...indexes, index]);
-        return;
+      if (isShiftDown && lastSelectedId !== null) {
+        const startIndex = images.findIndex((img) => img.id === lastSelectedId);
+        const endIndex = images.findIndex((img) => img.id === image.id);
+        const range =
+          startIndex < endIndex
+            ? images.slice(startIndex, endIndex + 1)
+            : images.slice(endIndex, startIndex + 1);
+        const idsToAdd = range
+          .map((img) => img.id)
+          .filter((id) => !selectedIds.includes(id));
+        setSelectedIds((prev) => [...prev, ...idsToAdd]);
+      } else {
+        setSelectedIds((prev) => [...prev, image.id]);
       }
-      const selectedIndexRange = fill(index, lastSelectedIndex);
-      setSelectedIndexes((indexes) => [...indexes, ...selectedIndexRange]);
+      setLastSelectedId(image.id);
     },
-    [isShiftDown, selectedIndexes, idToIndex]
+    [selectedIds, images, isShiftDown, lastSelectedId]
   );
 
   //画像選択解除
   const handleRemove = useCallback(
     (image: Image) => {
-      const selectedIndex = idToIndex(image.id);
-      if (selectedIndex === undefined) return;
-
-      if (!isShiftDown) {
-        setSelectedIndexes((indexes) =>
-          indexes.filter((index) => index !== selectedIndex)
+      if (isShiftDown && lastSelectedId !== null) {
+        const startIndex = images.findIndex((img) => img.id === lastSelectedId);
+        const endIndex = images.findIndex((img) => img.id === image.id);
+        const range =
+          startIndex < endIndex
+            ? images.slice(startIndex, endIndex + 1)
+            : images.slice(endIndex, startIndex + 1);
+        const idsToRemove = range.map((img) => img.id);
+        setSelectedIds((prev) =>
+          prev.filter((id) => !idsToRemove.includes(id))
         );
-        return;
+      } else {
+        setSelectedIds((prev) => prev.filter((id) => id !== image.id));
       }
-
-      const lastSelectedIndex = selectedIndexes[selectedIndexes.length - 1];
-      if (lastSelectedIndex === undefined) return;
-
-      const selectedIndexRange = fill(selectedIndex, lastSelectedIndex);
-
-      setSelectedIndexes((indexes) =>
-        indexes.filter((index) => !selectedIndexRange.includes(index))
-      );
+      setLastSelectedId(image.id);
     },
-    [isShiftDown, selectedIndexes, idToIndex]
+    [selectedIds, images, isShiftDown, lastSelectedId]
   );
-
-  //selectedIndexesの内容をselectedIdsにする
-  useEffect(() => {
-    setSelectedIds(
-      selectedIndexes.map((selectedIndexes) => images[selectedIndexes].id)
-    );
-  }, [selectedIndexes, images]);
 
   return (
     <Box style={{ marginTop: "48px" }}>
@@ -152,10 +124,7 @@ export const ImageEdit = () => {
                       handleRemove={() => {
                         handleRemove(image);
                       }}
-                      checked={
-                        selectedIndexes.includes(idToIndex(image.id)) &&
-                        idToIndex(image.id) !== -1
-                      }
+                      checked={selectedIds.includes(image.id)}
                       isCheckboxVisible={true}
                       parks={parks}
                       createdTime={createdTime}
@@ -184,7 +153,6 @@ export const ImageEdit = () => {
             setImages={setImages}
             selectedIds={selectedIds}
             setSelectedIds={setSelectedIds}
-            setSelectedIndexes={setSelectedIndexes}
             parkOptions={parkOptions}
             parks={parks}
             handleGetParks={handleGetParks}
