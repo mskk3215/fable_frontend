@@ -5,7 +5,8 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /frontend/
 
 COPY package.json package-lock* ./
-RUN npm ci
+RUN NODE_ENV=development npm ci
+
 
 
 FROM base AS builder
