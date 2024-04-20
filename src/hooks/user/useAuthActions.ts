@@ -42,7 +42,7 @@ export const useAuthActions = () => {
     setIsLoading?.(true);
     createUser(payload)
       .then((response: AuthResponse) => {
-        if (response.data.registered) {
+        if (response?.data?.registered) {
           handleSuccessfulAuthentication(response.data);
           router.push("/");
           setMessage({
@@ -71,7 +71,7 @@ export const useAuthActions = () => {
     setIsLoading?.(true);
     userLogin(payload)
       .then((response: AuthResponse) => {
-        if (response.data.loggedIn) {
+        if (response?.data?.loggedIn) {
           handleSuccessfulAuthentication(response.data);
           router.push("/postlist");
           setMessage({ message: "ログインしました。", type: "success" });

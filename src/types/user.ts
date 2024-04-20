@@ -42,7 +42,7 @@ export type RegistrationAuthAction = {
 export type LoginAuthAction = {
   email: string;
   password: string;
-  setErrors?: (errors: string[]) => void;
+  setErrors: (errors: string[]) => void;
   setIsLoading: (isLoading: boolean) => void;
   isGuest?: boolean;
 };
