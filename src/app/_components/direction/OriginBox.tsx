@@ -1,7 +1,7 @@
 "use client";
 
 import React, { memo, useRef } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import { Autocomplete } from "@react-google-maps/api";
 import {
   originLocationState,
@@ -18,8 +18,7 @@ type Props = {
 
 export const OriginBox = memo((props: Props) => {
   const { originRef, clearRoute } = props;
-  const [originLocation, setOriginLocation] =
-    useRecoilState(originLocationState);
+  const originLocation = useRecoilValue(originLocationState);
   const { saveOriginLocation } = useOriginLocation();
   const mapLoadState = useRecoilValue(mapApiLoadState);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
@@ -27,15 +26,17 @@ export const OriginBox = memo((props: Props) => {
   const handlePlaceSelected = () => {
     if (autocompleteRef.current) {
       const place = autocompleteRef.current.getPlace();
-      if (place && typeof place.formatted_address === "string") {
-        setOriginLocation(place.formatted_address);
-        saveOriginLocation(originLocation);
+      if (place && place.formatted_address) {
+        saveOriginLocation(place.formatted_address);
+      } else {
+        console.error("選択された場所に住所情報がありません。");
+        saveOriginLocation("");
       }
     }
   };
 
   const handleDeleteClick = () => {
-    setOriginLocation("");
+    saveOriginLocation("");
     clearRoute();
   };
 
@@ -54,7 +55,7 @@ export const OriginBox = memo((props: Props) => {
         value={originLocation}
         sx={{ width: 350, height: 50 }}
         inputRef={originRef}
-        onChange={(e) => setOriginLocation(e.target.value)}
+        onChange={(e) => saveOriginLocation(e.target.value)}
         InputProps={{
           endAdornment: (
             <React.Fragment>

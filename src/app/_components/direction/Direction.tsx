@@ -1,27 +1,25 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { messageState } from "../../../store/atoms/errorAtom";
 import { DirectionDrawer } from "./DirectionDrawer";
 import { MapView } from "../map/MapView";
 import {
   destinationLocationState,
   originLocationState,
-  useOriginLocation,
+  searchResultsState,
 } from "../../../store/atoms/searchWordState";
-import { useParks } from "../../../hooks/useParks";
 import { Box } from "@mui/material";
 import { Anchor, Steps, TravelMode } from "../../../types/map";
 import { usePageSize } from "../../../hooks/usePageSize";
 
 export const Direction = () => {
   const setMessage = useSetRecoilState(messageState);
+  const searchResults = useRecoilValue(searchResultsState);
 
-  const [originLocation, setOriginLocation] =
-    useRecoilState(originLocationState);
-  const { saveOriginLocation } = useOriginLocation();
-  const { searchResults } = useParks();
+  const originLocation = useRecoilValue(originLocationState);
+  const saveOriginLocation = useSetRecoilState(originLocationState);
   const [directions, setDirections] = useState<
     google.maps.DirectionsResult | undefined
   >(undefined);
@@ -64,7 +62,6 @@ export const Direction = () => {
     }
     setShouldCleanup(true);
     setDirections(undefined);
-    setOriginLocation(originRef.current?.value || "");
     const directionsService = new window.google.maps.DirectionsService();
     directionsService
       .route(
@@ -145,7 +142,7 @@ export const Direction = () => {
       const geocoder = new window.google.maps.Geocoder();
       geocoder.geocode({ location: { lat, lng } }, (results, status) => {
         if (status === "OK" && results) {
-          setOriginLocation(results[0].formatted_address);
+          saveOriginLocation(results[0].formatted_address);
         } else {
           setMessage({
             message: "住所が取得できませんでした。",
@@ -166,10 +163,6 @@ export const Direction = () => {
   const handleMouseOut = () => {
     setInfoWindowLocation(undefined);
   };
-
-  useEffect(() => {
-    saveOriginLocation(originLocation);
-  }, [originLocation]);
 
   //開発環境で発生する初期load時二重呼び出しを防ぐ
   // https://tagomoris.hatenablog.com/entry/2022/06/10/144540s

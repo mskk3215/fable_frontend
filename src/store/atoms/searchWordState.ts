@@ -1,15 +1,23 @@
 "use client";
 import { useEffect } from "react";
 import { atom, useRecoilState } from "recoil";
+import { Park } from "../../types/parks";
 
 type SearchWord = string;
 type OriginLocation = string;
 type DestinationLocation = string;
 
 // searchWordをlocalStorageに保存し状態を管理する
+const initializeSearchWord = () => {
+  if (typeof window === "undefined") {
+    return "";
+  }
+  const savedSearchWord = localStorage.getItem("searchWord");
+  return savedSearchWord ? savedSearchWord : "";
+};
 export const searchWordState = atom<SearchWord>({
   key: "searchWordState",
-  default: "",
+  default: initializeSearchWord(),
 });
 
 export const useSearchWord = () => {
@@ -73,4 +81,30 @@ export const useDestinationLocation = () => {
   };
 
   return { destinationLocation, saveDestinationLocation };
+};
+
+// searchResultsをlocalStorageに保存し状態を管理する
+export const searchResultsState = atom<Park[]>({
+  key: "searchResultsState",
+  default: [],
+});
+
+export const useSearchResults = () => {
+  const [searchResults, setSearchResults] = useRecoilState(searchResultsState);
+
+  useEffect(() => {
+    const savedSearchResults = localStorage.getItem("searchResults");
+    if (savedSearchResults) {
+      setSearchResults(JSON.parse(savedSearchResults));
+    } else {
+      setSearchResults([]);
+    }
+  }, []);
+
+  const saveSearchResults = (newSearchResults: Park[]) => {
+    localStorage.setItem("searchResults", JSON.stringify(newSearchResults));
+    setSearchResults(newSearchResults);
+  };
+
+  return { searchResults, saveSearchResults };
 };

@@ -6,10 +6,13 @@ import { MapView } from "./MapView";
 import { useParks } from "../../../hooks/useParks";
 import { useAllInsects } from "../../../hooks/useAllInsects";
 import { Anchor } from "../../../types/map";
+import { useRecoilValue } from "recoil";
+import { searchResultsState } from "../../../store/atoms/searchWordState";
 
 export const Map = () => {
-  const { searchResults, isParksLoading, handleGetParkSearchResults } =
-    useParks();
+  const searchResults = useRecoilValue(searchResultsState);
+
+  const { isParksLoading, handleGetParkSearchResults } = useParks();
   const { insectOptions, queryWord, setQueryWord } = useAllInsects();
   const [anchor, setAnchor] = useState<Anchor>("left");
 
