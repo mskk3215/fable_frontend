@@ -53,17 +53,16 @@ export const MapDrawer = memo((props: Props) => {
     setQueryWord,
   } = props;
   const setSelectedCenter = useSetRecoilState(selectedCenterState);
-  const [destinationLocation, setDestinationLocation] = useRecoilState(
-    destinationLocationState
-  );
+  const destinationLocation = useRecoilValue(destinationLocationState);
   const { saveDestinationLocation } = useDestinationLocation();
   const [selectedItemId, setSelectedItemId] = useRecoilState(selectedItemState);
   const searchWord = useRecoilValue(searchWordState);
   const [open, setOpen] = useState(true);
+  const [searchInitiated, setSearchInitiated] = useState(false);
 
   const handleListItem = (result: Park) => {
     setSelectedItemId(result.id);
-    setDestinationLocation(result.name);
+    saveDestinationLocation(result.name);
     setSelectedCenter({ lat: result.latitude, lng: result.longitude });
   };
   useEffect(() => {

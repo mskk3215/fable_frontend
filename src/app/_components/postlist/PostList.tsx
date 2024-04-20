@@ -12,8 +12,8 @@ import { FollowButton } from "../FollowButton";
 import { DeletePostButton } from "./DeletePostButton";
 import { PostTab } from "./PostTab";
 import {
-  destinationLocationState,
   searchWordState,
+  useDestinationLocation,
 } from "../../../store/atoms/searchWordState";
 import styled from "styled-components";
 import {
@@ -48,7 +48,7 @@ export const PostList = () => {
     [key: string]: number;
   }>({});
   const setSearchWord = useSetRecoilState(searchWordState);
-  const setDestinationLocation = useSetRecoilState(destinationLocationState);
+  const { saveDestinationLocation } = useDestinationLocation();
 
   // 投稿内の画像前後切り替え
   const handleNextImage = (postId: number) => {
@@ -272,7 +272,7 @@ export const PostList = () => {
                                     href={`/direction`}
                                     onClick={() => {
                                       if (imageData.parkName) {
-                                        setDestinationLocation(
+                                        saveDestinationLocation(
                                           imageData.parkName
                                         );
                                       }
