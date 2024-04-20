@@ -60,7 +60,7 @@
     "zod": "^3.22.4"
   },
   "scripts": {
-    "dev": "node server.js",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "test": "npx jest",
