@@ -5,7 +5,7 @@ import "@testing-library/jest-dom";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { setupMockServer } from "../../../_utils/test-helpers";
-import { handleLogin } from "../../auth/__mock__/msw";
+import { handleLogin } from "../../auth/__test__/msw";
 import { LoginAlertModal } from "../LoginAlertModal";
 
 // userEventの設定

@@ -6,7 +6,7 @@ import { setupMockServer } from "../../../_utils/test-helpers";
 import "@testing-library/jest-dom";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { handleRegistration } from "../__mock__/msw";
+import { handleRegistration } from "./msw";
 
 // userEventの設定
 const user = userEvent.setup();
