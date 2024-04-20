@@ -197,20 +197,21 @@ export const EditForm = memo((props: Props) => {
     }
   };
 
-  // 保存、削除ボタンを押せるかどうかの判定
-  const noSelectedIds = selectedIds.length === 0;
-  const incompleteInsectInfo = insectName !== "" && insectSex === null;
-  const incompleteLocationInfo = prefectureName !== "" && cityName === "";
-  const incompleteAllInfo =
+  // 保存、削除ボタンが無効になる条件
+  const isSelectedIdsEmpty = selectedIds.length === 0;
+  const isInsectInfoNotFilled = insectName !== "" && insectSex === "";
+  const isLocationInfoPartiallyFilled =
+    prefectureName !== "" && cityName === "";
+  const isAllInfoNotFilled =
     insectSex === "" && cityName === "" && takenDate === null;
 
   const handleEditButton = () =>
-    noSelectedIds ||
-    incompleteInsectInfo ||
-    incompleteLocationInfo ||
-    incompleteAllInfo;
+    isSelectedIdsEmpty ||
+    isInsectInfoNotFilled ||
+    isLocationInfoPartiallyFilled ||
+    isAllInfoNotFilled;
 
-  const handleDeleteButton = () => noSelectedIds;
+  const handleDeleteButton = () => isSelectedIdsEmpty;
 
   const handleFormSize = () => {
     if (window.innerWidth >= 576) {
