@@ -4,17 +4,25 @@ import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import { loginUserState } from "../../../store/atoms/userAtom";
 import { useProfileChangeAction } from "../../../hooks/user/useProfileChangeAction";
-import { Box, Button, Modal, Stack, TextField } from "@mui/material";
+import { Button, Modal, Paper, Stack, TextField } from "@mui/material";
 import { UserPasswordForm } from "../../../types/user";
 
 type Props = {
   setErrors: React.Dispatch<React.SetStateAction<string[]>>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setUploadProfileProgress: React.Dispatch<React.SetStateAction<number>>;
+  passwordChangeOpen: boolean;
+  handleModalClose: () => void;
 };
 
 export const PasswordChangeModal = (props: Props) => {
-  const { setErrors, setIsLoading, setUploadProfileProgress } = props;
+  const {
+    setErrors,
+    setIsLoading,
+    setUploadProfileProgress,
+    passwordChangeOpen,
+    handleModalClose,
+  } = props;
   const { handleProfileChangeAction } = useProfileChangeAction();
   const [loginUser, setLoginUser] = useRecoilState(loginUserState);
 
@@ -23,7 +31,6 @@ export const PasswordChangeModal = (props: Props) => {
     newPassword: "",
     confirmNewPassword: "",
   });
-  const [open, setOpen] = useState(false);
   const [passwordError, setPasswordError] = useState<string>("");
   const [newPasswordError, setNewPasswordError] = useState<string>("");
   const [confirmPasswordError, setConfirmPasswordError] = useState<string>("");
@@ -32,13 +39,6 @@ export const PasswordChangeModal = (props: Props) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setPasswordValues({ ...passwordValues, [name]: value });
-  };
-  // パスワード変更モーダルの処理
-  const handleModalOpen = () => {
-    setOpen(true);
-  };
-  const handleModalClose = () => {
-    setOpen(false);
   };
 
   // サーバーに送信
@@ -85,11 +85,11 @@ export const PasswordChangeModal = (props: Props) => {
       return;
     }
     if (passwordValues.password === passwordValues.newPassword) {
-      setNewPasswordError("現在のパスワードと新しいパスワードが同じです");
+      setNewPasswordError("現在のパスワードと新しいパスワードが同じです。");
       return;
     }
     if (passwordValues.newPassword !== passwordValues.confirmNewPassword) {
-      setConfirmPasswordError("パスワードが一致しません");
+      setConfirmPasswordError("パスワードが一致しません。");
       return;
     }
     return true;
@@ -97,92 +97,72 @@ export const PasswordChangeModal = (props: Props) => {
 
   return (
     <>
-      <Box sx={{ width: "100%", maxWidth: 400, m: "auto" }}>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            flexDirection: "column",
-          }}
-        >
-          <Button
-            variant="outlined"
-            onClick={handleModalOpen}
-            fullWidth
-            sx={{
-              borderColor: "#2b3d51",
-              color: "#2b3d51",
-            }}
-          >
-            パスワード変更
-          </Button>
-          <Modal open={open} onClose={handleModalClose}>
-            <form onSubmit={handlePasswordSubmit}>
-              <Box
+      <Modal open={passwordChangeOpen} onClose={handleModalClose}>
+        <Paper sx={modalStyle}>
+          <form onSubmit={handlePasswordSubmit}>
+            <Stack spacing={3}>
+              <TextField
+                error={!!passwordError}
+                helperText={passwordError}
+                name="password"
+                type="password"
+                label="現在のパスワード"
+                value={passwordValues.password}
+                onChange={handleInputChange}
+                fullWidth
+              />
+              <TextField
+                error={!!newPasswordError}
+                helperText={newPasswordError}
+                name="newPassword"
+                type="password"
+                label="新しいパスワード"
+                value={passwordValues.newPassword}
+                onChange={handleInputChange}
+                fullWidth
+              />
+              <TextField
+                error={!!confirmPasswordError}
+                helperText={confirmPasswordError}
+                name="confirmNewPassword"
+                type="password"
+                label="新しいパスワード(確認)"
+                value={passwordValues.confirmNewPassword}
+                onChange={handleInputChange}
+                fullWidth
+              />
+              <Button
+                variant="contained"
+                type="submit"
+                fullWidth
                 sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  p: 2,
-                  m: "auto",
-                  bgcolor: "background.paper",
-                  borderRadius: "10px",
-                  width: "90%",
-                  maxWidth: 400,
-                  marginTop: 10,
+                  backgroundColor: "#2b3d51",
+                  color: "#ffffff",
+                  "&:hover": {
+                    backgroundColor: "#2b3d51",
+                    opacity: 0.7,
+                  },
                 }}
               >
-                <Stack spacing={3}>
-                  <TextField
-                    error={!!passwordError}
-                    helperText={passwordError}
-                    name="password"
-                    type="password"
-                    label="現在のパスワード"
-                    value={passwordValues.password}
-                    onChange={handleInputChange}
-                    fullWidth
-                  />
-                  <TextField
-                    error={!!newPasswordError}
-                    helperText={newPasswordError}
-                    name="newPassword"
-                    type="password"
-                    label="新しいパスワード"
-                    value={passwordValues.newPassword}
-                    onChange={handleInputChange}
-                    fullWidth
-                  />
-                  <TextField
-                    error={!!confirmPasswordError}
-                    helperText={confirmPasswordError}
-                    name="confirmNewPassword"
-                    type="password"
-                    label="新しいパスワード（確認）"
-                    value={passwordValues.confirmNewPassword}
-                    onChange={handleInputChange}
-                    fullWidth
-                  />
-                  <Button
-                    variant="contained"
-                    type="submit"
-                    fullWidth
-                    sx={{
-                      backgroundColor: "#2b3d51",
-                      color: "#ffffff",
-                      "&:hover": {
-                        backgroundColor: "#2b3d51",
-                        opacity: 0.7,
-                      },
-                    }}
-                  >
-                    変更する
-                  </Button>
-                </Stack>
-              </Box>
-            </form>
-          </Modal>
-        </Box>
-      </Box>
+                変更する
+              </Button>
+            </Stack>
+          </form>
+        </Paper>
+      </Modal>
     </>
   );
+};
+
+const modalStyle = {
+  position: "absolute",
+  top: "35%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "400px",
+  bgcolor: "background.paper",
+  border: "1px solid gray",
+  borderRadius: "4px",
+  boxShadow: 24,
+  p: 4,
 };

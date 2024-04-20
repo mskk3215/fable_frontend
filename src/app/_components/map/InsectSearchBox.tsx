@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useEffect, memo } from "react";
-import { useRecoilState } from "recoil";
+import React, { memo } from "react";
+import { useRecoilValue } from "recoil";
 import { useRouter } from "next/navigation";
 import {
   searchWordState,
@@ -28,6 +28,7 @@ type Props = {
   insectOptions: string[];
   queryWord: string;
   setQueryWord: (queryWord: string) => void;
+  setSearchInitiated: (searchInitiated: boolean) => void;
 };
 
 export const InsectSearchBox = memo((props: Props) => {
@@ -38,13 +39,15 @@ export const InsectSearchBox = memo((props: Props) => {
     handleGetParkSearchResults,
     insectOptions,
     setQueryWord,
+    setSearchInitiated,
   } = props;
 
-  const [searchWord, setSearchWord] = useRecoilState(searchWordState);
+  const searchWord = useRecoilValue(searchWordState);
   const { saveSearchWord } = useSearchWord();
 
   const handleSearch = () => {
     setOpen(true);
+    setSearchInitiated(true);
     handleGetParkSearchResults(searchWord);
   };
 
@@ -58,11 +61,6 @@ export const InsectSearchBox = memo((props: Props) => {
     router.push("/direction");
   };
 
-  // searchWordの値が更新されたらローカルストレージに保存する
-  useEffect(() => {
-    saveSearchWord(searchWord);
-  }, [searchWord]);
-
   return (
     <Autocomplete
       sx={{
@@ -73,7 +71,7 @@ export const InsectSearchBox = memo((props: Props) => {
       id="searchbox in map"
       value={searchWord}
       onChange={(e, newValue) => {
-        setSearchWord(newValue || "");
+        saveSearchWord(newValue || "");
       }}
       onInputChange={(e, newInputValue) => {
         const convertedInputValue = convertHiraganaToKatakana(newInputValue);

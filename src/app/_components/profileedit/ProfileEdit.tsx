@@ -30,6 +30,7 @@ export const ProfileEdit = () => {
   const [errors, setErrors] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [uploadProfileProgress, setUploadProfileProgress] = useState<number>(0);
+  const [passwordChangeOpen, setPasswordChangeOpen] = useState(false);
 
   // ユーザー情報を取得
   useEffect(() => {
@@ -65,10 +66,10 @@ export const ProfileEdit = () => {
   // サーバーに送信
   const handleProfileSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
     if (handelValidation()) {
-      const profileData = new FormData();
       if (loginUser === undefined) return;
+      setIsLoading(true);
+      const profileData = new FormData();
 
       profileData.append("user[nickname]", profileValues.nickname);
       if (profileValues.email) {
@@ -93,14 +94,22 @@ export const ProfileEdit = () => {
 
   // プロフィールバリデーション
   const handelValidation = () => {
-    setErrors([]);
-    if (profileValues.nickname.length < 1) {
-      setErrors((prev) => [...prev, "アカウント名を入力してください"]);
-      return;
-    }
-    if (profileValues.email && profileValues.email.length < 1) {
-      setErrors((prev) => [...prev, "メールアドレスを入力してください"]);
-      return;
+    const inputFields = [
+      {
+        value: profileValues.nickname,
+        name: "名前",
+      },
+      {
+        value: profileValues.email,
+        name: "メールアドレス",
+      },
+    ];
+    const errorMessages = inputFields
+      .filter((field) => !field.value)
+      .map((field) => `${field.name}を入力してください`);
+    if (errorMessages.length > 0) {
+      setErrors(errorMessages);
+      return false;
     }
     return true;
   };
@@ -113,6 +122,14 @@ export const ProfileEdit = () => {
       }
     };
   }, []);
+
+  // パスワード変更モーダルの処理
+  const handleModalOpen = () => {
+    setPasswordChangeOpen(true);
+  };
+  const handleModalClose = () => {
+    setPasswordChangeOpen(false);
+  };
 
   return (
     <>
@@ -174,14 +191,14 @@ export const ProfileEdit = () => {
               ))}
             <TextField
               name="nickname"
-              label="アカウント名"
+              label="名前"
               value={profileValues.nickname}
               onChange={handleInputChange}
               fullWidth
             />
             <TextField
               name="email"
-              label="メール"
+              label="メールアドレス"
               value={profileValues.email}
               onChange={handleInputChange}
               fullWidth
@@ -206,11 +223,38 @@ export const ProfileEdit = () => {
         </Box>
       </form>
       <Box marginTop={3} marginBottom={3} />
-      <PasswordChangeModal
-        setErrors={setErrors}
-        setIsLoading={setIsLoading}
-        setUploadProfileProgress={setUploadProfileProgress}
-      />
+      <Box sx={{ width: "90%", maxWidth: 400, m: "auto" }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          {" "}
+          <Button
+            variant="outlined"
+            onClick={handleModalOpen}
+            fullWidth
+            sx={{
+              borderColor: "#2b3d51",
+              color: "#2b3d51",
+            }}
+          >
+            パスワード変更
+          </Button>
+        </Box>
+      </Box>
+      {/* パスワード変更モーダル */}
+      {passwordChangeOpen && (
+        <PasswordChangeModal
+          setErrors={setErrors}
+          setIsLoading={setIsLoading}
+          setUploadProfileProgress={setUploadProfileProgress}
+          passwordChangeOpen={passwordChangeOpen}
+          handleModalClose={handleModalClose}
+        />
+      )}
     </>
   );
 };

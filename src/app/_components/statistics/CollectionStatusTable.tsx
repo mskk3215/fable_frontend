@@ -7,9 +7,9 @@ import Link from "next/link";
 import { CurrentLocationBox } from "./CurrentLocationBox";
 import { SortableTableHead } from "./SortableTableHead";
 import {
-  destinationLocationState,
   originLocationState,
   searchWordState,
+  useDestinationLocation,
 } from "../../../store/atoms/searchWordState";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -42,7 +42,7 @@ export const CollectionStatusTable = (props: Props) => {
   } = props;
 
   const setSearchWord = useSetRecoilState(searchWordState);
-  const setDestinationLocation = useSetRecoilState(destinationLocationState);
+  const { saveDestinationLocation } = useDestinationLocation();
   const originLocation = useRecoilValue(originLocationState);
 
   const [order, setOrder] = useState<Order>("asc");
@@ -250,7 +250,7 @@ export const CollectionStatusTable = (props: Props) => {
                     >
                       <SLink
                         href={`/direction`}
-                        onClick={() => setDestinationLocation(row.parkName)}
+                        onClick={() => saveDestinationLocation(row.parkName)}
                       >
                         {row.parkName}
                       </SLink>

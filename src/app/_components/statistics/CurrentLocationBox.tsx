@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { memo, useRef, useEffect } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { Autocomplete, LoadScriptNext } from "@react-google-maps/api";
 import {
   originLocationState,
@@ -21,8 +21,7 @@ type Props = {
 
 export const CurrentLocationBox = memo((props: Props) => {
   const { setCurrentLat, setCurrentLng } = props;
-  const [originLocation, setOriginLocation] =
-    useRecoilState(originLocationState);
+  const originLocation = useRecoilValue(originLocationState);
   const { saveOriginLocation } = useOriginLocation();
   const [isGeocoderLoaded, setIsGeocoderLoaded] = useRecoilState(
     isGeocoderLoadedState
@@ -34,8 +33,7 @@ export const CurrentLocationBox = memo((props: Props) => {
     if (autocompleteRef.current) {
       const place = autocompleteRef.current.getPlace();
       if (place && typeof place.formatted_address === "string") {
-        setOriginLocation(place.formatted_address);
-        saveOriginLocation(originLocation);
+        saveOriginLocation(place.formatted_address);
         getLatLng(place.formatted_address);
       }
     }
@@ -71,7 +69,7 @@ export const CurrentLocationBox = memo((props: Props) => {
   }, [isGeocoderLoaded]);
 
   const handleDeleteClick = () => {
-    setOriginLocation("");
+    saveOriginLocation("");
     setCurrentLat?.(undefined);
     setCurrentLng?.(undefined);
     localStorage.removeItem("originLocation");
@@ -93,7 +91,7 @@ export const CurrentLocationBox = memo((props: Props) => {
             placeholder="現在位置を入力"
             value={originLocation}
             variant="standard"
-            onChange={(e) => setOriginLocation(e.target.value)}
+            onChange={(e) => saveOriginLocation(e.target.value)}
             InputProps={{
               endAdornment: (
                 <React.Fragment>

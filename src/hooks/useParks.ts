@@ -1,7 +1,10 @@
 //全公園データを取得するカスタムフック
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { searchWordState } from "../store/atoms/searchWordState";
+import {
+  searchWordState,
+  useSearchResults,
+} from "../store/atoms/searchWordState";
 import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
 import { getParks, getSearchParkResults } from "../urls";
 import { ParkOption, Park, UseParks } from "../types/parks";
@@ -10,6 +13,7 @@ export const useParks = (): UseParks => {
   const [parks, setParks] = useState<Park[]>([]);
   const [parkOptions, setParkOptions] = useState<ParkOption[]>([]);
   const [isParksLoading, setIsParksLoading] = useState(true);
+  const { saveSearchResults } = useSearchResults();
 
   // エラーハンドリング呼び出し
   useGetRequestErrorAction();
@@ -35,12 +39,11 @@ export const useParks = (): UseParks => {
 
   // 公園データから特定の昆虫名に合致した公園データを取得する
   const searchWord = useRecoilValue(searchWordState);
-  const [searchResults, setSearchResults] = useState<Park[]>([]);
 
-  const handleGetParkSearchResults = async (word: string) => {
+  const handleGetParkSearchResults = async (searchWord: string) => {
     setIsParksLoading(true);
-    const { data } = await getSearchParkResults(word);
-    setSearchResults(data);
+    const { data } = await getSearchParkResults(searchWord);
+    saveSearchResults(data);
     setIsParksLoading(false);
   };
   useEffect(() => {
@@ -52,7 +55,6 @@ export const useParks = (): UseParks => {
     parkOptions,
     handleGetParks,
     handleGetParkSearchResults,
-    searchResults,
     isParksLoading,
   };
 };

@@ -18,6 +18,7 @@ import {
 import {
   destinationLocationState,
   originLocationState,
+  useDestinationLocation,
 } from "../../../store/atoms/searchWordState";
 import { useGeocodeLatLng } from "../../../hooks/useGeocoddeLatLng";
 import { mapStyles } from "../../../styles/mapStyles";
@@ -96,6 +97,7 @@ export const MapView = memo((props: Props) => {
   const [mapLoadState, setMapLoadState] = useRecoilState(mapApiLoadState);
   const originLocation = useRecoilValue(originLocationState);
   const destinationLocation = useRecoilValue(destinationLocationState);
+  const { saveDestinationLocation } = useDestinationLocation();
 
   const locations = searchResults.map((result) => {
     const id = result.id;
@@ -153,6 +155,7 @@ export const MapView = memo((props: Props) => {
               label={markerLabel(title)}
               onClick={() => {
                 setSelectedItemId(id);
+                saveDestinationLocation(title);
                 setSelectedCenter(latLng);
               }}
             />

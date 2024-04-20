@@ -7,8 +7,8 @@ import { loginUserState } from "../../../store/atoms/userAtom";
 import { FollowButton } from "../FollowButton";
 import { LikeButton } from "../LikeButton";
 import {
-  destinationLocationState,
   searchWordState,
+  useDestinationLocation,
 } from "../../../store/atoms/searchWordState";
 import styled from "styled-components";
 import {
@@ -59,7 +59,7 @@ export const ImageItemDialog = memo((props: Props) => {
 
   const loginUser = useRecoilValue(loginUserState);
   const setSearchWord = useSetRecoilState(searchWordState);
-  const setDestinationLocation = useSetRecoilState(destinationLocationState);
+  const { saveDestinationLocation } = useDestinationLocation();
 
   return (
     <>
@@ -187,7 +187,9 @@ export const ImageItemDialog = memo((props: Props) => {
                 href={`/direction`}
                 onClick={() => {
                   if (currentImage.parkId) {
-                    setDestinationLocation(parks[currentImage.parkId - 1].name);
+                    saveDestinationLocation(
+                      parks[currentImage.parkId - 1].name
+                    );
                   }
                 }}
               >

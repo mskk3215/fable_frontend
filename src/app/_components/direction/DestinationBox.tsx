@@ -12,9 +12,6 @@ type Props = {
 export const DestinationBox = memo((props: Props) => {
   const { destinationRef } = props;
   const destinationLocation = useRecoilValue(destinationLocationState);
-  if (!destinationLocation) {
-    return null;
-  }
 
   return (
     <TextField

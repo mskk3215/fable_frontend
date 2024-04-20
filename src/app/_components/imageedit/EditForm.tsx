@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  ChangeEvent,
-  FormEvent,
-  memo,
-  useEffect,
-  useState,
-} from "react";
+import React, { FormEvent, memo, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { messageState } from "../../../store/atoms/errorAtom";
 import { useErrorAction } from "../../../hooks/error/useErrorAction";
@@ -34,7 +28,6 @@ import { ApiError } from "../../../types/api";
 type Props = {
   selectedIds: number[];
   setSelectedIds: (ids: number[]) => void;
-  setSelectedIndexes: (indexes: number[]) => void;
   handleGetParks: () => void;
   parkOptions: ParkOption[];
   parks: Park[];
@@ -52,7 +45,6 @@ export const EditForm = memo((props: Props) => {
   const {
     selectedIds,
     setSelectedIds,
-    setSelectedIndexes,
     handleGetParks,
     parkOptions,
     parks,
@@ -126,7 +118,6 @@ export const EditForm = memo((props: Props) => {
     setCityName("");
     setTakenDate(null);
     setSelectedIds([]);
-    setSelectedIndexes([]);
   };
 
   const getSexes = () => {
@@ -186,30 +177,41 @@ export const EditForm = memo((props: Props) => {
   ) => {
     setInputValue(newInputValue);
     setParkName(newInputValue);
-  };
-  // 公園名を削除した時に都道府県名と市町村名を削除する
-  useEffect(() => {
-    if (value === null && inputValue === "") {
-      setParkName("");
+
+    // 公園名を削除した時に都道府県名と市町村名を削除する
+    if (newInputValue === "") {
       setPrefectureName("");
       setCityName("");
     }
-  }, [value, inputValue]);
+  };
+  // 都道府県名を選択した時に市町村名をセットする
+  const handleChangePrefectureName = (
+    e: React.SyntheticEvent<Element, Event>,
+    newValue: PrefectureOption | null
+  ) => {
+    if (newValue) {
+      setPrefectureName(newValue.label);
+    } else {
+      setPrefectureName("");
+      setCityName("");
+    }
+  };
 
-  // 保存、削除ボタンを押せるかどうかの判定
-  const noSelectedIds = selectedIds.length === 0;
-  const incompleteInsectInfo = insectName !== "" && insectSex === null;
-  const incompleteLocationInfo = prefectureName !== "" && cityName === "";
-  const incompleteAllInfo =
+  // 保存、削除ボタンが無効になる条件
+  const isSelectedIdsEmpty = selectedIds.length === 0;
+  const isInsectInfoNotFilled = insectName !== "" && insectSex === "";
+  const isLocationInfoPartiallyFilled =
+    prefectureName !== "" && cityName === "";
+  const isAllInfoNotFilled =
     insectSex === "" && cityName === "" && takenDate === null;
 
   const handleEditButton = () =>
-    noSelectedIds ||
-    incompleteInsectInfo ||
-    incompleteLocationInfo ||
-    incompleteAllInfo;
+    isSelectedIdsEmpty ||
+    isInsectInfoNotFilled ||
+    isLocationInfoPartiallyFilled ||
+    isAllInfoNotFilled;
 
-  const handleDeleteButton = () => noSelectedIds;
+  const handleDeleteButton = () => isSelectedIdsEmpty;
 
   const handleFormSize = () => {
     if (window.innerWidth >= 576) {
@@ -332,12 +334,7 @@ export const EditForm = memo((props: Props) => {
                     ? { label: prefectureName, value: prefectureName }
                     : null
                 }
-                onChange={(e, value) => {
-                  if (value !== null) {
-                    setPrefectureName(value?.label || "");
-                    setCityName(value?.label ? "" : "");
-                  }
-                }}
+                onChange={handleChangePrefectureName}
                 id="prefecture"
                 size={handleFormSize()}
                 options={prefectureOptions}
@@ -387,7 +384,10 @@ export const EditForm = memo((props: Props) => {
                   sx={{
                     width: { xs: 150, md: 200 },
                   }}
-                  slotProps={{ textField: { size: handleFormSize() } }}
+                  slotProps={{
+                    textField: { size: handleFormSize() },
+                    actionBar: { actions: ["clear"] },
+                  }}
                 />
               </LocalizationProvider>
             </Grid>

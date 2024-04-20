@@ -9,11 +9,14 @@ export type AuthResponse = {
 };
 
 export type ApiError = {
+  message: string;
+  code?: string;
   response?: {
     status: number;
     data: {
-      errors: string[];
+      error: string[];
       errorMessages: string;
     };
   };
+  errorMessage: string | string[];
 };

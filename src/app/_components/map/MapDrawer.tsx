@@ -53,17 +53,16 @@ export const MapDrawer = memo((props: Props) => {
     setQueryWord,
   } = props;
   const setSelectedCenter = useSetRecoilState(selectedCenterState);
-  const [destinationLocation, setDestinationLocation] = useRecoilState(
-    destinationLocationState
-  );
+  const destinationLocation = useRecoilValue(destinationLocationState);
   const { saveDestinationLocation } = useDestinationLocation();
   const [selectedItemId, setSelectedItemId] = useRecoilState(selectedItemState);
   const searchWord = useRecoilValue(searchWordState);
   const [open, setOpen] = useState(true);
+  const [searchInitiated, setSearchInitiated] = useState(false);
 
   const handleListItem = (result: Park) => {
     setSelectedItemId(result.id);
-    setDestinationLocation(result.name);
+    saveDestinationLocation(result.name);
     setSelectedCenter({ lat: result.latitude, lng: result.longitude });
   };
   useEffect(() => {
@@ -78,6 +77,10 @@ export const MapDrawer = memo((props: Props) => {
       topListItemRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [selectedItemId]);
+
+  useEffect(() => {
+    setSearchInitiated(false);
+  }, [searchWord]);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -99,6 +102,7 @@ export const MapDrawer = memo((props: Props) => {
           insectOptions={insectOptions}
           queryWord={queryWord}
           setQueryWord={setQueryWord}
+          setSearchInitiated={setSearchInitiated}
         />
       </SearchBoxStyled>
       <Drawer
@@ -129,7 +133,7 @@ export const MapDrawer = memo((props: Props) => {
               >
                 <CircularProgress />
               </Box>
-            ) : searchWord && searchResults.length === 0 ? (
+            ) : searchInitiated && searchWord && searchResults.length === 0 ? (
               <ListItem>
                 <SListItemText primary="検索した昆虫は見つかりません。" />
               </ListItem>

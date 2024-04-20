@@ -14,6 +14,7 @@ export const GuestLoginButton = () => {
     await handleLoginAction({
       email: "Ares@example.com",
       password: "111111",
+      setErrors: () => {},
       setIsLoading: setIsLoading,
     });
   };

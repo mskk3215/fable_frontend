@@ -23,6 +23,5 @@ export type UseParks = {
   parkOptions: ParkOption[];
   handleGetParks: () => Promise<void>;
   handleGetParkSearchResults: (word: string) => Promise<void>;
-  searchResults: Park[];
   isParksLoading: boolean;
 };

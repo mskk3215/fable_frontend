@@ -1,26 +1,51 @@
 import { useEffect } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import {
-  getRequestErrorStatusState,
-  messageState,
-} from "../../store/atoms/errorAtom";
 import { apiClient } from "../../urls";
 
 export const useGetRequestErrorAction = () => {
-  const [getRequestErrorStatus, setGetRequestErrorStatus] = useRecoilState(
-    getRequestErrorStatusState
-  );
-  const setMessage = useSetRecoilState(messageState);
-
-  // Getリクエストのエラーハンドリング
+  // リクエストのエラーハンドリング
   useEffect(() => {
     const interceptor = apiClient.interceptors.response.use(
       (response) => {
         return response;
       },
       (error) => {
-        if (error.config.method === "get") {
-          setGetRequestErrorStatus(error.response.status);
+        if (error.response) {
+          let errorMessage = "";
+          if (error.response.data.error) {
+            errorMessage = error.response.data.error;
+          } else {
+            switch (error.response.status) {
+              case 400:
+                errorMessage =
+                  "無効なリクエストです。入力情報を確認してください。";
+                break;
+              case 401:
+                errorMessage = "認証に失敗しました。再度ログインしてください。";
+                break;
+              case 403:
+                errorMessage =
+                  "アクセスが拒否されました。権限を確認してください。";
+                break;
+              case 404:
+                errorMessage = "ページまたはリソースが見つかりませんでした。";
+                break;
+              case 500:
+                errorMessage =
+                  "サーバーエラーが発生しました。時間をおいて再度お試しください。";
+                break;
+              default:
+                errorMessage = "不明なエラーが発生しました。";
+            }
+          }
+          error.errorMessage = errorMessage;
+        } else if (error.request) {
+          // リクエストが送信されなかった場合のエラーメッセージを設定
+          error.errorMessage =
+            "サーバーに接続できませんでした。ネットワークを確認してください。";
+        } else {
+          // その他のエラーの場合のエラーメッセージを設定
+          error.errorMessage =
+            "エラーが発生しました。時間をおいて再度お試しください。";
         }
         return Promise.reject(error);
       }
@@ -30,38 +55,4 @@ export const useGetRequestErrorAction = () => {
       apiClient.interceptors.response.eject(interceptor);
     };
   }, []);
-
-  // エラーメッセージの表示
-  useEffect(() => {
-    if (getRequestErrorStatus) {
-      let userMessage: string;
-      switch (getRequestErrorStatus) {
-        case 400:
-          userMessage = "無効なリクエストです。入力情報を確認してください。";
-          break;
-        case 401:
-          userMessage = "認証に失敗しました。再度ログインしてください。";
-          break;
-        case 403:
-          userMessage = "アクセスが拒否されました。権限を確認してください。";
-          break;
-        case 404:
-          userMessage = "ページまたはリソースが見つかりませんでした。";
-          break;
-        case 500:
-          userMessage = "サーバーエラーが発生しました。";
-          break;
-        case 503:
-          userMessage = "サービスが利用できません。後ほど再試行してください。";
-          break;
-        case 504:
-          userMessage =
-            "サーバーとの接続に問題が発生しました。しばらくしてから再試行してください。";
-          break;
-        default:
-          userMessage = "不明なエラーが発生しました。";
-      }
-      setMessage({ message: userMessage, type: "error" });
-    }
-  }, [getRequestErrorStatus]);
 };
