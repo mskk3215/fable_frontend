@@ -4,6 +4,7 @@ import React, { useRef, useEffect, useMemo } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart, DoughnutController, ArcElement } from "chart.js";
 import { Typography, Box, Paper, useTheme } from "@mui/material";
+import { AnyObject, EmptyObject } from "chart.js/dist/types/basic";
 
 Chart.register(DoughnutController, ArcElement);
 
@@ -31,7 +32,11 @@ export const CollectionDoughnutChart = (props: Props) => {
   const centerTextPlugin = useMemo(
     () => ({
       id: "centerText",
-      afterDraw: (chart: Chart) => {
+      afterDraw: (
+        chart: Chart<"doughnut">,
+        _args: EmptyObject,
+        _options: AnyObject
+      ) => {
         const ctx = chart.ctx;
         const { width, height } = chart;
         const centerText = `${chart.config.data.datasets[0].data[0]}%`;
