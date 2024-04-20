@@ -66,10 +66,10 @@ export const ProfileEdit = () => {
   // サーバーに送信
   const handleProfileSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
     if (handelValidation()) {
-      const profileData = new FormData();
       if (loginUser === undefined) return;
+      setIsLoading(true);
+      const profileData = new FormData();
 
       profileData.append("user[nickname]", profileValues.nickname);
       if (profileValues.email) {
@@ -94,14 +94,22 @@ export const ProfileEdit = () => {
 
   // プロフィールバリデーション
   const handelValidation = () => {
-    setErrors([]);
-    if (profileValues.nickname.length < 1) {
-      setErrors((prev) => [...prev, "アカウント名を入力してください"]);
-      return;
-    }
-    if (profileValues.email && profileValues.email.length < 1) {
-      setErrors((prev) => [...prev, "メールアドレスを入力してください"]);
-      return;
+    const inputFields = [
+      {
+        value: profileValues.nickname,
+        name: "名前",
+      },
+      {
+        value: profileValues.email,
+        name: "メールアドレス",
+      },
+    ];
+    const errorMessages = inputFields
+      .filter((field) => !field.value)
+      .map((field) => `${field.name}を入力してください`);
+    if (errorMessages.length > 0) {
+      setErrors(errorMessages);
+      return false;
     }
     return true;
   };
@@ -183,14 +191,14 @@ export const ProfileEdit = () => {
               ))}
             <TextField
               name="nickname"
-              label="アカウント名"
+              label="名前"
               value={profileValues.nickname}
               onChange={handleInputChange}
               fullWidth
             />
             <TextField
               name="email"
-              label="メール"
+              label="メールアドレス"
               value={profileValues.email}
               onChange={handleInputChange}
               fullWidth
