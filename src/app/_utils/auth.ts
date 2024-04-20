@@ -1,9 +1,12 @@
+import { LoginAuthAction } from "../../types/user";
+
+// loginコンポーネントのほかuserpageでも使用
 export const handleLogin = async (
-  email,
-  password,
-  setErrors,
-  setIsLoading,
-  handleLoginAction
+  email: string,
+  password: string,
+  setErrors: (errors: string[]) => void,
+  setIsLoading: (isLoading: boolean) => void,
+  handleLoginAction: (action: LoginAuthAction) => void
 ) => {
   // バリデーション
   const inputFields = [
