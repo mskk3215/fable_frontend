@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useServerInsertedHTML } from "next/navigation";
 import { ServerStyleSheet, StyleSheetManager } from "styled-components";
 
+//styled-componentsを使ったスタイルがサーバーサイドとクライアントサイドの両方で一貫して適用されるようにするためのコンポーネント
 export default function StyledComponentsRegistry({
   children,
 }: {
@@ -16,7 +17,7 @@ export default function StyledComponentsRegistry({
   useServerInsertedHTML(() => {
     const styles = styledComponentsStyleSheet.getStyleElement();
 
-    (styledComponentsStyleSheet.instance as any).clearTag();
+    styledComponentsStyleSheet.instance.clearTag();
     return <>{styles}</>;
   });
 

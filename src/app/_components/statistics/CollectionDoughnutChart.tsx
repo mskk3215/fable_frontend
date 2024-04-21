@@ -2,11 +2,11 @@
 
 import React, { useRef, useEffect, useMemo } from "react";
 import { Doughnut } from "react-chartjs-2";
-import { Chart, DoughnutController, ArcElement } from "chart.js";
+import { Chart as ChartJS, DoughnutController, ArcElement } from "chart.js";
 import { Typography, Box, Paper, useTheme } from "@mui/material";
 import { AnyObject, EmptyObject } from "chart.js/dist/types/basic";
 
-Chart.register(DoughnutController, ArcElement);
+ChartJS.register(DoughnutController, ArcElement);
 
 type Props = {
   collectionRate: number;
@@ -17,14 +17,15 @@ type Props = {
 
 export const CollectionDoughnutChart = (props: Props) => {
   const { collectionRate, collectionCount, unCollectedCount, pageSize } = props;
-  const chartRef = useRef<any>(null);
+  const chartRef = useRef<ChartJS<"doughnut"> | null>(null);
   const theme = useTheme();
 
   useEffect(() => {
-    const currentChartRef = chartRef.current;
+    const currentChart = chartRef.current;
+
     return () => {
-      if (currentChartRef && currentChartRef.chartInstance) {
-        currentChartRef.chartInstance.destroy();
+      if (currentChart) {
+        currentChart.destroy();
       }
     };
   }, []);
@@ -33,7 +34,7 @@ export const CollectionDoughnutChart = (props: Props) => {
     () => ({
       id: "centerText",
       afterDraw: (
-        chart: Chart<"doughnut">,
+        chart: ChartJS<"doughnut">,
         _args: EmptyObject,
         _options: AnyObject
       ) => {
