@@ -1,9 +1,12 @@
 module.exports = {
+  reactStrictMode: true,
   images: {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "*.cloudfront.net",
+        // protocol: "http",
+        hostname: "fablesearch.com",
+        // hostname: "localhost",
         pathname: "/uploads/**",
       },
     ],
