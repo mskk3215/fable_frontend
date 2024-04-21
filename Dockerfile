@@ -4,14 +4,17 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /frontend/
 
-COPY package.json package-lock* ./
-RUN NODE_ENV=development npm ci
+# COPY package.json package-lock* ./
+COPY package.json ./
 
+RUN npm i
+RUN npm ci
 
 
 FROM base AS builder
 WORKDIR /frontend/
 
+ENV NODE_ENV production
 COPY --from=deps /frontend/node_modules ./node_modules
 COPY . .
 
@@ -21,7 +24,6 @@ RUN npm run build
 FROM base AS runner
 WORKDIR /frontend/
 
-ENV NODE_ENV production
 ENV NEXT_SHARP_PATH=/frontend/node_modules/sharp
 
 RUN addgroup --system --gid 1001 nodejs
