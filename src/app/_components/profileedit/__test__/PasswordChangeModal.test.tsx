@@ -1,9 +1,7 @@
 import React from "react";
 import { MutableSnapshot, RecoilRoot } from "recoil";
-import { useRouter } from "next/navigation";
-import { setupMockServer } from "../../../_utils/test-helpers";
 import "@testing-library/jest-dom";
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { loginUserState } from "../../../../store/atoms/userAtom";
 import { PasswordChangeModal } from "../PasswordChangeModal";
@@ -32,7 +30,22 @@ let newPasswordInput: HTMLInputElement;
 let newPasswordConfirmationInput: HTMLInputElement;
 let button: HTMLInputElement;
 
-beforeEach(() => {
+afterEach(() => {
+  jest.clearAllMocks();
+});
+
+const fillForm = async (
+  currentPassword = "",
+  newPassword = "",
+  newPasswordConfirmation = ""
+) => {
+  if (currentPassword) await user.type(currentPasswordInput, currentPassword);
+  if (newPassword) await user.type(newPasswordInput, newPassword);
+  if (newPasswordConfirmation)
+    await user.type(newPasswordConfirmationInput, newPasswordConfirmation);
+};
+
+describe("失敗する場合", () => {
   render(
     <>
       <RecoilRoot initializeState={initializeState}>
@@ -51,27 +64,10 @@ beforeEach(() => {
   newPasswordConfirmationInput =
     screen.getByLabelText("新しいパスワード(確認)");
   button = screen.getByRole("button", { name: "変更する" });
-});
 
-afterEach(() => {
-  jest.clearAllMocks();
-});
-
-const fillForm = async (
-  currentPassword = "",
-  newPassword = "",
-  newPasswordConfirmation = ""
-) => {
-  if (currentPassword) await user.type(currentPasswordInput, currentPassword);
-  if (newPassword) await user.type(newPasswordInput, newPassword);
-  if (newPasswordConfirmation)
-    await user.type(newPasswordConfirmationInput, newPasswordConfirmation);
-};
-
-describe("失敗する場合", () => {
   it("現在のパスワードが6文字未満の場合、エラーメッセージが表示される", async () => {
     await fillForm("12345", "234567", "234567");
-    userEvent.click(button);
+    await userEvent.click(button);
 
     const errorMessage = await screen.findByText(
       "現在のパスワードは6文字以上である必要があります。"
@@ -83,7 +79,7 @@ describe("失敗する場合", () => {
 
   it("新しいパスワードが6文字未満の場合、エラーメッセージが表示される", async () => {
     await fillForm("123456", "23456", "234567");
-    userEvent.click(button);
+    await userEvent.click(button);
 
     const errorMessage = await screen.findByText(
       "新しいパスワードは6文字以上である必要があります。"
@@ -95,7 +91,7 @@ describe("失敗する場合", () => {
 
   it("現在のパスワードと新しいパスワードが同じ場合、エラーメッセージが表示される", async () => {
     await fillForm("123456", "123456", "123456");
-    userEvent.click(button);
+    await userEvent.click(button);
 
     const errorMessage = await screen.findByText(
       "現在のパスワードと新しいパスワードが同じです。"
@@ -106,7 +102,7 @@ describe("失敗する場合", () => {
   });
   it("新しいパスワードと新しいパスワード(確認)が異なる場合、エラーメッセージが表示される", async () => {
     await fillForm("123456", "234567", "345678");
-    userEvent.click(button);
+    await userEvent.click(button);
 
     const errorMessage = await screen.findByText("パスワードが一致しません。");
     await waitFor(() => {

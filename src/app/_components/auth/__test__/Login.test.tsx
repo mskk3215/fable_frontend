@@ -26,7 +26,53 @@ let emailInput: HTMLInputElement;
 let passwordInput: HTMLInputElement;
 let button: HTMLInputElement;
 
-beforeEach(() => {
+afterEach(() => {
+  jest.clearAllMocks();
+});
+
+const fillForm = async (email = "", password = "") => {
+  if (email) await user.type(emailInput, email);
+  if (password) await user.type(passwordInput, password);
+};
+
+// テスト
+describe("成功する場合", () => {
+  render(
+    <>
+      <RecoilRoot>
+        <Login />
+      </RecoilRoot>
+    </>
+  );
+
+  emailInput = screen.getByRole("textbox", {
+    name: "メールアドレス",
+  });
+  passwordInput = screen.getByPlaceholderText("パスワードを入力してください");
+  button = screen.getByRole("button", { name: "ログイン" });
+  test("存在するメールアドレス、パスワードでログインした場合、成功する", async () => {
+    render(
+      <>
+        <RecoilRoot>
+          <Login />
+        </RecoilRoot>
+      </>
+    );
+    emailInput = screen.getByRole("textbox", {
+      name: "メールアドレス",
+    });
+    passwordInput = screen.getByPlaceholderText("パスワードを入力してください");
+    button = screen.getByRole("button", { name: "ログイン" });
+    await fillForm("Ares@example.com", "111111");
+    await userEvent.click(button);
+
+    await waitFor(() => {
+      expect(useRouter().push).toHaveBeenCalledTimes(1);
+    });
+  });
+});
+
+describe("失敗する場合", () => {
   render(
     <>
       <RecoilRoot>
@@ -39,67 +85,42 @@ beforeEach(() => {
   });
   passwordInput = screen.getByPlaceholderText("パスワードを入力してください");
   button = screen.getByRole("button", { name: "ログイン" });
-});
-afterEach(() => {
-  jest.clearAllMocks();
-});
-
-const fillForm = async (email = "", password = "") => {
-  if (email) await user.type(emailInput, email);
-  if (password) await user.type(passwordInput, password);
-};
-
-// テスト
-describe("成功する場合", () => {
-  test("存在するメールアドレス、パスワードでログインした場合、成功する", async () => {
-    await fillForm("Ares@example.com", "111111");
-    userEvent.click(button);
-
-    await waitFor(() => {
-      expect(useRouter().push).toBeCalledTimes(1);
-    });
-  });
-});
-
-describe("失敗する場合", () => {
   test("メールアドレスが未入力の場合、エラーが表示される", async () => {
     await fillForm("", "111111");
-    userEvent.click(button);
+    await userEvent.click(button);
 
     const errorMessage = await screen.findByText(
       "メールアドレスを入力してください"
     );
+    expect(errorMessage).toBeInTheDocument();
     await waitFor(() => {
-      expect(errorMessage).toBeInTheDocument();
-      expect(useRouter().push).toBeCalledTimes(0);
+      expect(useRouter().push).toHaveBeenCalledTimes(0);
     });
   });
 
   test("パスワードが未入力の場合、エラーが表示される", async () => {
     await fillForm("Ares@example.com", "");
-    userEvent.click(button);
+    await userEvent.click(button);
 
     const errorMessage = await screen.findByText(
       "パスワードを入力してください"
     );
+    expect(errorMessage).toBeInTheDocument();
     await waitFor(() => {
-      expect(errorMessage).toBeInTheDocument();
-      expect(useRouter().push).toBeCalledTimes(0);
+      expect(useRouter().push).toHaveBeenCalledTimes(0);
     });
   });
 
   test("存在しないメールアドレス、パスワードの場合、エラーが表示される", async () => {
     await fillForm("401@example.com", "111111");
-    userEvent.click(button);
+    await userEvent.click(button);
 
-    const errorMessage1 = await screen.findByText("ログインに失敗しました。");
-    const errorMessage2 = await screen.findByText(
-      "入力した情報を確認して再度お試しください。"
+    const errorMessage1 = await screen.findByText(
+      "ログインに失敗しました。入力した情報を確認して再度お試しください。"
     );
+    expect(errorMessage1).toBeInTheDocument();
     await waitFor(() => {
-      expect(errorMessage1).toBeInTheDocument();
-      expect(errorMessage2).toBeInTheDocument();
-      expect(useRouter().push).toBeCalledTimes(0);
+      expect(useRouter().push).toHaveBeenCalledTimes(0);
     });
   });
 });
