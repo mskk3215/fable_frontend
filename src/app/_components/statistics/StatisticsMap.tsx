@@ -13,14 +13,7 @@ import {
   selectedPrefectureState,
 } from "../../../store/atoms/statisticsState";
 import { useStatisticMap } from "../../../hooks/useStatisticsMap";
-import {
-  Box,
-  Autocomplete,
-  TextField,
-  Paper,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Box, Autocomplete, TextField, Paper, Typography } from "@mui/material";
 import {
   GeoJSONFeature,
   GeoJSONFeatureCollection,
@@ -55,7 +48,6 @@ export const StatisticsMap = (props: Props) => {
   >(undefined);
   const calculateZoomSize = (prefectureName: string) =>
     ["北海道", "沖縄", "東京都"].includes(prefectureName) ? 5 : 7;
-  const theme = useTheme();
 
   const handlePrefectureChange = (newSelectedPref: string | null) => {
     setSelectedCity("");
