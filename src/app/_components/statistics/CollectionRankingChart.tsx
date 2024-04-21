@@ -2,7 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { Chart, LinearScale, BarElement, CategoryScale } from "chart.js";
+import {
+  Chart as ChartJS,
+  LinearScale,
+  BarElement,
+  CategoryScale,
+} from "chart.js";
 import { ActiveElement } from "chart.js/dist/plugins/plugin.tooltip";
 import { Bar } from "react-chartjs-2";
 import { useUserRankings } from "../../../hooks/statistics/useUserRankings";
@@ -11,7 +16,7 @@ import { Box, Pagination, Paper, Typography, useTheme } from "@mui/material";
 import { User } from "../../../types/user";
 import { Ranking } from "../../../types/statistics";
 
-Chart.register(LinearScale, BarElement, CategoryScale);
+ChartJS.register(LinearScale, BarElement, CategoryScale);
 
 type Props = {
   pageSize: number;
@@ -24,14 +29,15 @@ export const CollectionRankingChart = (props: Props) => {
   const [currentRankingPage, setCurrentRankingPage] = useState(1);
 
   const loginUser = useRecoilValue<User | undefined>(loginUserState);
-  const chartRef = useRef<any>(null);
+  const chartRef = useRef<ChartJS<"bar"> | null>(null);
   const theme = useTheme();
 
   useEffect(() => {
-    const myChart = chartRef.current;
+    const currentChart = chartRef.current;
+
     return () => {
-      if (myChart && myChart.chartInstance) {
-        myChart.chartInstance.destroy();
+      if (currentChart) {
+        currentChart.destroy();
       }
     };
   }, []);
