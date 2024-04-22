@@ -11,7 +11,7 @@ export const apiClient = applyCaseMiddleware(
     baseURL: DEFAULT_API_ENDPOINT,
     withCredentials: true,
     headers: {
-      "Content-type": "multipart/form-data",
+      "Content-Type": "application/json",
     },
   })
 );
@@ -29,14 +29,24 @@ export const updateUserProfile = (
   data: FormData,
   onUploadProgress: (progressEvent: AxiosProgressEvent) => void
 ) => {
-  return apiClient.put(`/users/${id}/profile`, data, { onUploadProgress });
+  return apiClient.put(`/users/${id}/profile`, data, {
+    onUploadProgress,
+    headers: {
+      "Content-Type": undefined, // ヘッダーの設定を削除して自動設定機能でmultipart/form-dataに変換
+    },
+  });
 };
 export const updateUserPassword = (
   id: number,
   data: FormData,
   onUploadProgress: (progressEvent: AxiosProgressEvent) => void
 ) => {
-  return apiClient.put(`/users/${id}/password`, data, { onUploadProgress });
+  return apiClient.put(`/users/${id}/password`, data, {
+    onUploadProgress,
+    headers: {
+      "Content-Type": undefined,
+    },
+  });
 };
 
 //user's login, logout
@@ -76,7 +86,10 @@ export const createPosts = (
   data: FormData,
   onUploadProgress: (progressEvent: AxiosProgressEvent) => void
 ) => {
-  return apiClient.post("/posts", data, { onUploadProgress });
+  return apiClient.post("/posts", data, {
+    onUploadProgress,
+    headers: { "Content-Type": undefined },
+  });
 };
 export const deletePosts = (postId: number) => {
   return apiClient.delete(`/posts/${postId}`);
@@ -104,12 +117,7 @@ export const getUserImages = ({
   });
 };
 export const updateImages = (data: object) => {
-  const config = {
-    headers: {
-      "Content-type": "application/json",
-    },
-  };
-  return apiClient.put(`/images/bulk_update`, data, config);
+  return apiClient.put(`/images/bulk_update`, data);
 };
 export const deleteImages = (id: number[]) => {
   return apiClient.delete(`/images/${id}`);
