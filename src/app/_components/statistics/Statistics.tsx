@@ -30,6 +30,9 @@ export const Statistics = () => {
         alignItems: "center",
         justifyContent: "center",
         paddingTop: "48px",
+        paddingBottom: "24px",
+        width: { xs: "99%", md: "100%" },
+        m: "auto",
       }}
     >
       <StatisticsMap pageSize={pageSize} />

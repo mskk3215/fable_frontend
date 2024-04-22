@@ -106,8 +106,8 @@ export const ImageEdit = () => {
   return (
     <Box style={{ marginTop: "48px" }}>
       <Box display="flex" flexWrap="wrap">
-        <Box sx={{ width: { xs: "100%", md: "80%" } }}>
-          <Grid container spacing={0.5}>
+        <Box sx={{ width: { xs: "98%", md: "80%" } }}>
+          <Grid container spacing={0.25}>
             {isImagesInitialLoading
               ? Array.from({ length: 15 }).map((_, index) => (
                   <Grid item xs={6} sm={4} md={2.4} key={index}>
@@ -145,7 +145,9 @@ export const ImageEdit = () => {
         <Divider orientation="vertical" flexItem />
         <Box
           sx={{
-            width: { xs: "100%", md: "18%" },
+            width: { xs: "98%", md: "18%" },
+            mx: "auto",
+            marginBottom: "24px",
             px: { md: 1 },
           }}
         >
