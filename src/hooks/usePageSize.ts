@@ -1,25 +1,22 @@
 import { useMediaQuery, useTheme } from "@mui/material";
 
-export const usePageSize = () => {
-  // 画面サイズによって表示する画像の数を変更する
+export const usePageSize = (componentName?: string) => {
   const theme = useTheme();
-  const isXS = useMediaQuery(theme.breakpoints.down("sm"));
-  const isSM = useMediaQuery(theme.breakpoints.down("md"));
-  const isMD = useMediaQuery(theme.breakpoints.between("md", "lg"));
-  const isLG = useMediaQuery(theme.breakpoints.between("lg", "xl"));
-  const isXL = useMediaQuery(theme.breakpoints.up("xl"));
+  const breakpoints = theme.breakpoints;
 
-  let pageSize = 20;
+  const isXS = useMediaQuery(breakpoints.down("sm"));
+  const isSMorMD = useMediaQuery(breakpoints.down("md"));
+  const isLGorXL = useMediaQuery(breakpoints.up("lg"));
+
+  let pageSize = 10;
+
   if (isXS) {
     pageSize = 6;
-  } else if (isSM) {
+  } else if (isSMorMD) {
     pageSize = 8;
-  } else if (isMD) {
-    pageSize = 12;
-  } else if (isLG) {
-    pageSize = 15;
-  } else if (isXL) {
-    pageSize = 20;
+  } else if (isLGorXL) {
+    pageSize = componentName === "UserPage" ? 12 : 10;
   }
+
   return pageSize;
 };

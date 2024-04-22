@@ -26,7 +26,7 @@ export const PageNavigator = memo((props: Props) => {
 
   // ページネーション
   useEffect(() => {
-    const paginatedImages = images.slice(0, 15);
+    const paginatedImages = images.slice(0, 10);
     setPaginatedImages(paginatedImages);
   }, [imagePage, pageSize, images, setPaginatedImages]);
 

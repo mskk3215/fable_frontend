@@ -89,7 +89,7 @@ export const PostList = () => {
               key={index}
               sx={{
                 maxWidth: 600,
-                width: "100%",
+                width: "98%",
                 my: 3,
                 mx: "auto",
                 position: "relative",
@@ -102,7 +102,7 @@ export const PostList = () => {
             >
               <Skeleton
                 variant="rectangular"
-                width="100%"
+                width="98%"
                 height="100%"
                 sx={{
                   position: "absolute",
@@ -118,7 +118,7 @@ export const PostList = () => {
         : posts.map((post: Post) => {
             const currentImageIndex = displayedImages[post.id] || 0;
             return (
-              <Box key={post.id}>
+              <Box key={post.id} sx={{ width: "98%", m: "auto" }}>
                 <Card
                   style={{
                     margin: "16px auto",
@@ -395,6 +395,7 @@ export const PostList = () => {
             display: "flex",
             justifyContent: "center",
             height: "50px",
+            marginTop: "16px",
           }}
         >
           <CircularProgress />

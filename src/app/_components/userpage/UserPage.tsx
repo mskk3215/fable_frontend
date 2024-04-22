@@ -44,7 +44,7 @@ export const UserPage = () => {
     sortOption,
     setSortOption,
   } = useImages();
-  const pageSize = usePageSize();
+  const pageSize = usePageSize("UserPage");
 
   // urlが変更されたらページに表示するユーザー、ログインユーザー情報を取得する
   useEffect(() => {
@@ -192,7 +192,7 @@ export const UserPage = () => {
           justifyContent: "space-between",
           alignItems: "center",
           mb: 2,
-          ml: 1,
+          ml: 1.5,
         }}
       >
         <ImageSortSelector
@@ -212,14 +212,22 @@ export const UserPage = () => {
                 backgroundColor: "#2b3d51",
                 opacity: 0.7,
               },
-              mr: 1,
+              mr: 1.5,
             }}
           >
             投稿編集
           </Button>
         </Link>
       </Box>
-      <Grid container spacing={0.5}>
+      <Grid
+        container
+        spacing={0.25}
+        sx={{
+          width: { xs: "99%", md: "100%" },
+          m: "auto",
+          paddingRight: { xs: "0px", md: "10px" },
+        }}
+      >
         {isImagesInitialLoading
           ? Array.from({ length: 12 }).map((_, index) => (
               <Grid item xs={6} sm={4} md={2} key={index}>

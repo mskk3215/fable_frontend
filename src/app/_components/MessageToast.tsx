@@ -28,6 +28,7 @@ export const MessageToast = () => {
       open={!!message.message}
       autoHideDuration={6000}
       onClose={onClose}
+      style={{ whiteSpace: "pre-line" }}
       action={
         <>
           <IconButton size="small" color="inherit" onClick={onClose}>

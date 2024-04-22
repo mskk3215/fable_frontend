@@ -157,7 +157,7 @@ export default function PublicImages(props: Props) {
             justifyContent: "space-between",
             alignItems: "center",
             mb: 2,
-            ml: 1,
+            ml: 1.5,
           }}
         >
           <ImageSortSelector
@@ -190,7 +190,15 @@ export default function PublicImages(props: Props) {
         <Box sx={{ mb: 7 }}></Box>
       )}
       {/* 画像一覧 */}
-      <Grid container>
+      <Grid
+        container
+        spacing={0.25}
+        sx={{
+          width: { xs: "99%", md: "100%" },
+          m: "auto",
+          paddingRight: { xs: "0px", md: "10px" },
+        }}
+      >
         {images.map((image: ImageType, index) => (
           <Grid
             item
