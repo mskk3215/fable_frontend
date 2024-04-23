@@ -7,6 +7,7 @@ import Link from "next/link";
 import { loginUserState } from "../../../store/atoms/userAtom";
 import { LogoutButton } from "./LogoutButton";
 import { useAuthCheck } from "../../../hooks/user/useAuthCheck";
+import { useSessionTimeout } from "../../../hooks/user/useHandleSessionTimeout";
 import styled from "styled-components";
 import { GuestLoginButton } from "./GuestLoginButton";
 import { usePageSize } from "../../../hooks/usePageSize";
@@ -18,6 +19,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 export const Header = () => {
   useAuthCheck();
+  useSessionTimeout();
+
   const pathname = usePathname();
   const pageSize = usePageSize();
   const loginUser = useRecoilValue(loginUserState);
