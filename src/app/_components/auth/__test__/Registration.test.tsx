@@ -38,22 +38,6 @@ const fillForm = async (
   password = "",
   confirmPassword = ""
 ) => {
-  if (name) await user.type(nameInput, name);
-  if (email) await user.type(emailInput, email);
-  if (password) await user.type(passwordInput, password);
-  if (confirmPassword)
-    await user.type(passwordConfirmationInput, confirmPassword);
-};
-
-// テスト
-describe("成功する場合", () => {
-  render(
-    <>
-      <RecoilRoot>
-        <Registration />
-      </RecoilRoot>
-    </>
-  );
   nameInput = screen.getByRole("textbox", {
     name: "名前",
   });
@@ -64,7 +48,24 @@ describe("成功する場合", () => {
   passwordConfirmationInput =
     screen.getByPlaceholderText("パスワードを再入力してください");
   button = screen.getByRole("button", { name: "登録" });
+
+  if (name) await user.type(nameInput, name);
+  if (email) await user.type(emailInput, email);
+  if (password) await user.type(passwordInput, password);
+  if (confirmPassword)
+    await user.type(passwordConfirmationInput, confirmPassword);
+};
+
+// テスト
+describe("成功する場合", () => {
   it("全ての項目を正しく入力した場合、新規登録が成功する", async () => {
+    render(
+      <>
+        <RecoilRoot>
+          <Registration />
+        </RecoilRoot>
+      </>
+    );
     await fillForm("Ares", "taro@example.com", "111111", "111111");
     await userEvent.click(button);
 
@@ -75,78 +76,95 @@ describe("成功する場合", () => {
 });
 
 describe("失敗する場合", () => {
-  render(
-    <>
-      <RecoilRoot>
-        <Registration />
-      </RecoilRoot>
-    </>
-  );
-  nameInput = screen.getByRole("textbox", {
-    name: "名前",
-  });
-  emailInput = screen.getByRole("textbox", {
-    name: "メールアドレス",
-  });
-  passwordInput = screen.getByPlaceholderText("パスワードを入力してください");
-  passwordConfirmationInput =
-    screen.getByPlaceholderText("パスワードを再入力してください");
-  button = screen.getByRole("button", { name: "登録" });
-
   it("名前が未入力の場合、エラーが表示される", async () => {
+    render(
+      <>
+        <RecoilRoot>
+          <Registration />
+        </RecoilRoot>
+      </>
+    );
     await fillForm("", "taro@example.com", "111111", "111111");
     await userEvent.click(button);
 
     const errorMessage = await screen.findByText("名前を入力してください");
-    expect(errorMessage).toBeInTheDocument();
     await waitFor(() => {
-      expect(useRouter().push).toHaveBeenCalledTimes(0);
+      expect(errorMessage).toBeInTheDocument();
     });
+    expect(useRouter().push).toHaveBeenCalledTimes(0);
   });
   it("メールアドレスが未入力の場合、エラーが表示される", async () => {
+    render(
+      <>
+        <RecoilRoot>
+          <Registration />
+        </RecoilRoot>
+      </>
+    );
     await fillForm("Ares", "", "111111", "111111");
     await userEvent.click(button);
 
     const errorMessage = await screen.findByText(
       "メールアドレスを入力してください"
     );
-    expect(errorMessage).toBeInTheDocument();
     await waitFor(() => {
-      expect(useRouter().push).toHaveBeenCalledTimes(0);
+      expect(errorMessage).toBeInTheDocument();
     });
+    expect(useRouter().push).toHaveBeenCalledTimes(0);
   });
   it("パスワードが未入力の場合、エラーが表示される", async () => {
+    render(
+      <>
+        <RecoilRoot>
+          <Registration />
+        </RecoilRoot>
+      </>
+    );
     await fillForm("Ares", "taro@example.com", "", "111111");
     await userEvent.click(button);
 
     const errorMessage = await screen.findByText(
       "パスワードを入力してください"
     );
-    expect(errorMessage).toBeInTheDocument();
     await waitFor(() => {
-      expect(useRouter().push).toHaveBeenCalledTimes(0);
+      expect(errorMessage).toBeInTheDocument();
     });
+    expect(useRouter().push).toHaveBeenCalledTimes(0);
   });
   it("確認用パスワードが未入力の場合、エラーが表示される", async () => {
+    render(
+      <>
+        <RecoilRoot>
+          <Registration />
+        </RecoilRoot>
+      </>
+    );
     await fillForm("Ares", "taro@example.com", "111111", "");
     await userEvent.click(button);
 
     const errorMessage = await screen.findByText(
       "確認用パスワードを入力してください"
     );
-    expect(errorMessage).toBeInTheDocument();
     await waitFor(() => {
-      expect(useRouter().push).toHaveBeenCalledTimes(0);
+      expect(errorMessage).toBeInTheDocument();
     });
+    expect(useRouter().push).toHaveBeenCalledTimes(0);
   });
   it("パスワードと確認用パスワードが一致しない場合、エラーが表示される", async () => {
+    render(
+      <>
+        <RecoilRoot>
+          <Registration />
+        </RecoilRoot>
+      </>
+    );
     await fillForm("Ares", "taro@example.com", "111111", "555555");
     await userEvent.click(button);
 
     const errorMessage = await screen.findByText("パスワードが一致しません");
-    expect(errorMessage).toBeInTheDocument();
     await waitFor(() => {
-      expect(useRouter().push).toHaveBeenCalledTimes(0);
+      expect(errorMessage).toBeInTheDocument();
     });
+    expect(useRouter().push).toHaveBeenCalledTimes(0);
   });
 });

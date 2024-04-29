@@ -39,6 +39,12 @@ const fillForm = async (
   newPassword = "",
   newPasswordConfirmation = ""
 ) => {
+  currentPasswordInput = screen.getByLabelText("現在のパスワード");
+  newPasswordInput = screen.getByLabelText("新しいパスワード");
+  newPasswordConfirmationInput =
+    screen.getByLabelText("新しいパスワード(確認)");
+  button = screen.getByRole("button", { name: "変更する" });
+
   if (currentPassword) await user.type(currentPasswordInput, currentPassword);
   if (newPassword) await user.type(newPasswordInput, newPassword);
   if (newPasswordConfirmation)
@@ -46,26 +52,20 @@ const fillForm = async (
 };
 
 describe("失敗する場合", () => {
-  render(
-    <>
-      <RecoilRoot initializeState={initializeState}>
-        <PasswordChangeModal
-          setErrors={setErrorsMock}
-          setIsLoading={setIsLoadingMock}
-          setUploadProfileProgress={setUploadProfileProgressMock}
-          passwordChangeOpen={true}
-          handleModalClose={() => {}}
-        />
-      </RecoilRoot>
-    </>
-  );
-  currentPasswordInput = screen.getByLabelText("現在のパスワード");
-  newPasswordInput = screen.getByLabelText("新しいパスワード");
-  newPasswordConfirmationInput =
-    screen.getByLabelText("新しいパスワード(確認)");
-  button = screen.getByRole("button", { name: "変更する" });
-
   it("現在のパスワードが6文字未満の場合、エラーメッセージが表示される", async () => {
+    render(
+      <>
+        <RecoilRoot initializeState={initializeState}>
+          <PasswordChangeModal
+            setErrors={setErrorsMock}
+            setIsLoading={setIsLoadingMock}
+            setUploadProfileProgress={setUploadProfileProgressMock}
+            passwordChangeOpen={true}
+            handleModalClose={() => {}}
+          />
+        </RecoilRoot>
+      </>
+    );
     await fillForm("12345", "234567", "234567");
     await userEvent.click(button);
 
@@ -78,6 +78,19 @@ describe("失敗する場合", () => {
   });
 
   it("新しいパスワードが6文字未満の場合、エラーメッセージが表示される", async () => {
+    render(
+      <>
+        <RecoilRoot initializeState={initializeState}>
+          <PasswordChangeModal
+            setErrors={setErrorsMock}
+            setIsLoading={setIsLoadingMock}
+            setUploadProfileProgress={setUploadProfileProgressMock}
+            passwordChangeOpen={true}
+            handleModalClose={() => {}}
+          />
+        </RecoilRoot>
+      </>
+    );
     await fillForm("123456", "23456", "234567");
     await userEvent.click(button);
 
@@ -90,6 +103,19 @@ describe("失敗する場合", () => {
   });
 
   it("現在のパスワードと新しいパスワードが同じ場合、エラーメッセージが表示される", async () => {
+    render(
+      <>
+        <RecoilRoot initializeState={initializeState}>
+          <PasswordChangeModal
+            setErrors={setErrorsMock}
+            setIsLoading={setIsLoadingMock}
+            setUploadProfileProgress={setUploadProfileProgressMock}
+            passwordChangeOpen={true}
+            handleModalClose={() => {}}
+          />
+        </RecoilRoot>
+      </>
+    );
     await fillForm("123456", "123456", "123456");
     await userEvent.click(button);
 
@@ -101,6 +127,19 @@ describe("失敗する場合", () => {
     });
   });
   it("新しいパスワードと新しいパスワード(確認)が異なる場合、エラーメッセージが表示される", async () => {
+    render(
+      <>
+        <RecoilRoot initializeState={initializeState}>
+          <PasswordChangeModal
+            setErrors={setErrorsMock}
+            setIsLoading={setIsLoadingMock}
+            setUploadProfileProgress={setUploadProfileProgressMock}
+            passwordChangeOpen={true}
+            handleModalClose={() => {}}
+          />
+        </RecoilRoot>
+      </>
+    );
     await fillForm("123456", "234567", "345678");
     await userEvent.click(button);
 
