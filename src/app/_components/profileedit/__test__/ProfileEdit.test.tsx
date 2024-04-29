@@ -3,7 +3,7 @@ import { MutableSnapshot, RecoilRoot } from "recoil";
 import { ProfileEdit } from "../ProfileEdit";
 import { setupMockServer } from "../../../_utils/test-helpers";
 import "@testing-library/jest-dom";
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { handleProfileEdit } from "./msw";
 import { loginUserState } from "../../../../store/atoms/userAtom";

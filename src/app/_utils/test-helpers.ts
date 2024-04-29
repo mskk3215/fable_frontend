@@ -10,5 +10,3 @@ export function setupMockServer(...handlers: RequestHandler[]) {
   afterAll(() => server.close());
   return server;
 }
-//setup SelectImage
-export function setupImageFile() {}
