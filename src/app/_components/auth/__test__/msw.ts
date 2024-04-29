@@ -54,10 +54,8 @@ export const handleLogin = () => {
       return res(
         ctx.status(401),
         ctx.json({
-          errors: [
-            "ログインに失敗しました。",
-            "入力した情報を確認して再度お試しください。",
-          ],
+          errors:
+            "ログインに失敗しました。入力した情報を確認して再度お試しください。",
         })
       );
     }

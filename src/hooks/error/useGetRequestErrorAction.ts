@@ -20,7 +20,8 @@ export const useGetRequestErrorAction = () => {
                   "無効なリクエストです。入力情報を確認してください。";
                 break;
               case 401:
-                errorMessage = "認証に失敗しました。再度ログインしてください。";
+                errorMessage =
+                  "ログインに失敗しました。入力した情報を確認して再度お試しください。";
                 break;
               case 403:
                 errorMessage =
