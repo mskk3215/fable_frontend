@@ -5,13 +5,14 @@ import RecoilProvider from "./provider";
 import { MessageToast } from "./_components/MessageToast";
 import { Header } from "./_components/headerfotter/Header";
 
-const siteName = "fabre insect search";
+const siteName = "fabre search";
 const description = "このサイトは昆虫採集をする人向けのアプリです。";
-const url = "https://fable-insect-search.com";
+const url = "https://fablesearch.com";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(url),
   title: {
-    template: "%s - fabre insect search",
+    template: "%s - fabre search",
     default: siteName,
   },
   description,

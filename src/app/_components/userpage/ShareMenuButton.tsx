@@ -10,8 +10,7 @@ import {
 import { usePathname } from "next/navigation";
 import { loginUserState } from "../../../store/atoms/userAtom";
 import { CopyToTheLink } from "./CopyToTheLink";
-import { Box, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
-import { MoreHoriz } from "@mui/icons-material";
+import { Box, Button, Menu, MenuItem, Tooltip } from "@mui/material";
 import { Typography } from "@mui/material";
 import { User } from "../../../types/user";
 
@@ -41,24 +40,24 @@ export const ShareMenuButton = (props: Props) => {
   };
   return (
     <>
-      <Tooltip title="シェア" placement="right">
-        <IconButton
-          onClick={handleClick}
-          sx={{
-            position: "absolute",
-            top: -10,
-            right: -50,
-            cursor: "pointer",
-            textDecoration: "none",
-            color: "black",
-            "&:hover": {
-              backgroundColor: "transparent",
-            },
-          }}
-        >
-          <MoreHoriz />
-        </IconButton>
-      </Tooltip>
+      <Button
+        onClick={handleClick}
+        sx={{
+          position: "absolute",
+          top: -10,
+          right: -70,
+          cursor: "pointer",
+          textDecoration: "none",
+          color: "black",
+          fontSize: "16px",
+          "&:hover": {
+            backgroundColor: "transparent",
+            textDecoration: "underline",
+          },
+        }}
+      >
+        共有
+      </Button>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
         <MenuItem onClick={handleClose}>
           <Tooltip title="Twitterでシェア" placement="right">
