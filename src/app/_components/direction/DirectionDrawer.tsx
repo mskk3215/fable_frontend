@@ -26,13 +26,16 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import Close from "@mui/icons-material/Close";
 import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";
 import DirectionsTransitIcon from "@mui/icons-material/DirectionsTransit";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
 import Tooltip from "@mui/material/Tooltip";
-import { ArrowBack, ArrowForward } from "@mui/icons-material";
+import {
+  ArrowBack,
+  ArrowForward,
+  SubdirectoryArrowLeft,
+} from "@mui/icons-material";
 import { Anchor, Steps, TravelMode } from "../../../types/map";
 
 type Props = {
@@ -152,13 +155,13 @@ export const DirectionDrawer = memo((props: Props) => {
                 />
               </SIconButton>
             </Tooltip>
-            <Tooltip title="ルートを閉じる">
+            <Tooltip title="昆虫検索に戻る">
               <IconButton
                 onClick={() => {
                   router.push("/map");
                 }}
               >
-                <Close sx={{ color: "gray" }} />
+                <SubdirectoryArrowLeft sx={{ color: "gray" }} />
               </IconButton>
             </Tooltip>
             {pageSize <= 8 && steps.length > 0 && (
