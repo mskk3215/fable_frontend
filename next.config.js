@@ -8,7 +8,7 @@ module.exports = {
         hostname: "fablesearch.com",
         // hostname: "d358fosu4otc8s.cloudfront.net",
         // hostname: "localhost",
-        pathname: "/uploads/*",
+        pathname: "/uploads/**",
       },
     ],
   },
