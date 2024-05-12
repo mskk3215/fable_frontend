@@ -24,9 +24,9 @@ export const ShareMenuButton = (props: Props) => {
 
   const determineUrl = () => {
     if (pathname === "/userpage") {
-      return `${process.env.NEXT_PUBLIC_URL}/userpage/${loginUser?.id}`;
+      return `https://fablesearch.com/userpage/${loginUser?.id}`;
     } else {
-      return `${process.env.NEXT_PUBLIC_URL}${pathname}`;
+      return `https://fablesearch.com${pathname}`;
     }
   };
   const sharedUrl = determineUrl();
