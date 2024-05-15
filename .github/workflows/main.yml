@@ -45,13 +45,13 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Get Google API Key from SSM
-        id: ssm
-        uses: aws-actions/aws-ssm-get-parameter@v1.3.2
-        with:
-          name: /fable/production/backend/google_api_key
-          with-decryption: true
+        id: get-google-api-key
+        run: |
+          GOOGLE_API_KEY=$(aws ssm get-parameter --name /fable/production/backend/google_api_key --with-decryption --query Parameter.Value --output text)
+          echo "NEXT_PUBLIC_GOOGLE_MAP_API=$GOOGLE_API_KEY" >> $GITHUB_ENV
+
       - name: Create .env file
-        run: echo "NEXT_PUBLIC_GOOGLE_MAP_API=${{ steps.ssm.outputs.value }}" > .env.production.local
+        run: echo "NEXT_PUBLIC_GOOGLE_MAP_API=$NEXT_PUBLIC_GOOGLE_MAP_API" > .env.production.local
 
       ## Build Docker Image Build
       - name: Build an Image
