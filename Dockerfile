@@ -40,10 +40,6 @@ RUN mkdir .next && chown nextjs:nodejs .next
 COPY --from=builder --chown=nextjs:nodejs /frontend/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /frontend/.next/static ./.next/static
 
-# ビルド時の環境変数設定
-ARG NEXT_PUBLIC_GOOGLE_MAP_API
-ENV NEXT_PUBLIC_GOOGLE_MAP_API=${NEXT_PUBLIC_GOOGLE_MAP_API}
-
 USER nextjs
 
 EXPOSE 3000
