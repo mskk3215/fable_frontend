@@ -44,17 +44,17 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Get Google API Key from SSM
-        id: get-google-api-key
-        run: |
-          GOOGLE_API_KEY=$(aws ssm get-parameter --name /fable/production/backend/google_api_key --with-decryption --query Parameter.Value --output text)
-          echo "NEXT_PUBLIC_GOOGLE_MAP_API=$GOOGLE_API_KEY" >> $GITHUB_ENV
-
-      - name: Create .env file
-        run: echo "NEXT_PUBLIC_GOOGLE_MAP_API=$NEXT_PUBLIC_GOOGLE_MAP_API" > .env.production.local
-
       ## Build Docker Image Build
+      # - name: Get Google API Key from SSM
+      #   id: get-google-api-key
+      #   run: |
+      #     GOOGLE_API_KEY=$(aws ssm get-parameter --name /fable/production/backend/google_api_key --with-decryption --query Parameter.Value --output text)
+      #     echo "NEXT_PUBLIC_GOOGLE_MAP_API=$GOOGLE_API_KEY" >> $GITHUB_ENV
+      # - name: Create .env file
+      #   run: echo "NEXT_PUBLIC_GOOGLE_MAP_API=$NEXT_PUBLIC_GOOGLE_MAP_API" > .env.production.local
       - name: Build an Image
+        env:
+          NEXT_PUBLIC_GOOGLE_MAP_API: ${{ secrets.NEXT_PUBLIC_GOOGLE_MAP_API }}
         run: |
           docker build -t fable-production-frontend .
       - name: Login to Amazon ECR
