@@ -117,13 +117,7 @@ export const MapView = memo((props: Props) => {
   });
   useEffect(() => {
     setMapLoadState({ isLoaded, loadError: Boolean(loadError) });
-    if (loadError) {
-      console.error("Google Maps API load error:", loadError.message);
-    }
   }, [isLoaded, loadError, setMapLoadState]);
-
-  const googleMapApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAP_API;
-  console.log("Google Map API Key:", googleMapApiKey);
 
   if (mapLoadState.loadError) return "Error loading maps";
   if (!mapLoadState.isLoaded) return "Loading Maps";
