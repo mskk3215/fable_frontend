@@ -28,7 +28,6 @@ type Props = {
   insectOptions: string[];
   queryWord: string;
   setQueryWord: (queryWord: string) => void;
-  setSearchInitiated: (searchInitiated: boolean) => void;
 };
 
 export const InsectSearchBox = memo((props: Props) => {
@@ -39,7 +38,6 @@ export const InsectSearchBox = memo((props: Props) => {
     handleGetParkSearchResults,
     insectOptions,
     setQueryWord,
-    setSearchInitiated,
   } = props;
 
   const searchWord = useRecoilValue(searchWordState);
@@ -47,7 +45,6 @@ export const InsectSearchBox = memo((props: Props) => {
 
   const handleSearch = () => {
     setOpen(true);
-    setSearchInitiated(true);
     handleGetParkSearchResults(searchWord);
   };
 
