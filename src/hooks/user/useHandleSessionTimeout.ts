@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { loginUserState } from "../../store/atoms/userAtom";
 import { getUserLogin } from "../../urls";
 import { User } from "../../types/user";
@@ -8,10 +8,13 @@ import { messageState } from "../../store/atoms/errorAtom";
 
 export const useSessionTimeout = () => {
   const router = useRouter();
-  const setLoginUser = useSetRecoilState<User | undefined>(loginUserState);
+  const [loginUser, setLoginUser] = useRecoilState<User | undefined>(
+    loginUserState
+  );
   const setMessage = useSetRecoilState(messageState);
 
   useEffect(() => {
+    if (!loginUser) return;
     const interval = setInterval(async () => {
       getUserLogin()
         .then((response) => {
@@ -33,7 +36,7 @@ export const useSessionTimeout = () => {
         });
     }, 1800000); // 30分
     return () => clearInterval(interval);
-  }, [setLoginUser, router]);
+  }, [loginUser, setLoginUser, setMessage, router]);
 
   return null;
 };
