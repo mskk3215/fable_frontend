@@ -19,7 +19,8 @@ export const apiClient = applyCaseMiddleware(
 //users
 //user's get, post, put
 export const getUser = (userId: number | undefined) => {
-  return apiClient.get("/users", { params: { userId } });
+  const endpoint = userId ? `/users/${userId}` : "/users/current";
+  return apiClient.get(endpoint);
 };
 export const createUser = (data: UserRegistrationForm) => {
   return apiClient.post("/users", data);

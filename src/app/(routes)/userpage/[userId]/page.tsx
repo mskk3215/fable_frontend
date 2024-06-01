@@ -12,7 +12,7 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const id = params.userId;
   const data = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/users?user_id=${id}`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/users/${id}`
   ).then((res) => res.json());
 
   return {
@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 async function fetchProfileInfo(id: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/users?user_id=${id}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/users/${id}`,
     {
       cache: "no-store",
     }
