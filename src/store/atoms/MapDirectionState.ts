@@ -1,6 +1,7 @@
 import { atom } from "recoil";
 
-type SelectedItem = number | undefined;
+type SelectedItemId = number | undefined;
+type SelectedItemName = string | undefined;
 type SelectedCenter = {
   lat: number;
   lng: number;
@@ -10,8 +11,12 @@ export type MapApiLoad = {
   loadError: boolean;
 };
 
-export const selectedItemState = atom<SelectedItem>({
-  key: "selectedItemState",
+export const selectedItemIdState = atom<SelectedItemId>({
+  key: "selectedItemIdState",
+  default: undefined,
+});
+export const selectedItemNameState = atom<SelectedItemName>({
+  key: "selectedItemNameState",
   default: undefined,
 });
 

@@ -8,14 +8,14 @@ import {
 import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
 import { getParks, getSearchParkResults } from "../urls";
 import { ParkOption, Park, UseParks } from "../types/parks";
-import { selectedItemState } from "../store/atoms/MapDirectionState";
+import { selectedItemIdState } from "../store/atoms/MapDirectionState";
 
 export const useParks = (): UseParks => {
   const [parks, setParks] = useState<Park[]>([]);
   const [parkOptions, setParkOptions] = useState<ParkOption[]>([]);
   const [isParksLoading, setIsParksLoading] = useState(true);
   const { saveSearchResults } = useSearchResults();
-  const setSelectedItemId = useSetRecoilState(selectedItemState);
+  const setSelectedItemId = useSetRecoilState(selectedItemIdState);
 
   // エラーハンドリング呼び出し
   useGetRequestErrorAction();

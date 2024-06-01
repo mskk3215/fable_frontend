@@ -5,7 +5,8 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Image from "next/image";
 import {
   selectedCenterState,
-  selectedItemState,
+  selectedItemIdState,
+  selectedItemNameState,
 } from "../../../store/atoms/MapDirectionState";
 import { Header } from "../headerfotter/Header";
 import {
@@ -55,13 +56,15 @@ export const MapDrawer = memo((props: Props) => {
   const setSelectedCenter = useSetRecoilState(selectedCenterState);
   const destinationLocation = useRecoilValue(destinationLocationState);
   const { saveDestinationLocation } = useDestinationLocation();
-  const [selectedItemId, setSelectedItemId] = useRecoilState(selectedItemState);
+  const [selectedItemId, setSelectedItemId] =
+    useRecoilState(selectedItemIdState);
+  const setSelectedItemName = useSetRecoilState(selectedItemNameState);
   const searchWord = useRecoilValue(searchWordState);
   const [open, setOpen] = useState(true);
 
   const handleListItem = (result: Park) => {
     setSelectedItemId(result.id);
-    saveDestinationLocation(result.name);
+    setSelectedItemName(result.name);
     setSelectedCenter({ lat: result.latitude, lng: result.longitude });
   };
   useEffect(() => {
