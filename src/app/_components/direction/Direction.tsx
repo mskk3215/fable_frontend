@@ -187,6 +187,19 @@ export const Direction = () => {
     }
   }, []);
 
+  //destinationがなければMapページに遷移させる
+  useEffect(() => {
+    if (!destinationLocation) {
+      setMessage({
+        message: "昆虫がいる公園を選択してください。",
+        type: "error",
+      });
+      setTimeout(() => {
+        window.location.href = "/map";
+      }, 500);
+    }
+  }, [destinationLocation]);
+
   return (
     <>
       <Box sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" } }}>
