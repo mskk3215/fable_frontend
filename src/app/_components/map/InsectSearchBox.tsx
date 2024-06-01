@@ -5,6 +5,7 @@ import { useRecoilValue } from "recoil";
 import { useRouter } from "next/navigation";
 import {
   searchWordState,
+  useDestinationLocation,
   useSearchWord,
 } from "../../../store/atoms/searchWordState";
 import { convertHiraganaToKatakana } from "../../../hooks/useConvertHiraganaToKatakana";
@@ -19,6 +20,7 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
+import { selectedItemNameState } from "../../../store/atoms/MapDirectionState";
 
 type Props = {
   setOpen: (open: boolean) => void;
@@ -42,6 +44,8 @@ export const InsectSearchBox = memo((props: Props) => {
 
   const searchWord = useRecoilValue(searchWordState);
   const { saveSearchWord } = useSearchWord();
+  const { saveDestinationLocation } = useDestinationLocation();
+  const selectedItemName = useRecoilValue(selectedItemNameState);
 
   const handleSearch = () => {
     setOpen(true);
@@ -55,6 +59,8 @@ export const InsectSearchBox = memo((props: Props) => {
 
   const router = useRouter();
   const handleDirectionButtonClick = () => {
+    if (selectedItemName === undefined) return;
+    saveDestinationLocation(selectedItemName);
     router.push("/direction");
   };
 

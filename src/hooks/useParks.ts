@@ -1,6 +1,6 @@
 //全公園データを取得するカスタムフック
 import { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   searchWordState,
   useSearchResults,
@@ -8,12 +8,14 @@ import {
 import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
 import { getParks, getSearchParkResults } from "../urls";
 import { ParkOption, Park, UseParks } from "../types/parks";
+import { selectedItemIdState } from "../store/atoms/MapDirectionState";
 
 export const useParks = (): UseParks => {
   const [parks, setParks] = useState<Park[]>([]);
   const [parkOptions, setParkOptions] = useState<ParkOption[]>([]);
   const [isParksLoading, setIsParksLoading] = useState(true);
   const { saveSearchResults } = useSearchResults();
+  const setSelectedItemId = useSetRecoilState(selectedItemIdState);
 
   // エラーハンドリング呼び出し
   useGetRequestErrorAction();
@@ -44,6 +46,9 @@ export const useParks = (): UseParks => {
     setIsParksLoading(true);
     const { data } = await getSearchParkResults(searchWord);
     saveSearchResults(data);
+    if (data.length === 0) {
+      setSelectedItemId(undefined);
+    }
     setIsParksLoading(false);
   };
   useEffect(() => {
