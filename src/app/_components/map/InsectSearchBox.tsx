@@ -1,13 +1,16 @@
 "use client";
 
 import React, { memo } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { useRouter } from "next/navigation";
 import {
   searchWordState,
   useDestinationLocation,
   useSearchWord,
 } from "../../../store/atoms/searchWordState";
+import {
+  mapToDirectionState,
+} from "../../../store/atoms/MapDirectionState";
 import { convertHiraganaToKatakana } from "../../../hooks/useConvertHiraganaToKatakana";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
@@ -43,6 +46,7 @@ export const InsectSearchBox = memo((props: Props) => {
   } = props;
 
   const searchWord = useRecoilValue(searchWordState);
+  const setMapToDirection = useSetRecoilState(mapToDirectionState);
   const { saveSearchWord } = useSearchWord();
   const { saveDestinationLocation } = useDestinationLocation();
   const selectedItemName = useRecoilValue(selectedItemNameState);
@@ -60,6 +64,7 @@ export const InsectSearchBox = memo((props: Props) => {
   const router = useRouter();
   const handleDirectionButtonClick = () => {
     if (selectedItemName === undefined) return;
+    setMapToDirection(true);
     saveDestinationLocation(selectedItemName);
     router.push("/direction");
   };

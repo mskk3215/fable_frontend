@@ -9,6 +9,7 @@ type DestinationLocation = string;
 
 // searchWordをlocalStorageに保存し状態を管理する
 const initializeSearchWord = () => {
+  // build時に発生するエラーを回避するための処理
   if (typeof window === "undefined") {
     return "";
   }
@@ -37,9 +38,16 @@ export const useSearchWord = () => {
 };
 
 //OriginをlocalStorageに保存し状態を管理する
+const initializeOriginLocation = () => {
+  if (typeof window === "undefined") {
+    return "";
+  }
+  const savedOriginLocation = localStorage.getItem("originLocation");
+  return savedOriginLocation ? savedOriginLocation : "";
+};
 export const originLocationState = atom<OriginLocation>({
   key: "originLocationState",
-  default: "",
+  default: initializeOriginLocation(),
 });
 
 export const useOriginLocation = () => {
@@ -60,9 +68,16 @@ export const useOriginLocation = () => {
 };
 
 //DestinationをlocalStorageに保存し状態を管理する
+const initializeDestinationLocation = () => {
+  if (typeof window === "undefined") {
+    return "";
+  }
+  const savedDestinationLocation = localStorage.getItem("destinationLocation");
+  return savedDestinationLocation ? savedDestinationLocation : "";
+};
 export const destinationLocationState = atom<DestinationLocation>({
   key: "destinationLocationState",
-  default: "",
+  default: initializeDestinationLocation(),
 });
 export const useDestinationLocation = () => {
   const [destinationLocation, setDestinationLocation] = useRecoilState(
