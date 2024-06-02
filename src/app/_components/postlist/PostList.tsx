@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import Link from "next/link";
+import { throttle } from "lodash";
 import { loginUserState } from "../../../store/atoms/userAtom";
 import { useImages } from "../../../hooks/useImages";
 import { usePosts } from "../../../hooks/usePosts";
@@ -64,15 +65,24 @@ export const PostList = () => {
     }));
   };
   // scrollで投稿を追加取得
-  const handlePostScroll = () => {
+  // const handlePostScroll = () => {
+  //   if (
+  //     window.innerHeight + document.documentElement.scrollTop !==
+  //       document.documentElement.offsetHeight ||
+  //     isPostsLoading
+  //   )
+  //     return;
+  //   setPostPage((prevPage) => prevPage + 1);
+  // };
+  const handlePostScroll = throttle(() => {
     if (
-      window.innerHeight + document.documentElement.scrollTop !==
-        document.documentElement.offsetHeight ||
-      isPostsLoading
-    )
-      return;
-    setPostPage((prevPage) => prevPage + 1);
-  };
+      window.innerHeight + window.pageYOffset >=
+        document.documentElement.scrollHeight - 10 &&
+      !isPostsLoading
+    ) {
+      setPostPage((prevPage) => prevPage + 1);
+    }
+  }, 200);
 
   useEffect(() => {
     window.addEventListener("scroll", handlePostScroll);
