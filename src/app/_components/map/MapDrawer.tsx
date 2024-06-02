@@ -91,17 +91,19 @@ export const MapDrawer = memo((props: Props) => {
       >
         <Header />
       </AppBar>
-      <SearchBoxStyled>
-        <InsectSearchBox
-          setOpen={setOpen}
-          selectedItemId={selectedItemId}
-          setSelectedItemId={setSelectedItemId}
-          handleGetParkSearchResults={handleGetParkSearchResults}
-          insectOptions={insectOptions}
-          queryWord={queryWord}
-          setQueryWord={setQueryWord}
-        />
-      </SearchBoxStyled>
+      {!isParksLoading && (
+        <SearchBoxStyled>
+          <InsectSearchBox
+            setOpen={setOpen}
+            selectedItemId={selectedItemId}
+            setSelectedItemId={setSelectedItemId}
+            handleGetParkSearchResults={handleGetParkSearchResults}
+            insectOptions={insectOptions}
+            queryWord={queryWord}
+            setQueryWord={setQueryWord}
+          />
+        </SearchBoxStyled>
+      )}
       <Drawer
         variant="persistent"
         sx={{
