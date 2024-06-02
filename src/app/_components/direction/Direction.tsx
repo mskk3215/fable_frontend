@@ -9,7 +9,9 @@ import {
   destinationLocationState,
   originLocationState,
   searchResultsState,
+  useOriginLocation,
 } from "../../../store/atoms/searchWordState";
+import { mapToDirectionState } from "../../../store/atoms/MapDirectionState";
 import { Box } from "@mui/material";
 import { Anchor, Steps, TravelMode } from "../../../types/map";
 import { usePageSize } from "../../../hooks/usePageSize";
@@ -19,7 +21,7 @@ export const Direction = () => {
   const searchResults = useRecoilValue(searchResultsState);
 
   const originLocation = useRecoilValue(originLocationState);
-  const saveOriginLocation = useSetRecoilState(originLocationState);
+  const { saveOriginLocation } = useOriginLocation();
   const [directions, setDirections] = useState<
     google.maps.DirectionsResult | undefined
   >(undefined);
@@ -29,6 +31,7 @@ export const Direction = () => {
   const [steps, setSteps] = useState<Steps[]>([]);
   const [anchor, setAnchor] = useState<Anchor>("left");
   const destinationLocation = useRecoilValue(destinationLocationState);
+  const setMapToDirection = useSetRecoilState(mapToDirectionState);
   const originRef = useRef<HTMLInputElement>(null);
   const destinationRef = useRef<HTMLInputElement>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
@@ -62,6 +65,8 @@ export const Direction = () => {
     }
     setShouldCleanup(true);
     setDirections(undefined);
+    setMapToDirection(false);
+
     const directionsService = new window.google.maps.DirectionsService();
     directionsService
       .route(

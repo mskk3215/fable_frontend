@@ -35,3 +35,8 @@ export const mapApiLoadState = atom<MapApiLoad>({
     loadError: false,
   },
 });
+
+export const mapToDirectionState = atom<boolean>({
+  key: "mapToDirectionState",
+  default: false,
+});

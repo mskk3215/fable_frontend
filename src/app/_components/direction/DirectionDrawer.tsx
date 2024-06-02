@@ -1,10 +1,14 @@
 "use client";
 
-import React, { memo, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { useRouter } from "next/navigation";
 import parser from "html-react-parser";
-import { selectedCenterState } from "../../../store/atoms/MapDirectionState";
+import {
+  mapApiLoadState,
+  mapToDirectionState,
+  selectedCenterState,
+} from "../../../store/atoms/MapDirectionState";
 import { Header } from "../headerfotter/Header";
 import { DestinationBox } from "./DestinationBox";
 import { OriginBox } from "./OriginBox";
@@ -86,6 +90,8 @@ export const DirectionDrawer = memo((props: Props) => {
   const router = useRouter();
   const originLocation = useRecoilValue(originLocationState);
   const destinationLocation = useRecoilValue(destinationLocationState);
+  const mapLoadState = useRecoilValue(mapApiLoadState);
+  const mapToDirection = useRecoilValue(mapToDirectionState);
   const [isRouteVisible, setIsRouteVisible] = useState<boolean>(false);
 
   // リストをスクロールする
@@ -98,6 +104,17 @@ export const DirectionDrawer = memo((props: Props) => {
       lng: step.latLng.lng,
     });
   };
+
+  useEffect(() => {
+    if (
+      !mapToDirection &&
+      mapLoadState.isLoaded &&
+      originLocation &&
+      destinationLocation
+    ) {
+      calculateRoute();
+    }
+  }, [mapLoadState.isLoaded]);
 
   return (
     <Box sx={{ display: "flex" }}>
