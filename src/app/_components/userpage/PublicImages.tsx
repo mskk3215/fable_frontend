@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import Image from "next/image";
 import Link from "next/link";
+import { throttle } from "lodash";
 import { getUserImages } from "../../../urls";
 import { ImageSortSelector } from "./ImageSortSelector";
 import { loginUserState } from "../../../store/atoms/userAtom";
@@ -75,19 +76,19 @@ export default function PublicImages(props: Props) {
   }, [loginUser]);
 
   // infinity scroll
-  const handleImageScroll = () => {
+  const handleImageScroll = throttle(() => {
     if (
-      window.innerHeight + document.documentElement.scrollTop !==
-        document.documentElement.offsetHeight ||
-      isImagesLoading
-    )
-      return;
-    if (!loginUser) {
-      handleLoginAlertModalOpen();
-      return;
+      window.innerHeight + window.pageYOffset >=
+        document.documentElement.scrollHeight - 10 &&
+      !isImagesLoading
+    ) {
+      if (!loginUser) {
+        handleLoginAlertModalOpen();
+        return;
+      }
+      setImagePage((prevImagePage) => prevImagePage + 1);
     }
-    setImagePage((prevImagePage) => prevImagePage + 1);
-  };
+  }, 200);
 
   useEffect(() => {
     handleGetMoreImages(pageSize, numUserId, "addToImages");
@@ -96,7 +97,7 @@ export default function PublicImages(props: Props) {
   useEffect(() => {
     window.addEventListener("scroll", handleImageScroll);
     return () => window.removeEventListener("scroll", handleImageScroll);
-  }, [isImagesLoading]);
+  }, [isImagesLoading, loginUser]);
 
   // ImageDialog
   const [imageOpen, setImageOpen] = useState<boolean>(false);

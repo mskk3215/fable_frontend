@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { throttle } from "lodash";
 import { ImageItem } from "./ImageItem";
 import { FollowModal } from "./FollowModal";
 import { FollowButton } from "../FollowButton";
@@ -86,15 +87,14 @@ export const UserPage = () => {
   }, [currentImageIndex]);
 
   // scrollで投稿を追加取得
-  const handleImageScroll = () => {
+  const handleImageScroll = throttle(() => {
     if (
-      window.innerHeight + document.documentElement.scrollTop !==
-        document.documentElement.offsetHeight ||
-      isImagesLoading
+      window.innerHeight + window.pageYOffset >=
+        document.documentElement.scrollHeight - 10 &&
+      !isImagesLoading
     )
-      return;
-    setImagePage((prevImagePage) => prevImagePage + 1);
-  };
+      setImagePage((prevImagePage) => prevImagePage + 1);
+  }, 200);
 
   useEffect(() => {
     handleGetMoreImages(pageSize, numUserId, "addToImages");
