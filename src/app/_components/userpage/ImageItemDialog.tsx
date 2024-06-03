@@ -2,6 +2,7 @@
 
 import React, { memo } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSwipeable } from "react-swipeable";
 import Link from "next/link";
 import { loginUserState } from "../../../store/atoms/userAtom";
 import { FollowButton } from "../FollowButton";
@@ -61,6 +62,20 @@ export const ImageItemDialog = memo((props: Props) => {
   const setSearchWord = useSetRecoilState(searchWordState);
   const { saveDestinationLocation } = useDestinationLocation();
 
+  // スワイプ処理
+  const imageSwipeHandlers = useSwipeable({
+    onSwipedLeft: () => {
+      if (handleNextImageClick && currentImageIndex !== maxIndex) {
+        handleNextImageClick();
+      }
+    },
+    onSwipedRight: () => {
+      if (handlePrevImageClick && currentImageIndex !== 0) {
+        handlePrevImageClick();
+      }
+    },
+  });
+
   return (
     <>
       <Dialog
@@ -78,6 +93,7 @@ export const ImageItemDialog = memo((props: Props) => {
         onClick={(e) => e.stopPropagation()}
       >
         <DialogContent
+          {...imageSwipeHandlers}
           sx={{
             display: "flex",
             flexDirection: { xs: "column", md: "row" },
