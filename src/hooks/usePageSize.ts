@@ -1,6 +1,6 @@
 import { useMediaQuery, useTheme } from "@mui/material";
 
-export const usePageSize = (componentName?: string) => {
+export const usePageSize = () => {
   const theme = useTheme();
   const breakpoints = theme.breakpoints;
 
@@ -15,7 +15,7 @@ export const usePageSize = (componentName?: string) => {
   } else if (isSMorMD) {
     pageSize = 8;
   } else if (isLGorXL) {
-    pageSize = componentName === "UserPage" ? 12 : 10;
+    pageSize = 10;
   }
 
   return pageSize;
