@@ -45,7 +45,7 @@ export const UserPage = () => {
     sortOption,
     setSortOption,
   } = useImages();
-  const pageSize = usePageSize("UserPage");
+  const pageSize = usePageSize();
 
   // urlが変更されたらページに表示するユーザー、ログインユーザー情報を取得する
   useEffect(() => {
