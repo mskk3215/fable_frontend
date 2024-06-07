@@ -13,25 +13,32 @@ permissions:
   contents: read
 
 jobs:
-  # frontend Container Test
-  frontend-test-build-image: # title of the job
-    name: Frontend Container - Test and Build # name of GitHub Action
-    runs-on: ubuntu-20.04 # environment for job to run on
+  # Test
+  test:
+    if: github.event_name == 'pull_request'
+    name: Test
+    runs-on: ubuntu-20.04
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v3 # checkout the repo
-      ## Test
-      # - name: Run Tests
-      #   run: |
-      #     npm run test
+      - name: Checkout
+        uses: actions/checkout@v3
+      # Set up Node
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.1.0"
+      # npm install
+      - name: install npm
+        run: npm install
+      # Jest
+      - name: Jest
+        run: npm run test
 
   # Deploy
   deploy:
     name: Deploy
     runs-on: ubuntu-20.04
-    needs: [frontend-test-build-image] # このjobが実行される前に実行されるjobを指定
-    # only run the deployment on push to main branch
-    # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
