@@ -59,7 +59,7 @@ export const Header = () => {
             <Box sx={{ display: "flex" }}>
               <SiteNameText>
                 <TopSLink href={loginUser === undefined ? "/" : "/postlist"}>
-                  fabre
+                  fablesearch
                 </TopSLink>
               </SiteNameText>
               <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -101,7 +101,7 @@ export const Header = () => {
               <Box sx={{ display: "flex" }}>
                 <SiteNameText>
                   <TopSLink href={loginUser === undefined ? "/" : "/postlist"}>
-                    fabre
+                    fablesearch
                   </TopSLink>
                 </SiteNameText>
               </Box>
