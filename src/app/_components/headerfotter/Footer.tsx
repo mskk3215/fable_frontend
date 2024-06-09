@@ -4,7 +4,7 @@ import React from "react";
 import styled from "styled-components";
 
 export const Footer = () => {
-  return <SFooter>&copy; fabre, inc.</SFooter>;
+  return <SFooter>&copy; fablesearch, inc.</SFooter>;
 };
 
 const SFooter = styled.footer`

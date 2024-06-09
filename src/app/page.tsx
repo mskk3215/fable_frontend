@@ -3,8 +3,9 @@ import { Footer } from "./_components/headerfotter/Footer";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "トップ - fabre search",
-  description: "昆虫採集をする人向けのアプリ:fabre insect searchのトップページ",
+  title: "トップ - fablesearch",
+  description:
+    "昆虫採集をする人向けのアプリ:fablesearch insect searchのトップページ",
 };
 
 export default function TopPage() {

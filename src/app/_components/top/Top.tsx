@@ -35,7 +35,7 @@ export default function Top() {
       </Box>
       <Container sx={{ my: 5, py: 2 }}>
         <Typography variant="h3" color="#2b3d51" gutterBottom>
-          fabreの使い方
+          fablesearchの使い方
         </Typography>
         <Grid container spacing={2}>
           {/* 検索に関して */}

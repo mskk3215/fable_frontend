@@ -64,7 +64,7 @@ export const ShareMenuButton = (props: Props) => {
             <TwitterShareButton
               url={sharedUrl}
               title={`${profileInfo?.nickname}が採集した昆虫一覧`}
-              hashtags={["昆虫採集", "fabre"]}
+              hashtags={["昆虫採集", "fablesearch"]}
             >
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                 <TwitterIcon size={30} />
