@@ -404,7 +404,7 @@ export const PostList = () => {
           sx={{
             display: "flex",
             justifyContent: "center",
-            height: "50px",
+            height: "70px",
             marginTop: "16px",
           }}
         >
@@ -412,7 +412,7 @@ export const PostList = () => {
         </Box>
       ) : (
         <Box
-          sx={{ display: "flex", justifyContent: "center", height: "50px" }}
+          sx={{ display: "flex", justifyContent: "center", height: "70px" }}
         ></Box>
       )}
     </>
