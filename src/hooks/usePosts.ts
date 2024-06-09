@@ -8,7 +8,7 @@ export const usePosts = () => {
   const { updateLikedImage, updatedLikedCount } = useImages();
   const [posts, setPosts] = useState<Post[]>([]);
   const [isPostsInitialLoading, setIsPostsInitialLoading] =
-    useState<boolean>(true);
+    useState<boolean>(false);
   const [isPostsLoading, setIsPostsLoading] = useState<boolean>(false);
   const [postPage, setPostPage] = useState(1);
   const [hasMorePosts, setHasMorePosts] = useState<boolean>(true);
@@ -20,6 +20,7 @@ export const usePosts = () => {
   // 初回とTab切り替え時の投稿情報を取得する
   const handleGetPosts = async () => {
     setHasMorePosts(true);
+    setIsPostsInitialLoading(true);
     setIsPostsLoading(true);
 
     setPostPage(1);
@@ -42,22 +43,24 @@ export const usePosts = () => {
   const handleGetMorePosts = async () => {
     if (!hasMorePosts) return;
     setIsPostsLoading(true);
-    const { data } = await getPosts(postPage, tabValue);
-    // 投稿画像を取得する
-    setPosts((prevPosts) => {
-      const newData = data.filter(
-        (post: Post) => !prevPosts.some((prevItem) => prevItem.id === post.id)
-      );
-      return [...prevPosts, ...newData];
-    });
-    if (data.length === 0) setHasMorePosts(false);
-    setIsPostsLoading(false);
-    // すべての画像を取得する
-    const allImages = data.flatMap((post: Post) => post.images);
-    // いいねした画像を取得する
-    updateLikedImage(allImages);
-    // いいね数を取得する
-    updatedLikedCount(allImages);
+    setTimeout(async () => {
+      const { data } = await getPosts(postPage, tabValue);
+      // 投稿画像を取得する
+      setPosts((prevPosts) => {
+        const newData = data.filter(
+          (post: Post) => !prevPosts.some((prevItem) => prevItem.id === post.id)
+        );
+        return [...prevPosts, ...newData];
+      });
+      if (data.length === 0) setHasMorePosts(false);
+      // すべての画像を取得する
+      const allImages = data.flatMap((post: Post) => post.images);
+      // いいねした画像を取得する
+      updateLikedImage(allImages);
+      // いいね数を取得する
+      updatedLikedCount(allImages);
+      setIsPostsLoading(false);
+    }, 500);
   };
 
   useEffect(() => {
