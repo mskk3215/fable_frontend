@@ -1,6 +1,7 @@
 //特定のユーザーの全画像を取得するカスタムフック
 import { useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import { usePathname } from "next/navigation";
 import { likedCountState, likedImageState } from "../store/atoms/imageAtom";
 import { loginUserState } from "../store/atoms/userAtom";
 import { getImages, getUserImages } from "../urls";
@@ -11,6 +12,7 @@ import { HandleGetImages, Image, UseImages } from "../types/images";
 import { User } from "../types/user";
 
 export const useImages = (latestImages?: Image[]): UseImages => {
+  const pathname = usePathname();
   const loginUser = useRecoilValue<User | undefined>(loginUserState);
   const [isImagesInitialLoading, setIsImagesInitialLoading] =
     useState<boolean>(true);
@@ -62,29 +64,36 @@ export const useImages = (latestImages?: Image[]): UseImages => {
   ) => {
     if (!hasMoreImages) return;
     setIsImagesLoading(true);
+    const fetchImages = async () => {
+      const { data } = userId
+        ? await getUserImages({ userId, page: imagePage, pageSize, sortOption })
+        : await getImages({ page: imagePage, pageSize, sortOption });
+      // UserPageとImageEdtで画像取得方法を変える
+      if (context === "addToImages") {
+        setImages((prevImages) => {
+          const newData = data.images.filter(
+            (image: Image) =>
+              !prevImages.some((prevItem) => prevItem.id === image.id)
+          );
+          return [...prevImages, ...newData];
+        });
+      } else {
+        setImages(data.images);
+      }
 
-    const { data } = userId
-      ? await getUserImages({ userId, page: imagePage, pageSize, sortOption })
-      : await getImages({ page: imagePage, pageSize, sortOption });
-    // UserPageとImageEdtで画像取得方法を変える
-    if (context === "addToImages") {
-      setImages((prevImages) => {
-        const newData = data.images.filter(
-          (image: Image) =>
-            !prevImages.some((prevItem) => prevItem.id === image.id)
-        );
-        return [...prevImages, ...newData];
-      });
+      if (data.images.length === 0) setHasMoreImages(false);
+      setIsImagesLoading(false);
+
+      // いいね情報を取得する
+      updateLikedImage(data.images);
+      updatedLikedCount(data.images);
+    };
+    // ImageEdit以外のページでは500ms後に画像を取得する
+    if (pathname == "/imageedit") {
+      await fetchImages();
     } else {
-      setImages(data.images);
+      setTimeout(fetchImages, 500);
     }
-
-    if (data.images.length === 0) setHasMoreImages(false);
-    setIsImagesLoading(false);
-
-    // いいね情報を取得する
-    updateLikedImage(data.images);
-    updatedLikedCount(data.images);
   };
 
   // いいね状態がtrueの画像を取得する
