@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import Link from "next/link";
 import { throttle } from "lodash";
 import { loginUserState } from "../../../store/atoms/userAtom";
@@ -13,8 +13,8 @@ import { FollowButton } from "../FollowButton";
 import { DeletePostButton } from "./DeletePostButton";
 import { PostTab } from "./PostTab";
 import {
-  searchWordState,
   useDestinationLocation,
+  useSearchWord,
 } from "../../../store/atoms/searchWordState";
 import styled from "styled-components";
 import {
@@ -48,8 +48,8 @@ export const PostList = () => {
   const [displayedImages, setDisplayedImages] = useState<{
     [key: string]: number;
   }>({});
-  const setSearchWord = useSetRecoilState(searchWordState);
   const { saveDestinationLocation } = useDestinationLocation();
+  const { saveSearchWord } = useSearchWord();
 
   // 投稿内の画像前後切り替え
   const handleNextImage = (postId: number) => {
@@ -255,7 +255,7 @@ export const PostList = () => {
                                     href={`/map`}
                                     onClick={() => {
                                       if (imageData.insectName) {
-                                        setSearchWord(imageData.insectName);
+                                        saveSearchWord(imageData.insectName);
                                       }
                                     }}
                                   >
