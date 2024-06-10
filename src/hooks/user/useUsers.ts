@@ -39,10 +39,10 @@ export const useUsers = () => {
   };
 
   // ユーザー情報を取得する
-  const handleGetUser = async (userId?: number) => {
+  const handleGetUser = async (userId: number) => {
     if (loginUser === undefined) return;
     // ログインユーザー情報を更新する。
-    const loginUserData = await getUser(undefined);
+    const loginUserData = await getUser(loginUser.id);
     // 現在のユーザー情報と取得したユーザーが異なる場合のみ更新する
     if (JSON.stringify(loginUser) !== JSON.stringify(loginUserData.data.user)) {
       setLoginUser(loginUserData.data.user);
