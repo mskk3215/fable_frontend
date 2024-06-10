@@ -50,8 +50,7 @@ export default async function UserPagePage({ params }: Props) {
   const { images: latestImages, total_images_count: totalImagesCount } =
     await fetchLatestImages(params.userId);
 
-  const numUserId =
-    typeof params.userId === "string" ? parseInt(params.userId, 10) : undefined;
+  const numUserId = parseInt(params.userId, 10);
 
   return (
     <main>

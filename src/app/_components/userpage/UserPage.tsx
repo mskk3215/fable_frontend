@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import { throttle } from "lodash";
+import { loginUserState } from "../../../store/atoms/userAtom";
 import { ImageItem } from "./ImageItem";
 import { FollowModal } from "./FollowModal";
-import { FollowButton } from "../FollowButton";
 import { ImageSortSelector } from "./ImageSortSelector";
 import { useUsers } from "../../../hooks/user/useUsers";
 import { useImages } from "../../../hooks/useImages";
@@ -28,10 +28,8 @@ import { ShareMenuButton } from "./ShareMenuButton";
 export const UserPage = () => {
   const { handleGetUser, isFollowed, viewedUser } = useUsers();
   const { parks } = useParks();
+  const loginUser = useRecoilValue(loginUserState);
 
-  const params = useParams();
-  const numUserId =
-    typeof params.id === "string" ? parseInt(params.id, 10) : undefined;
   const {
     images,
     totalImagesCount,
@@ -49,10 +47,11 @@ export const UserPage = () => {
 
   // urlが変更されたらページに表示するユーザー、ログインユーザー情報を取得する
   useEffect(() => {
-    handleGetUser(numUserId);
-    handleGetImages(pageSize, numUserId);
+    if (!loginUser) return;
+    handleGetUser(loginUser.id);
+    handleGetImages(pageSize, loginUser.id);
     setFollowOpen(false);
-  }, [numUserId]);
+  }, [loginUser]);
 
   // フォロー一覧モーダルの開閉
   const [followOpen, setFollowOpen] = useState(false);
@@ -63,7 +62,9 @@ export const UserPage = () => {
 
   const handleFollowModalClose = useCallback(() => {
     setFollowOpen(false);
-    handleGetUser(undefined);
+    if (loginUser) {
+      handleGetUser(loginUser.id);
+    }
   }, []);
 
   // Dialogの画像切り替え
@@ -97,7 +98,8 @@ export const UserPage = () => {
   }, 200);
 
   useEffect(() => {
-    handleGetMoreImages(pageSize, numUserId, "addToImages");
+    if (!loginUser) return;
+    handleGetMoreImages(pageSize, loginUser.id, "addToImages");
   }, [imagePage]);
 
   useEffect(() => {
@@ -157,20 +159,6 @@ export const UserPage = () => {
               編集
             </Typography>
           </ButtonBase>
-          <Box
-            sx={{
-              position: "absolute",
-              right: -100,
-              top: 0,
-            }}
-          >
-            {numUserId && (
-              <FollowButton
-                followedUserId={numUserId}
-                isFollowed={isFollowed}
-              />
-            )}
-          </Box>
         </Box>
         {isImagesInitialLoading || !viewedUser ? (
           <Typography>Loading...</Typography>
@@ -200,7 +188,7 @@ export const UserPage = () => {
           sortOption={sortOption}
           setSortOption={setSortOption}
           pageSize={pageSize}
-          userId={numUserId}
+          userId={loginUser?.id}
         />
         <Link href={"/imageedit"}>
           <Button
@@ -242,7 +230,7 @@ export const UserPage = () => {
                   currentImageIndex={currentImageIndex}
                   maxIndex={images.length - 1}
                   isCheckboxVisible={false}
-                  numUserId={numUserId}
+                  numUserId={loginUser?.id}
                   setCurrentImageIndex={setCurrentImageIndex}
                   handlePrevImageClick={handlePrevImageClick}
                   handleNextImageClick={handleNextImageClick}

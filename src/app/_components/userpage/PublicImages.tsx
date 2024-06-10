@@ -18,7 +18,7 @@ import { Image as ImageType, SSRImage } from "../../../types/images";
 
 type Props = {
   latestImages: SSRImage[];
-  numUserId?: number;
+  numUserId: number;
 };
 
 const convertSSRImageToImage = (ssrImages: SSRImage[]): ImageType[] => {

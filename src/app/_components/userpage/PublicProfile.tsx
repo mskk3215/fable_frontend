@@ -12,7 +12,7 @@ import { ShareMenuButton } from "./ShareMenuButton";
 
 type Props = {
   profileInfo: User;
-  numUserId?: number;
+  numUserId: number;
   totalImagesCount: number;
 };
 
@@ -35,7 +35,9 @@ export default function PublicProfile(props: Props) {
 
   const handleFollowModalClose = useCallback(() => {
     setFollowOpen(false);
-    handleGetUser(undefined);
+    if (loginUser) {
+      handleGetUser(loginUser.id);
+    }
   }, []);
 
   return (
