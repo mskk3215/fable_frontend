@@ -159,20 +159,6 @@ export const UserPage = () => {
               編集
             </Typography>
           </ButtonBase>
-          <Box
-            sx={{
-              position: "absolute",
-              right: -100,
-              top: 0,
-            }}
-          >
-            {numUserId && (
-              <FollowButton
-                followedUserId={numUserId}
-                isFollowed={isFollowed}
-              />
-            )}
-          </Box>
         </Box>
         {isImagesInitialLoading || !viewedUser ? (
           <Typography>Loading...</Typography>
