@@ -184,7 +184,6 @@ export const MapDrawer = memo((props: Props) => {
                 </React.Fragment>
               ))
             )}
-            <Divider />
           </List>
         </Box>
       </Drawer>
