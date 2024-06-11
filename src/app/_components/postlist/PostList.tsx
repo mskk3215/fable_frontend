@@ -245,6 +245,7 @@ export const PostList = () => {
                               {imageData.insectName && (
                                 <Box
                                   sx={{
+                                    paddingLeft: "5px",
                                     fontSize: {
                                       xs: "12px",
                                       md: "16px",
@@ -267,11 +268,13 @@ export const PostList = () => {
                               <Box
                                 sx={{
                                   display: "flex",
+                                  flexDirection: "column",
                                   justifyContent: "flex-start",
                                 }}
                               >
                                 <Box
                                   sx={{
+                                    paddingLeft: "5px",
                                     fontSize: {
                                       xs: "12px",
                                       md: "16px",
