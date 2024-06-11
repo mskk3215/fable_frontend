@@ -1,70 +1,124 @@
-# Getting Started with Create React App
+# fablesearch
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+https://fablesearch.com
 
-## Available Scripts
+![スクリーンショット 2024-06-09 23 58 49](https://github.com/mskk3215/fable_backend/assets/113247174/91d3f240-b753-4392-be03-fb5b4268b8a2)
 
-In the project directory, you can run:
+バックエンドのレポジトリはこちらです。
+https://github.com/mskk3215/fable_backend
 
-### `npm start`
+# サービス概要・制作背景
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+fablesearch は、昆虫採集を目的とする人たち向けのサービスです。  
+主な機能は、昆虫生息地・ルート検索機能、発見した昆虫画像を投稿する機能、昆虫採集の状況を把握するための分析機能です。
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+過去に昆虫に対する興味・関心が湧いて実物を見ようと思っても昆虫が生息する場所を探し出せなかった経験と、  
+昆虫図鑑など昆虫画像一覧を取り扱うサービスはあるが、昆虫の位置情報を検索するサービスが無かったことから  
+今回のサービスを開発しました。
 
-### `npm test`
+# ER 図
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![スクリーンショット 2024-06-10 0 57 21](https://github.com/mskk3215/fable_backend/assets/113247174/c631c93a-4fb1-4a11-8078-a9295e3d2dee)
 
-### `npm run build`
+# インフラ構成図
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![スクリーンショット 2024-03-19 0 09 51](https://github.com/mskk3215/fable_backend/assets/113247174/77542378-f973-4879-bdc3-4b2b6c7720cb)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# 使用技術
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### バックエンド
 
-### `npm run eject`
+- Ruby 3.1.2
+- Rails 7.0.4
+- MySQL 8.1.0å
+- jbuilder
+- geocoder, exifr
+- Rubocop
+- Rspec
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### フロントエンド
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- TypeScript 5.1.6
+- React 18.2.0
+- Next.js 14.1.3 (app router)
+- MUI
+- react-chartjs, react-leaflet
+- react-google-maps/api
+- prettier, eslint
+- Jest,React Testing Library
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### インフラ
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Docker / Docker-Compose
+- Github Actions (ECR, ECS, Rubocop, Rspec,ESlint,Jest)
+- Nginx
+- AWS (Route53, CloudFront, S3,VPC, ALB, ECR, ECS Fargate, RDS, ACM, SSM, CloudWatch, IAM)
+- Terraform
 
-## Learn More
+# 機能一覧
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### ユーザー機能
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- 新規登録機能
+- ログイン機能、ゲストログイン機能、ログアウト機能
+- マイページ表示機能
+- プロフィール変更機能
+- ユーザーページ表示機能
+- フォロー追加・解除機能
+- フォロー一覧表示機能
+- シェアリング機能
 
-### Code Splitting
+### 投稿機能
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- 投稿機能
+- 投稿画像編集機能
+- 投稿画像削除機能
+- 投稿一覧表示機能
+- 投稿並び替え機能
+- 投稿詳細機能
+- いいね機能
 
-### Analyzing the Bundle Size
+### 検索機能
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- 公園検索機能
+- ルート検索機能
 
-### Making a Progressive Web App
+### 分析機能
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- 採集地域選択表示機能
+- 採集率表示機能
+- 採集済み/未採集リスト表示機能
+- ランキング表示機能
 
-### Advanced Configuration
+# 工夫した点
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## フロントエンド
 
-### Deployment
+- 完全 SPA で作成しました。
+- 様々なデバイスで操作・閲覧しやすいようにレスポンシブデザインを適用しました。
+- MUI や react-chartjs、react-leaflet を使用してデザイン性のある UI を実現しました。
+- toast やロード処理（スピナー、無限スクロール、プログレスバー）を追加し、ユーザーがエラーや動作状況を把握できるようにしました。
+- Next.js の SSR をユーザーページに適用し、読み込みを高速化しつつ、Google などの検索アプリのクローラーに捕捉されるようにしました。
+- シェアリング機能により、アプリがネット上で展開されやすくしました。
+- 画像編集ページでは、画像情報をまとめて編集できるように画像を複数選択できるようにしました。
+- ユーザーページでは、ログインしていない場合にログインを促すモーダルを表示し、ユーザー登録数が増えるようにしました。
+- TypeScript（strict）、Prettier、ESLint、Jest, RTL を使用してコードの一貫性と品質を確保しました。
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## バックエンド
 
-### `npm run build` fails to minify
+- Rails API モードを使用してフロントエンドと完全に分離しました。
+- exifr を使用して画像から撮影場所と撮影日を自動取得し表示することでユーザーの入力手間を省きつつ、昆虫の生息地検索に必要な昆虫名と住所のデータを集めやすくしました。
+- geocoder を使用して、未採集の昆虫の場所を特定の場所から近い順に表示できるようにしました。
+- Rubocop と Rspec を使用してコードの一貫性と品質を確保しました。
+- session_store を same_site:strict に設定し、アプリでの操作が一定時間ない場合に自動でログアウトするなど、セキュリティを向上させました。
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## インフラ
+
+- GitHub Actions を用いて CI/CD パイプラインを構築し、コード品質を確保するとともに実装から本番環境へのデプロイを効率化しました。
+- Terraform を使用してインフラ管理を容易にしました。
+- CloudFront を使用して S3 に保存した画像をキャッシュし、画像読み込みの速度を改善しました。
+- env の代わりに SSM に環境変数を保存することで、環境変数の管理を容易にしました。
+
+  以上をもって、当アプリの紹介は終わりになります。
+
+  最後まで閲覧いただき、ありがとうございます！
