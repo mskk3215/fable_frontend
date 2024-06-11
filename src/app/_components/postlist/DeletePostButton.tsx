@@ -17,7 +17,7 @@ type Props = {
 };
 
 export const DeletePostButton = memo((props: Props) => {
-  const { postId, setPosts } = props;
+  const { postId, handleGetPosts, setPosts } = props;
 
   const setMessage = useSetRecoilState(messageState);
   const { handleGeneralErrorAction } = useErrorAction();
@@ -34,6 +34,7 @@ export const DeletePostButton = memo((props: Props) => {
             prevPosts.filter((post) => post.id !== postId)
           );
           setMessage({ message: "削除しました", type: "success" });
+          handleGetPosts();
         }
       })
       .catch((error: ApiError) => {
