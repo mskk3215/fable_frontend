@@ -91,7 +91,7 @@ fablesearch は、昆虫採集を目的とする人たち向けのサービス�
 ### インフラ
 
 - Docker / Docker-Compose
-- Github Actions (ECR, ECS, Rubocop, Rspec,ESlint,Jest)
+- Github Actions (ECR, ECS, Rubocop, Rspec,Jest)
 - Nginx
 - AWS (Route53, CloudFront, S3,VPC, ALB, ECR, ECS Fargate, RDS, ACM, SSM, CloudWatch, IAM)
 - Terraform
