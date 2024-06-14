@@ -71,7 +71,7 @@ fablesearch は、昆虫採集を目的とする人たち向けのサービス�
 
 - Ruby 3.1.2
 - Rails 7.0.4
-- MySQL 8.1.0å
+- MySQL 8.1.0
 - jbuilder
 - geocoder, exifr
 - Rubocop
