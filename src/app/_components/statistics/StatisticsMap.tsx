@@ -60,6 +60,16 @@ export const StatisticsMap = (props: Props) => {
   // 都道府県・市町村選択時の処理
   useEffect(() => {
     if (!prefectureData || !cityData) return;
+    const cityNamesForSelectedPref = cityData.features
+      .filter(
+        (feature: GeoJSONFeature) => feature.properties.N03_001 === selectedPref
+      )
+      .map((feature: GeoJSONFeature) => {
+        const city = feature.properties.N03_003 || "";
+        const district = feature.properties.N03_004 || "";
+        return `${city}${district}`.trim();
+      });
+
     if (selectedPref && selectedCity) {
       // 都道府県と市町村の両方が選択された場合
       setKey(`${selectedPref}-${selectedCity}`);
@@ -91,6 +101,7 @@ export const StatisticsMap = (props: Props) => {
       }
       setZoomSize(zoomSize);
       setDisplayData(filteredData as GeoJSONFeatureCollection);
+      setAllCities(cityNamesForSelectedPref);
     } else if (selectedPref && !selectedCity) {
       // 都道府県のみが選択された場合
       setKey(`${selectedPref}-${selectedCity}`);
@@ -107,16 +118,6 @@ export const StatisticsMap = (props: Props) => {
       setDisplayData(filteredData as GeoJSONFeatureCollection);
 
       if (!cityData) return;
-      const cityNamesForSelectedPref = cityData.features
-        .filter(
-          (feature: GeoJSONFeature) =>
-            feature.properties.N03_001 === selectedPref
-        )
-        .map((feature: GeoJSONFeature) => {
-          const city = feature.properties.N03_003 || "";
-          const district = feature.properties.N03_004 || "";
-          return `${city}${district}`.trim();
-        });
       setAllCities(cityNamesForSelectedPref);
     } else {
       // 都道府県も市町村も選択されていない場合
