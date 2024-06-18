@@ -57,7 +57,7 @@ export const CollectionDoughnutChart = (props: Props) => {
   );
 
   const data = {
-    labels: ["採集済", "採集残"],
+    labels: ["採集済", "未採集"],
     datasets: [
       {
         data: [collectionRate, 100 - collectionRate],
@@ -126,7 +126,7 @@ export const CollectionDoughnutChart = (props: Props) => {
                 {collectionCount}
               </Typography>
               <Typography variant={pageSize > 8 ? "h5" : "subtitle1"}>
-                <span style={barStyle(theme.palette.grey[300])}></span> 採集残:
+                <span style={barStyle(theme.palette.grey[300])}></span> 未採集:
                 {unCollectedCount}
               </Typography>
             </Box>
