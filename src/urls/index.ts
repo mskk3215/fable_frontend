@@ -186,3 +186,8 @@ export const getInsectsAndParksInfo = (
     },
   });
 };
+
+//pictureBook
+export const getPictureBookInfo = (insectId: number) => {
+  return apiClient.get(`/insects/${insectId}`);
+};
