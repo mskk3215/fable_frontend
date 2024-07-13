@@ -229,6 +229,10 @@ export const CollectionStatusTable = (props: Props) => {
                       >
                         {`(map`}
                       </SLink>
+                      {`,`}
+                      <SLink
+                        href={`/picturebook/${row.insectId}`}
+                      >{`図鑑)`}</SLink>
                     </TableCell>
                     <TableCell
                       align="left"
