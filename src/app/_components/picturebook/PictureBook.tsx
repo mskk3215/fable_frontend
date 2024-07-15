@@ -31,9 +31,11 @@ export const PictureBook = (props: Props) => {
   const { saveSearchWord } = useSearchWord();
 
   // 画像の順序をいいね順に並び替える
-  const sortedImages = pictureBookInfo?.images.slice().sort((a, b) => {
-    return b.likesCount - a.likesCount;
-  });
+  const sortedImages = pictureBookInfo?.collectedInsectImages
+    .slice()
+    .sort((a, b) => {
+      return b.likesCount - a.likesCount;
+    });
   // 画像がない場合は404ページを表示
   // if (!pictureBookInfo?.images?.[0]) {
   //   return <NotFound />;

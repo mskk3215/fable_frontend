@@ -2,16 +2,22 @@
 import { useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { usePathname } from "next/navigation";
-import { likedCountState, likedImageState } from "../store/atoms/imageAtom";
+import {
+  likedCountState,
+  likedImageState,
+} from "../store/atoms/insectImageAtom";
 import { loginUserState } from "../store/atoms/userAtom";
-import { getImages, getUserImages } from "../urls";
+import {
+  getCollectedInsectImages,
+  getUserCollectedInsectImages,
+} from "../urls";
 import format from "date-fns/format";
 import ja from "date-fns/locale/ja";
 import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
 import { HandleGetImages, Image, UseImages } from "../types/images";
 import { User } from "../types/user";
 
-export const useImages = (latestImages?: Image[]): UseImages => {
+export const useInsectImages = (latestImages?: Image[]): UseImages => {
   const pathname = usePathname();
   const loginUser = useRecoilValue<User | undefined>(loginUserState);
   const [isImagesInitialLoading, setIsImagesInitialLoading] =
@@ -41,9 +47,14 @@ export const useImages = (latestImages?: Image[]): UseImages => {
 
     setImagePage(1);
     const { data } = userId
-      ? await getUserImages({ userId, page: 1, pageSize, sortOption })
-      : await getImages({ page: 1, pageSize, sortOption });
-    setImages(data.images);
+      ? await getUserCollectedInsectImages({
+          userId,
+          page: 1,
+          pageSize,
+          sortOption,
+        })
+      : await getCollectedInsectImages({ page: 1, pageSize, sortOption });
+    setImages(data.collectedInsectImages);
 
     setIsImagesInitialLoading(false);
     setIsImagesLoading(false);
@@ -52,8 +63,8 @@ export const useImages = (latestImages?: Image[]): UseImages => {
     setTotalImagesCount(data.totalImagesCount);
 
     // いいね情報を取得する
-    updateLikedImage(data.images);
-    updatedLikedCount(data.images);
+    updateLikedImage(data.collectedInsectImages);
+    updatedLikedCount(data.collectedInsectImages);
   };
 
   // UserPageでスクロールした時.ImageEditでページを切り替えた時の画像を取得する
@@ -66,30 +77,39 @@ export const useImages = (latestImages?: Image[]): UseImages => {
     setIsImagesLoading(true);
     const fetchImages = async () => {
       const { data } = userId
-        ? await getUserImages({ userId, page: imagePage, pageSize, sortOption })
-        : await getImages({ page: imagePage, pageSize, sortOption });
+        ? await getUserCollectedInsectImages({
+            userId,
+            page: imagePage,
+            pageSize,
+            sortOption,
+          })
+        : await getCollectedInsectImages({
+            page: imagePage,
+            pageSize,
+            sortOption,
+          });
       // UserPageとImageEdtで画像取得方法を変える
       if (context === "addToImages") {
         setImages((prevImages) => {
-          const newData = data.images.filter(
+          const newData = data.collectedInsectImages.filter(
             (image: Image) =>
               !prevImages.some((prevItem) => prevItem.id === image.id)
           );
           return [...prevImages, ...newData];
         });
       } else {
-        setImages(data.images);
+        setImages(data.collectedInsectImages);
       }
 
-      if (data.images.length === 0) setHasMoreImages(false);
+      if (data.collectedInsectImages.length === 0) setHasMoreImages(false);
       setIsImagesLoading(false);
 
       // いいね情報を取得する
-      updateLikedImage(data.images);
-      updatedLikedCount(data.images);
+      updateLikedImage(data.collectedInsectImages);
+      updatedLikedCount(data.collectedInsectImages);
     };
     // ImageEdit以外のページでは500ms後に画像を取得する
-    if (pathname == "/imageedit") {
+    if (pathname == "/insectimageedit") {
       await fetchImages();
     } else {
       setTimeout(fetchImages, 500);

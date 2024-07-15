@@ -1,17 +1,17 @@
 import { Metadata } from "next";
 import RouteAuthGuard from "../../_components/auth/RouteAuthGurad";
-import { ImageEdit } from "../../_components/imageedit/ImageEdit";
+import { InsectImageEdit } from "../../_components/insectimageedit/InsectImageEdit";
 
 export const metadata: Metadata = {
   title: "画像編集",
   description: "画像編集ページ",
 };
 
-export default function ImageEditPage() {
+export default function InsectImageEditPage() {
   return (
     <>
       <RouteAuthGuard>
-        <ImageEdit />
+        <InsectImageEdit />
       </RouteAuthGuard>
     </>
   );

@@ -8,7 +8,7 @@ export type PictureBookInfo = {
   tools: string[];
   takenAmountPerMonth: { month: number; count: number }[];
   takenAmountPerHour: { timeSlot: string; count: number }[];
-  images: { url: string; likesCount: number }[];
+  collectedInsectImages: { url: string; likesCount: number }[];
   imageCount: number;
   isCollected: boolean;
 };

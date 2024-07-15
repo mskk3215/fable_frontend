@@ -1,5 +1,5 @@
 import React from "react";
-import PublicImages from "../../../_components/userpage/PublicImages";
+import PublicImages from "../../../_components/userpage/PublicInsectImages";
 import PublicProfile from "../../../_components/userpage/PublicProfile";
 import { Metadata } from "next";
 

@@ -36,7 +36,7 @@ type Props = {
   viewedUser?: User;
 };
 
-export const ImageItem = memo((props: Props) => {
+export const InsectImageItem = memo((props: Props) => {
   const {
     image,
     index,
@@ -167,7 +167,7 @@ export const ImageItem = memo((props: Props) => {
     </>
   );
 });
-ImageItem.displayName = "ImageItem";
+InsectImageItem.displayName = "ImageItem";
 
 const SquareCard = styled(Card)(() => ({
   backgroundColor: "black",

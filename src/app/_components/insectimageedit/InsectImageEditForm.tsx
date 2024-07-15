@@ -5,7 +5,10 @@ import { useSetRecoilState } from "recoil";
 import { messageState } from "../../../store/atoms/errorAtom";
 import { useErrorAction } from "../../../hooks/error/useErrorAction";
 import { convertHiraganaToKatakana } from "../../../hooks/useConvertHiraganaToKatakana";
-import { updateImages, deleteImages } from "../../../urls";
+import {
+  updateCollectedInsectImages,
+  deleteCollectedInsectImages,
+} from "../../../urls";
 import {
   Autocomplete,
   Box,
@@ -41,7 +44,7 @@ type Props = {
   setQueryWord: (queryWord: string) => void;
 };
 
-export const EditForm = memo((props: Props) => {
+export const InsectImageEditForm = memo((props: Props) => {
   const {
     selectedIds,
     setSelectedIds,
@@ -75,9 +78,9 @@ export const EditForm = memo((props: Props) => {
     setIsLoading(true);
 
     if (buttonName === "edit") {
-      updateImages({
+      updateCollectedInsectImages({
         id: selectedIds,
-        image: {
+        collectedInsectImage: {
           name: insectName,
           sex: insectSex,
           parkName,
@@ -95,7 +98,7 @@ export const EditForm = memo((props: Props) => {
           setIsLoading(false);
         });
     } else if (buttonName === "delete") {
-      await deleteImages(selectedIds)
+      await deleteCollectedInsectImages(selectedIds)
         .then((response) => {
           if (response.data.status === "deleted") {
             setImages((prevImages) =>
@@ -431,4 +434,4 @@ export const EditForm = memo((props: Props) => {
     </>
   );
 });
-EditForm.displayName = "EditForm";
+InsectImageEditForm.displayName = "EditForm";

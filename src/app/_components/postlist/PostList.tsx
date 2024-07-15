@@ -5,7 +5,7 @@ import { useRecoilValue } from "recoil";
 import Link from "next/link";
 import { throttle } from "lodash";
 import { loginUserState } from "../../../store/atoms/userAtom";
-import { useImages } from "../../../hooks/useImages";
+import { useInsectImages } from "../../../hooks/useInsectImages";
 import { usePosts } from "../../../hooks/usePosts";
 import { useUsers } from "../../../hooks/user/useUsers";
 import { LikeButton } from "../LikeButton";
@@ -43,7 +43,7 @@ export const PostList = () => {
     tabValue,
     setTabValue,
   } = usePosts();
-  const { createdTime } = useImages();
+  const { createdTime } = useInsectImages();
   const { isFollowed } = useUsers();
   const [displayedImages, setDisplayedImages] = useState<{
     [key: string]: number;
@@ -203,7 +203,7 @@ export const PostList = () => {
                       paddingBottom: "75%",
                     }}
                   >
-                    {post.images.map((imageData, index) => (
+                    {post.collectedInsectImages.map((imageData, index) => (
                       <Box key={post.id + "-" + index}>
                         <Box
                           sx={{
@@ -330,7 +330,7 @@ export const PostList = () => {
                       </Box>
                     ))}
                     {/* ページドット */}
-                    {post.images.length > 1 && (
+                    {post.collectedInsectImages.length > 1 && (
                       <Box
                         sx={{
                           position: "absolute",
@@ -342,7 +342,7 @@ export const PostList = () => {
                           alignItems: "center",
                         }}
                       >
-                        {post.images.map((_, index) => (
+                        {post.collectedInsectImages.map((_, index) => (
                           <span
                             key={post.id + "-" + index}
                             style={{
@@ -359,7 +359,7 @@ export const PostList = () => {
                       </Box>
                     )}
                     {/* ページ切り替えボタン */}
-                    {post.images.length > 1 && (
+                    {post.collectedInsectImages.length > 1 && (
                       <Box
                         style={{ display: "flex", justifyContent: "center" }}
                       >
@@ -381,7 +381,8 @@ export const PostList = () => {
                         <IconButton
                           onClick={() => handleNextImage(post.id)}
                           disabled={
-                            currentImageIndex === post.images.length - 1
+                            currentImageIndex ===
+                            post.collectedInsectImages.length - 1
                           }
                           size="small"
                           sx={{
