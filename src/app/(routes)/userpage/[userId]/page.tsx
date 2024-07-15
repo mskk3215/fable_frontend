@@ -35,7 +35,7 @@ async function fetchProfileInfo(id: string) {
 
 async function fetchLatestImages(id: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/images?user_id=${id}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/collected_insect_images?user_id=${id}`,
     {
       cache: "no-store",
     }
@@ -47,8 +47,10 @@ async function fetchLatestImages(id: string) {
 
 export default async function UserPagePage({ params }: Props) {
   const profileInfo = await fetchProfileInfo(params.userId);
-  const { images: latestImages, total_images_count: totalImagesCount } =
-    await fetchLatestImages(params.userId);
+  const {
+    collected_insect_images: latestImages,
+    total_images_count: totalImagesCount,
+  } = await fetchLatestImages(params.userId);
 
   const numUserId = parseInt(params.userId, 10);
 
