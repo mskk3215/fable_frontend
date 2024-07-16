@@ -26,7 +26,7 @@ export const InsectImageEdit = () => {
     createdTime,
   } = useInsectImages();
   const { parks, parkOptions, handleGetParks } = useParks();
-  const { insects, insectOptions, setQueryWord } = useAllInsects();
+  const { insectOptions, setQueryWord } = useAllInsects();
   const { prefectures, prefectureOptions } = useAllPrefectures();
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [isShiftDown, setIsShiftDown] = useState<boolean>(false);
@@ -158,7 +158,6 @@ export const InsectImageEdit = () => {
             parkOptions={parkOptions}
             parks={parks}
             handleGetParks={handleGetParks}
-            insects={insects}
             insectOptions={insectOptions}
             prefectures={prefectures}
             prefectureOptions={prefectureOptions}

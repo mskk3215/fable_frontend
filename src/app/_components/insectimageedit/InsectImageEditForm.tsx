@@ -21,7 +21,6 @@ import {
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { Insect } from "../../../types/insects";
 import { Park, ParkOption } from "../../../types/parks";
 import { Prefecture, PrefectureOption } from "../../../types/prefectures";
 import dayjs, { Dayjs } from "dayjs";
@@ -35,7 +34,6 @@ type Props = {
   parkOptions: ParkOption[];
   parks: Park[];
   insectOptions: string[];
-  insects: Insect[];
   prefectureOptions: PrefectureOption[];
   prefectures: Prefecture[];
   handleGetImages: HandleGetImages;
@@ -51,7 +49,6 @@ export const InsectImageEditForm = memo((props: Props) => {
     handleGetParks,
     parkOptions,
     parks,
-    insects,
     insectOptions,
     prefectures,
     prefectureOptions,
@@ -124,12 +121,7 @@ export const InsectImageEditForm = memo((props: Props) => {
     setSelectedIds([]);
   };
 
-  const getSexes = () => {
-    const insectNameValue = insects.find(
-      (insect: Insect) => insect.insectName === insectName
-    );
-    return insectNameValue ? insectNameValue.availableSexes : [];
-  };
+  const sexOptions = ["オス", "メス"];
 
   const getCities = () => {
     const prefectureNameValue = prefectures.find(
@@ -287,7 +279,7 @@ export const InsectImageEditForm = memo((props: Props) => {
               }}
               id="sex"
               size={handleFormSize()}
-              options={getSexes()}
+              options={sexOptions}
               renderInput={(params) => (
                 <TextField {...params} label="例) オス" />
               )}

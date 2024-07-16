@@ -29,7 +29,6 @@ export const useCollectedInsectsAndParksInfo = () => {
         (collectedInsectsAndParks: InsectAndParks) => ({
           insectId: collectedInsectsAndParks.insectId,
           insectName: collectedInsectsAndParks.insectName,
-          insectSex: collectedInsectsAndParks.sex,
           biologicalFamily: collectedInsectsAndParks.biologicalFamily,
           parkName: collectedInsectsAndParks.parkName,
         })

@@ -31,7 +31,6 @@ export type Ranking = {
 export type InsectAndParks = {
   insectId: number;
   insectName: string;
-  sex: string;
   biologicalFamily: string;
   parkName: string;
 };
@@ -39,7 +38,6 @@ export type InsectAndParks = {
 export type TableData = {
   insectId: number;
   insectName: string;
-  insectSex: string;
   biologicalFamily: string;
   parkName: string;
 };
