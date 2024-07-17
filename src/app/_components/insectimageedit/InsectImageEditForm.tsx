@@ -426,4 +426,4 @@ export const InsectImageEditForm = memo((props: Props) => {
     </>
   );
 });
-InsectImageEditForm.displayName = "EditForm";
+InsectImageEditForm.displayName = "InsectImageEditForm";

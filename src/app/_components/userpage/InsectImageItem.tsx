@@ -167,7 +167,7 @@ export const InsectImageItem = memo((props: Props) => {
     </>
   );
 });
-InsectImageItem.displayName = "ImageItem";
+InsectImageItem.displayName = "InsectImageItem";
 
 const SquareCard = styled(Card)(() => ({
   backgroundColor: "black",
