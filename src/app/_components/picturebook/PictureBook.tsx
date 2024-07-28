@@ -4,7 +4,6 @@ import React from "react";
 import Link from "next/link";
 import styled from "styled-components";
 import { useSearchWord } from "../../../store/atoms/searchWordState";
-import NotFound from "../../not-found";
 import { ActiveMonthChart } from "./ActiveMonthChart";
 import { ActiveHourChart } from "./ActiveHourChart";
 import { usePictureBook } from "../../../hooks/usePictureBooks";
@@ -36,10 +35,6 @@ export const PictureBook = (props: Props) => {
     .sort((a, b) => {
       return b.likesCount - a.likesCount;
     });
-  // 画像がない場合は404ページを表示
-  // if (!pictureBookInfo?.images?.[0]) {
-  //   return <NotFound />;
-  // }
 
   return (
     <>

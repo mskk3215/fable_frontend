@@ -65,15 +65,6 @@ export const PostList = () => {
     }));
   };
   // scrollで投稿を追加取得
-  // const handlePostScroll = () => {
-  //   if (
-  //     window.innerHeight + document.documentElement.scrollTop !==
-  //       document.documentElement.offsetHeight ||
-  //     isPostsLoading
-  //   )
-  //     return;
-  //   setPostPage((prevPage) => prevPage + 1);
-  // };
   const handlePostScroll = throttle(() => {
     if (
       window.innerHeight + window.pageYOffset >=
