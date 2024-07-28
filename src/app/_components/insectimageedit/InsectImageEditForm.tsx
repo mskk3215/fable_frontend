@@ -310,7 +310,7 @@ export const InsectImageEditForm = memo((props: Props) => {
                 renderOption={(props, option) => (
                   <Box
                     {...(props as {
-                      [key: string]: React.HtmlHTMLAttributes<HTMLDivElement>;
+                      [key: string]: React.HtmlHTMLAttributes<HTMLElement>;
                     })}
                   >
                     {option.label} ({option.prefecture} {option.city})
