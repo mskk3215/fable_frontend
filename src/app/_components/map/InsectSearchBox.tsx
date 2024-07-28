@@ -10,6 +10,7 @@ import {
 } from "../../../store/atoms/searchWordState";
 import {
   mapToDirectionState,
+  selectedItemNameState,
 } from "../../../store/atoms/MapDirectionState";
 import { convertHiraganaToKatakana } from "../../../hooks/useConvertHiraganaToKatakana";
 import Divider from "@mui/material/Divider";
@@ -23,7 +24,6 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import { selectedItemNameState } from "../../../store/atoms/MapDirectionState";
 
 type Props = {
   setOpen: (open: boolean) => void;
