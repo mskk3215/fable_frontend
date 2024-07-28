@@ -28,7 +28,7 @@ const convertSSRImageToImage = (ssrImages: SSRImage[]): ImageType[] => {
       insectName: ssrImage.insect_name,
       insectSex: ssrImage.insect_sex,
       cityName: ssrImage.city_name,
-      takenAt: ssrImage.taken_at,
+      takenDateTime: ssrImage.taken_date_time,
       userId: -1,
       createdAt: new Date(),
       likesCount: 0,
@@ -71,7 +71,7 @@ export default function PublicInsectImages(props: Props) {
         pageSize: pageSize,
         sortOption: 0,
       });
-      setImages(res.data.collectedInsectImages);
+      setImages(res.data.collectedInsects);
     })();
   }, [loginUser]);
 
@@ -250,8 +250,10 @@ export default function PublicInsectImages(props: Props) {
                   fontSize: "12px",
                 }}
               >
-                {createdTime && image.takenAt && createdTime(image.takenAt)
-                  ? createdTime(image.takenAt)
+                {createdTime &&
+                image.takenDateTime &&
+                createdTime(image.takenDateTime)
+                  ? createdTime(image.takenDateTime)
                   : "\u00a0"}
                 <br />
                 {loginUser ? (

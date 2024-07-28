@@ -7,7 +7,7 @@ export type Park = {
   longitude: number;
   prefectureName: string;
   cityName: string;
-  image: string;
+  images: string;
   imageCount: number;
   insectCount: number;
 };

@@ -3,7 +3,7 @@ export type Image = {
   userId: number;
   insectId?: number;
   image: string;
-  takenAt?: Date;
+  takenDateTime?: Date;
   createdAt: Date;
   parkId?: number;
   parkName?: string;
@@ -19,7 +19,7 @@ export type SSRImage = {
   insect_name: string;
   insect_sex: string;
   city_name: string;
-  taken_at: Date;
+  taken_date_time: Date;
 };
 
 export type HandleGetImages = (
@@ -35,7 +35,7 @@ export type UseImages = {
   handleGetMoreImages: HandleGetImages;
   updateLikedImage: (allImageData?: Image[]) => void;
   updatedLikedCount: (allImageData?: Image[]) => void;
-  createdTime: (takenAt: string | Date) => string;
+  createdTime: (takenDateTime: string | Date) => string;
   isImagesLoading: boolean;
   isImagesInitialLoading: boolean;
   imagePage: number;

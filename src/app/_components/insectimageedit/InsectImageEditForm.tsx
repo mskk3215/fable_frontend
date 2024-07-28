@@ -77,12 +77,12 @@ export const InsectImageEditForm = memo((props: Props) => {
     if (buttonName === "edit") {
       updateCollectedInsectImages({
         id: selectedIds,
-        collectedInsectImage: {
+        collectedInsect: {
           name: insectName,
           sex: insectSex,
           parkName,
           cityName,
-          takenAt: takenDate ? takenDate.format() : "",
+          takenDateTime: takenDate ? takenDate.format() : "",
         },
       })
         .then(() => {

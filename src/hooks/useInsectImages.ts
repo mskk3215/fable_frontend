@@ -54,7 +54,7 @@ export const useInsectImages = (latestImages?: Image[]): UseImages => {
           sortOption,
         })
       : await getCollectedInsectImages({ page: 1, pageSize, sortOption });
-    setImages(data.collectedInsectImages);
+    setImages(data.collectedInsects);
 
     setIsImagesInitialLoading(false);
     setIsImagesLoading(false);
@@ -63,8 +63,8 @@ export const useInsectImages = (latestImages?: Image[]): UseImages => {
     setTotalImagesCount(data.totalImagesCount);
 
     // いいね情報を取得する
-    updateLikedImage(data.collectedInsectImages);
-    updatedLikedCount(data.collectedInsectImages);
+    updateLikedImage(data.collectedInsects);
+    updatedLikedCount(data.collectedInsects);
   };
 
   // UserPageでスクロールした時.ImageEditでページを切り替えた時の画像を取得する
@@ -91,22 +91,22 @@ export const useInsectImages = (latestImages?: Image[]): UseImages => {
       // UserPageとImageEdtで画像取得方法を変える
       if (context === "addToImages") {
         setImages((prevImages) => {
-          const newData = data.collectedInsectImages.filter(
+          const newData = data.collectedInsects.filter(
             (image: Image) =>
               !prevImages.some((prevItem) => prevItem.id === image.id)
           );
           return [...prevImages, ...newData];
         });
       } else {
-        setImages(data.collectedInsectImages);
+        setImages(data.collectedInsects);
       }
 
-      if (data.collectedInsectImages.length === 0) setHasMoreImages(false);
+      if (data.collectedInsects.length === 0) setHasMoreImages(false);
       setIsImagesLoading(false);
 
       // いいね情報を取得する
-      updateLikedImage(data.collectedInsectImages);
-      updatedLikedCount(data.collectedInsectImages);
+      updateLikedImage(data.collectedInsects);
+      updatedLikedCount(data.collectedInsects);
     };
     // ImageEdit以外のページでは500ms後に画像を取得する
     if (pathname == "/insectimageedit") {
@@ -145,9 +145,9 @@ export const useInsectImages = (latestImages?: Image[]): UseImages => {
   };
 
   // 撮影日時をフォーマットする関数
-  const createdTime = (takenAt: string | Date): string => {
-    if (takenAt) {
-      const date = new Date(takenAt);
+  const createdTime = (takenDateTime: string | Date): string => {
+    if (takenDateTime) {
+      const date = new Date(takenDateTime);
       return format(date, "yyyy/M/d/(E)", { locale: ja });
     }
     return "";

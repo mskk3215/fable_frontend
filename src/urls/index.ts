@@ -101,7 +101,7 @@ export const getCollectedInsectImages = ({
   pageSize,
   sortOption,
 }: GetImages) => {
-  return apiClient.get("/collected_insect_images", {
+  return apiClient.get("/collected_insects", {
     params: { page, pageSize, sortOption },
   });
 };
@@ -111,7 +111,7 @@ export const getUserCollectedInsectImages = ({
   pageSize,
   sortOption,
 }: GetImages) => {
-  return apiClient.get("/collected_insect_images", {
+  return apiClient.get("/collected_insects", {
     params: {
       userId,
       page,
@@ -121,18 +121,18 @@ export const getUserCollectedInsectImages = ({
   });
 };
 export const updateCollectedInsectImages = (data: object) => {
-  return apiClient.put(`/collected_insect_images/bulk_update`, data);
+  return apiClient.put(`/collected_insects/bulk_update`, data);
 };
 export const deleteCollectedInsectImages = (id: number[]) => {
-  return apiClient.delete(`/collected_insect_images/${id}`);
+  return apiClient.delete(`/collected_insects/${id}`);
 };
 
 //likes
 export const createCollectedInsectImageLike = (imageId: number) => {
-  return apiClient.post(`/collected_insect_images/${imageId}/likes`);
+  return apiClient.post(`/collected_insects/${imageId}/likes`);
 };
 export const deleteCollectedInsectImageLike = (imageId: number) => {
-  return apiClient.delete(`/collected_insect_images/${imageId}/likes/1`);
+  return apiClient.delete(`/collected_insects/${imageId}/likes/1`);
 };
 
 //insects

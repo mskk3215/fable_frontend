@@ -203,7 +203,7 @@ export const PostList = () => {
                       paddingBottom: "75%",
                     }}
                   >
-                    {post.collectedInsectImages.map((imageData, index) => (
+                    {post.collectedInsects.map((imageData, index) => (
                       <Box key={post.id + "-" + index}>
                         <Box
                           sx={{
@@ -304,9 +304,9 @@ export const PostList = () => {
                                   }}
                                 >
                                   {createdTime &&
-                                  imageData.takenAt &&
-                                  createdTime(imageData.takenAt)
-                                    ? createdTime(imageData.takenAt)
+                                  imageData.takenDateTime &&
+                                  createdTime(imageData.takenDateTime)
+                                    ? createdTime(imageData.takenDateTime)
                                     : "\u00a0"}
                                 </Typography>
                               </Box>
@@ -330,7 +330,7 @@ export const PostList = () => {
                       </Box>
                     ))}
                     {/* ページドット */}
-                    {post.collectedInsectImages.length > 1 && (
+                    {post.collectedInsects.length > 1 && (
                       <Box
                         sx={{
                           position: "absolute",
@@ -342,7 +342,7 @@ export const PostList = () => {
                           alignItems: "center",
                         }}
                       >
-                        {post.collectedInsectImages.map((_, index) => (
+                        {post.collectedInsects.map((_, index) => (
                           <span
                             key={post.id + "-" + index}
                             style={{
@@ -359,7 +359,7 @@ export const PostList = () => {
                       </Box>
                     )}
                     {/* ページ切り替えボタン */}
-                    {post.collectedInsectImages.length > 1 && (
+                    {post.collectedInsects.length > 1 && (
                       <Box
                         style={{ display: "flex", justifyContent: "center" }}
                       >
@@ -382,7 +382,7 @@ export const PostList = () => {
                           onClick={() => handleNextImage(post.id)}
                           disabled={
                             currentImageIndex ===
-                            post.collectedInsectImages.length - 1
+                            post.collectedInsects.length - 1
                           }
                           size="small"
                           sx={{

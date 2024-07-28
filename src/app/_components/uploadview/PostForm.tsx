@@ -59,7 +59,7 @@ export const PostForm = memo((props: Props) => {
 
     const data = new FormData();
     images.forEach((image) => {
-      data.append("collectedInsectImage[images][]", image);
+      data.append("collectedInsect[images][]", image);
     });
 
     setIsLoading(true);

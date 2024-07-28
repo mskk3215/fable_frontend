@@ -31,9 +31,7 @@ export const usePosts = () => {
     setIsPostsLoading(false);
 
     // すべての画像を取得する
-    const allInsectImages = data.flatMap(
-      (post: Post) => post.collectedInsectImages
-    );
+    const allInsectImages = data.flatMap((post: Post) => post.collectedInsects);
     // いいねした画像を取得する
     updateLikedImage(allInsectImages);
     // いいね数を取得する
@@ -56,7 +54,7 @@ export const usePosts = () => {
       if (data.length === 0) setHasMorePosts(false);
       // すべての画像を取得する
       const allInsectImages = data.flatMap(
-        (post: Post) => post.collectedInsectImages
+        (post: Post) => post.collectedInsects
       );
       // いいねした画像を取得する
       updateLikedImage(allInsectImages);
