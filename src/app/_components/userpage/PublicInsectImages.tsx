@@ -4,10 +4,10 @@ import { useRecoilValue } from "recoil";
 import Image from "next/image";
 import Link from "next/link";
 import { throttle } from "lodash";
-import { getUserImages } from "../../../urls";
+import { getUserCollectedInsectImages } from "../../../urls";
 import { ImageSortSelector } from "./ImageSortSelector";
 import { loginUserState } from "../../../store/atoms/userAtom";
-import { useImages } from "../../../hooks/useImages";
+import { useInsectImages } from "../../../hooks/useInsectImages";
 import { usePageSize } from "../../../hooks/usePageSize";
 import { useUsers } from "../../../hooks/user/useUsers";
 import { useParks } from "../../../hooks/useParks";
@@ -28,7 +28,7 @@ const convertSSRImageToImage = (ssrImages: SSRImage[]): ImageType[] => {
       insectName: ssrImage.insect_name,
       insectSex: ssrImage.insect_sex,
       cityName: ssrImage.city_name,
-      takenAt: ssrImage.taken_at,
+      takenDateTime: ssrImage.taken_date_time,
       userId: -1,
       createdAt: new Date(),
       likesCount: 0,
@@ -36,7 +36,7 @@ const convertSSRImageToImage = (ssrImages: SSRImage[]): ImageType[] => {
   });
 };
 
-export default function PublicImages(props: Props) {
+export default function PublicInsectImages(props: Props) {
   const { latestImages, numUserId } = props;
   const loginUser = useRecoilValue(loginUserState);
   const { handleGetUser, isFollowed, viewedUser } = useUsers();
@@ -54,7 +54,7 @@ export default function PublicImages(props: Props) {
     createdTime,
     sortOption,
     setSortOption,
-  } = useImages(convertSSRImageToImage(latestImages));
+  } = useInsectImages(convertSSRImageToImage(latestImages));
   const pageSize = usePageSize();
 
   useEffect(() => {
@@ -65,13 +65,13 @@ export default function PublicImages(props: Props) {
   useEffect(() => {
     if (!loginUser) return;
     (async () => {
-      const res = await getUserImages({
+      const res = await getUserCollectedInsectImages({
         userId: numUserId,
         page: 1,
         pageSize: pageSize,
         sortOption: 0,
       });
-      setImages(res.data.images);
+      setImages(res.data.collectedInsects);
     })();
   }, [loginUser]);
 
@@ -169,7 +169,7 @@ export default function PublicImages(props: Props) {
             userId={numUserId}
           />
           {loginUser?.id === numUserId && (
-            <Link href={"/imageedit"}>
+            <Link href={"/insectimageedit"}>
               <Button
                 variant="contained"
                 sx={{
@@ -250,8 +250,10 @@ export default function PublicImages(props: Props) {
                   fontSize: "12px",
                 }}
               >
-                {createdTime && image.takenAt && createdTime(image.takenAt)
-                  ? createdTime(image.takenAt)
+                {createdTime &&
+                image.takenDateTime &&
+                createdTime(image.takenDateTime)
+                  ? createdTime(image.takenDateTime)
                   : "\u00a0"}
                 <br />
                 {loginUser ? (

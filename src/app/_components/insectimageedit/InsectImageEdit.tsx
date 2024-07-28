@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect, useState, useCallback } from "react";
-import { EditForm } from "./EditForm";
-import { ImageItem } from "../userpage/ImageItem";
-import { useImages } from "../../../hooks/useImages";
+import { InsectImageEditForm } from "./InsectImageEditForm";
+import { InsectImageItem } from "../userpage/InsectImageItem";
+import { useInsectImages } from "../../../hooks/useInsectImages";
 import { useParks } from "../../../hooks/useParks";
 import { useAllInsects } from "../../../hooks/useAllInsects";
 import { useAllPrefectures } from "../../../hooks/useAllPrefectures";
@@ -13,7 +13,7 @@ import { Box, Divider, Grid, Skeleton } from "@mui/material";
 import styled from "styled-components";
 import { Image } from "../../../types/images";
 
-export const ImageEdit = () => {
+export const InsectImageEdit = () => {
   const {
     images,
     setImages,
@@ -24,9 +24,9 @@ export const ImageEdit = () => {
     handleGetMoreImages,
     isImagesInitialLoading,
     createdTime,
-  } = useImages();
+  } = useInsectImages();
   const { parks, parkOptions, handleGetParks } = useParks();
-  const { insects, insectOptions, setQueryWord } = useAllInsects();
+  const { insectOptions, setQueryWord } = useAllInsects();
   const { prefectures, prefectureOptions } = useAllPrefectures();
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [isShiftDown, setIsShiftDown] = useState<boolean>(false);
@@ -116,7 +116,7 @@ export const ImageEdit = () => {
                 ))
               : paginatedImages?.map((image) => (
                   <Grid item xs={6} sm={4} md={2.4} key={image.id}>
-                    <ImageItem
+                    <InsectImageItem
                       image={image}
                       handleSelect={() => {
                         handleSelect(image);
@@ -151,14 +151,13 @@ export const ImageEdit = () => {
             px: { md: 1 },
           }}
         >
-          <EditForm
+          <InsectImageEditForm
             setImages={setImages}
             selectedIds={selectedIds}
             setSelectedIds={setSelectedIds}
             parkOptions={parkOptions}
             parks={parks}
             handleGetParks={handleGetParks}
-            insects={insects}
             insectOptions={insectOptions}
             prefectures={prefectures}
             prefectureOptions={prefectureOptions}

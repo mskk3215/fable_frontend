@@ -1,6 +1,7 @@
 export type Insect = {
+  insectId: number;
   insectName: string;
-  availableSexes: string[];
+  insectImage: string;
 };
 export type UseAllInsects = {
   insects: Insect[];

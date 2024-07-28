@@ -5,7 +5,10 @@ import { useSetRecoilState } from "recoil";
 import { messageState } from "../../../store/atoms/errorAtom";
 import { useErrorAction } from "../../../hooks/error/useErrorAction";
 import { convertHiraganaToKatakana } from "../../../hooks/useConvertHiraganaToKatakana";
-import { updateImages, deleteImages } from "../../../urls";
+import {
+  updateCollectedInsectImages,
+  deleteCollectedInsectImages,
+} from "../../../urls";
 import {
   Autocomplete,
   Box,
@@ -18,7 +21,6 @@ import {
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { Insect } from "../../../types/insects";
 import { Park, ParkOption } from "../../../types/parks";
 import { Prefecture, PrefectureOption } from "../../../types/prefectures";
 import dayjs, { Dayjs } from "dayjs";
@@ -32,7 +34,6 @@ type Props = {
   parkOptions: ParkOption[];
   parks: Park[];
   insectOptions: string[];
-  insects: Insect[];
   prefectureOptions: PrefectureOption[];
   prefectures: Prefecture[];
   handleGetImages: HandleGetImages;
@@ -41,14 +42,13 @@ type Props = {
   setQueryWord: (queryWord: string) => void;
 };
 
-export const EditForm = memo((props: Props) => {
+export const InsectImageEditForm = memo((props: Props) => {
   const {
     selectedIds,
     setSelectedIds,
     handleGetParks,
     parkOptions,
     parks,
-    insects,
     insectOptions,
     prefectures,
     prefectureOptions,
@@ -75,14 +75,14 @@ export const EditForm = memo((props: Props) => {
     setIsLoading(true);
 
     if (buttonName === "edit") {
-      updateImages({
+      updateCollectedInsectImages({
         id: selectedIds,
-        image: {
+        collectedInsect: {
           name: insectName,
           sex: insectSex,
           parkName,
           cityName,
-          takenAt: takenDate ? takenDate.format() : "",
+          takenDateTime: takenDate ? takenDate.format() : "",
         },
       })
         .then(() => {
@@ -95,7 +95,7 @@ export const EditForm = memo((props: Props) => {
           setIsLoading(false);
         });
     } else if (buttonName === "delete") {
-      await deleteImages(selectedIds)
+      await deleteCollectedInsectImages(selectedIds)
         .then((response) => {
           if (response.data.status === "deleted") {
             setImages((prevImages) =>
@@ -121,12 +121,7 @@ export const EditForm = memo((props: Props) => {
     setSelectedIds([]);
   };
 
-  const getSexes = () => {
-    const insectNameValue = insects.find(
-      (insect: Insect) => insect.insectName === insectName
-    );
-    return insectNameValue ? insectNameValue.availableSexes : [];
-  };
+  const sexOptions = ["オス", "メス"];
 
   const getCities = () => {
     const prefectureNameValue = prefectures.find(
@@ -284,7 +279,7 @@ export const EditForm = memo((props: Props) => {
               }}
               id="sex"
               size={handleFormSize()}
-              options={getSexes()}
+              options={sexOptions}
               renderInput={(params) => (
                 <TextField {...params} label="例) オス" />
               )}
@@ -431,4 +426,4 @@ export const EditForm = memo((props: Props) => {
     </>
   );
 });
-EditForm.displayName = "EditForm";
+InsectImageEditForm.displayName = "InsectImageEditForm";

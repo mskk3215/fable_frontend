@@ -5,11 +5,11 @@ import { useRecoilValue } from "recoil";
 import Link from "next/link";
 import { throttle } from "lodash";
 import { loginUserState } from "../../../store/atoms/userAtom";
-import { ImageItem } from "./ImageItem";
+import { InsectImageItem } from "./InsectImageItem";
 import { FollowModal } from "./FollowModal";
 import { ImageSortSelector } from "./ImageSortSelector";
 import { useUsers } from "../../../hooks/user/useUsers";
-import { useImages } from "../../../hooks/useImages";
+import { useInsectImages } from "../../../hooks/useInsectImages";
 import { useParks } from "../../../hooks/useParks";
 import { usePageSize } from "../../../hooks/usePageSize";
 import Box from "@mui/system/Box";
@@ -42,7 +42,7 @@ export const UserPage = () => {
     createdTime,
     sortOption,
     setSortOption,
-  } = useImages();
+  } = useInsectImages();
   const pageSize = usePageSize();
 
   // urlが変更されたらページに表示するユーザー、ログインユーザー情報を取得する
@@ -190,7 +190,7 @@ export const UserPage = () => {
           pageSize={pageSize}
           userId={loginUser?.id}
         />
-        <Link href={"/imageedit"}>
+        <Link href={"/insectimageedit"}>
           <Button
             variant="contained"
             sx={{
@@ -224,7 +224,7 @@ export const UserPage = () => {
             ))
           : images.map((image, index) => (
               <Grid item xs={6} sm={4} md={2} key={image.id}>
-                <ImageItem
+                <InsectImageItem
                   image={image}
                   index={index}
                   currentImageIndex={currentImageIndex}

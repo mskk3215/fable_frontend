@@ -2,8 +2,14 @@
 
 import React from "react";
 import { useRecoilState } from "recoil";
-import { likedCountState, likedImageState } from "../../store/atoms/imageAtom";
-import { createImageLike, deleteImageLike } from "../../urls";
+import {
+  likedCountState,
+  likedImageState,
+} from "../../store/atoms/insectImageAtom";
+import {
+  createCollectedInsectImageLike,
+  deleteCollectedInsectImageLike,
+} from "../../urls";
 import { Button } from "@mui/material";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import { Image } from "../../types/images";
@@ -29,9 +35,9 @@ export const LikeButton = (props: Props) => {
       };
       // いいね状態をサーバーに送信
       if (updatedLikedImage[imageId] === true) {
-        createImageLike(imageId);
+        createCollectedInsectImageLike(imageId);
       } else {
-        deleteImageLike(imageId);
+        deleteCollectedInsectImageLike(imageId);
       }
       return updatedLikedImage;
     });

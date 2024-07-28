@@ -59,7 +59,7 @@ export const PostForm = memo((props: Props) => {
 
     const data = new FormData();
     images.forEach((image) => {
-      data.append("image[image][]", image);
+      data.append("collectedInsect[images][]", image);
     });
 
     setIsLoading(true);
@@ -76,7 +76,7 @@ export const PostForm = memo((props: Props) => {
           type: "success",
         });
 
-        router.push("/imageedit");
+        router.push("/insectimageedit");
         handleGetImages(pageSize, undefined);
         setImages([]);
       })

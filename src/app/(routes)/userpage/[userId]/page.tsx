@@ -1,5 +1,5 @@
 import React from "react";
-import PublicImages from "../../../_components/userpage/PublicImages";
+import PublicImages from "../../../_components/userpage/PublicInsectImages";
 import PublicProfile from "../../../_components/userpage/PublicProfile";
 import { Metadata } from "next";
 
@@ -35,7 +35,7 @@ async function fetchProfileInfo(id: string) {
 
 async function fetchLatestImages(id: string) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/images?user_id=${id}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/collected_insects?user_id=${id}`,
     {
       cache: "no-store",
     }
@@ -47,8 +47,10 @@ async function fetchLatestImages(id: string) {
 
 export default async function UserPagePage({ params }: Props) {
   const profileInfo = await fetchProfileInfo(params.userId);
-  const { images: latestImages, total_images_count: totalImagesCount } =
-    await fetchLatestImages(params.userId);
+  const {
+    collected_insects: latestImages,
+    total_images_count: totalImagesCount,
+  } = await fetchLatestImages(params.userId);
 
   const numUserId = parseInt(params.userId, 10);
 

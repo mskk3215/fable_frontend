@@ -95,19 +95,23 @@ export const deletePosts = (postId: number) => {
   return apiClient.delete(`/posts/${postId}`);
 };
 
-//images
-export const getImages = ({ page, pageSize, sortOption }: GetImages) => {
-  return apiClient.get("/images", {
+//collectedInsectImages
+export const getCollectedInsectImages = ({
+  page,
+  pageSize,
+  sortOption,
+}: GetImages) => {
+  return apiClient.get("/collected_insects", {
     params: { page, pageSize, sortOption },
   });
 };
-export const getUserImages = ({
+export const getUserCollectedInsectImages = ({
   userId,
   page,
   pageSize,
   sortOption,
 }: GetImages) => {
-  return apiClient.get("/images", {
+  return apiClient.get("/collected_insects", {
     params: {
       userId,
       page,
@@ -116,19 +120,19 @@ export const getUserImages = ({
     },
   });
 };
-export const updateImages = (data: object) => {
-  return apiClient.put(`/images/bulk_update`, data);
+export const updateCollectedInsectImages = (data: object) => {
+  return apiClient.put(`/collected_insects/bulk_update`, data);
 };
-export const deleteImages = (id: number[]) => {
-  return apiClient.delete(`/images/${id}`);
+export const deleteCollectedInsectImages = (id: number[]) => {
+  return apiClient.delete(`/collected_insects/${id}`);
 };
 
 //likes
-export const createImageLike = (imageId: number) => {
-  return apiClient.post(`/images/${imageId}/likes`);
+export const createCollectedInsectImageLike = (imageId: number) => {
+  return apiClient.post(`/collected_insects/${imageId}/likes`);
 };
-export const deleteImageLike = (imageId: number) => {
-  return apiClient.delete(`/images/${imageId}/likes/1`);
+export const deleteCollectedInsectImageLike = (imageId: number) => {
+  return apiClient.delete(`/collected_insects/${imageId}/likes/1`);
 };
 
 //insects
@@ -184,5 +188,15 @@ export const getInsectsAndParksInfo = (
       lat: lat,
       lng: lng,
     },
+  });
+};
+
+//pictureBook
+export const getPictureBookInfo = (insectId: number) => {
+  return apiClient.get(`/insects/${insectId}`);
+};
+export const getPictureBookList = (page: number, queryWord?: string) => {
+  return apiClient.get(`/insects`, {
+    params: { pageType: "picturebooklist", page, queryWord: queryWord },
   });
 };

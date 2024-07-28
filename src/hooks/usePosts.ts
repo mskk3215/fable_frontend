@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { getPosts } from "../urls";
-import { useImages } from "./useImages";
+import { useInsectImages } from "./useInsectImages";
 import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
 import { Post } from "../types/posts";
 
 export const usePosts = () => {
-  const { updateLikedImage, updatedLikedCount } = useImages();
+  const { updateLikedImage, updatedLikedCount } = useInsectImages();
   const [posts, setPosts] = useState<Post[]>([]);
   const [isPostsInitialLoading, setIsPostsInitialLoading] =
     useState<boolean>(false);
@@ -27,16 +27,15 @@ export const usePosts = () => {
     // 投稿画像を取得する
     const { data } = await getPosts(1, tabValue);
     setPosts(data);
-
     setIsPostsInitialLoading(false);
     setIsPostsLoading(false);
 
     // すべての画像を取得する
-    const allImages = data.flatMap((post: Post) => post.images);
+    const allInsectImages = data.flatMap((post: Post) => post.collectedInsects);
     // いいねした画像を取得する
-    updateLikedImage(allImages);
+    updateLikedImage(allInsectImages);
     // いいね数を取得する
-    updatedLikedCount(allImages);
+    updatedLikedCount(allInsectImages);
   };
 
   // スクロールした時の投稿情報を取得する
@@ -54,11 +53,13 @@ export const usePosts = () => {
       });
       if (data.length === 0) setHasMorePosts(false);
       // すべての画像を取得する
-      const allImages = data.flatMap((post: Post) => post.images);
+      const allInsectImages = data.flatMap(
+        (post: Post) => post.collectedInsects
+      );
       // いいねした画像を取得する
-      updateLikedImage(allImages);
+      updateLikedImage(allInsectImages);
       // いいね数を取得する
-      updatedLikedCount(allImages);
+      updatedLikedCount(allInsectImages);
       setIsPostsLoading(false);
     }, 500);
   };

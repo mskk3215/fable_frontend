@@ -170,7 +170,7 @@ export const MapDrawer = memo((props: Props) => {
                     />
                     <ListItemAvatar>
                       <Image
-                        src={result.image[0]}
+                        src={result.images[0]}
                         alt="公園にいる代表的な昆虫画像"
                         width={100}
                         height={100}

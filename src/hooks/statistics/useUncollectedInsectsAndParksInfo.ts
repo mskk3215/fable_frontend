@@ -37,10 +37,9 @@ export const useUncollectedInsectsAndParksInfo = () => {
 
     if (data.length > 0) {
       const uncollectedInsectParkData = data.map(
-        (uncollectedInsectsAndParks: InsectAndParks, index: number) => ({
-          id: index,
+        (uncollectedInsectsAndParks: InsectAndParks) => ({
+          insectId: uncollectedInsectsAndParks.insectId,
           insectName: uncollectedInsectsAndParks.insectName,
-          insectSex: uncollectedInsectsAndParks.sex,
           biologicalFamily: uncollectedInsectsAndParks.biologicalFamily,
           parkName: uncollectedInsectsAndParks.parkName,
         })

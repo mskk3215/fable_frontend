@@ -69,6 +69,7 @@ export const Header = () => {
                     <SLink href="/uploadview">投稿</SLink>
                     <SLink href="/postlist">投稿一覧</SLink>
                     <SLink href="/statistics">分析</SLink>
+                    <SLink href="/picturebooklist">図鑑</SLink>
                   </>
                 )}
               </Box>

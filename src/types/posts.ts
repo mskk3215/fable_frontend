@@ -6,5 +6,5 @@ export type Post = {
   avatar: string;
   userId: number;
   username: string;
-  images: Image[];
+  collectedInsects: Image[];
 };

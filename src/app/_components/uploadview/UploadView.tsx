@@ -2,11 +2,11 @@
 
 import React from "react";
 import { PostForm } from "./PostForm";
-import { useImages } from "../../../hooks/useImages";
+import { useInsectImages } from "../../../hooks/useInsectImages";
 import { Grid } from "@mui/material";
 
 export const UploadView = () => {
-  const { handleGetImages } = useImages();
+  const { handleGetImages } = useInsectImages();
 
   return (
     <>

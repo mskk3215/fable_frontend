@@ -220,19 +220,19 @@ export const CollectionStatusTable = (props: Props) => {
                         fontSize: pageSize > 8 ? "16px" : "12px",
                       }}
                     >
+                      <Typography variant="body1" color="text.primary">
+                        {row.insectName}
+                      </Typography>
                       <SLink
                         href={`/map`}
                         onClick={() => setSearchWord(row.insectName)}
                       >
-                        {pageSize > 8 ? (
-                          `${row.insectName}(${row.insectSex})`
-                        ) : (
-                          <>
-                            {row.insectName}
-                            <br />({row.insectSex})
-                          </>
-                        )}
+                        {`(map`}
                       </SLink>
+                      {`,`}
+                      <SLink
+                        href={`/picturebook/${row.insectId}`}
+                      >{`図鑑)`}</SLink>
                     </TableCell>
                     <TableCell
                       align="left"
