@@ -195,3 +195,8 @@ export const getInsectsAndParksInfo = (
 export const getPictureBookInfo = (insectId: number) => {
   return apiClient.get(`/insects/${insectId}`);
 };
+export const getPictureBookList = (page: number, queryWord?: string) => {
+  return apiClient.get(`/insects`, {
+    params: { pageType: "picturebooklist", page, queryWord: queryWord },
+  });
+};
