@@ -220,7 +220,7 @@ export const ImageItemDialog = memo((props: Props) => {
                 fontSize: { xs: "0.8rem", md: "1rem" },
               }}
             >
-              撮影日時:{" "}
+              撮影日:{" "}
               {createdTime &&
               currentImage.takenDateTime &&
               createdTime(currentImage.takenDateTime)

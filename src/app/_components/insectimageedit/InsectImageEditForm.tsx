@@ -19,7 +19,7 @@ import {
   Typography,
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { DateTimePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { Park, ParkOption } from "../../../types/parks";
 import { Prefecture, PrefectureOption } from "../../../types/prefectures";
@@ -62,7 +62,7 @@ export const InsectImageEditForm = memo((props: Props) => {
   const [insectSex, setInsectSex] = useState("");
   const [prefectureName, setPrefectureName] = useState("");
   const [cityName, setCityName] = useState("");
-  const [takenDate, setTakenDate] = useState<Dayjs | null>(null);
+  const [takenDateTime, setTakenDateTime] = useState<Dayjs | null>(null);
   const [parkName, setParkName] = useState("");
   const [buttonName, setButtonName] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -82,7 +82,7 @@ export const InsectImageEditForm = memo((props: Props) => {
           sex: insectSex,
           parkName,
           cityName,
-          takenDateTime: takenDate ? takenDate.format() : "",
+          takenDateTime: takenDateTime ? takenDateTime.format() : "",
         },
       })
         .then(() => {
@@ -117,7 +117,7 @@ export const InsectImageEditForm = memo((props: Props) => {
     setParkName("");
     setPrefectureName("");
     setCityName("");
-    setTakenDate(null);
+    setTakenDateTime(null);
     setSelectedIds([]);
   };
 
@@ -131,9 +131,9 @@ export const InsectImageEditForm = memo((props: Props) => {
   };
 
   const handleDateChange = (date: Dayjs | null) => {
-    if (date === null) return setTakenDate(null);
+    if (date === null) return setTakenDateTime(null);
     const formattedDate = date.format("YYYY-MM-DDTHH:mm:ss.SSSZ");
-    setTakenDate(dayjs(formattedDate));
+    setTakenDateTime(dayjs(formattedDate));
   };
 
   // 公園名の選択、入力、削除に関する処理
@@ -199,7 +199,7 @@ export const InsectImageEditForm = memo((props: Props) => {
   const isLocationInfoPartiallyFilled =
     prefectureName !== "" && cityName === "";
   const isAllInfoNotFilled =
-    insectSex === "" && cityName === "" && takenDate === null;
+    insectSex === "" && cityName === "" && takenDateTime === null;
 
   const handleEditButton = () =>
     isSelectedIdsEmpty ||
@@ -369,20 +369,20 @@ export const InsectImageEditForm = memo((props: Props) => {
               gutterBottom
               variant={handleVariantSize()}
             >
-              撮影日
+              撮影日時
             </Typography>
             <Grid item xs={12}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  value={takenDate}
+                <DateTimePicker
+                  value={takenDateTime}
                   onChange={handleDateChange}
-                  format="YYYY/MM/DD"
+                  format="YYYY/MM/DD/HH:mm"
                   sx={{
-                    width: { xs: 150, md: 200 },
+                    width: { xs: 190, md: 220 },
                   }}
                   slotProps={{
                     textField: { size: handleFormSize() },
-                    actionBar: { actions: ["clear"] },
+                    actionBar: { actions: ["clear", "accept"] },
                   }}
                 />
               </LocalizationProvider>
