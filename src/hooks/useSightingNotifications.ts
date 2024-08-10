@@ -5,7 +5,7 @@ import { getSightingNotifications } from "../urls";
 import { SightingNotifications } from "../types/sightingnotifications";
 
 export const useInsectSightingNotifications = (insectId?: number) => {
-  const [specificInsectNotification, setSpecificInsectNotification] = useState<
+  const [insectNotificationSetting, setInsectNotificationSetting] = useState<
     SightingNotifications[]
   >([]);
   const [userSightingNotifications, setUserSightingNotifications] = useState<
@@ -20,6 +20,9 @@ export const useInsectSightingNotifications = (insectId?: number) => {
     isSightingNotificationInitialLoading,
     setIsSightingNotificationInitialLoading,
   ] = useState<boolean>(false);
+  const [isNotificationLoading, setIsNotificationLoading] = useState<
+    boolean | undefined
+  >(undefined);
   const [isSightingNotificationLoading, setIsSightingNotificationLoading] =
     useState<boolean>(false);
   const [sightingNotificationPage, setSightingNotificationPage] = useState(1);
@@ -39,14 +42,16 @@ export const useInsectSightingNotifications = (insectId?: number) => {
     setIsSightingNotificationInitialLoading(true);
     setSightingNotificationPage(1);
 
-    if (insectId && includeNotificationButton) {
+    if (includeNotificationButton) {
+      setIsNotificationLoading(true);
       // 昆虫ごとの通知有無設定を取得
       const { data } = await getSightingNotifications(
         sightingNotificationPage,
         insectId,
         includeNotificationButton
       );
-      setSpecificInsectNotification(data);
+      setInsectNotificationSetting(data);
+      setIsNotificationLoading(false);
     } else {
       if (insectId) {
         // picturebookの昆虫の通知情報を取得
@@ -96,12 +101,13 @@ export const useInsectSightingNotifications = (insectId?: number) => {
 
   return {
     userSightingNotifications,
-    specificInsectNotification,
-    setSpecificInsectNotification,
+    insectNotificationSetting,
+    setInsectNotificationSetting,
     pictureBookSightingInsectNotifications,
     isSightingNotificationLoading,
     setSightingNotificationPage,
     isSightingNotificationInitialLoading,
+    isNotificationLoading,
     handleGetSightingNotifications,
   };
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import styled from "styled-components";
 import { useSearchWord } from "../../../store/atoms/searchWordState";
@@ -16,9 +16,11 @@ import {
   ListItem,
   ListItemText,
   Grid,
-  Chip,
   Skeleton,
 } from "@mui/material";
+import { InsectNotificationButton } from "../InsectNotificationButton";
+import { useInsectSightingNotifications } from "../../../hooks/useSightingNotifications";
+import { SightingNotificationList } from "../SightingNotificationList";
 
 type Props = {
   insectId: number;
@@ -27,6 +29,13 @@ type Props = {
 export const PictureBook = (props: Props) => {
   const { insectId } = props;
   const { pictureBookInfo } = usePictureBook(insectId);
+  const {
+    pictureBookSightingInsectNotifications,
+    insectNotificationSetting,
+    handleGetSightingNotifications,
+    isSightingNotificationInitialLoading,
+    isNotificationLoading,
+  } = useInsectSightingNotifications(insectId);
   const { saveSearchWord } = useSearchWord();
 
   // 画像の順序をいいね順に並び替える
@@ -35,6 +44,15 @@ export const PictureBook = (props: Props) => {
     .sort((a, b) => {
       return b.likesCount - a.likesCount;
     });
+
+  // 昆虫の通知設定取得
+  useEffect(() => {
+    handleGetSightingNotifications(undefined, true);
+  }, [insectId]);
+
+  const [isNotificationEnabled, setIsNotificationEnabled] = useState<
+    boolean | undefined
+  >(undefined);
 
   return (
     <>
@@ -50,14 +68,25 @@ export const PictureBook = (props: Props) => {
             </Typography>
           )}
           <Box display="flex" alignItems="center">
-            <Typography variant="body1" color="text.secondary">
-              {pictureBookInfo?.isCollected ? (
-                <span style={{ color: "green" }}>✔️採集済</span>
-              ) : (
-                <span style={{ color: "red" }}>❌未採集</span>
-              )}
-            </Typography>
-            <Chip label="通知に追加" sx={{ ml: 1 }} color="primary" />
+            {pictureBookInfo && !isSightingNotificationInitialLoading ? (
+              <Typography variant="body1" color="text.secondary">
+                {pictureBookInfo?.isCollected ? (
+                  <span style={{ color: "green" }}>✔️採集済</span>
+                ) : (
+                  <span style={{ color: "red" }}>❌未採集</span>
+                )}
+              </Typography>
+            ) : (
+              <Skeleton variant="text" width={68} height={30} />
+            )}
+            <InsectNotificationButton
+              insectId={insectId}
+              insectNotificationSetting={insectNotificationSetting}
+              handleGetSightingNotifications={handleGetSightingNotifications}
+              isNotificationLoading={isNotificationLoading}
+              isNotificationEnabled={isNotificationEnabled}
+              setIsNotificationEnabled={setIsNotificationEnabled}
+            />
           </Box>
           <Typography variant="body1" mt={1}>
             写真数：{pictureBookInfo?.imageCount} 枚

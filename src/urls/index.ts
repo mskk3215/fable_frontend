@@ -131,14 +131,14 @@ export const deleteCollectedInsectImages = (id: number[]) => {
 export const getSightingNotifications = (
   page: number,
   insectId?: number,
-  isNotificationEnabled?: boolean
+  includeNotificationButton?: boolean
 ) => {
   return apiClient.get(`/sighting_notifications`, {
-    params: { page, insectId, isNotificationEnabled },
+    params: { page, insectId, includeNotificationButton },
   });
 };
 export const createUserSightingNotification = (insectId: number) => {
-  return apiClient.post(`/sighting_notifications`, { params: { insectId } });
+  return apiClient.post(`/sighting_notifications`, { insectId });
 };
 export const deleteUserSightingNotification = (id: number) => {
   return apiClient.delete(`/sighting_notifications/${id}`);
