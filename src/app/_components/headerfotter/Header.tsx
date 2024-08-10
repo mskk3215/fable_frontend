@@ -16,6 +16,7 @@ import { AppBar, Box, IconButton, Toolbar } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 
 export const Header = () => {
   useAuthCheck();
@@ -83,6 +84,11 @@ export const Header = () => {
                 </>
               ) : (
                 <>
+                  <SLink href="/usernotificationlist">
+                    <IconButton>
+                      <NotificationsIcon sx={{ color: "white" }} />
+                    </IconButton>
+                  </SLink>
                   <SLink href="/userpage">マイページ</SLink>
                   <LogoutButton />
                 </>
