@@ -223,6 +223,16 @@ export const PictureBook = (props: Props) => {
             <Typography variant="h6" gutterBottom>
               最近の出没先
             </Typography>
+            {pictureBookSightingInsectNotifications?.map(
+              (notification, index) => (
+                <SightingNotificationList
+                  key={index}
+                  notification={notification}
+                  index={index}
+                  isPictureBookPage={true}
+                />
+              )
+            )}
           </Box>
         </Box>
       </Container>
