@@ -39,7 +39,6 @@ export const useInsectSightingNotifications = (insectId?: number) => {
     includeNotificationButton?: boolean
   ) => {
     setHasMoreSightingNotification(true);
-    setIsSightingNotificationInitialLoading(true);
     setSightingNotificationPage(1);
 
     if (includeNotificationButton) {
@@ -53,6 +52,7 @@ export const useInsectSightingNotifications = (insectId?: number) => {
       setInsectNotificationSetting(data);
       setIsNotificationLoading(false);
     } else {
+      setIsSightingNotificationInitialLoading(true);
       if (insectId) {
         // picturebookの昆虫の通知情報を取得
         const { data } = await getSightingNotifications(
@@ -67,8 +67,8 @@ export const useInsectSightingNotifications = (insectId?: number) => {
         );
         setUserSightingNotifications(data);
       }
+      setIsSightingNotificationInitialLoading(false);
     }
-    setIsSightingNotificationInitialLoading(false);
   };
   useEffect(() => {
     handleGetSightingNotifications(insectId);
