@@ -67,7 +67,7 @@ export const PictureBook = (props: Props) => {
               Loading...
             </Typography>
           )}
-          <Box display="flex" alignItems="center">
+          <Box display="flex" alignItems="center" gap="20px">
             {pictureBookInfo && !isSightingNotificationInitialLoading ? (
               <Typography variant="body1" color="text.secondary">
                 {pictureBookInfo?.isCollected ? (

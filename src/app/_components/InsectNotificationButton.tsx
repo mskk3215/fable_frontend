@@ -66,7 +66,7 @@ export const InsectNotificationButton = memo((props: Props) => {
   return (
     <>
       {isNotificationEnabled === undefined ? (
-        <Skeleton variant="text" width={68} height={30} />
+        <Skeleton variant="text" width={150} height={30} />
       ) : (
         <Button
           onClick={
