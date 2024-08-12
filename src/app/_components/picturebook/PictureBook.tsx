@@ -4,12 +4,9 @@ import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import Link from "next/link";
 import styled from "styled-components";
-import {
-  createUserSightingNotification,
-  deleteUserSightingNotification,
-} from "../../../urls";
 import { sightingNotificationState } from "../../../store/atoms/notificationAtom";
 import { useSearchWord } from "../../../store/atoms/searchWordState";
+import { createHandleNotificationSetting } from "../../_utils/sightingnotificationUtils";
 import { ActiveMonthChart } from "./ActiveMonthChart";
 import { ActiveHourChart } from "./ActiveHourChart";
 import { usePictureBook } from "../../../hooks/usePictureBooks";
@@ -59,20 +56,11 @@ export const PictureBook = (props: Props) => {
     }
   }, [isNotificationLoading]);
 
-  // 通知ボタンのon/offの状態をサーバーへ送信する
-  const handleNotificationSetting = async (insectId: number) => {
-    const notification = sightingNotifications.find(
-      (notification) => notification.insectId === Number(insectId)
-    );
-    // サーバーに通知設定を送信
-    if (notification) {
-      await deleteUserSightingNotification(notification.id);
-    } else {
-      await createUserSightingNotification(insectId);
-    }
-    // 通知設定のState更新
-    handleGetSightingNotifications(undefined, true);
-  };
+  // // 通知ボタンのon/offの状態をサーバーへ送信する
+  const handleNotificationSetting = createHandleNotificationSetting(
+    sightingNotifications,
+    handleGetSightingNotifications
+  );
 
   return (
     <>
