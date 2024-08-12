@@ -6,3 +6,7 @@ export type SightingNotifications = {
   takenDateTime?: string;
   parkName?: string;
 };
+
+export type SightingNotificationSetting = {
+  [key: number]: boolean;
+};

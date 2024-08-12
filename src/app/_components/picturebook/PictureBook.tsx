@@ -1,12 +1,21 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 import Link from "next/link";
 import styled from "styled-components";
+import {
+  createUserSightingNotification,
+  deleteUserSightingNotification,
+} from "../../../urls";
+import { sightingNotificationState } from "../../../store/atoms/notificationAtom";
 import { useSearchWord } from "../../../store/atoms/searchWordState";
 import { ActiveMonthChart } from "./ActiveMonthChart";
 import { ActiveHourChart } from "./ActiveHourChart";
 import { usePictureBook } from "../../../hooks/usePictureBooks";
+import { useInsectSightingNotifications } from "../../../hooks/useSightingNotifications";
+import { SightingNotificationList } from "../SightingNotificationList";
+import { SightingNotificationButton } from "../SightingNotificationButton";
 import {
   Box,
   Container,
@@ -18,9 +27,6 @@ import {
   Grid,
   Skeleton,
 } from "@mui/material";
-import { InsectNotificationButton } from "../InsectNotificationButton";
-import { useInsectSightingNotifications } from "../../../hooks/useSightingNotifications";
-import { SightingNotificationList } from "../SightingNotificationList";
 
 type Props = {
   insectId: number;
@@ -28,10 +34,10 @@ type Props = {
 
 export const PictureBook = (props: Props) => {
   const { insectId } = props;
+  const sightingNotifications = useRecoilValue(sightingNotificationState);
   const { pictureBookInfo } = usePictureBook(insectId);
   const {
-    pictureBookSightingInsectNotifications,
-    insectNotificationSetting,
+    pictureBookSightingInsectNotifications, // picturebook下部の昆虫の通知情報一覧
     handleGetSightingNotifications,
     isSightingNotificationInitialLoading,
     isNotificationLoading,
@@ -45,14 +51,28 @@ export const PictureBook = (props: Props) => {
       return b.likesCount - a.likesCount;
     });
 
-  // 昆虫の通知設定取得
+  // 通知ボタンのSkeleton表示を一度だけ行う
+  const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
   useEffect(() => {
-    handleGetSightingNotifications(undefined, true);
-  }, [insectId]);
+    if (isNotificationLoading === false && !hasLoadedOnce) {
+      setHasLoadedOnce(true);
+    }
+  }, [isNotificationLoading]);
 
-  const [isNotificationEnabled, setIsNotificationEnabled] = useState<
-    boolean | undefined
-  >(undefined);
+  // 通知ボタンのon/offの状態をサーバーへ送信する
+  const handleNotificationSetting = async (insectId: number) => {
+    const notification = sightingNotifications.find(
+      (notification) => notification.insectId === Number(insectId)
+    );
+    // サーバーに通知設定を送信
+    if (notification) {
+      await deleteUserSightingNotification(notification.id);
+    } else {
+      await createUserSightingNotification(insectId);
+    }
+    // 通知設定のState更新
+    handleGetSightingNotifications(undefined, true);
+  };
 
   return (
     <>
@@ -79,14 +99,15 @@ export const PictureBook = (props: Props) => {
             ) : (
               <Skeleton variant="text" width={68} height={30} />
             )}
-            <InsectNotificationButton
-              insectId={insectId}
-              insectNotificationSetting={insectNotificationSetting}
-              handleGetSightingNotifications={handleGetSightingNotifications}
-              isNotificationLoading={isNotificationLoading}
-              isNotificationEnabled={isNotificationEnabled}
-              setIsNotificationEnabled={setIsNotificationEnabled}
-            />
+            {!hasLoadedOnce ? (
+              <Skeleton variant="text" width={150} height={30} />
+            ) : (
+              <SightingNotificationButton
+                insectId={insectId}
+                handleNotificationSetting={handleNotificationSetting}
+                isPictureBook={true}
+              />
+            )}
           </Box>
           <Typography variant="body1" mt={1}>
             写真数：{pictureBookInfo?.imageCount} 枚
