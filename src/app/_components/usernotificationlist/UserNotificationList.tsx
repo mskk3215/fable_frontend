@@ -4,7 +4,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { throttle } from "lodash";
-import { deleteUserSightingNotification } from "../../../urls";
 import { useInsectSightingNotifications } from "../../../hooks/useSightingNotifications";
 import { SightingNotificationList } from "../SightingNotificationList";
 import { UserNotificationModal } from "./UserNotificationModal";
@@ -22,6 +21,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { SightingNotifications } from "../../../types/sightingnotifications";
+import { deleteUserSightingNotificationSetting } from "../../../urls";
 
 export const UserNotificationList = () => {
   const {
@@ -68,7 +68,7 @@ export const UserNotificationList = () => {
           !notificationSetting[notification.insectId]
       )
       .map((notification) => {
-        deleteUserSightingNotification(notification.id);
+        deleteUserSightingNotificationSetting(notification.id);
       });
     await Promise.all(deletePromises);
     handleGetSightingNotifications(undefined);

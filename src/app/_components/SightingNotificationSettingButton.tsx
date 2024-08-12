@@ -12,7 +12,7 @@ type Props = {
   isPictureBookList?: boolean;
 };
 
-export const SightingNotificationButton = memo((props: Props) => {
+export const SightingNotificationSettingButton = memo((props: Props) => {
   const {
     insectId,
     handleNotificationSetting,
@@ -64,4 +64,5 @@ export const SightingNotificationButton = memo((props: Props) => {
     </>
   );
 });
-SightingNotificationButton.displayName = "SightingNotificationButton";
+SightingNotificationSettingButton.displayName =
+  "SightingNotificationSettingButton";

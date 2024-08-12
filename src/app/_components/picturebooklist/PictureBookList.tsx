@@ -10,7 +10,7 @@ import { createHandleNotificationSetting } from "../../_utils/sightingnotificati
 import { usePictureBook } from "../../../hooks/usePictureBooks";
 import { useInsectSightingNotifications } from "../../../hooks/useSightingNotifications";
 import { SearchBarInPictureBookList } from "./SearchBarInPictureBookList";
-import { SightingNotificationButton } from "../SightingNotificationButton";
+import { SightingNotificationSettingButton } from "../SightingNotificationSettingButton";
 import {
   Box,
   CircularProgress,
@@ -138,7 +138,7 @@ export const PictureBookList = () => {
                       {insect.insectName}
                     </SLink>
                   </Box>
-                  <SightingNotificationButton
+                  <SightingNotificationSettingButton
                     insectId={insect.insectId}
                     handleNotificationSetting={handleNotificationSetting}
                     isPictureBookList={true}

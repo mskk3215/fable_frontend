@@ -133,15 +133,15 @@ export const getSightingNotifications = (
   insectId?: number,
   includeNotificationButton?: boolean
 ) => {
-  return apiClient.get(`/sighting_notifications`, {
+  return apiClient.get(`/sighting_notification_settings`, {
     params: { page, insectId, includeNotificationButton },
   });
 };
-export const createUserSightingNotification = (insectId: number) => {
-  return apiClient.post(`/sighting_notifications`, { insectId });
+export const createUserSightingNotificationSetting = (insectId: number) => {
+  return apiClient.post(`/sighting_notification_settings`, { insectId });
 };
-export const deleteUserSightingNotification = (id: number) => {
-  return apiClient.delete(`/sighting_notifications/${id}`);
+export const deleteUserSightingNotificationSetting = (id: number) => {
+  return apiClient.delete(`/sighting_notification_settings/${id}`);
 };
 
 //likes

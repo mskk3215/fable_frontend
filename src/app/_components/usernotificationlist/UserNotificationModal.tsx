@@ -4,7 +4,6 @@ import React, { memo } from "react";
 import { useRecoilValue } from "recoil";
 import Link from "next/link";
 import { sightingNotificationState } from "../../../store/atoms/notificationAtom";
-import { SightingNotificationButton } from "../SightingNotificationButton";
 import {
   Box,
   Button,
@@ -16,6 +15,7 @@ import {
 } from "@mui/material";
 import { Cancel } from "@mui/icons-material";
 import { SightingNotifications } from "../../../types/sightingnotifications";
+import { SightingNotificationSettingButton } from "../SightingNotificationSettingButton";
 
 type Props = {
   userSightingNotifications?: SightingNotifications[];
@@ -111,7 +111,7 @@ export const UserNotificationModal = memo((props: Props) => {
                           </Typography>
                         </ButtonBase>
                       </Box>
-                      <SightingNotificationButton
+                      <SightingNotificationSettingButton
                         insectId={notification.insectId}
                       />
                       {/* <NotificationListButton

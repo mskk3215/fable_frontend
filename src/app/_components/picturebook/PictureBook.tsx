@@ -12,7 +12,7 @@ import { ActiveHourChart } from "./ActiveHourChart";
 import { usePictureBook } from "../../../hooks/usePictureBooks";
 import { useInsectSightingNotifications } from "../../../hooks/useSightingNotifications";
 import { SightingNotificationList } from "../SightingNotificationList";
-import { SightingNotificationButton } from "../SightingNotificationButton";
+import { SightingNotificationSettingButton } from "../SightingNotificationSettingButton";
 import {
   Box,
   Container,
@@ -90,7 +90,7 @@ export const PictureBook = (props: Props) => {
             {!hasLoadedOnce ? (
               <Skeleton variant="text" width={150} height={30} />
             ) : (
-              <SightingNotificationButton
+              <SightingNotificationSettingButton
                 insectId={insectId}
                 handleNotificationSetting={handleNotificationSetting}
                 isPictureBook={true}

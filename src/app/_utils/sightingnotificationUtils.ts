@@ -1,7 +1,7 @@
 import { SightingNotifications } from "../../types/sightingnotifications";
 import {
-  createUserSightingNotification,
-  deleteUserSightingNotification,
+  createUserSightingNotificationSetting,
+  deleteUserSightingNotificationSetting,
 } from "../../urls";
 
 // // 通知ボタンのon/offの状態をサーバーへ送信する
@@ -15,9 +15,9 @@ export const createHandleNotificationSetting = (
     );
 
     if (notification) {
-      await deleteUserSightingNotification(notification.id);
+      await deleteUserSightingNotificationSetting(notification.id);
     } else {
-      await createUserSightingNotification(insectId);
+      await createUserSightingNotificationSetting(insectId);
     }
 
     handleGetSightingNotifications(undefined, true);
