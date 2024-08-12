@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
-import Link from "next/link";
-import { useInsectSightingNotifications } from "../../../hooks/useSightingNotifications";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { throttle } from "lodash";
-import { SightingNotifications } from "../../../types/sightingnotifications";
 import { deleteUserSightingNotification } from "../../../urls";
+import { useInsectSightingNotifications } from "../../../hooks/useSightingNotifications";
+import { SightingNotificationList } from "../SightingNotificationList";
+import { UserNotificationModal } from "./UserNotificationModal";
 import {
   notificationSettingState,
   sightingNotificationState,
@@ -21,8 +21,7 @@ import {
   ListItemText,
   CircularProgress,
 } from "@mui/material";
-import { SightingNotificationList } from "../SightingNotificationList";
-import { UserNotificationModal } from "./UserNotificationModal";
+import { SightingNotifications } from "../../../types/sightingnotifications";
 
 export const UserNotificationList = () => {
   const {

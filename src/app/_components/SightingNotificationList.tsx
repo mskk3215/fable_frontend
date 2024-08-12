@@ -1,13 +1,12 @@
-import { Box, ListItem, Typography } from "@mui/material";
 import Link from "next/link";
 import styled from "styled-components";
-
-import { SightingNotifications } from "../../types/sightingnotifications";
 import {
   useDestinationLocation,
   useSearchWord,
 } from "../../store/atoms/searchWordState";
 import { formatDateTime } from "../_utils/datetimeUtils";
+import { Box, ListItem, Typography } from "@mui/material";
+import { SightingNotifications } from "../../types/sightingnotifications";
 
 type Props = {
   notification: SightingNotifications;

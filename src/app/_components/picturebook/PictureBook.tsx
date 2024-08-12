@@ -247,7 +247,6 @@ export const PictureBook = (props: Props) => {
                   </SLink>
                 </Typography>
               </ListItem>
-
               {/* 必要な道具 */}
               <ListItem sx={{ display: "block" }}>
                 <ListItemText primary="採集に必要な道具" />
