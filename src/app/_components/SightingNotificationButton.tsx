@@ -9,10 +9,16 @@ type Props = {
   insectId: number;
   handleNotificationSetting?: (insectId: number) => void;
   isPictureBook?: boolean;
+  isPictureBookList?: boolean;
 };
 
 export const SightingNotificationButton = memo((props: Props) => {
-  const { insectId, handleNotificationSetting, isPictureBook } = props;
+  const {
+    insectId,
+    handleNotificationSetting,
+    isPictureBook,
+    isPictureBookList,
+  } = props;
   const [notificationSetting, setNotificationSetting] = useRecoilState(
     notificationSettingState
   );
@@ -24,7 +30,7 @@ export const SightingNotificationButton = memo((props: Props) => {
         [insectId]: !prev[insectId],
       };
     });
-    if (isPictureBook) {
+    if (isPictureBook || isPictureBookList) {
       handleNotificationSetting && handleNotificationSetting(insectId);
     }
   };
