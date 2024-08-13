@@ -29,7 +29,7 @@ export const UserNotificationList = () => {
     isSightingNotificationInitialLoading,
     isSightingNotificationLoading,
     setSightingNotificationPage,
-    handleGetSightingNotifications,
+    handleGetSightingNotificationSettings,
   } = useInsectSightingNotifications();
   const sightingNotifications = useRecoilValue(sightingNotificationState);
   const notificationSetting = useRecoilValue(notificationSettingState);
@@ -71,9 +71,8 @@ export const UserNotificationList = () => {
         deleteUserSightingNotificationSetting(notification.id);
       });
     await Promise.all(deletePromises);
-    handleGetSightingNotifications(undefined);
-    handleGetSightingNotifications(undefined, true);
   }, [notificationSetting]);
+    handleGetSightingNotificationSettings();
 
   return (
     <>

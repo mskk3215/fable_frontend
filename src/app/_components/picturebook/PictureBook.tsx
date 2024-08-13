@@ -35,7 +35,7 @@ export const PictureBook = (props: Props) => {
   const { pictureBookInfo } = usePictureBook(insectId);
   const {
     pictureBookSightingInsectNotifications, // picturebook下部の昆虫の通知情報一覧
-    handleGetSightingNotifications,
+    handleGetSightingNotificationSettings,
     isSightingNotificationInitialLoading,
     isNotificationLoading,
   } = useInsectSightingNotifications(insectId);
@@ -59,7 +59,7 @@ export const PictureBook = (props: Props) => {
   // // 通知ボタンのon/offの状態をサーバーへ送信する
   const handleNotificationSetting = createHandleNotificationSetting(
     sightingNotifications,
-    handleGetSightingNotifications
+    handleGetSightingNotificationSettings
   );
 
   return (

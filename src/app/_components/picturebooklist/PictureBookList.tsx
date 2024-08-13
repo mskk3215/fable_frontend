@@ -34,7 +34,8 @@ export const PictureBookList = () => {
     handleGetPictureBookList,
   } = usePictureBook();
   const sightingNotifications = useRecoilValue(sightingNotificationState);
-  const { handleGetSightingNotifications } = useInsectSightingNotifications();
+  const { handleGetSightingNotificationSettings } =
+    useInsectSightingNotifications();
 
   const handleSearch = () => {
     if (searchTerm) {
@@ -47,7 +48,7 @@ export const PictureBookList = () => {
   // 通知ボタンのon/offの状態をサーバーへ送信する
   const handleNotificationSetting = createHandleNotificationSetting(
     sightingNotifications,
-    handleGetSightingNotifications
+    handleGetSightingNotificationSettings
   );
 
   // scrollで投稿を追加取得

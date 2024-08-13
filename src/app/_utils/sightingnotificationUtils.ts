@@ -7,7 +7,7 @@ import {
 // // 通知ボタンのon/offの状態をサーバーへ送信する
 export const createHandleNotificationSetting = (
   sightingNotifications: SightingNotifications[],
-  handleGetSightingNotifications: (arg1: any, arg2: boolean) => void
+  handleGetSightingNotificationSettings: () => void
 ) => {
   return async (insectId: number) => {
     const notification = sightingNotifications.find(
@@ -20,6 +20,6 @@ export const createHandleNotificationSetting = (
       await createUserSightingNotificationSetting(insectId);
     }
 
-    handleGetSightingNotifications(undefined, true);
+    handleGetSightingNotificationSettings();
   };
 };
