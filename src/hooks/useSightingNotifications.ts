@@ -1,7 +1,7 @@
 //昆虫目撃通知データを取得するカスタムフック
 import { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
-import { getSightingNotifications } from "../urls";
+import { getSightingNotificationSettings } from "../urls";
 import {
   notificationSettingState,
   sightingNotificationState,
@@ -57,7 +57,7 @@ export const useInsectSightingNotifications = (insectId?: number) => {
     if (includeNotificationButton) {
       setIsNotificationLoading(true);
       // 通知有無リストを取得
-      const { data } = await getSightingNotifications(
+      const { data } = await getSightingNotificationSettings(
         sightingNotificationPage,
         insectId,
         includeNotificationButton
@@ -75,14 +75,14 @@ export const useInsectSightingNotifications = (insectId?: number) => {
       setIsSightingNotificationInitialLoading(true);
       if (insectId) {
         // picturebook下部の昆虫の通知情報一覧を取得
-        const { data } = await getSightingNotifications(
+        const { data } = await getSightingNotificationSettings(
           sightingNotificationPage,
           insectId
         );
         setPictureBookSightingInsectNotifications(data); //セット
       } else {
         // notification listの通知情報一覧を取得
-        const { data } = await getSightingNotifications(
+        const { data } = await getSightingNotificationSettings(
           sightingNotificationPage
         );
         setUserSightingNotifications(data); //セット
@@ -102,7 +102,9 @@ export const useInsectSightingNotifications = (insectId?: number) => {
     if (!hasMoreSightingNotification) return;
     setIsSightingNotificationLoading(true);
     setTimeout(async () => {
-      const { data } = await getSightingNotifications(sightingNotificationPage);
+      const { data } = await getSightingNotificationSettings(
+        sightingNotificationPage
+      );
       setUserSightingNotifications((prevList) => {
         const newData = data.filter(
           (notifications: SightingNotifications) =>

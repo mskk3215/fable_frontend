@@ -137,6 +137,17 @@ export const getSightingNotifications = (
     params: { page, insectId, includeNotificationButton },
   });
 };
+
+// notification settings
+export const getSightingNotificationSettings = (
+  page: number,
+  insectId?: number,
+  includeNotificationButton?: boolean
+) => {
+  return apiClient.get(`/sighting_notification_settings`, {
+    params: { page, insectId, includeNotificationButton },
+  });
+};
 export const createUserSightingNotificationSetting = (insectId: number) => {
   return apiClient.post(`/sighting_notification_settings`, { insectId });
 };
