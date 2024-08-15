@@ -1,9 +1,6 @@
 import Link from "next/link";
 import styled from "styled-components";
-import {
-  useDestinationLocation,
-  useSearchWord,
-} from "../../store/atoms/searchWordState";
+import { useDestinationLocation } from "../../store/atoms/searchWordState";
 import { formatDateTime } from "../_utils/datetimeUtils";
 import { Box, ListItem, Typography } from "@mui/material";
 import { SightingNotifications } from "../../types/sightingnotifications";
@@ -16,7 +13,6 @@ type Props = {
 
 export const SightingNotificationList = (props: Props) => {
   const { notification, index, isPictureBookPage } = props;
-  const { saveSearchWord } = useSearchWord();
   const { saveDestinationLocation } = useDestinationLocation();
 
   return (
@@ -28,28 +24,58 @@ export const SightingNotificationList = (props: Props) => {
               <>{formatDateTime(notification.takenDateTime)}</>
             )}
           </Typography>
-          {!isPictureBookPage && (
+          {!isPictureBookPage ? (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-start",
+                alignItems: "center",
+              }}
+            >
+              <SLink href={`/picturebook/${notification.insectId}`}>
+                {notification.insectName}
+              </SLink>
+              <Typography
+                variant="body1"
+                color="textSecondary"
+                component="span"
+                style={{ marginRight: "4px", marginLeft: "4px" }}
+              >
+                {" "}
+                が{" "}
+              </Typography>
+              <SLink
+                href={`/direction`}
+                onClick={() => {
+                  if (notification.parkName) {
+                    saveDestinationLocation(notification.parkName);
+                  }
+                }}
+              >
+                {notification.parkName}
+              </SLink>
+              <Typography
+                variant="body1"
+                color="textSecondary"
+                component="span"
+                style={{ marginRight: "4px", marginLeft: "4px" }}
+              >
+                {" "}
+                に出没しました。
+              </Typography>
+            </Box>
+          ) : (
             <SLink
-              href={`/map`}
+              href={`/direction`}
               onClick={() => {
-                if (notification.insectName) {
-                  saveSearchWord(notification.insectName);
+                if (notification.parkName) {
+                  saveDestinationLocation(notification.parkName);
                 }
               }}
             >
-              {notification.insectName}
+              {notification.parkName}
             </SLink>
           )}
-          <SLink
-            href={`/direction`}
-            onClick={() => {
-              if (notification.parkName) {
-                saveDestinationLocation(notification.parkName);
-              }
-            }}
-          >
-            {notification.parkName}
-          </SLink>
         </ItemWrapper>
       </StyledListItem>
     </>
