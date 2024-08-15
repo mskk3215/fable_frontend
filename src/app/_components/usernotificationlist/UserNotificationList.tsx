@@ -95,7 +95,14 @@ export const UserNotificationList = () => {
                 )
               )
             ) : (
-              <Box>
+              <Box
+                sx={{
+                  fontSize: {
+                    xs: "12px",
+                    md: "16px",
+                  },
+                }}
+              >
                 <Typography color="error.main">通知がありません。</Typography>
                 <Typography color="error.main">
                   通知設定が無い場合、通知設定を追加してください

@@ -30,16 +30,23 @@ export const SightingNotificationList = (props: Props) => {
                 display: "flex",
                 justifyContent: "flex-start",
                 alignItems: "center",
+                fontSize: {
+                  xs: "12px",
+                  md: "16px",
+                },
               }}
             >
               <SLink href={`/picturebook/${notification.insectId}`}>
                 {notification.insectName}
               </SLink>
               <Typography
-                variant="body1"
                 color="textSecondary"
                 component="span"
-                style={{ marginRight: "4px", marginLeft: "4px" }}
+                style={{
+                  marginRight: "4px",
+                  marginLeft: "4px",
+                }}
+                sx={{ fontSize: { xs: "12px", md: "16px" } }}
               >
                 {" "}
                 が{" "}
@@ -59,6 +66,7 @@ export const SightingNotificationList = (props: Props) => {
                 color="textSecondary"
                 component="span"
                 style={{ marginRight: "4px", marginLeft: "4px" }}
+                sx={{ fontSize: { xs: "12px", md: "16px" } }}
               >
                 {" "}
                 に出没しました。

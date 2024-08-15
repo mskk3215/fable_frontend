@@ -105,6 +105,10 @@ export const UserNotificationModal = memo((props: Props) => {
                                 textDecoration: "underline",
                               },
                               marginRight: 1,
+                              fontSize: {
+                                xs: "14px",
+                                md: "16px",
+                              },
                             }}
                           >
                             {notification.insectName}

@@ -42,7 +42,7 @@ export const SightingNotificationSettingButton = memo((props: Props) => {
         variant={notificationSetting[insectId] ? "outlined" : "contained"}
         size="small"
         sx={{
-          maxWidth: { xs: "75%", md: "100%" },
+          maxWidth: { xs: "60%", md: "100%" },
           backgroundColor: notificationSetting[insectId]
             ? "#ffffff"
             : "#2b3d51",
@@ -55,6 +55,7 @@ export const SightingNotificationSettingButton = memo((props: Props) => {
             opacity: 0.7,
           },
           ml: 2,
+          fontSize: { xs: "10px", md: "16px" },
         }}
       >
         {notificationSetting[insectId]

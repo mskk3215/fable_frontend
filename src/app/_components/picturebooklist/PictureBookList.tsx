@@ -11,6 +11,7 @@ import { usePictureBook } from "../../../hooks/usePictureBooks";
 import { useInsectSightingNotifications } from "../../../hooks/useSightingNotifications";
 import { SearchBarInPictureBookList } from "./SearchBarInPictureBookList";
 import { SightingNotificationSettingButton } from "../SightingNotificationSettingButton";
+import { usePageSize } from "../../../hooks/usePageSize";
 import {
   Box,
   CircularProgress,
@@ -36,6 +37,7 @@ export const PictureBookList = () => {
   const sightingNotifications = useRecoilValue(sightingNotificationState);
   const { handleGetSightingNotificationSettings } =
     useInsectSightingNotifications();
+  const pageSize = usePageSize();
 
   const handleSearch = () => {
     if (searchTerm) {
@@ -113,8 +115,8 @@ export const PictureBookList = () => {
                   <Image
                     src={insect.insectImage}
                     alt={insect.insectName}
-                    width={100}
-                    height={100}
+                    width={pageSize > 8 ? 100 : 80}
+                    height={pageSize > 8 ? 100 : 80}
                     style={{ borderRadius: "10%" }}
                   />
                 </ListItemAvatar>
