@@ -2,7 +2,6 @@
 
 import React, { useCallback, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
-import styled from "styled-components";
 import { throttle } from "lodash";
 import { useInsectSightingNotifications } from "../../../hooks/useSightingNotifications";
 import { SightingNotificationList } from "../SightingNotificationList";
@@ -11,15 +10,7 @@ import {
   notificationSettingState,
   sightingNotificationState,
 } from "../../../store/atoms/notificationAtom";
-import {
-  Box,
-  List,
-  ListItem,
-  Typography,
-  Skeleton,
-  ListItemText,
-  CircularProgress,
-} from "@mui/material";
+import { Box, List, Typography, CircularProgress } from "@mui/material";
 import { SightingNotifications } from "../../../types/sightingnotifications";
 import { deleteUserSightingNotificationSetting } from "../../../urls";
 
@@ -87,32 +78,25 @@ export const UserNotificationList = () => {
           handleNotificationModalClose={handleNotificationModalClose}
         />
         <List>
-          {isSightingNotificationInitialLoading ? (
-            Array.from(new Array(8)).map((_, index) => (
-              <SkeltonStyledListItem key={index}>
-                <ListItemText
-                  primary={<Skeleton variant="text" height={100} />}
-                />
-              </SkeltonStyledListItem>
-            ))
-          ) : userSightingNotifications.length > 0 ? (
-            userSightingNotifications.map(
-              (notification: SightingNotifications, index) => (
-                <SightingNotificationList
-                  key={index}
-                  notification={notification}
-                  index={index}
-                />
+          {!isSightingNotificationInitialLoading &&
+            (userSightingNotifications.length > 0 ? (
+              userSightingNotifications.map(
+                (notification: SightingNotifications, index) => (
+                  <SightingNotificationList
+                    key={index}
+                    notification={notification}
+                    index={index}
+                  />
+                )
               )
-            )
-          ) : (
-            <Box>
-              <Typography color="error.main">通知がありません。</Typography>
-              <Typography color="error.main">
-                通知設定が無い場合、通知設定を追加してください
-              </Typography>
-            </Box>
-          )}
+            ) : (
+              <Box>
+                <Typography color="error.main">通知がありません。</Typography>
+                <Typography color="error.main">
+                  通知設定が無い場合、通知設定を追加してください
+                </Typography>
+              </Box>
+            ))}
         </List>
       </Box>
       {isSightingNotificationLoading &&
@@ -135,8 +119,3 @@ export const UserNotificationList = () => {
     </>
   );
 };
-
-const SkeltonStyledListItem = styled(ListItem)({
-  borderBottom: "1px solid #ddd",
-  padding: "1px",
-});
