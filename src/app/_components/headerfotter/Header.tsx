@@ -5,6 +5,7 @@ import { useRecoilValue } from "recoil";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { loginUserState } from "../../../store/atoms/userAtom";
+import { isNotificationIconState } from "../../../store/atoms/notificationAtom";
 import { LogoutButton } from "./LogoutButton";
 import { useAuthCheck } from "../../../hooks/user/useAuthCheck";
 import { useSessionTimeout } from "../../../hooks/user/useHandleSessionTimeout";
@@ -12,15 +13,20 @@ import styled from "styled-components";
 import { GuestLoginButton } from "./GuestLoginButton";
 import { usePageSize } from "../../../hooks/usePageSize";
 import { SearchBarInHeader } from "./SearchBarInHeader";
-import { AppBar, Box, IconButton, Toolbar } from "@mui/material";
+import { useInsectSightingNotifications } from "../../../hooks/useSightingNotifications";
+import { AppBar, Box, IconButton, Toolbar, Tooltip } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import { NotificationAdd } from "@mui/icons-material";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import { yellow } from "@mui/material/colors";
 
 export const Header = () => {
   useAuthCheck();
   useSessionTimeout();
+  useInsectSightingNotifications();
+  const isNotificationIcon = useRecoilValue(isNotificationIconState);
 
   const pathname = usePathname();
   const pageSize = usePageSize();
@@ -84,11 +90,23 @@ export const Header = () => {
                 </>
               ) : (
                 <>
-                  <SLink href="/usernotificationlist">
-                    <IconButton>
-                      <NotificationsIcon sx={{ color: "white" }} />
-                    </IconButton>
-                  </SLink>
+                  {isNotificationIcon ? (
+                    <Tooltip title="新着通知があります" placement="bottom">
+                      <SLink href="/usernotificationlist">
+                        <IconButton>
+                          <NotificationAdd sx={{ color: yellow[500] }} />
+                        </IconButton>
+                      </SLink>
+                    </Tooltip>
+                  ) : (
+                    <Tooltip title="通知一覧" placement="bottom">
+                      <SLink href="/usernotificationlist">
+                        <IconButton>
+                          <NotificationsNoneIcon sx={{ color: "white" }} />
+                        </IconButton>
+                      </SLink>
+                    </Tooltip>
+                  )}
                   <SLink href="/userpage">マイページ</SLink>
                   <LogoutButton />
                 </>

@@ -128,13 +128,15 @@ export const deleteCollectedInsectImages = (id: number[]) => {
 };
 
 // notifications
-export const getSightingNotifications = (
-  page: number,
-  insectId?: number,
-  iconButton?: boolean
-) => {
+export const getSightingNotifications = (page: number, insectId?: number) => {
   return apiClient.get(`/sighting_notifications`, {
-    params: { page, insectId, iconButton },
+    params: { page, insectId },
+  });
+};
+// notification icon
+export const getIsNotification = (iconButton: boolean) => {
+  return apiClient.get(`/sighting_notifications`, {
+    params: { iconButton },
   });
 };
 

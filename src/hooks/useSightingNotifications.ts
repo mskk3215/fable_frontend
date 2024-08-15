@@ -2,10 +2,12 @@
 import { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import {
+  getIsNotification,
   getSightingNotifications,
   getSightingNotificationSettings,
 } from "../urls";
 import {
+  isNotificationIconState,
   notificationSettingState,
   sightingNotificationState,
 } from "../store/atoms/notificationAtom";
@@ -26,6 +28,9 @@ export const useInsectSightingNotifications = (insectId?: number) => {
     pictureBookSightingInsectNotifications,
     setPictureBookSightingInsectNotifications,
   ] = useState<SightingNotifications[]>([]);
+  const [isNotificationIcon, setIsNotificationIcon] = useRecoilState(
+    isNotificationIconState
+  );
 
   // loading関連の関数
   // notification listのloading
@@ -48,6 +53,16 @@ export const useInsectSightingNotifications = (insectId?: number) => {
 
   // エラーハンドリング呼び出し
   useGetRequestErrorAction();
+
+  // 通知アイコンの切り替え
+  const handleGetIsNotification = async () => {
+    const { data } = await getIsNotification(true);
+    if (data.length > 0) {
+      setIsNotificationIcon(true);
+    } else {
+      setIsNotificationIcon(false);
+    }
+  };
 
   // 通知設定を取得する
   const handleGetSightingNotificationSettings = async () => {
@@ -83,6 +98,8 @@ export const useInsectSightingNotifications = (insectId?: number) => {
       // notification listの通知情報一覧を取得
       const { data } = await getSightingNotifications(sightingNotificationPage);
       setUserSightingNotifications(data); //セット
+      // 通知アイコンの切り替え
+      handleGetIsNotification();
     }
     setIsSightingNotificationInitialLoading(false);
   };
@@ -116,6 +133,14 @@ export const useInsectSightingNotifications = (insectId?: number) => {
   };
 
   useEffect(() => {
+  // 通知アイコンの切り替え
+  useEffect(() => {
+    handleGetIsNotification();
+  }, []);
+
+  // 通知リストの追加読み込み
+  useEffect(() => {
+    if (sightingNotificationPage < 2) return;
     handleGetMoreSightingNotification();
   }, [sightingNotificationPage]);
 
@@ -137,6 +162,8 @@ export const useInsectSightingNotifications = (insectId?: number) => {
     setSightingNotificationPage,
     isSightingNotificationInitialLoading,
     isNotificationLoading,
+    isNotificationIcon,
+    handleGetIsNotification,
     handleGetSightingNotifications,
     handleGetSightingNotificationSettings,
   };

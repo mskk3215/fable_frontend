@@ -20,6 +20,7 @@ export const UserNotificationList = () => {
     isSightingNotificationInitialLoading,
     isSightingNotificationLoading,
     setSightingNotificationPage,
+    handleGetSightingNotifications,
     handleGetSightingNotificationSettings,
   } = useInsectSightingNotifications();
   const sightingNotifications = useRecoilValue(sightingNotificationState);
@@ -64,6 +65,10 @@ export const UserNotificationList = () => {
     await Promise.all(deletePromises);
   }, [notificationSetting]);
     handleGetSightingNotificationSettings();
+  // 通知リスト取得
+  useEffect(() => {
+    handleGetSightingNotifications();
+  }, []);
 
   return (
     <>

@@ -10,3 +10,8 @@ export const notificationSettingState = atom<{ [key: number]: boolean }>({
   key: "notificationSettingState",
   default: {},
 });
+
+export const isNotificationIconState = atom<boolean>({
+  key: "isNotificationIconState",
+  default: false,
+});
