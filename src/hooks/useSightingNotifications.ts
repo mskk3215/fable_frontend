@@ -1,6 +1,6 @@
 //昆虫目撃通知データを取得するカスタムフック
 import { useEffect, useState } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   getIsNotification,
   getSightingNotifications,
@@ -11,11 +11,13 @@ import {
   notificationSettingState,
   sightingNotificationState,
 } from "../store/atoms/notificationAtom";
+import { loginUserState } from "../store/atoms/userAtom";
 import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
 import { Insect } from "../types/insects";
 import { SightingNotifications } from "../types/sightingnotifications";
 
 export const useInsectSightingNotifications = (insectId?: number) => {
+  const loginUser = useRecoilValue(loginUserState);
   // 通知設定
   const setSightingNotifications = useSetRecoilState(sightingNotificationState);
   const setNotificationSetting = useSetRecoilState(notificationSettingState);
@@ -66,6 +68,7 @@ export const useInsectSightingNotifications = (insectId?: number) => {
 
   // 通知設定を取得する
   const handleGetSightingNotificationSettings = async () => {
+    if (!loginUser) return; // Headerでこのhooksを呼び出していてエラーが出る為、追加
     setIsNotificationLoading(true);
     // 通知有無リストを取得
     const { data } = await getSightingNotificationSettings();
@@ -129,10 +132,6 @@ export const useInsectSightingNotifications = (insectId?: number) => {
   };
 
   useEffect(() => {
-  // 通知アイコンの切り替え
-  useEffect(() => {
-    handleGetIsNotification();
-  }, []);
 
   // 通知リストの追加読み込み
   useEffect(() => {

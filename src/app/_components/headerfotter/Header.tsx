@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -12,8 +12,8 @@ import { useSessionTimeout } from "../../../hooks/user/useHandleSessionTimeout";
 import styled from "styled-components";
 import { GuestLoginButton } from "./GuestLoginButton";
 import { usePageSize } from "../../../hooks/usePageSize";
-import { SearchBarInHeader } from "./SearchBarInHeader";
 import { useInsectSightingNotifications } from "../../../hooks/useSightingNotifications";
+import { SearchBarInHeader } from "./SearchBarInHeader";
 import { AppBar, Box, IconButton, Toolbar, Tooltip } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -25,8 +25,8 @@ import { yellow } from "@mui/material/colors";
 export const Header = () => {
   useAuthCheck();
   useSessionTimeout();
-  useInsectSightingNotifications();
   const isNotificationIcon = useRecoilValue(isNotificationIconState);
+  const { handleGetIsNotification } = useInsectSightingNotifications();
 
   const pathname = usePathname();
   const pageSize = usePageSize();
@@ -41,6 +41,12 @@ export const Header = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  // 通知有無の取得
+  useEffect(() => {
+    if (!loginUser) return;
+    handleGetIsNotification();
+  }, [pathname]);
 
   return (
     <AppBar
