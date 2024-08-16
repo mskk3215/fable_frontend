@@ -31,7 +31,7 @@ export const SightingNotificationSettingButton = memo((props: Props) => {
       };
     });
     if (isPictureBook || isPictureBookList) {
-      handleNotificationSetting && handleNotificationSetting(insectId);
+      handleNotificationSetting?.(insectId);
     }
   };
 

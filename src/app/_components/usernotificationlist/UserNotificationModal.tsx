@@ -14,11 +14,9 @@ import {
   Typography,
 } from "@mui/material";
 import { Cancel } from "@mui/icons-material";
-import { SightingNotifications } from "../../../types/sightingnotifications";
 import { SightingNotificationSettingButton } from "../SightingNotificationSettingButton";
 
 type Props = {
-  userSightingNotifications?: SightingNotifications[];
   notificationOpen: boolean;
   handleNotificationModalOpen: () => void;
   handleNotificationModalClose: () => void;
@@ -118,9 +116,6 @@ export const UserNotificationModal = memo((props: Props) => {
                       <SightingNotificationSettingButton
                         insectId={notification.insectId}
                       />
-                      {/* <NotificationListButton
-                        insectId={notification.insectId}
-                      /> */}
                     </Box>
                   </React.Fragment>
                 ))}

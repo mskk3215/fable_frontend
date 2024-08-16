@@ -21,6 +21,7 @@ export const useInsectSightingNotifications = (insectId?: number) => {
   // 通知設定
   const setSightingNotifications = useSetRecoilState(sightingNotificationState);
   const setNotificationSetting = useSetRecoilState(notificationSettingState);
+
   // ユーザーの通知データ
   const [userSightingNotifications, setUserSightingNotifications] = useState<
     SightingNotifications[]
@@ -103,13 +104,6 @@ export const useInsectSightingNotifications = (insectId?: number) => {
     setIsSightingNotificationInitialLoading(false);
   };
 
-  useEffect(() => {
-    // picturebook下部の昆虫の通知情報一覧
-    handleGetSightingNotifications(insectId);
-    // 通知設定リスト
-    handleGetSightingNotificationSettings();
-  }, [insectId]);
-
   // 追加読み込み
   const handleGetMoreSightingNotification = async () => {
     if (!hasMoreSightingNotification) return;
@@ -132,6 +126,13 @@ export const useInsectSightingNotifications = (insectId?: number) => {
   };
 
   useEffect(() => {
+    // picturebook下部の昆虫の通知情報一覧
+    if (insectId) {
+      handleGetSightingNotifications(insectId);
+    }
+    // 昆虫毎の通知設定一覧
+    handleGetSightingNotificationSettings();
+  }, [insectId]);
 
   // 通知リストの追加読み込み
   useEffect(() => {
@@ -155,8 +156,8 @@ export const useInsectSightingNotifications = (insectId?: number) => {
     pictureBookSightingInsectNotifications,
     isSightingNotificationLoading,
     setSightingNotificationPage,
-    isSightingNotificationInitialLoading,
     isNotificationLoading,
+    isSightingNotificationInitialLoading,
     isNotificationIcon,
     handleGetIsNotification,
     handleGetSightingNotifications,

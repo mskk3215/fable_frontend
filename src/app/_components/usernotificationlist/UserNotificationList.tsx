@@ -21,11 +21,11 @@ import { SightingNotifications } from "../../../types/sightingnotifications";
 export const UserNotificationList = () => {
   const {
     userSightingNotifications,
-    isSightingNotificationInitialLoading,
     isSightingNotificationLoading,
     setSightingNotificationPage,
     handleGetSightingNotifications,
     handleGetSightingNotificationSettings,
+    isSightingNotificationInitialLoading,
   } = useInsectSightingNotifications();
   const sightingNotifications = useRecoilValue(sightingNotificationState);
   const notificationSetting = useRecoilValue(notificationSettingState);
@@ -47,14 +47,12 @@ export const UserNotificationList = () => {
       window.removeEventListener("scroll", handleSightingNotificationScroll);
   }, []);
 
+  // Modal open/close
   const [notificationOpen, setNotificationOpen] = useState(false);
-
-  // Modal open
   const handleNotificationModalOpen = useCallback(() => {
     setNotificationOpen(true);
   }, []);
 
-  // Modal close
   const handleNotificationModalClose = useCallback(async () => {
     // 通知設定の変更をサーバーに送信。notificationSettingでfalseになっているものだけを送信
     const deletePromises = sightingNotifications
