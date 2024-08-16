@@ -56,7 +56,6 @@ export const UserNotificationList = () => {
 
   // Modal close
   const handleNotificationModalClose = useCallback(async () => {
-    setNotificationOpen(false);
     // 通知設定の変更をサーバーに送信。notificationSettingでfalseになっているものだけを送信
     const deletePromises = sightingNotifications
       .filter(
@@ -64,11 +63,13 @@ export const UserNotificationList = () => {
           !notificationSetting[notification.insectId]
       )
       .map((notification) => {
-        deleteUserSightingNotificationSetting(notification.id);
+        return deleteUserSightingNotificationSetting(notification.id);
       });
     await Promise.all(deletePromises);
-  }, [notificationSetting]);
     handleGetSightingNotificationSettings();
+    setNotificationOpen(false);
+  }, [sightingNotifications, notificationSetting]);
+
   // 全て既読にする
   const handleMarkAllAsRead = useCallback(async () => {
     const readPromises = userSightingNotifications.map((notification) => {
