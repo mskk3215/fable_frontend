@@ -37,7 +37,7 @@ export const useInsectSightingNotifications = (insectId?: number) => {
   const [
     isSightingNotificationInitialLoading,
     setIsSightingNotificationInitialLoading,
-  ] = useState<boolean>(false);
+  ] = useState<boolean | undefined>(undefined);
   // notification list 追加読み込みのloading
   const [isSightingNotificationLoading, setIsSightingNotificationLoading] =
     useState<boolean>(false);
@@ -69,13 +69,7 @@ export const useInsectSightingNotifications = (insectId?: number) => {
     setIsNotificationLoading(true);
     // 通知有無リストを取得
     const { data } = await getSightingNotificationSettings();
-    // insectIdでソート
-    const sortedData = data.sort(
-      (a: SightingNotifications, b: SightingNotifications) => {
-        return a.insectId - b.insectId;
-      }
-    );
-    setSightingNotifications(sortedData);
+    setSightingNotifications(data);
     setNotificationSetting(convertNotificationData(data)); //セット
     setIsNotificationLoading(false);
   };
@@ -83,10 +77,12 @@ export const useInsectSightingNotifications = (insectId?: number) => {
   // 通知情報を取得する
   // 初回読み込み
   const handleGetSightingNotifications = async (insectId?: number) => {
+    if (isSightingNotificationInitialLoading === undefined) {
+      setIsSightingNotificationInitialLoading(true);
+    }
     setHasMoreSightingNotification(true);
     setSightingNotificationPage(1);
 
-    setIsSightingNotificationInitialLoading(true);
     if (insectId) {
       // picturebook下部の昆虫の通知情報一覧を取得
       const { data } = await getSightingNotifications(

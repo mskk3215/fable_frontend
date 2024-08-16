@@ -3,16 +3,20 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { throttle } from "lodash";
+import {
+  deleteUserSightingNotificationSetting,
+  updateSightingNotifications,
+} from "../../../urls";
 import { useInsectSightingNotifications } from "../../../hooks/useSightingNotifications";
 import { SightingNotificationList } from "../SightingNotificationList";
 import { UserNotificationModal } from "./UserNotificationModal";
+import { MarkAllAsReadButton } from "./MarkAllAsReadButton";
 import {
   notificationSettingState,
   sightingNotificationState,
 } from "../../../store/atoms/notificationAtom";
 import { Box, List, Typography, CircularProgress } from "@mui/material";
 import { SightingNotifications } from "../../../types/sightingnotifications";
-import { deleteUserSightingNotificationSetting } from "../../../urls";
 
 export const UserNotificationList = () => {
   const {
@@ -65,6 +69,15 @@ export const UserNotificationList = () => {
     await Promise.all(deletePromises);
   }, [notificationSetting]);
     handleGetSightingNotificationSettings();
+  // 全て既読にする
+  const handleMarkAllAsRead = useCallback(async () => {
+    const readPromises = userSightingNotifications.map((notification) => {
+      return updateSightingNotifications(notification.id);
+    });
+    await Promise.all(readPromises);
+    handleGetSightingNotifications();
+  }, [userSightingNotifications]);
+
   // 通知リスト取得
   useEffect(() => {
     handleGetSightingNotifications();
@@ -76,14 +89,21 @@ export const UserNotificationList = () => {
         <Typography variant="h4" sx={{ mb: 2 }}>
           昆虫の出没情報一覧
         </Typography>
-        <UserNotificationModal
-          userSightingNotifications={userSightingNotifications}
-          notificationOpen={notificationOpen}
-          handleNotificationModalOpen={handleNotificationModalOpen}
-          handleNotificationModalClose={handleNotificationModalClose}
-        />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <MarkAllAsReadButton handleMarkAllAsRead={handleMarkAllAsRead} />
+          <UserNotificationModal
+            notificationOpen={notificationOpen}
+            handleNotificationModalOpen={handleNotificationModalOpen}
+            handleNotificationModalClose={handleNotificationModalClose}
+          />
+        </Box>
         <List>
-          {!isSightingNotificationInitialLoading &&
+          {isSightingNotificationInitialLoading === false &&
             (userSightingNotifications.length > 0 ? (
               userSightingNotifications.map(
                 (notification: SightingNotifications, index) => (
@@ -91,6 +111,7 @@ export const UserNotificationList = () => {
                     key={index}
                     notification={notification}
                     index={index}
+                    isUserNotificationPage={true}
                   />
                 )
               )

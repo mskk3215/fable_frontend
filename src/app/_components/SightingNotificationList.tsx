@@ -2,28 +2,57 @@ import Link from "next/link";
 import styled from "styled-components";
 import { useDestinationLocation } from "../../store/atoms/searchWordState";
 import { formatDateTime } from "../_utils/datetimeUtils";
-import { Box, ListItem, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { SightingNotifications } from "../../types/sightingnotifications";
 
 type Props = {
   notification: SightingNotifications;
   index: number;
   isPictureBookPage?: boolean;
+  isUserNotificationPage?: boolean;
 };
 
 export const SightingNotificationList = (props: Props) => {
-  const { notification, index, isPictureBookPage } = props;
+  const { notification, index, isPictureBookPage, isUserNotificationPage } =
+    props;
   const { saveDestinationLocation } = useDestinationLocation();
 
   return (
     <>
-      <StyledListItem key={index}>
+      <Box
+        key={index}
+        sx={{
+          borderBottom: "1px solid #ddd",
+          padding: "8px",
+          backgroundColor: isUserNotificationPage
+            ? notification?.isRead
+              ? "transparent"
+              : "#66cdaa"
+            : "transparent",
+        }}
+      >
         <ItemWrapper>
-          <Typography variant="body2" color="textSecondary">
-            {notification.takenDateTime && (
-              <>{formatDateTime(notification.takenDateTime)}</>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-start",
+            }}
+          >
+            <Typography variant="body2" color="textSecondary">
+              {notification.takenDateTime && (
+                <>{formatDateTime(notification.takenDateTime)}</>
+              )}
+            </Typography>
+            {isUserNotificationPage && !notification?.isRead && (
+              <Typography
+                variant="body2"
+                color="textSecondary"
+                sx={{ paddingLeft: "8px" }}
+              >
+                未読
+              </Typography>
             )}
-          </Typography>
+          </Box>
           {!isPictureBookPage ? (
             <Box
               sx={{
@@ -85,15 +114,11 @@ export const SightingNotificationList = (props: Props) => {
             </SLink>
           )}
         </ItemWrapper>
-      </StyledListItem>
+      </Box>
     </>
   );
 };
 
-const StyledListItem = styled(ListItem)({
-  borderBottom: "1px solid #ddd",
-  padding: "8px",
-});
 const ItemWrapper = styled(Box)({
   display: "flex",
   flexDirection: "column",

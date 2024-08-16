@@ -133,6 +133,9 @@ export const getSightingNotifications = (page: number, insectId?: number) => {
     params: { page, insectId },
   });
 };
+export const updateSightingNotifications = (id: number) => {
+  return apiClient.put(`/sighting_notifications/${id}`);
+};
 // notification icon
 export const getIsNotification = (iconButton: boolean) => {
   return apiClient.get(`/sighting_notifications`, {

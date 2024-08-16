@@ -5,6 +5,7 @@ export type SightingNotifications = {
   insectName: string;
   takenDateTime?: string;
   parkName?: string;
+  isRead?: boolean;
 };
 
 export type SightingNotificationSetting = {
