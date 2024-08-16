@@ -86,8 +86,16 @@ export const UserNotificationList = () => {
 
   return (
     <>
-      <Box sx={{ width: "98%", m: "auto", marginTop: "70px", maxWidth: 600 }}>
-        <Typography variant="h4" sx={{ mb: 2 }}>
+      <Box
+        sx={{
+          width: "98%",
+          m: "auto",
+          marginTop: "70px",
+          maxWidth: 600,
+          padding: "2px",
+        }}
+      >
+        <Typography variant="h4" sx={{ mb: 2, ml: 2 }}>
           昆虫の出没情報一覧
         </Typography>
         <Box
