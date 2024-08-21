@@ -4,9 +4,10 @@ import { Button } from "@mui/material";
 
 type Props = {
   handleMarkAllAsRead: () => void;
+  isLoading: boolean;
 };
 export const MarkAllAsReadButton = (props: Props) => {
-  const { handleMarkAllAsRead } = props;
+  const { handleMarkAllAsRead, isLoading } = props;
   const isNotificationIcon = useRecoilValue(isNotificationIconState);
   return (
     <Button
@@ -14,7 +15,7 @@ export const MarkAllAsReadButton = (props: Props) => {
       color="success"
       onClick={handleMarkAllAsRead}
       sx={{ mb: 2 }}
-      disabled={!isNotificationIcon}
+      disabled={!isNotificationIcon || isLoading}
     >
       全て既読にする
     </Button>

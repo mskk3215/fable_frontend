@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { throttle } from "lodash";
 import {
   deleteUserSightingNotificationSetting,
@@ -12,11 +12,15 @@ import { SightingNotificationList } from "../SightingNotificationList";
 import { UserNotificationModal } from "./UserNotificationModal";
 import { MarkAllAsReadButton } from "./MarkAllAsReadButton";
 import {
+  isNotificationIconState,
   notificationSettingState,
   sightingNotificationState,
 } from "../../../store/atoms/notificationAtom";
 import { Box, List, Typography, CircularProgress } from "@mui/material";
 import { SightingNotifications } from "../../../types/sightingnotifications";
+import { messageState } from "../../../store/atoms/errorAtom";
+import { ApiError } from "../../../types/api";
+import { useErrorAction } from "../../../hooks/error/useErrorAction";
 
 export const UserNotificationList = () => {
   const {
@@ -29,6 +33,10 @@ export const UserNotificationList = () => {
   } = useInsectSightingNotifications();
   const sightingNotifications = useRecoilValue(sightingNotificationState);
   const notificationSetting = useRecoilValue(notificationSettingState);
+  const setIsNotificationIcon = useSetRecoilState(isNotificationIconState);
+  const setMessage = useSetRecoilState(messageState);
+  const { handleGeneralErrorAction } = useErrorAction();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // scrollで投稿を追加取得
   const handleSightingNotificationScroll = throttle(() => {
@@ -70,11 +78,17 @@ export const UserNotificationList = () => {
 
   // 全て既読にする
   const handleMarkAllAsRead = useCallback(async () => {
-    const readPromises = userSightingNotifications.map((notification) => {
-      return updateSightingNotifications(notification.id);
-    });
-    await Promise.all(readPromises);
-    handleGetSightingNotifications();
+    await updateSightingNotifications()
+      .then((response) => {
+        if (response.data.status === "updated") {
+          setIsNotificationIcon(false);
+        }
+        setMessage({ message: "全て既読にしました", type: "success" });
+      })
+      .catch((error: ApiError) => handleGeneralErrorAction(error, setMessage))
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, [userSightingNotifications]);
 
   // 通知リスト取得
@@ -102,7 +116,10 @@ export const UserNotificationList = () => {
             justifyContent: "space-between",
           }}
         >
-          <MarkAllAsReadButton handleMarkAllAsRead={handleMarkAllAsRead} />
+          <MarkAllAsReadButton
+            handleMarkAllAsRead={handleMarkAllAsRead}
+            isLoading={isLoading}
+          />
           <UserNotificationModal
             notificationOpen={notificationOpen}
             handleNotificationModalOpen={handleNotificationModalOpen}
@@ -133,7 +150,7 @@ export const UserNotificationList = () => {
               >
                 <Typography color="error.main">通知がありません。</Typography>
                 <Typography color="error.main">
-                  通知設定が無い場合、通知設定を追加してください
+                  通知設定が無い場合、通知設定を追加してください。
                 </Typography>
               </Box>
             ))}

@@ -4,6 +4,8 @@ import { useDestinationLocation } from "../../store/atoms/searchWordState";
 import { formatDateTime } from "../_utils/datetimeUtils";
 import { Box, Typography } from "@mui/material";
 import { SightingNotifications } from "../../types/sightingnotifications";
+import { useRecoilValue } from "recoil";
+import { isNotificationIconState } from "../../store/atoms/notificationAtom";
 
 type Props = {
   notification: SightingNotifications;
@@ -16,6 +18,7 @@ export const SightingNotificationList = (props: Props) => {
   const { notification, index, isPictureBookPage, isUserNotificationPage } =
     props;
   const { saveDestinationLocation } = useDestinationLocation();
+  const isNotificationIcon = useRecoilValue(isNotificationIconState);
 
   return (
     <>
@@ -25,9 +28,9 @@ export const SightingNotificationList = (props: Props) => {
           borderBottom: "1px solid #ddd",
           padding: "8px",
           backgroundColor: isUserNotificationPage
-            ? notification?.isRead
-              ? "transparent"
-              : "#66cdaa"
+            ? !notification?.isRead && isNotificationIcon
+              ? "#66cdaa"
+              : "transparent"
             : "transparent",
         }}
       >
@@ -43,15 +46,17 @@ export const SightingNotificationList = (props: Props) => {
                 <>{formatDateTime(notification.takenDateTime)}</>
               )}
             </Typography>
-            {isUserNotificationPage && !notification?.isRead && (
-              <Typography
-                variant="body2"
-                color="textSecondary"
-                sx={{ paddingLeft: "8px" }}
-              >
-                未読
-              </Typography>
-            )}
+            {isUserNotificationPage &&
+              !notification?.isRead &&
+              isNotificationIcon && (
+                <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  sx={{ paddingLeft: "8px" }}
+                >
+                  未読
+                </Typography>
+              )}
           </Box>
           {!isPictureBookPage ? (
             <Box

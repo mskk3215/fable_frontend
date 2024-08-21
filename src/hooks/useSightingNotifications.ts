@@ -161,6 +161,7 @@ export const useInsectSightingNotifications = (insectId?: number) => {
     isNotificationIcon,
     handleGetIsNotification,
     handleGetSightingNotifications,
+    handleGetMoreSightingNotification,
     handleGetSightingNotificationSettings,
   };
 };
