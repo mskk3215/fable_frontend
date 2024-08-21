@@ -1,10 +1,17 @@
 "use client";
 import { useEffect } from "react";
+import { useRecoilValue } from "recoil";
 import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
 import { throttle } from "lodash";
+import { sightingNotificationState } from "../../../store/atoms/notificationAtom";
+import { createHandleNotificationSetting } from "../../_utils/sightingnotificationUtils";
 import { usePictureBook } from "../../../hooks/usePictureBooks";
+import { useInsectSightingNotifications } from "../../../hooks/useSightingNotifications";
+import { SearchBarInPictureBookList } from "./SearchBarInPictureBookList";
+import { SightingNotificationSettingButton } from "../SightingNotificationSettingButton";
+import { usePageSize } from "../../../hooks/usePageSize";
 import {
   Box,
   CircularProgress,
@@ -15,7 +22,6 @@ import {
   Skeleton,
 } from "@mui/material";
 import { Insect } from "../../../types/insects";
-import { SearchBarInPictureBookList } from "./SearchBarInPictureBookList";
 
 export const PictureBookList = () => {
   const {
@@ -28,6 +34,10 @@ export const PictureBookList = () => {
     handleGetFilteredPictureBookList,
     handleGetPictureBookList,
   } = usePictureBook();
+  const sightingNotifications = useRecoilValue(sightingNotificationState);
+  const { handleGetSightingNotificationSettings } =
+    useInsectSightingNotifications();
+  const pageSize = usePageSize();
 
   const handleSearch = () => {
     if (searchTerm) {
@@ -36,6 +46,12 @@ export const PictureBookList = () => {
       handleGetPictureBookList();
     }
   };
+
+  // 通知ボタンのon/offの状態をサーバーへ送信する
+  const handleNotificationSetting = createHandleNotificationSetting(
+    sightingNotifications,
+    handleGetSightingNotificationSettings
+  );
 
   // scrollで投稿を追加取得
   const handlePictureBookListScroll = throttle(() => {
@@ -76,7 +92,9 @@ export const PictureBookList = () => {
                   style={{ borderRadius: "10%" }}
                 />
               </ListItemAvatar>
-              <ListItemText primary={<Skeleton variant="text" width="60%" />} />
+              <ListItemText
+                primary={<Skeleton variant="text" width="100%" />}
+              />
             </ListItem>
           ))}
         </Box>
@@ -97,23 +115,37 @@ export const PictureBookList = () => {
                   <Image
                     src={insect.insectImage}
                     alt={insect.insectName}
-                    width={100}
-                    height={100}
+                    width={pageSize > 8 ? 100 : 80}
+                    height={pageSize > 8 ? 100 : 80}
                     style={{ borderRadius: "10%" }}
                   />
                 </ListItemAvatar>
                 <Box
                   sx={{
-                    paddingLeft: "5px",
-                    fontSize: {
-                      xs: "12px",
-                      md: "16px",
-                    },
+                    display: "flex",
+                    justifyContent: "space-between",
+                    width: "100%",
+                    paddingRight: "10px",
                   }}
                 >
-                  <SLink href={`/picturebook/${insect.insectId}`}>
-                    {insect.insectName}
-                  </SLink>
+                  <Box
+                    sx={{
+                      paddingLeft: "5px",
+                      fontSize: {
+                        xs: "12px",
+                        md: "16px",
+                      },
+                    }}
+                  >
+                    <SLink href={`/picturebook/${insect.insectId}`}>
+                      {insect.insectName}
+                    </SLink>
+                  </Box>
+                  <SightingNotificationSettingButton
+                    insectId={insect.insectId}
+                    handleNotificationSetting={handleNotificationSetting}
+                    isPictureBookList={true}
+                  />
                 </Box>
               </ListItem>
             ))}

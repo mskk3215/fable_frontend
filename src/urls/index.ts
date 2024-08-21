@@ -127,6 +127,33 @@ export const deleteCollectedInsectImages = (id: number[]) => {
   return apiClient.delete(`/collected_insects/${id}`);
 };
 
+// notifications
+export const getSightingNotifications = (page: number, insectId?: number) => {
+  return apiClient.get(`/sighting_notifications`, {
+    params: { page, insectId },
+  });
+};
+export const updateSightingNotifications = () => {
+  return apiClient.put(`/sighting_notifications/mark_all_as_read`);
+};
+// notification icon
+export const getIsNotification = (iconButton: boolean) => {
+  return apiClient.get(`/sighting_notifications`, {
+    params: { iconButton },
+  });
+};
+
+// notification settings
+export const getSightingNotificationSettings = () => {
+  return apiClient.get(`/sighting_notification_settings`);
+};
+export const createUserSightingNotificationSetting = (insectId: number) => {
+  return apiClient.post(`/sighting_notification_settings`, { insectId });
+};
+export const deleteUserSightingNotificationSetting = (id: number) => {
+  return apiClient.delete(`/sighting_notification_settings/${id}`);
+};
+
 //likes
 export const createCollectedInsectImageLike = (imageId: number) => {
   return apiClient.post(`/collected_insects/${imageId}/likes`);

@@ -1,12 +1,18 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 import Link from "next/link";
 import styled from "styled-components";
+import { sightingNotificationState } from "../../../store/atoms/notificationAtom";
 import { useSearchWord } from "../../../store/atoms/searchWordState";
+import { createHandleNotificationSetting } from "../../_utils/sightingnotificationUtils";
 import { ActiveMonthChart } from "./ActiveMonthChart";
 import { ActiveHourChart } from "./ActiveHourChart";
 import { usePictureBook } from "../../../hooks/usePictureBooks";
+import { useInsectSightingNotifications } from "../../../hooks/useSightingNotifications";
+import { SightingNotificationList } from "../SightingNotificationList";
+import { SightingNotificationSettingButton } from "../SightingNotificationSettingButton";
 import {
   Box,
   Container,
@@ -16,7 +22,6 @@ import {
   ListItem,
   ListItemText,
   Grid,
-  Chip,
   Skeleton,
 } from "@mui/material";
 
@@ -26,7 +31,14 @@ type Props = {
 
 export const PictureBook = (props: Props) => {
   const { insectId } = props;
+  const sightingNotifications = useRecoilValue(sightingNotificationState);
   const { pictureBookInfo } = usePictureBook(insectId);
+  const {
+    pictureBookSightingInsectNotifications, // picturebook下部の昆虫の通知情報一覧
+    handleGetSightingNotificationSettings,
+    isSightingNotificationInitialLoading,
+    isNotificationLoading,
+  } = useInsectSightingNotifications(insectId);
   const { saveSearchWord } = useSearchWord();
 
   // 画像の順序をいいね順に並び替える
@@ -35,6 +47,20 @@ export const PictureBook = (props: Props) => {
     .sort((a, b) => {
       return b.likesCount - a.likesCount;
     });
+
+  // 通知ボタンのSkeleton表示を一度だけ行う
+  const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
+  useEffect(() => {
+    if (isNotificationLoading === false && !hasLoadedOnce) {
+      setHasLoadedOnce(true);
+    }
+  }, [isNotificationLoading]);
+
+  // // 通知ボタンのon/offの状態をサーバーへ送信する
+  const handleNotificationSetting = createHandleNotificationSetting(
+    sightingNotifications,
+    handleGetSightingNotificationSettings
+  );
 
   return (
     <>
@@ -49,15 +75,27 @@ export const PictureBook = (props: Props) => {
               Loading...
             </Typography>
           )}
-          <Box display="flex" alignItems="center">
-            <Typography variant="body1" color="text.secondary">
-              {pictureBookInfo?.isCollected ? (
-                <span style={{ color: "green" }}>✔️採集済</span>
-              ) : (
-                <span style={{ color: "red" }}>❌未採集</span>
-              )}
-            </Typography>
-            <Chip label="通知に追加" sx={{ ml: 1 }} color="primary" />
+          <Box display="flex" alignItems="center" gap="20px">
+            {pictureBookInfo && !isSightingNotificationInitialLoading ? (
+              <Typography variant="body1" color="text.secondary">
+                {pictureBookInfo?.isCollected ? (
+                  <span style={{ color: "green" }}>✔️採集済</span>
+                ) : (
+                  <span style={{ color: "red" }}>❌未採集</span>
+                )}
+              </Typography>
+            ) : (
+              <Skeleton variant="text" width={68} height={30} />
+            )}
+            {!hasLoadedOnce ? (
+              <Skeleton variant="text" width={150} height={30} />
+            ) : (
+              <SightingNotificationSettingButton
+                insectId={insectId}
+                handleNotificationSetting={handleNotificationSetting}
+                isPictureBook={true}
+              />
+            )}
           </Box>
           <Typography variant="body1" mt={1}>
             写真数：{pictureBookInfo?.imageCount} 枚
@@ -197,7 +235,6 @@ export const PictureBook = (props: Props) => {
                   </SLink>
                 </Typography>
               </ListItem>
-
               {/* 必要な道具 */}
               <ListItem sx={{ display: "block" }}>
                 <ListItemText primary="採集に必要な道具" />
@@ -223,6 +260,16 @@ export const PictureBook = (props: Props) => {
             <Typography variant="h6" gutterBottom>
               最近の出没先
             </Typography>
+            {pictureBookSightingInsectNotifications?.map(
+              (notification, index) => (
+                <SightingNotificationList
+                  key={index}
+                  notification={notification}
+                  index={index}
+                  isPictureBookPage={true}
+                />
+              )
+            )}
           </Box>
         </Box>
       </Container>
