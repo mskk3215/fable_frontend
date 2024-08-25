@@ -1,11 +1,18 @@
 //昆虫図鑑データを取得するカスタムフック
 import { useEffect, useState } from "react";
+import { useSetRecoilState } from "recoil";
+import { messageState } from "../store/atoms/errorAtom";
+import { useErrorAction } from "./error/useErrorAction";
 import { useGetRequestErrorAction } from "./error/useGetRequestErrorAction";
 import { getPictureBookInfo, getPictureBookList } from "../urls";
 import { PictureBookInfo } from "../types/picturebooks";
 import { Insect } from "../types/insects";
+import { ApiError } from "../types/api";
 
 export const usePictureBook = (insectId?: number) => {
+  const { handleGeneralErrorAction } = useErrorAction();
+  const setMessage = useSetRecoilState(messageState);
+
   const [pictureBookInfo, setPictureBookInfo] = useState<PictureBookInfo>();
   const [pictureBookList, setPictureBookList] = useState<Insect[]>([]);
   const [isPictureBookListInitialLoading, setIsPictureBookListInitialLoading] =
@@ -21,8 +28,15 @@ export const usePictureBook = (insectId?: number) => {
 
   // 昆虫毎の図鑑詳細情報を取得する
   const handleGetPictureBook = async (insectId: number) => {
-    const { data } = await getPictureBookInfo(insectId);
-    setPictureBookInfo(data.insect);
+    await getPictureBookInfo(insectId)
+      .then((response) => {
+        if (response?.data?.insect) {
+          setPictureBookInfo(response.data.insect);
+        } else {
+          console.log("Error: Response is not OK or no data received.");
+        }
+      })
+      .catch((error: ApiError) => handleGeneralErrorAction(error, setMessage));
   };
   useEffect(() => {
     if (!insectId) return;
