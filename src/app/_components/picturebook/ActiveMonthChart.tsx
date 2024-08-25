@@ -13,9 +13,10 @@ import { Box, Paper, useTheme } from "@mui/material";
 ChartJS.register(LinearScale, BarElement, CategoryScale);
 type Props = {
   pictureBookInfo?: PictureBookInfo;
+  pageSize: number;
 };
 export const ActiveMonthChart = (props: Props) => {
-  const { pictureBookInfo } = props;
+  const { pictureBookInfo, pageSize } = props;
   const theme = useTheme();
 
   const dataMonths = {
@@ -48,6 +49,7 @@ export const ActiveMonthChart = (props: Props) => {
   const options = {
     indexAxis: "y" as const,
     responsive: true,
+    maintainAspectRatio: false,
     scales: {
       x: {
         title: {
@@ -66,7 +68,7 @@ export const ActiveMonthChart = (props: Props) => {
         elevation={0}
       >
         <Box sx={{ padding: theme.spacing(2) }}>
-          <Box>
+          <Box sx={{ height: pageSize > 8 ? "500px" : "300px" }}>
             <Bar data={dataMonths} options={options} />
           </Box>
         </Box>
