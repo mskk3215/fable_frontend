@@ -38,7 +38,7 @@ export default function Top() {
           fablesearchの使い方
         </Typography>
         <Grid container spacing={2}>
-          {/* 検索に関して */}
+          {/* 場所・ルート検索に関して */}
           <Grid container>
             <Grid
               item
@@ -79,7 +79,7 @@ export default function Top() {
               </Typography>
             </Grid>
           </Grid>
-          {/* 投稿に関して */}
+          {/* 投稿と通知に関して */}
           <Grid container>
             <Grid
               item
@@ -93,12 +93,13 @@ export default function Top() {
                 gutterBottom
                 sx={{ textDecoration: "underline" }}
               >
-                見つけた昆虫を投稿しよう!
+                見つけた昆虫を投稿しよう！
               </Typography>
               <Typography variant="body1" sx={{ whiteSpace: "pre-wrap" }}>
                 昆虫を見つけたら投稿しましょう。 <br />
-                投稿した画像はマイページで見ることができます。 <br />
-                また他のユーザーの投稿した画像、注目されている画像も見ることができます。
+                また誰かが昆虫を発見し投稿したとき、通知を受け取ることができます。
+                <br />
+                興味のある昆虫の最新情報を逃さずキャッチしましょう。
               </Typography>
             </Grid>
             <Grid
@@ -121,7 +122,7 @@ export default function Top() {
               </Paper>
             </Grid>
           </Grid>
-          {/* 分析に関して */}
+          {/* 分析と図鑑に関して */}
           <Grid container>
             <Grid
               item
@@ -150,13 +151,14 @@ export default function Top() {
                 gutterBottom
                 sx={{ textDecoration: "underline" }}
               >
-                採集状況を確認しよう！
+                地域の昆虫について、もっと詳しく知ろう！
               </Typography>
               <Typography variant="body1" sx={{ whiteSpace: "pre-wrap" }}>
-                昆虫採集の状況を確認してみましょう。 <br />
-                地域ごとの採集状況を確認することができます。
+                分析機能で採集状況を確認して他のユーザーと比較しましょう。
                 <br />
-                また他のユーザーと比較してどのくらい昆虫を見つけているかも確認することができます。
+                図鑑機能で特定の昆虫の特徴や生息地について詳しく調べることができます。
+                <br />
+                これらの機能を活用して知識を深め、実際の採集活動に役立てていきましょう。
               </Typography>
             </Grid>
           </Grid>
