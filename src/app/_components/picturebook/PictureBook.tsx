@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { sightingNotificationState } from "../../../store/atoms/notificationAtom";
 import { useSearchWord } from "../../../store/atoms/searchWordState";
 import { createHandleNotificationSetting } from "../../_utils/sightingnotificationUtils";
+import { usePageSize } from "../../../hooks/usePageSize";
 import { ActiveMonthChart } from "./ActiveMonthChart";
 import { ActiveHourChart } from "./ActiveHourChart";
 import { usePictureBook } from "../../../hooks/usePictureBooks";
@@ -40,6 +41,7 @@ export const PictureBook = (props: Props) => {
     isNotificationLoading,
   } = useInsectSightingNotifications(insectId);
   const { saveSearchWord } = useSearchWord();
+  const pageSize = usePageSize();
 
   // 画像の順序をいいね順に並び替える
   const sortedImages = pictureBookInfo?.collectedInsectImages
@@ -249,6 +251,7 @@ export const PictureBook = (props: Props) => {
             </Typography>
             <ActiveMonthChart
               pictureBookInfo={pictureBookInfo && pictureBookInfo}
+              pageSize={pageSize}
             />
             {/* 活動時間 */}
             <Typography variant="h6" gutterBottom>
@@ -256,6 +259,7 @@ export const PictureBook = (props: Props) => {
             </Typography>
             <ActiveHourChart
               pictureBookInfo={pictureBookInfo && pictureBookInfo}
+              pageSize={pageSize}
             />
             <Typography variant="h6" gutterBottom>
               最近の出没先

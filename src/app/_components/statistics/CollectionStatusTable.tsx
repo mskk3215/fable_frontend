@@ -220,7 +220,13 @@ export const CollectionStatusTable = (props: Props) => {
                         fontSize: pageSize > 8 ? "16px" : "12px",
                       }}
                     >
-                      <Typography variant="body1" color="text.primary">
+                      <Typography
+                        variant="body1"
+                        color="text.primary"
+                        sx={{
+                          fontSize: pageSize > 8 ? "16px" : "12px",
+                        }}
+                      >
                         {row.insectName}
                       </Typography>
                       <SLink
