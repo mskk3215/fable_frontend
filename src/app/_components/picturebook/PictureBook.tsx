@@ -109,7 +109,7 @@ export const PictureBook = (props: Props) => {
                 variant="outlined"
                 sx={{ p: 0, backgroundColor: "#F2F2F2", borderRadius: "10px" }}
               >
-                <Grid container spacing={0.5}>
+                <Grid container>
                   {/* 左半分 */}
                   <Grid item xs={12} sm={6}>
                     <Box
@@ -125,7 +125,7 @@ export const PictureBook = (props: Props) => {
                   </Grid>
                   {/* 右半分 */}
                   <Grid item xs={12} sm={6}>
-                    <Grid container spacing={0.5}>
+                    <Grid container>
                       {sortedImages?.slice(1, 5).map((image, index) => (
                         <Grid item xs={6} key={index}>
                           <Box
@@ -148,7 +148,7 @@ export const PictureBook = (props: Props) => {
           ) : (
             <Box sx={{ my: 2 }}>
               <Paper variant="outlined" sx={{ p: 0 }}>
-                <Grid container spacing={0.5}>
+                <Grid container>
                   {/* 左半分 */}
                   <Grid item xs={12} sm={6}>
                     <Skeleton
@@ -160,7 +160,7 @@ export const PictureBook = (props: Props) => {
                   </Grid>
                   {/* 右半分 */}
                   <Grid item xs={12} sm={6}>
-                    <Grid container spacing={0.5}>
+                    <Grid container>
                       {[...Array(4)].map((_, index) => (
                         <Grid item xs={6} key={index}>
                           <Skeleton
