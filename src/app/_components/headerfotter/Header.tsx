@@ -46,7 +46,7 @@ export const Header = () => {
   useEffect(() => {
     if (!loginUser) return;
     handleGetIsNotification();
-  }, [pathname]);
+  }, [pathname, loginUser]);
 
   return (
     <AppBar
