@@ -164,6 +164,12 @@ export const Header = () => {
                       <MenuItem onClick={handleClose}>
                         <SLink href="/statistics">分析</SLink>
                       </MenuItem>
+                      <MenuItem onClick={handleClose}>
+                        <SLink href="/picturebooklist">図鑑</SLink>
+                      </MenuItem>
+                      <MenuItem onClick={handleClose}>
+                        <SLink href="/usernotificationlist">通知</SLink>
+                      </MenuItem>
                     </Box>
                   )}
                   {loginUser === undefined ? (
