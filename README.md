@@ -4,8 +4,8 @@ https://fablesearch.com
 
 ![スクリーンショット 2024-06-09 23 58 49](https://github.com/mskk3215/fable_backend/assets/113247174/91d3f240-b753-4392-be03-fb5b4268b8a2)
 
-バックエンドのレポジトリはこちらです。
-https://github.com/mskk3215/fable_backend
+フロントエンドのレポジトリはこちらです。
+https://github.com/mskk3215/fable_frontend
 
 # サービス概要・制作背景
 
@@ -179,3 +179,4 @@ fablesearch は、昆虫採集を目的とする人たち向けのサービス�
   以上をもって、当アプリの紹介は終わりになります。
 
   最後まで閲覧いただき、ありがとうございます！
+
