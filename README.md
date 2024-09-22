@@ -4,8 +4,8 @@ https://fablesearch.com
 
 ![スクリーンショット 2024-06-09 23 58 49](https://github.com/mskk3215/fable_backend/assets/113247174/91d3f240-b753-4392-be03-fb5b4268b8a2)
 
-バックエンドのレポジトリはこちらです。
-https://github.com/mskk3215/fable_backend
+フロントエンドのレポジトリはこちらです。
+https://github.com/mskk3215/fable_frontend
 
 # サービス概要・制作背景
 
@@ -57,9 +57,16 @@ fablesearch は、昆虫採集を目的とする人たち向けのサービス�
 ・未採集昆虫一覧の現在位置を入力すると、現在位置から近い公園に表示が変更されます。
 ![分析ページ](https://github.com/mskk3215/fable_frontend/assets/113247174/10b1be49-58a1-4c56-80d0-b6d1349448e1)
 
+## 図鑑機能&通知機能
+
+・図鑑アイコンをクリックすると、図鑑に登録されている昆虫一覧が表示されます。また昆虫名での絞り込み、出没通知の on/off を切り替えができます。  
+・図鑑ページでは、昆虫の採集状態や投稿された画像の数、投稿画像、特徴、過去に撮影された月・時間、最近の出没先を把握できます。  
+・通知アイコンから、通知設定している昆虫の出没通知一覧を閲覧できます。
+![図鑑機能](https://github.com/user-attachments/assets/921cafda-0e7b-4101-9041-1c19ec6e4ddf)
+
 # ER 図
 
-![スクリーンショット 2024-06-10 0 57 21](https://github.com/mskk3215/fable_backend/assets/113247174/c631c93a-4fb1-4a11-8078-a9295e3d2dee)
+![スクリーンショット 2024-09-04 23 27 18](https://github.com/user-attachments/assets/a6630f28-1541-4d8d-8cbb-b06b7147e185)
 
 # インフラ構成図
 
@@ -86,14 +93,14 @@ fablesearch は、昆虫採集を目的とする人たち向けのサービス�
 - react-chartjs, react-leaflet
 - react-google-maps/api
 - prettier, eslint
-- Jest,React Testing Library
+- Jest, React Testing Library
 
 ### インフラ
 
 - Docker / Docker-Compose
-- Github Actions (ECR, ECS, Rubocop, Rspec,Jest)
+- Github Actions (ECR, ECS, Rubocop, Rspec, Jest)
 - Nginx
-- AWS (Route53, CloudFront, S3,VPC, ALB, ECR, ECS Fargate, RDS, ACM, SSM, CloudWatch, IAM)
+- AWS (Route53, CloudFront, S3, VPC, ALB, ECR, ECS Fargate, RDS, ACM, SSM, CloudWatch, IAM)
 - Terraform
 
 # 機能一覧
@@ -131,17 +138,26 @@ fablesearch は、昆虫採集を目的とする人たち向けのサービス�
 - 採集済み/未採集リスト表示機能
 - ランキング表示機能
 
+### 図鑑機能
+
+- 昆虫図鑑機能
+- 昆虫図鑑リスト表示機能
+- 昆虫の出没月・時間表示機能
+- 直近の昆虫出没場所表示機能
+
+### 通知機能
+
+- 昆虫出没通知機能
+
 # 工夫した点
 
 ## フロントエンド
 
-- 完全 SPA で作成しました。
 - 様々なデバイスで操作・閲覧しやすいようにレスポンシブデザインを適用しました。
 - MUI や react-chartjs、react-leaflet を使用してデザイン性のある UI を実現しました。
 - toast やロード処理（スピナー、無限スクロール、プログレスバー）を追加し、ユーザーがエラーや動作状況を把握できるようにしました。
 - Next.js の SSR をユーザーページに適用し、読み込みを高速化しつつ、Google などの検索アプリのクローラーに捕捉されるようにしました。
 - シェアリング機能により、アプリがネット上で展開されやすくしました。
-- 画像編集ページでは、画像情報をまとめて編集できるように画像を複数選択できるようにしました。
 - ユーザーページでは、ログインしていない場合にログインを促すモーダルを表示し、ユーザー登録数が増えるようにしました。
 - TypeScript（strict）、Prettier、ESLint、Jest, RTL を使用してコードの一貫性と品質を確保しました。
 
@@ -163,3 +179,4 @@ fablesearch は、昆虫採集を目的とする人たち向けのサービス�
   以上をもって、当アプリの紹介は終わりになります。
 
   最後まで閲覧いただき、ありがとうございます！
+
