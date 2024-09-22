@@ -4,8 +4,8 @@ https://fablesearch.com
 
 ![スクリーンショット 2024-06-09 23 58 49](https://github.com/mskk3215/fable_backend/assets/113247174/91d3f240-b753-4392-be03-fb5b4268b8a2)
 
-フロントエンドのレポジトリはこちらです。
-https://github.com/mskk3215/fable_frontend
+バックエンドのレポジトリはこちらです。
+https://github.com/mskk3215/fable_backend
 
 # サービス概要・制作背景
 
