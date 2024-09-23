@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { convertHiraganaToKatakana } from "../../../hooks/useConvertHiraganaToKatakana";
 import { TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
@@ -9,12 +9,16 @@ import { styled as muiStyled, alpha } from "@mui/material/styles";
 type Props = {
   searchTerm: string;
   setSearchTerm: (searchTerm: string) => void;
-  handleSearch: (e: React.KeyboardEvent) => void;
+  handleSearch: () => void;
 };
 
 export const SearchBarInPictureBookList = (props: Props) => {
-  const { setSearchTerm, handleSearch } = props;
+  const { searchTerm, setSearchTerm, handleSearch } = props;
   const [searchWord, setSearchWord] = useState<string>("");
+
+  useEffect(() => {
+    handleSearch();
+  }, [searchTerm]);
 
   return (
     <>
@@ -30,7 +34,6 @@ export const SearchBarInPictureBookList = (props: Props) => {
           if (e.key === "Enter") {
             const convertedInputValue = convertHiraganaToKatakana(searchWord);
             setSearchTerm(convertedInputValue);
-            handleSearch(e);
           }
         }}
         InputProps={{
