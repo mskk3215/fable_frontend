@@ -1,6 +1,7 @@
 # fablesearch
 
-https://fablesearch.com
+~~[https://fablesearch.com](https://fablesearch.com)~~
+現在停止中
 
 ![スクリーンショット 2024-06-09 23 58 49](https://github.com/mskk3215/fable_backend/assets/113247174/91d3f240-b753-4392-be03-fb5b4268b8a2)
 
