@@ -3,7 +3,7 @@
 ~~[https://fablesearch.com](https://fablesearch.com)~~
 現在停止中
 
-![スクリーンショット 2024-06-09 23 58 49](https://github.com/mskk3215/fable_backend/assets/113247174/91d3f240-b753-4392-be03-fb5b4268b8a2)
+![top画面](./.github/images/top画面.png)
 
 バックエンドのレポジトリはこちらです。
 https://github.com/mskk3215/fable_backend
@@ -67,11 +67,11 @@ fablesearch は、昆虫採集を目的とする人たち向けのサービス�
 
 # ER 図
 
-![スクリーンショット 2024-09-04 23 27 18](https://github.com/user-attachments/assets/a6630f28-1541-4d8d-8cbb-b06b7147e185)
+![ER図](./.github/images/ER図.png)
 
 # インフラ構成図
 
-![スクリーンショット 2024-03-19 0 09 51](https://github.com/mskk3215/fable_backend/assets/113247174/77542378-f973-4879-bdc3-4b2b6c7720cb)
+![インフラ構成図](./.github/images/インフラ構成図.png)
 
 # 使用技術
 
