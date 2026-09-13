@@ -67,11 +67,10 @@ export const SearchBarInHeader = () => {
             return filtered;
           }}
           renderInput={(params) => {
-            const { ...rest } = params;
             return (
               <StyledInputBase
                 {...params.InputProps}
-                {...rest}
+                inputProps={params.inputProps}
                 placeholder="昆虫名を入力"
               />
             );
