@@ -1,9 +1,11 @@
 name: Frontend's Deploy CI/CD
 
 on:
-  push:
-    branches: ["main"]
-  pull_request:
+  # CI/CDを一時的に使用していないため、自動実行を停止
+  # push:
+  #   branches: ["main"]
+  # pull_request:
+  workflow_dispatch:
 env:
   AWS_REGION: ap-northeast-1
   ECS_SERVICE: fable-production-frontend-service
