@@ -8,6 +8,17 @@
 バックエンドのレポジトリはこちらです。
 https://github.com/mskk3215/fable_backend
 
+## ローカル起動方法
+
+事前にRails APIを起動してから、次のコマンドでNext.jsを起動します。
+
+```bash
+cd fable_frontend
+npm run dev
+```
+
+起動後、ブラウザで `http://localhost:3000` を開いてください。
+
 # サービス概要・制作背景
 
 fablesearch は、昆虫採集を目的とする人たち向けのサービスです。  
