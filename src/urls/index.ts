@@ -156,10 +156,10 @@ export const deleteUserSightingNotificationSetting = (id: number) => {
 
 //likes
 export const createCollectedInsectImageLike = (imageId: number) => {
-  return apiClient.post(`/collected_insects/${imageId}/likes`);
+  return apiClient.put(`/collected_insects/${imageId}/like`);
 };
 export const deleteCollectedInsectImageLike = (imageId: number) => {
-  return apiClient.delete(`/collected_insects/${imageId}/likes/1`);
+  return apiClient.delete(`/collected_insects/${imageId}/like`);
 };
 
 //insects
