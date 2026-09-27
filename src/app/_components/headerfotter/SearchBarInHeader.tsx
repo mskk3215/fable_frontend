@@ -70,6 +70,7 @@ export const SearchBarInHeader = () => {
             return (
               <StyledInputBase
                 {...params.InputProps}
+                fullWidth={params.fullWidth}
                 inputProps={params.inputProps}
                 placeholder="昆虫名を入力"
               />
